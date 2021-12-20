@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  pre-online-deposit-panel:
+    image: betamb.qmb.ir/docker/ada/$CONTAINER_NAME:PreProduct
+    hostname: pre-online-deposit-panel
+    labels:
+      - "collect_logs_with_filebeat=true"
+      - "decode_log_event_to_json_object=true"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 6
+      placement:
+        constraints:
+          - node.labels.stage == preproduct
+          - node.labels.name == manager3
+    env_file:
+      - .env
+    environment:
+      - TZ=Asia/Tehran
+    networks:
+      - preproduct
+      - proxy
+
+networks:
+  preproduct:
+    name: preproduct
+    external: true
+  proxy:
+    name: proxy
+    external: true

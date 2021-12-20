@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  online-deposit-panel:
+    image: $repository/docker/ada/$CONTAINER_NAME:TestStage
+    container_name: $CONTAINER_NAME
+    hostname: $CONTAINER_NAME
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+    env_file:
+      - .env
+    environment:
+      - TZ=Asia/Tehran
+    networks:
+      - loan-net
+
+networks:
+  loan-net:
+    name: loan-net
+    external: true
