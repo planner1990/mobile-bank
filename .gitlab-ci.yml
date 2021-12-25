@@ -27,12 +27,7 @@ build-image-Development:
     - docker tag $CONTAINER_NAME  $repository/docker/mehr/mobilebank/$CONTAINER_NAME:TestStage
     - docker push $repository/docker/mehr/mobilebank/$CONTAINER_NAME:TestStage
     - docker logout
-  except:
-    changes:
-      - docker-compose.yml
-      - PreProduct.yml
-      - Product.yml 
-      - .gitlab-ci.yml
+    
   only:
     refs:
       - development
