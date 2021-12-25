@@ -56,6 +56,9 @@
           <template #[`item.sourceType`]="{ item }">
             {{ $t('report.transactionReport.source.' + item.sourceType) }}
           </template>
+          <template #[`item.requestTime`]="{ item }">
+            {{ convertToJalali(item.requestTime) }}
+          </template>
         </v-data-table>
       </v-row>
     </v-col>
@@ -65,6 +68,7 @@
 <script>
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
+import moment from 'moment-jalaali'
 import transactionReportFilter from '~/components/transactionReportFilter'
 import reportManager from '~/repository/report_manager'
 
@@ -93,16 +97,16 @@ export default {
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.platform'), value: 'platform', sortable: false },
         { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.smsTransactionId'), value: 'operationDate', sortable: false },
-        { text: this.$t('report.transactionReport.headers.osName'), value: 'status', sortable: false },
+        { text: this.$t('report.transactionReport.headers.smsTransactionId'), value: 'smsId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false },
         { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
         { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'phoneNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'issueTracking', sortable: false },
         { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
-        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
         { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false },
         { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
       ],
       items: []
@@ -135,6 +139,9 @@ export default {
         }
         this.loading = false
       })
+    },
+    convertToJalali (date) {
+      return moment(date).format('jYYYY/jM/jD')
     },
     downloadReports (searchModel) {
       this.downloadLoading = true

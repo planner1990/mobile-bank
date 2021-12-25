@@ -64,16 +64,19 @@
       "osName": {
         "ANDROID": "android",
         "iOS": "ios",
-        "mobileweb": "web"
+        "mobileweb": "web",
+        "null": "نامشخص"
       },
       "platform": {
         "net": "اینترنت",
-        "sms": "پیامک"
+        "sms": "پیامک",
+        "null": "نامشخص"
       },
       "source": {
         "PAN": "کارت",
         "DEP": "حساب",
-        "SHETAB": "شتاب"
+        "SHETAB": "شتاب",
+        "null": "نامشخص"
       },
       "transaction": {
         "source": "نوع مبدا",

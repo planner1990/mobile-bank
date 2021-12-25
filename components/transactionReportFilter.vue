@@ -249,6 +249,7 @@ import moment from 'moment-jalaali'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
   transactionListFilter: {
+    // smsId: null,
     phoneNumber: null,
     operation: null,
     sourceNumber: null,

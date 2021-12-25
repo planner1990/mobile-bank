@@ -125,7 +125,7 @@ const customerType = [
 
 ]
 
-/* const operationName = [
+const operationName = [
   { header: 'حساب ' },
   {
     value: 'Deposit_Pay_Bill',
@@ -133,7 +133,7 @@ const customerType = [
     url: '/rest/deposit/pay-bill'
   },
   {
-    value: '/rest/deposit/pay-loan',
+    value: 'Deposit_Pay_Loan',
     text: 'پرداخت تسهیلات',
     url: '/rest/deposit/pay-loan'
   },
@@ -147,7 +147,7 @@ const customerType = [
     text: 'صورتحساب',
     url: '/rest/deposit/statement'
   }
-] */
+]
 
 export default {
   onlineDepositReport,
@@ -160,7 +160,7 @@ export default {
   errorCode,
   platform,
   groupBy,
-  // operationName,
+  operationName,
   source,
   customerType,
   downloadOnlineDepositReport,
