@@ -1,7 +1,7 @@
 version: "3.8"
 services:
-  online-deposit-panel:
-    image: $repository/docker/ada/$CONTAINER_NAME:TestStage
+  card-reissue-panel:
+    image: $repository/docker/mehr/card-reissue/$CONTAINER_NAME:TestStage
     container_name: $CONTAINER_NAME
     hostname: $CONTAINER_NAME
     deploy:
@@ -10,14 +10,17 @@ services:
         delay: 5s
         max_attempts: 3
     labels:
-      collect_logs_with_filebeat: "true"
-      decode_log_event_to_json_object: "true"
-    env_file:
-      - .env
-    environment:
-      - TZ=Asia/Tehran
+      - "collect_logs_with_filebeat=true"
+      - "decode_log_event_to_json_object=true"
     networks:
       - loan-net
+    ports:
+      - 8003:8003
+    environment:
+      - EUREKA_SERVER=http://discovery:8761/myeureka/eureka
+      - TZ=Asia/Tehran
+    env_file:
+      - .env
 
 networks:
   loan-net:
