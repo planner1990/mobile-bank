@@ -5,10 +5,10 @@ stages:
   - restart
 
 variables:
-  VUE_APP_BASE_ROUTE: "/mobile-bank-panel/"
+  VUE_APP_BASE_ROUTE: "/mobile-bank-panel-client/"
   VUE_APP_I18N_LOCALE: "fa"
   VUE_APP_I18N_FALLBACK_LOCALE: "en"
-  VUE_APP_NAME: "mobile-bank-panel"
+  VUE_APP_NAME: "mobile-bank-panel-client"
 
 
 build-image-Development:
