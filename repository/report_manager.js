@@ -1,6 +1,12 @@
 async function onlineDepositReport (request, axios) {
   return await axios.post('report-statistic/online-deposit', request)
 }
+async function transactionList (request, axios) {
+  console.log('transactionLisu us call')
+  const rest = await axios.post('transaction/list', request)
+  console.log(rest)
+  return rest
+}
 async function operatorActivity (request, axios) {
   return await axios.post('report-statistic/operator-activity', request)
 }
@@ -46,7 +52,7 @@ const groupBy = [
 
 const status = [
   {
-    value: 'successful',
+    value: '200',
     text: 'report.operatorReport.status.successful'
   },
   {
@@ -69,25 +75,23 @@ const errorCode = [
 const osName = [
   {
     value: 'android',
-    text: 'report.transactionReport.osName.android'
+    text: 'report.transactionReport.osName.ANDROID'
   },
   {
     value: 'ios',
-    text: 'report.transactionReport.osName.ios'
+    text: 'report.transactionReport.osName.iOS'
   },
   {
     value: 'web',
-    text: 'report.transactionReport.osName.web'
+    text: 'report.transactionReport.osName.mobileweb'
   }
 ]
 
 const platform = [
-  { header: 'Group 1' },
   {
-    value: 'internet',
-    text: 'report.transactionReport.platform.internet'
+    value: 'net',
+    text: 'report.transactionReport.platform.net'
   },
-  { header: 'Group 2' },
   {
     value: 'sms',
     text: 'report.transactionReport.platform.sms'
@@ -96,16 +100,16 @@ const platform = [
 
 const source = [
   {
-    value: 'deposit',
-    text: 'report.transactionReport.source.card'
+    value: 'DEP',
+    text: 'report.transactionReport.source.DEP'
   },
   {
-    value: 'card',
-    text: 'report.transactionReport.source.deposit'
+    value: 'PAN',
+    text: 'report.transactionReport.source.PAN'
   },
   {
-    value: 'shetab',
-    text: 'report.transactionReport.source.shetab'
+    value: 'SHETAB',
+    text: 'report.transactionReport.source.SHETAB'
   }
 ]
 
@@ -121,62 +125,34 @@ const customerType = [
 
 ]
 
-const operationName = [
-  { header: 'Group 1' },
+/* const operationName = [
+  { header: 'حساب ' },
   {
-    value: 'VIDEO_ARTIFICIAL_INTELLIGENCE',
-    text: 'report.operatorReport.operationName.VIDEO_ARTIFICIAL_INTELLIGENCE',
-    group: 'Group 1'
+    value: 'Deposit_Pay_Bill',
+    text: 'پرداخت قبض از حساب',
+    url: '/rest/deposit/pay-bill'
   },
   {
-    value: 'EDIT_ADDRESS',
-    text: 'report.operatorReport.operationName.EDIT_ADDRESS'
+    value: '/rest/deposit/pay-loan',
+    text: 'پرداخت تسهیلات',
+    url: '/rest/deposit/pay-loan'
   },
   {
-    value: 'SAVE_USERNAME',
-    text: 'report.operatorReport.operationName.SAVE_USERNAME'
+    value: 'Deposit_Normal_Transfer',
+    text: 'انتقال وجه از حساب',
+    url: '/rest/deposit/normal-transfer'
   },
   {
-    value: 'CONFIRM_DOCUMENT',
-    text: 'report.operatorReport.operationName.CONFIRM_DOCUMENT'
-  },
-  {
-    value: 'REJECT_DOCUMENT',
-    text: 'report.operatorReport.operationName.REJECT_DOCUMENT'
-  },
-  {
-    value: 'CREATE_CUSTOMER',
-    text: 'report.operatorReport.operationName.CREATE_CUSTOMER'
-  },
-  {
-    value: 'OPEN_DEPOSIT',
-    text: 'report.operatorReport.operationName.OPEN_DEPOSIT'
-  },
-  {
-    value: 'SHARE_MONEY',
-    text: 'report.operatorReport.operationName.SHARE_MONEY'
-  },
-  {
-    value: 'UPDATE_STATUS_TO_IN_PROGRESS',
-    text: 'report.operatorReport.operationName.UPDATE_STATUS_TO_IN_PROGRESS'
-  },
-  {
-    value: 'UPDATE_STATUS_TO_READY_FOR_PROCESS',
-    text: 'report.operatorReport.operationName.UPDATE_STATUS_TO_READY_FOR_PROCESS'
-  },
-  {
-    value: 'REVERT_STATUS_TO_READY_FOR_PROCESS',
-    text: 'report.operatorReport.operationName.REVERT_STATUS_TO_READY_FOR_PROCESS'
-  },
-  {
-    value: 'UPDATE_STATUS_TO_CARD_SENT',
-    text: 'report.operatorReport.operationName.UPDATE_STATUS_TO_CARD_SENT'
+    value: 'Deposit_Statement',
+    text: 'صورتحساب',
+    url: '/rest/deposit/statement'
   }
-]
+] */
 
 export default {
   onlineDepositReport,
   operatorActivity,
+  transactionList,
   smsReport,
   downloadSmsReport,
   status,
@@ -184,7 +160,7 @@ export default {
   errorCode,
   platform,
   groupBy,
-  operationName,
+  // operationName,
   source,
   customerType,
   downloadOnlineDepositReport,

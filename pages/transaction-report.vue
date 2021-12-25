@@ -50,6 +50,18 @@
               </v-btn>
             </v-toolbar>
           </template>
+          <!--   <template #[`item.source`]="{ item }">
+            {{ $t('report.transactionReport.status.' + item.source) }}
+          </template>-->
+
+          <!--   <template #[`item.platform`]="{ item }">
+            &lt;!&ndash;            {{ item }}&ndash;&gt;
+            {{ test(item.platform) }}
+            &lt;!&ndash;            {{ $t('report.transactionReport.platform.' + item.platform) }}&ndash;&gt;
+          </template>-->
+          <!-- <template #[`item.operationDate`]="{ item }">
+            {{ moment(item.operationDate) }}
+          </template>-->
         </v-data-table>
       </v-row>
     </v-col>
@@ -85,8 +97,8 @@ export default {
       headers: [
         { text: this.$t('report.transactionReport.headers.source'), value: 'operationName', sortable: false },
         { text: this.$t('report.transactionReport.headers.operation'), value: 'operatorUserName', sortable: false },
-        { text: this.$t('report.transactionReport.headers.platform'), value: 'customerNationalCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'errorMessage', sortable: false },
+        { text: this.$t('report.transactionReport.headers.platform'), value: 'platform', sortable: false },
+        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
         { text: this.$t('report.transactionReport.headers.smsTransactionId'), value: 'operationDate', sortable: false },
         { text: this.$t('report.transactionReport.headers.osName'), value: 'status', sortable: false },
         { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
@@ -112,8 +124,9 @@ export default {
     }),
     search (searchModel) {
       this.loading = true
-      reportManager.operatorActivity(searchModel, this.$axios).then((response) => {
+      reportManager.transactionList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
+        console.log(this.items)
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
       }).catch((error) => {
@@ -151,6 +164,9 @@ export default {
       }).finally(() => {
         this.downloadLoading = false
       })
+    },
+    test (platform) {
+      console.log(platform)
     },
     moment (date) {
       return momentJalali(date).format('hh:mm:ss jYYYY/jM/jD')

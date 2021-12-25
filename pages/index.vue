@@ -50,6 +50,12 @@
               </v-btn>
             </v-toolbar>
           </template>
+          <template #[`item.platform`]="{ item }">
+            {{ $t('report.transactionReport.platform.' + item.platform) }}
+          </template>
+          <template #[`item.sourceType`]="{ item }">
+            {{ $t('report.transactionReport.source.' + item.sourceType) }}
+          </template>
         </v-data-table>
       </v-row>
     </v-col>
@@ -63,7 +69,7 @@ import transactionReportFilter from '~/components/transactionReportFilter'
 import reportManager from '~/repository/report_manager'
 
 export default {
-  name: 'OperatorReport',
+  name: 'TransactionReport',
   components: {
     transactionReportFilter
   },
@@ -75,7 +81,7 @@ export default {
           page: 1,
           length: 20,
           sort: {
-            property: 'operationDate',
+            property: 'id',
             direction: 'desc'
           }
         }
@@ -83,10 +89,10 @@ export default {
       totalNumberOfItems: 0,
       loading: false,
       headers: [
-        { text: this.$t('report.transactionReport.headers.source'), value: 'operationName', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operatorUserName', sortable: false },
-        { text: this.$t('report.transactionReport.headers.platform'), value: 'customerNationalCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'errorMessage', sortable: false },
+        { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
+        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
+        { text: this.$t('report.transactionReport.headers.platform'), value: 'platform', sortable: false },
+        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
         { text: this.$t('report.transactionReport.headers.smsTransactionId'), value: 'operationDate', sortable: false },
         { text: this.$t('report.transactionReport.headers.osName'), value: 'status', sortable: false },
         { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
@@ -94,7 +100,6 @@ export default {
         { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
         { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
         { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
-        { text: this.$t('report.transactionReport.headers.source'), value: 'source', sortable: false },
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
         { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
@@ -112,7 +117,7 @@ export default {
     }),
     search (searchModel) {
       this.loading = true
-      reportManager.operatorActivity(searchModel, this.$axios).then((response) => {
+      reportManager.transactionList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
