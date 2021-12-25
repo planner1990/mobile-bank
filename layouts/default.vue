@@ -127,9 +127,9 @@ export default {
   components: {
     snackbar
   },
-  // middleware: [
-  //   'auth'
-  // ],
+  middleware: [
+    'auth'
+  ],
   data () {
     return {
       userManager: userManager,
