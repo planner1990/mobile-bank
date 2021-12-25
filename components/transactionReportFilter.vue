@@ -26,45 +26,46 @@
       <v-row>
         <v-col>
           <v-text-field
-            id="my-custom-input"
+            id="createFromDate"
             v-model="fromDate"
             prepend-icon="mdi-calendar-month"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
-            format="jYYYY/jMM/jDD"
-            input-format="jYYYY/jMM/jDD"
           />
           <p-date-picker
             v-model="fromDate"
-            element="my-custom-input"
+            type="datetime"
+            element="createFromDate"
             color="dimgray"
             dense
             outlined
             popove
             auto-submit
+            format="hh:MM jYYYY/jMM/jDD"
             @close="checkIsNull()"
           />
         </v-col>
+
         <v-col>
           <v-text-field
-            id="custom-input"
+            id="createToDate"
             v-model="toDate"
             prepend-icon="mdi-calendar-month"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
-            format="jYYYY/jMM/jDD"
-            input-format="jYYYY/jMM/jDD"
           />
           <p-date-picker
             v-model="toDate"
-            element="custom-input"
+            type="datetime"
+            element="createToDate"
             color="dimgray"
             dense
             outlined
             popove
             auto-submit
+            format="hh:MM jYYYY/jMM/jDD"
             @close="checkIsNull()"
           />
         </v-col>
@@ -82,7 +83,7 @@
         <!--      />-->
         <v-col>
           <v-select
-            v-model="filter.reportFilter.status"
+            v-model="filter.transactionListFilter.status"
             :items="status"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
@@ -96,7 +97,7 @@
         </v-col>
         <v-col>
           <v-select
-            v-model="filter.reportFilter.platform"
+            v-model="filter.transactionListFilter.platform"
             :items="platform"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
@@ -108,12 +109,11 @@
             outlined
           />
         </v-col>
-        <v-col />
       </v-row>
       <v-row>
         <v-col>
           <v-select
-            v-model="filter.reportFilter.source"
+            v-model="filter.transactionListFilter.sourceType"
             :items="source"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
@@ -126,9 +126,18 @@
           />
         </v-col>
         <v-col>
+          <v-text-field
+            v-model="filter.transactionListFilter.sourceNumber"
+            dense
+            outlined
+            :label="$t('report.transactionReport.transaction.sourceNumber')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col>
           <v-select
-            v-model="filter.reportFilter.operation"
-            :items="status"
+            v-model="filter.transactionListFilter.operation"
+            :items="operationName"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
@@ -141,7 +150,7 @@
         </v-col>
         <v-col>
           <v-select
-            v-model="filter.reportFilter.result"
+            v-model="filter.transactionListFilter.result"
             :items="status"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
@@ -153,30 +162,50 @@
             outlined
           />
         </v-col>
+      </v-row>
+      <v-row>
         <v-col>
           <v-text-field
-            v-model="filter.reportFilter.errorCode"
+            v-model="filter.transactionListFilter.issueTracking"
             dense
             outlined
             :label="$t('filters.errorCode')"
             prepend-icon="mdi-account"
           />
         </v-col>
-        <v-col />
-      </v-row>
-      <v-row>
+
         <v-col>
           <v-text-field
-            v-model="filter.reportFilter.smsTransactionId"
+            v-model="filter.transactionListFilter.cif"
+            dense
+            outlined
+            :label="$t('customer.cif')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model="filter.transactionListFilter.phoneNumber"
+            dense
+            outlined
+            :label="$t('customer.phoneNumber')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model="filter.transactionListFilter.cif"
             dense
             outlined
             :label="$t('filters.smsTransactionId')"
             prepend-icon="mdi-account"
           />
         </v-col>
+      </v-row>
+      <v-row>
         <v-col>
           <v-select
-            v-model="filter.reportFilter.osName"
+            v-model="filter.transactionListFilter.os"
             :items="osName"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
@@ -190,7 +219,7 @@
         </v-col>
         <v-col>
           <v-text-field
-            v-model="filter.reportFilter.transactionId"
+            v-model="filter.transactionListFilter.transactionId"
             dense
             outlined
             :label="$t('filters.transactionId')"
@@ -199,14 +228,13 @@
         </v-col>
         <v-col>
           <v-text-field
-            v-model="filter.reportFilter.amount"
+            v-model="filter.transactionListFilter.amount"
             dense
             outlined
             :label="$t('filters.amount')"
             prepend-icon="mdi-account"
           />
         </v-col>
-        <v-col />
       </v-row>
     </v-container>
   </v-card>
@@ -220,34 +248,27 @@ import moment from 'moment-jalaali'
 // import BranchSelector from '~/components/location/branchSelector'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
-  reportFilter: {
-    customerNationalCode: null,
-    status: null,
-    operatorUserName: null,
-    operationName: null,
-    customer: null,
-    source: null,
+  transactionListFilter: {
+    phoneNumber: null,
     operation: null,
-    result: null,
+    sourceNumber: null,
+    sourceType: null,
+    result: 200,
     platform: null,
-    errorCode: null,
-    osName: null,
+    issueTracking: null,
+    os: null,
     transactionId: null,
     amount: null,
-    smsTransactionId: null
+    cif: null,
+    responseCode: null
   },
   dateFilter: {
     from: null,
     to: null
-  },
-  locationFilter: {
-    provinceCode: null,
-    cityCode: null,
-    branchCode: null
   }
 }
 export default {
-  name: 'OperatorReportFilter',
+  name: 'TransactionReportFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
     // ProvinceSelector
@@ -259,6 +280,9 @@ export default {
   },
   data () {
     return {
+      time: null,
+      menu2: false,
+      modal2: false,
       fromDate: null,
       toDate: null,
       filter: defaultFilter,
@@ -288,18 +312,9 @@ export default {
   //     }
   //   }
   // },
-  // mounted: function () {
-  //   if (this.me.provinceCode) {
-  //     defaultFilter.locationFilter.provinceCode = this.me.provinceCode
-  //   }
-  //   if (this.me.cityCode) {
-  //     defaultFilter.locationFilter.cityCode = this.me.cityCode
-  //   }
-  //   if (this.me.branchCode) {
-  //     defaultFilter.locationFilter.branchCode = this.me.branchCode
-  //   }
-  //   this.filter = Object.assign(this.value, defaultFilter)
-  // },
+  mounted: function () {
+    this.filter = Object.assign(this.value, defaultFilter)
+  },
   methods: {
     search () {
       this.$emit('search', this.filter)
@@ -309,14 +324,16 @@ export default {
         this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
       }
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, 23, 59, 59)
+        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
       }
     },
     convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'jYYYY/jM/jD').format('YYYY')
-      const month = moment(date, 'jYYYY/jM/jD').format('MM')
-      const day = moment(date, 'jYYYY/jM/jD').format('DD')
-      return new Date(Date.UTC(year, month - 1, day)).getTime()
+      const year = moment(date, 'hh:MM jYYYY/jMM/jDD').format('YYYY')
+      const month = moment(date, 'hh:MM jYYYY/jMM/jDD').format('MM')
+      const day = moment(date, 'hh:MM jYYYY/jMM/jDD').format('DD')
+      const hour = moment(date, 'hh:MM jYYYY/jMM/jDD').format('hh')
+      const minute = moment(date, 'hh:MM jYYYY/jMM/jDD').format('MM')
+      return new Date(Date.UTC(year, month - 1, day, hour, minute)).getTime()
     }
   }
 }

@@ -62,21 +62,22 @@
         "trackerId": "کد پیگیری"
       },
       "osName": {
-        "android": "android",
-        "ios": "ios",
-        "web": "web"
+        "ANDROID": "android",
+        "iOS": "ios",
+        "mobileweb": "web"
       },
       "platform": {
-        "internet": "اینترنت",
+        "net": "اینترنت",
         "sms": "پیامک"
       },
       "source": {
-        "card": "کارت",
-        "deposit": "حساب",
-        "shetab": "شتاب"
+        "PAN": "کارت",
+        "DEP": "حساب",
+        "SHETAB": "شتاب"
       },
       "transaction": {
         "source": "نوع مبدا",
+        "sourceNumber": "شماره مبدا",
         "operation": "عملیات",
         "result": "نتیجه",
         "platform": "بستر",
@@ -87,14 +88,6 @@
         "osName": "سیستم عامل",
         "transactionId": "شناسه تراکنش",
         "amount": "مبلغ "
-      },
-      "platform": {
-        "internet": "موفق",
-        "sms": "ناموفق"
-      },
-      "platform": {
-        "internet": "اینترنت",
-        "sms": "پیامک"
       },
       "errorCode": {
         "ok": "200",
@@ -502,7 +495,8 @@
     "osName": "سیستم عامل",
     "transactionId": "شناسه تراکنش",
     "trackerId": "کد پیگیری",
-    "amount": "مبلغ "
+    "amount": "مبلغ ",
+    "cif": "کد مشتری"
   },
   "messages": {
     "successful": "عملیات شما با موفقیت انجام شد",
