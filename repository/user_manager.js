@@ -9,6 +9,9 @@ async function getUser (userName, axios) {
 async function getUserList (searchModel, axios) {
   return await axios.post('user/list', searchModel)
 }
+async function getCustomerList (searchModel, axios) {
+  return await axios.post('customer/list', searchModel)
+}
 
 async function updateUser (form, id, axios) {
   return await axios.post('user/' + id, form)
@@ -92,6 +95,7 @@ export default {
   createUser,
   deleteUser,
   updateUser,
+  getCustomerList,
   userRoles,
   userPermissions,
   locationAccess,

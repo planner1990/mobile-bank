@@ -39,29 +39,7 @@
               dark
             />
           </template>
-          <template #[`item.role`]="{ item }">
-            {{ $t('user.roles.'+item.role.role) }}
-          </template>
-          <template #[`item.locationAccess`]="{ item }">
-            {{ $t('user.locationAccess.'+ item.locationAccess) }}
-          </template>
-          <template #[`item.provinceCode`]="{ item }">
-            <province-viewer v-model="item.provinceCode" icon="" message="" :condition="'table'" />
-          </template>
-          <template #[`item.cityCode`]="{ item }">
-            <city-viewer v-model="item.cityCode" :province="item.provinceCode" icon="" message="" :condition="'table'" />
-          </template>
-          <template #[`item.branchCode`]="{ item }">
-            <branch-viewer v-model="item.branchCode" icon="" message="" :condition="'table'" />
-          </template>
-          <template #[`item.status`]="{ item }">
-            <span v-if="item.status === 1">
-              {{ $t('user.active') }}
-            </span>
-            <span v-else-if="item.status === 0">
-              {{ $t('user.inactive') }}
-            </span>
-          </template>
+
           <template #[`item.actions`]="{ item }">
             <v-icon
               small
@@ -169,7 +147,7 @@ export default {
           page: 1,
           length: 20,
           sort: {
-            property: 'status',
+            property: 'id',
             direction: 'desc'
           }
         }
@@ -191,8 +169,8 @@ export default {
         { text: this.$t('customer.customerType'), value: 'customerType' },
         { text: this.$t('customer.phoneNumber'), value: 'phoneNumber' },
         { text: this.$t('customer.cif'), value: 'cif' },
-        { text: this.$t('customer.name'), value: 'name' },
-        { text: this.$t('customer.headers.depositOrCard'), value: 'depositOrCard' },
+        { text: this.$t('customer.name'), value: 'fullName' },
+        { text: this.$t('customer.headers.depositOrCard'), value: 'cardOrDeposit' },
         { text: this.$t('customer.headers.registerDate'), value: 'registerDate' },
         { text: '', value: 'actions', sortable: false }
 
@@ -280,7 +258,7 @@ export default {
       // searchModel.length = this.pagination.rowsPerPage
       this.loading = true
       try {
-        const response = await userManager.getUserList(searchModel, this.$axios)
+        const response = await userManager.getCustomerList(searchModel, this.$axios)
         this.users = response.data.itemList
         this.totalNumberOfItems = response.data.filteredItem
       } catch (e) {
