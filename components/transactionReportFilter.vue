@@ -254,7 +254,7 @@ const defaultFilter = {
     operation: null,
     sourceNumber: null,
     sourceType: null,
-    result: 200,
+    result: null,
     platform: null,
     issueTracking: null,
     os: null,
