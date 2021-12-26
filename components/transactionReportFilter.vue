@@ -335,6 +335,9 @@ export default {
       const hour = moment(date, 'hh:MM jYYYY/jMM/jDD').format('hh')
       const minute = moment(date, 'hh:MM jYYYY/jMM/jDD').format('MM')
       return new Date(Date.UTC(year, month - 1, day, hour, minute)).getTime()
+    },
+    currentDay: function () {
+      return moment(new Date().toLocaleDateString(), 'M/D/YYYY').format('jYYYY/jM/jD')
     }
   }
 }
