@@ -1,8 +1,9 @@
 version: "3.8"
 services:
-  pre-online-deposit-panel:
-    image: betamb.qmb.ir/docker/ada/$CONTAINER_NAME:PreProduct
-    hostname: pre-online-deposit-panel
+  mobile-bank-panel-client:
+    image: betamb.qmb.ir/docker/mehr/mobilebank/$CONTAINER_NAME:PreProduct
+    container_name: $PRE_STACK_NAME
+    hostname: $PRE_STACK_NAME
     labels:
       - "collect_logs_with_filebeat=true"
       - "decode_log_event_to_json_object=true"
@@ -15,13 +16,17 @@ services:
         constraints:
           - node.labels.stage == preproduct
           - node.labels.name == manager3
-    env_file:
-      - .env
-    environment:
-      - TZ=Asia/Tehran
     networks:
       - preproduct
       - proxy
+    env_file:
+      - .env
+    environment:
+      - EUREKA_SERVER=http://pre-discovery:8761/myeureka/eureka
+      - TZ=Asia/Tehran
+    extra_hosts:
+      - "hamrahbank.qmb.ir:10.82.3.22"
+
 
 networks:
   preproduct:
