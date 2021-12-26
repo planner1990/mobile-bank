@@ -199,10 +199,10 @@ export default {
     },
     checkIsNull () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+        this.request.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
       }
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+        this.request.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
       }
     },
     convertJalaliDateToTimestamp (date) {

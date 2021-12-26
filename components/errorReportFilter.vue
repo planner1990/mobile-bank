@@ -90,7 +90,7 @@
       <v-row>
         <v-col>
           <v-select
-            v-model="filter.reportFilter.operation"
+            v-model="filter.errorReportListFilter.operation"
             :items="status"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
@@ -107,7 +107,7 @@
         />
         <v-col>
           <v-select
-            v-model="filter.reportFilter.errorCode"
+            v-model="filter.errorReportListFilter.errorCode"
             :items="errorCode"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
@@ -134,20 +134,10 @@ import moment from 'moment-jalaali'
 // import BranchSelector from '~/components/location/branchSelector'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
-  reportFilter: {
-    status: null,
-    operatorUserName: null,
-    operationName: null,
-    customer: null,
-    source: null,
+  errorReportListFilter: {
     operation: null,
-    result: null,
-    platform: null,
-    errorCode: null,
-    osName: null,
-    transactionId: null,
-    amount: null,
-    smsTransactionId: null
+    responseCode: null
+
   },
   dateFilter: {
     from: null,
@@ -155,7 +145,7 @@ const defaultFilter = {
   }
 }
 export default {
-  name: 'OperatorReportFilter',
+  name: 'ErrorReportFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
     // ProvinceSelector

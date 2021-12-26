@@ -7,6 +7,11 @@ async function transactionList (request, axios) {
   console.log(rest)
   return rest
 }
+async function errorList (request, axios) {
+  const rest = await axios.post('error-report/list', request)
+  console.log(rest)
+  return rest
+}
 async function operatorActivity (request, axios) {
   return await axios.post('report-statistic/operator-activity', request)
 }
@@ -153,6 +158,7 @@ export default {
   onlineDepositReport,
   operatorActivity,
   transactionList,
+  errorList,
   smsReport,
   downloadSmsReport,
   status,

@@ -64,7 +64,7 @@ import reportManager from '~/repository/report_manager'
 import errorReportFilter from '~/components/errorReportFilter'
 
 export default {
-  name: 'ErrorReportFilter',
+  name: 'ErrorReport',
   components: {
     errorReportFilter
   },
@@ -84,11 +84,11 @@ export default {
       totalNumberOfItems: 0,
       loading: false,
       headers: [
-        { text: this.$t('report.errorReport.headers.url'), value: 'url', sortable: false },
-        { text: this.$t('report.errorReport.headers.operationName'), value: 'operationName', sortable: false },
+        { text: this.$t('report.errorReport.headers.url'), value: 'responseCode', sortable: false },
+        { text: this.$t('report.errorReport.headers.operationName'), value: 'operation', sortable: false },
         { text: this.$t('report.errorReport.headers.count'), value: 'count', sortable: false },
         { text: this.$t('report.errorReport.headers.errorName'), value: 'errorName', sortable: false },
-        { text: this.$t('report.errorReport.headers.errorCode'), value: 'errorCode', sortable: false },
+        { text: this.$t('report.errorReport.headers.errorCode'), value: 'responseCode', sortable: false },
         { text: this.$t('report.errorReport.headers.errorType'), value: 'errorType', sortable: false },
         { text: this.$t('report.errorReport.headers.errorTextPersian'), value: 'errorTextPersian', sortable: false }
 
@@ -105,7 +105,7 @@ export default {
     }),
     search (searchModel) {
       this.loading = true
-      reportManager.operatorActivity(searchModel, this.$axios).then((response) => {
+      reportManager.errorList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
