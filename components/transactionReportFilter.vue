@@ -329,12 +329,14 @@ export default {
       }
     },
     convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'hh:MM jYYYY/jMM/jDD').format('YYYY')
-      const month = moment(date, 'hh:MM jYYYY/jMM/jDD').format('MM')
-      const day = moment(date, 'hh:MM jYYYY/jMM/jDD').format('DD')
+      const year = moment(date, 'jYYYY/jM/jD').format('YYYY')
+      const month = moment(date, 'jYYYY/jM/jD').format('MM')
+      const day = moment(date, 'jYYYY/jM/jD').format('DD')
       const hour = moment(date, 'hh:MM jYYYY/jMM/jDD').format('hh')
       const minute = moment(date, 'hh:MM jYYYY/jMM/jDD').format('MM')
-      return new Date(Date.UTC(year, month - 1, day, hour, minute)).getTime()
+      const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
+      const d = new Date(gmtDate)
+      return d.getTime() + (d.getTimezoneOffset() * 60000)
     },
     currentDay: function () {
       return moment(new Date().toLocaleDateString(), 'M/D/YYYY').format('jYYYY/jM/jD')
