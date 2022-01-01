@@ -42,8 +42,8 @@
             outlined
             popove
             auto-submit
-            format="hh:MM jYYYY/jMM/jDD"
-            @close="checkIsNull()"
+            format="HH:MM jYYYY/jMM/jDD"
+            @close="checkIsNullFromDate()"
           />
         </v-col>
 
@@ -65,8 +65,8 @@
             outlined
             popove
             auto-submit
-            format="hh:MM jYYYY/jMM/jDD"
-            @close="checkIsNull()"
+            format="HH:MM jYYYY/jMM/jDD"
+            @close="checkIsNullToDate()"
           />
         </v-col>
         <!--      <province-selector-->
@@ -314,7 +314,6 @@ export default {
   //   }
   // },
   mounted: function () {
-    this.checkIsNull()
     defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp2(this.fromDate, 0, 0, 0)
     defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp2(this.toDate, 23, 59, 59)
     this.filter = Object.assign(this.value, defaultFilter)
@@ -323,10 +322,12 @@ export default {
     search () {
       this.$emit('search', this.filter)
     },
-    checkIsNull () {
+    checkIsNullFromDate () {
       if (this.fromDate != null) {
         this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
       }
+    },
+    checkIsNullToDate () {
       if (this.toDate != null) {
         this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
       }
@@ -335,11 +336,11 @@ export default {
       return moment(new Date().toLocaleDateString(), 'M/D/YYYY').format('jYYYY/jMM/jDD')
     },
     convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'hh:MM jYYYY/jMM/jDD').format('YYYY')
-      const month = moment(date, 'hh:MM jYYYY/jMM/jDD').format('MM')
-      const day = moment(date, 'hh:MM jYYYY/jMM/jDD').format('DD')
-      const hour = moment(date, 'hh:MM jYYYY/jMM/jDD').format('hh')
-      const minute = moment(date, 'hh:MM jYYYY/jMM/jDD').format('MM')
+      const year = moment(date, 'HH:mm jYYYY/jMM/jDD').format('YYYY')
+      const month = moment(date, 'HH:mm jYYYY/jMM/jDD').format('MM')
+      const day = moment(date, 'HH:mm jYYYY/jMM/jDD').format('DD')
+      const hour = moment(date, 'HH:mm jYYYY/jMM/jDD').format('HH')
+      const minute = moment(date, 'HH:mm jYYYY/jMM/jDD').format('mm')
       const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
       const d = new Date(gmtDate)
       return d.getTime() + (d.getTimezoneOffset() * 60000)
@@ -348,7 +349,7 @@ export default {
       const year = moment(date, 'jYYYY/jM/jD').format('YYYY')
       const month = moment(date, 'jYYYY/jM/jD').format('MM')
       const day = moment(date, 'jYYYY/jM/jD').format('DD')
-      const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
+      const gmtDate = Date.UTC(year, month - 1, day, hour, minute, second)
       const d = new Date(gmtDate)
       return d.getTime() + (d.getTimezoneOffset() * 60000)
     }
