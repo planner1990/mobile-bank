@@ -42,7 +42,7 @@
             outlined
             popove
             auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
+            format="HH:MM jYYYY/jMM/jDD"
             @close="checkIsNullFromDate()"
           />
         </v-col>
@@ -65,7 +65,7 @@
             outlined
             popove
             auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
+            format="HH:MM jYYYY/jMM/jDD"
             @close="checkIsNullToDate()"
           />
         </v-col>
@@ -336,11 +336,11 @@ export default {
       return moment(new Date().toLocaleDateString(), 'M/D/YYYY').format('jYYYY/jMM/jDD')
     },
     convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'HH:mm jYYYY/jMM/jDD').format('YYYY')
-      const month = moment(date, 'HH:mm jYYYY/jMM/jDD').format('MM')
-      const day = moment(date, 'HH:mm jYYYY/jMM/jDD').format('DD')
-      const hour = moment(date, 'HH:mm jYYYY/jMM/jDD').format('HH')
-      const minute = moment(date, 'HH:mm jYYYY/jMM/jDD').format('mm')
+      const year = moment(date, 'HH:MM jYYYY/jMM/jDD').format('YYYY')
+      const month = moment(date, 'HH:MM jYYYY/jMM/jDD').format('MM')
+      const day = moment(date, 'HH:MM jYYYY/jMM/jDD').format('DD')
+      const hour = moment(date, 'HH:MM jYYYY/jMM/jDD').format('HH')
+      const minute = moment(date, 'HH:mm jYYYY/jM/jDD').format('MM')
       const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
       const d = new Date(gmtDate)
       return d.getTime() + (d.getTimezoneOffset() * 60000)
