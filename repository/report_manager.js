@@ -1,12 +1,21 @@
 async function onlineDepositReport (request, axios) {
   return await axios.post('report-statistic/online-deposit', request)
 }
+
 async function transactionList (request, axios) {
   console.log('transactionLisu us call')
   const rest = await axios.post('transaction/list', request)
   console.log(rest)
   return rest
 }
+
+async function operationList (axios) {
+  console.log('transactionLisu us call')
+  const rest = await axios.get('operation/list')
+  console.log(rest)
+  return rest
+}
+
 async function errorList (request, axios) {
   const rest = await axios.post('error-report/list', request)
   console.log(rest)
@@ -66,6 +75,17 @@ const status = [
   }
 ]
 
+const customerType = [
+  {
+    value: 'REGISTERED',
+    text: 'customer.customerTypeTitle.customer'
+  },
+  {
+    value: 'GUEST',
+    text: 'customer.customerTypeTitle.guest'
+  }
+]
+
 const errorCode = [
   {
     value: 'ok',
@@ -118,18 +138,6 @@ const source = [
   }
 ]
 
-const customerType = [
-  {
-    value: 'customer',
-    text: 'customer.customerType1.customer'
-  },
-  {
-    value: 'guest',
-    text: 'customer.customerType1.guest'
-  }
-
-]
-
 const operationName = [
   { header: 'حساب ' },
   {
@@ -158,6 +166,7 @@ export default {
   onlineDepositReport,
   operatorActivity,
   transactionList,
+  operationList,
   errorList,
   smsReport,
   downloadSmsReport,

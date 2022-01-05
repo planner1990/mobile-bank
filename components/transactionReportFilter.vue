@@ -137,9 +137,9 @@
         <v-col>
           <v-select
             v-model="filter.transactionListFilter.operation"
-            :items="operationName"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
+            :items="items"
+            item-text="title"
+            item-value="url"
             :return-object="false"
             :label="$t('filters.operation')"
             prepend-icon="mdi-clipboard-list"
@@ -246,6 +246,7 @@ import moment from 'moment-jalaali'
 // import ProvinceSelector from '@/components/location/provinceSelector.vue'
 // import CitySelector from '@/components/location/citySelector'
 // import BranchSelector from '~/components/location/branchSelector'
+// import OperationSelector from '~/components/location/operationSelector.vue'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
   transactionListFilter: {
@@ -272,9 +273,7 @@ export default {
   name: 'TransactionReportFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
-    // ProvinceSelector
-    // CitySelector,
-    // BranchSelector
+    // OperationSelector
   },
   props: {
     value: Object({})
@@ -291,36 +290,50 @@ export default {
       osName: reportManager.osName,
       platform: reportManager.platform,
       source: reportManager.source,
-      operationName: reportManager.operationName
+      operationName: reportManager.operationName,
+      items: []
     }
   },
   // computed: {
-  //   ...mapGetters({
-  //     me: 'user/me'
-  //   }),
-  //   computedProvince: function () {
-  //     if (this.me.provinceCode) {
-  //       return this.me.provinceCode
-  //     } else {
-  //       return this.filter.locationFilter.provinceCode
-  //     }
-  //   },
-  //   computedCity: function () {
-  //     if (this.me.cityCode) {
-  //       return this.me.cityCode
-  //     } else {
-  //       return this.filter.locationFilter.cityCode
-  //     }
+  //   computedOperation: function () {
+  //     return this.filter.transactionListFilter.operation
   //   }
   // },
   mounted: function () {
     defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
     defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
     this.filter = Object.assign(this.value, defaultFilter)
+    this.operation()
   },
   methods: {
     search () {
       this.$emit('search', this.filter)
+    },
+    operation () {
+      console.log('majid')
+      this.loading = true
+      reportManager.operationList(this.$axios).then((response) => {
+        console.log(response)
+        const operationList = response.data
+        this.items = operationList
+        console.log(operationList)
+      }).catch((error) => {
+        console.log('majid11')
+        if (error.response) {
+          console.log(error.response)
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          console.log('error.response is null')
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+        this.loading = false
+      })
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
