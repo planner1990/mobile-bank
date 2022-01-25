@@ -68,18 +68,6 @@
             @close="checkIsNull()"
           />
         </v-col>
-        <!--      <province-selector-->
-        <!--        v-model="filter.locationFilter.provinceCode"-->
-        <!--      />-->
-        <!--      <city-selector-->
-        <!--        v-model="filter.locationFilter.cityCode"-->
-        <!--        :province="computedProvince"-->
-        <!--      />-->
-        <!--      <branch-selector-->
-        <!--        v-model="filter.locationFilter.branchCode"-->
-        <!--        :province="computedProvince"-->
-        <!--        :city="computedCity"-->
-        <!--      />-->
         <v-col>
           <v-select
             v-model="filter.reportFilter.platform"
@@ -94,7 +82,6 @@
             outlined
           />
         </v-col>
-        <v-col />
       </v-row>
     </v-container>
   </v-card>
@@ -103,44 +90,21 @@
 <script>
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
-// import ProvinceSelector from '@/components/location/provinceSelector.vue'
-// import CitySelector from '@/components/location/citySelector'
-// import BranchSelector from '~/components/location/branchSelector'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
   reportFilter: {
-    customerNationalCode: null,
-    status: null,
-    operatorUserName: null,
-    operationName: null,
-    customer: null,
-    source: null,
-    operation: null,
-    result: null,
-    platform: null,
-    errorCode: null,
-    osName: null,
-    transactionId: null,
-    amount: null,
-    smsTransactionId: null
+    platform: null
   },
   dateFilter: {
     from: null,
     to: null
-  },
-  locationFilter: {
-    provinceCode: null,
-    cityCode: null,
-    branchCode: null
   }
+
 }
 export default {
   name: 'OperatorReportFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
-    // ProvinceSelector
-    // CitySelector,
-    // BranchSelector
   },
   props: {
     value: Object({})
@@ -157,37 +121,6 @@ export default {
       operationName: reportManager.operationName
     }
   },
-  // computed: {
-  //   ...mapGetters({
-  //     me: 'user/me'
-  //   }),
-  //   computedProvince: function () {
-  //     if (this.me.provinceCode) {
-  //       return this.me.provinceCode
-  //     } else {
-  //       return this.filter.locationFilter.provinceCode
-  //     }
-  //   },
-  //   computedCity: function () {
-  //     if (this.me.cityCode) {
-  //       return this.me.cityCode
-  //     } else {
-  //       return this.filter.locationFilter.cityCode
-  //     }
-  //   }
-  // },
-  // mounted: function () {
-  //   if (this.me.provinceCode) {
-  //     defaultFilter.locationFilter.provinceCode = this.me.provinceCode
-  //   }
-  //   if (this.me.cityCode) {
-  //     defaultFilter.locationFilter.cityCode = this.me.cityCode
-  //   }
-  //   if (this.me.branchCode) {
-  //     defaultFilter.locationFilter.branchCode = this.me.branchCode
-  //   }
-  //   this.filter = Object.assign(this.value, defaultFilter)
-  // },
   methods: {
     search () {
       this.$emit('search', this.filter)

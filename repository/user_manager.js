@@ -13,6 +13,10 @@ async function getCustomerList (searchModel, axios) {
   return await axios.post('customer/list', searchModel)
 }
 
+async function getCustomerStatisticsReport (searchModel, axios) {
+  return await axios.post('customer-statistics/report', searchModel)
+}
+
 async function updateUser (form, id, axios) {
   return await axios.post('user/' + id, form)
 }
@@ -96,6 +100,7 @@ export default {
   deleteUser,
   updateUser,
   getCustomerList,
+  getCustomerStatisticsReport,
   userRoles,
   userPermissions,
   locationAccess,
