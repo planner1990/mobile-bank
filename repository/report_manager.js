@@ -9,6 +9,20 @@ async function transactionList (request, axios) {
   return rest
 }
 
+async function transactionStatistics (request, axios) {
+  console.log('transactionLisu us call')
+  const rest = await axios.post('transaction-statistics/report', request)
+  console.log(rest)
+  return rest
+}
+
+async function transactionDetails (request, axios) {
+  console.log('transactionDetails us call')
+  const rest = await axios.post('transaction-data/info', request)
+  console.log(rest)
+  return rest
+}
+
 async function operationList (axios) {
   console.log('transactionLisu us call')
   const rest = await axios.get('operation/list')
@@ -39,6 +53,18 @@ async function downloadSmsReport (request, axios) {
 
 async function downloadOperatorActivity (request, axios) {
   return await axios.post('export/operator-activity', request, { responseType: 'blob' })
+}
+
+async function downloadTransactionList (request, axios) {
+  return await axios.post('export/transaction', request, { responseType: 'blob' })
+}
+
+async function downloadCustomer (request, axios) {
+  return await axios.post('export/customer', request, { responseType: 'blob' })
+}
+
+async function downloadErrorReport (request, axios) {
+  return await axios.post('export/error-report-list', request, { responseType: 'blob' })
 }
 
 const groupBy = [
@@ -166,6 +192,8 @@ export default {
   onlineDepositReport,
   operatorActivity,
   transactionList,
+  transactionStatistics,
+  transactionDetails,
   operationList,
   errorList,
   smsReport,
@@ -179,5 +207,9 @@ export default {
   source,
   customerType,
   downloadOnlineDepositReport,
-  downloadOperatorActivity
+  downloadOperatorActivity,
+  downloadTransactionList,
+  downloadCustomer,
+  downloadErrorReport
+
 }

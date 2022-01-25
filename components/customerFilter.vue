@@ -51,8 +51,8 @@
             outlined
             popove
             auto-submit
-            format="hh:MM jYYYY/jMM/jDD"
-            @close="checkIsNull()"
+            format="HH:mm jYYYY/jMM/jDD"
+            @close="checkIsNullFromDate()"
           />
         </v-col>
 
@@ -74,8 +74,8 @@
             outlined
             popove
             auto-submit
-            format="hh:MM jYYYY/jMM/jDD"
-            @close="checkIsNull()"
+            format="HH:mm jYYYY/jMM/jDD"
+            @close="checkIsNullToDate()"
           />
         </v-col>
       </v-row>
@@ -108,19 +108,6 @@
             outlined
             prepend-icon="mdi-account"
           />
-
-          <!--      <province-selector-->
-          <!--        v-model="request.locationFilter.provinceCode"-->
-          <!--      />-->
-          <!--      <city-selector-->
-          <!--        v-model="request.locationFilter.cityCode"-->
-          <!--        :province="computedProvince"-->
-          <!--      />-->
-          <!--      <branch-selector-->
-          <!--        v-model="request.locationFilter.branchCode"-->
-          <!--        :city="computedCity"-->
-          <!--        :province="computedProvince"-->
-          <!--      />-->
         </v-col>
       </v-row>
     </v-container>
@@ -128,10 +115,6 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
-// import ProvinceSelector from '../location/provinceSelector.vue'
-// import CitySelector from '../location/citySelector.vue'
-// import BranchSelector from '../location/branchSelector.vue'
 import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import userManager from '@/repository/user_manager'
@@ -154,42 +137,25 @@ export default {
   name: 'LoanFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
-    // ProvinceSelector,
-    // CitySelector,
-    // BranchSelector
   },
   props: {
     value: Object(defaultSearchModel)
   },
   data () {
     return {
-      fromDate: null,
-      toDate: null,
+      fromDate: this.currentDayFrom(),
+      toDate: this.currentDayTo(),
       roles: userManager.userRoles,
       status: userManager.userStatus,
       loading: false,
       request: defaultSearchModel
     }
   },
-  // computed: {
-  //   ...mapGetters({
-  //     me: 'user/me'
-  //   }),
-  //   computedProvince: function () {
-  //     if (this.me.provinceCode) {
-  //       return this.me.provinceCode
-  //     } else {
-  //       return this.request.locationFilter.provinceCode
-  //     }
-  //   },
-  //   computedCity: function () {
-  //     if (this.me.cityCode) {
-  //       return this.me.cityCode
-  //     } else {
-  //       return this.request.locationFilter.cityCode
-  //     }
-  //   }
-  // },
+  mounted: function () {
+    defaultSearchModel.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+    defaultSearchModel.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    this.filter = Object.assign(this.value, defaultSearchModel)
+  },
   methods: {
     search () {
       this.loading = true
@@ -197,21 +163,43 @@ export default {
       this.$emit('search', this.request)
       this.loading = false
     },
-    checkIsNull () {
+    checkIsNullFromDate () {
       if (this.fromDate != null) {
-        this.request.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-      }
-      if (this.toDate != null) {
-        this.request.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
       }
     },
+    checkIsNullToDate () {
+      if (this.toDate != null) {
+        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+      }
+    },
+    currentDayFrom: function () {
+      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('YYYY')
+      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('MM')
+      const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('DD')
+
+      const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
+      const d = new Date(gmtDate)
+      return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
+    },
+    currentDayTo: function () {
+      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('YYYY')
+      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('MM')
+      const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('DD')
+
+      const gmtDate = Date.UTC(year, month - 1, day, 23, 59, 0)
+      const d = new Date(gmtDate)
+      return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
+    },
     convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'hh:MM jYYYY/jMM/jDD').format('YYYY')
-      const month = moment(date, 'hh:MM jYYYY/jMM/jDD').format('MM')
-      const day = moment(date, 'hh:MM jYYYY/jMM/jDD').format('DD')
-      const hour = moment(date, 'hh:MM jYYYY/jMM/jDD').format('hh')
-      const minute = moment(date, 'hh:MM jYYYY/jMM/jDD').format('MM')
-      return new Date(Date.UTC(year, month - 1, day, hour, minute)).getTime()
+      const year = moment(date, 'HH:mm jYYYY/jMM/jDD').format('YYYY')
+      const month = moment(date, 'HH:mm jYYYY/jMM/jDD').format('MM')
+      const day = moment(date, 'HH:mm jYYYY/jMM/jDD').format('DD')
+      const hour = moment(date, 'HH:mm jYYYY/jMM/jDD').format('HH')
+      const minute = moment(date, 'HH:mm jYYYY/jMM/jDD').format('mm')
+      const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
+      const d = new Date(gmtDate)
+      return d.getTime() + (d.getTimezoneOffset() * 60000)
     }
   }
 }

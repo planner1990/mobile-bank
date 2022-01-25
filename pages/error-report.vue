@@ -96,9 +96,6 @@ export default {
       items: []
     }
   },
-  mounted () {
-    this.search(this.searchModel)
-  },
   methods: {
     ...mapMutations({
       alert: 'snacks/showMessage'

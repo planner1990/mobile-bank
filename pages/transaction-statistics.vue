@@ -11,165 +11,34 @@
       </v-row>
       <br>
       <br>
-      <v-row
-        justify="center"
-      >
-        <v-data-table
-          dense
-          item-key="cardOwnerId"
-          sort-by="cardOwnerId"
-          :items="items"
-          :headers="headers"
-          class="elevation-5 fullScreen"
-          :loading="loading"
-          :footer-props="{
-            'items-per-page-options': [10, 20, 30, 40, 50]
-          }"
-          :items-per-page.sync="searchModel.paginate.length"
-          :page.sync="searchModel.paginate.page"
-          :server-items-length="totalNumberOfItems"
-          @update:page="search(searchModel)"
-          @update:items-per-page="search(searchModel)"
-        >
-          <template #top>
-            <v-toolbar
-              class="black--text"
-              color="lightGreen"
-              flat
-              dark
-              dense
-            >
-              <v-btn
-                color="warning"
-                :loading="downloadLoading"
-                dark
-                small
-                @click="downloadReports(searchModel)"
-              >
-                {{ $t('report.download') }}
-              </v-btn>
-            </v-toolbar>
-          </template>
-          <template #[`item.status`]="{ item }">
-            {{ $t('report.operatorReport.status.' + item.status) }}
-          </template>
-          <template #[`item.operationName`]="{ item }">
-            {{ $t('report.operatorReport.operationName.' + item.operationName) }}
-          </template>
-          <template #[`item.operationDate`]="{ item }">
-            {{ moment(item.operationDate) }}
-          </template>
-        </v-data-table>
-      </v-row>
-      <br>
-      <br>
-      <br>
-      <br>
-      <v-row
-        justify="center"
-      >
-        <v-data-table
-          dense
-          item-key="cardOwnerId"
-          sort-by="cardOwnerId"
-          :items="items"
-          :headers="headers"
-          class="elevation-5 fullScreen"
-          :loading="loading"
-          :footer-props="{
-            'items-per-page-options': [10, 20, 30, 40, 50]
-          }"
-          :items-per-page.sync="searchModel.paginate.length"
-          :page.sync="searchModel.paginate.page"
-          :server-items-length="totalNumberOfItems"
-          @update:page="search(searchModel)"
-          @update:items-per-page="search(searchModel)"
-        >
-          <template #top>
-            <v-toolbar
-              class="black--text"
-              color="lightGreen"
-              flat
-              dark
-              dense
-            >
-              <v-btn
-                color="warning"
-                :loading="downloadLoading"
-                dark
-                small
-                @click="downloadReports(searchModel)"
-              >
-                {{ $t('report.download') }}
-              </v-btn>
-            </v-toolbar>
-          </template>
-          <template #[`item.status`]="{ item }">
-            {{ $t('report.operatorReport.status.' + item.status) }}
-          </template>
-          <template #[`item.operationName`]="{ item }">
-            {{ $t('report.operatorReport.operationName.' + item.operationName) }}
-          </template>
-          <template #[`item.operationDate`]="{ item }">
-            {{ moment(item.operationDate) }}
-          </template>
-        </v-data-table>
-      </v-row>
-      <br>
-      <br>
-      <br>
-      <br>
 
-      <v-row
-        justify="center"
+      <v-tabs
+        v-model="tabsModel"
+        align-with-title
+        center-active
+        color="success"
       >
-        <v-data-table
-          dense
-          item-key="cardOwnerId"
-          sort-by="cardOwnerId"
-          :items="items"
-          :headers="headers"
-          class="elevation-5 fullScreen"
-          :loading="loading"
-          :footer-props="{
-            'items-per-page-options': [10, 20, 30, 40, 50]
-          }"
-          :items-per-page.sync="searchModel.paginate.length"
-          :page.sync="searchModel.paginate.page"
-          :server-items-length="totalNumberOfItems"
-          @update:page="search(searchModel)"
-          @update:items-per-page="search(searchModel)"
-        >
-          <template #top>
-            <v-toolbar
-              class="black--text"
-              color="lightGreen"
-              flat
-              dark
-              dense
-            >
-              <v-btn
-                color="warning"
-                :loading="downloadLoading"
-                dark
-                small
-                @click="downloadReports(searchModel)"
-              >
-                {{ $t('report.download') }}
-              </v-btn>
-            </v-toolbar>
-          </template>
-          <template #[`item.status`]="{ item }">
-            {{ $t('report.operatorReport.status.' + item.status) }}
-          </template>
-          <template #[`item.operationName`]="{ item }">
-            {{ $t('report.operatorReport.operationName.' + item.operationName) }}
-          </template>
-          <template #[`item.operationDate`]="{ item }">
-            {{ moment(item.operationDate) }}
-          </template>
-        </v-data-table>
-      </v-row>
+        <v-tab href="#search2">
+          آمار تراکنش های حساب
+        </v-tab>
+        <v-tab-item value="search2">
+          <deposit-statistics :deposits="depositList" />
+        </v-tab-item>
+
+        <v-tab href="#search">
+          آمار تراکنش های کارت
+        </v-tab>
+        <v-tab-item value="search">
+          <card-statistics :cards="cardList" />
+        </v-tab-item>
+
+        <v-tab href="#search3">
+          آمار سایر تراکنش ها
+        </v-tab>
+        <v-tab-item value="search3">
+          <other-statistics :others="otherList" />
+        </v-tab-item>
+      </v-tabs>
     </v-col>
   </v-container>
 </template>
@@ -178,12 +47,18 @@
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
 import transactionStatisticsReportFilter from '~/components/transactionStatisticsReportFilter'
+import cardStatistics from '~/components/cardStatistics'
+import depositStatistics from '~/components/depositStatistics'
+import otherStatistics from '~/components/otherStatistics'
 import reportManager from '~/repository/report_manager'
 
 export default {
   name: 'OperatorReport',
   components: {
-    transactionStatisticsReportFilter
+    transactionStatisticsReportFilter,
+    cardStatistics,
+    depositStatistics,
+    otherStatistics
   },
   data () {
     return {
@@ -191,47 +66,36 @@ export default {
       searchModel: {
         paginate: {
           page: 1,
-          length: 20,
+          length: 50,
           sort: {
             property: 'operationDate',
             direction: 'desc'
           }
         }
       },
+
       totalNumberOfItems: 0,
       loading: false,
-      headers: [
-        { text: this.$t('report.transactionReport.headers.source'), value: 'operationName', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operatorUserName', sortable: false },
-        { text: this.$t('report.transactionReport.headers.platform'), value: 'customerNationalCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'errorMessage', sortable: false },
-        { text: this.$t('report.transactionReport.headers.smsTransactionId'), value: 'operationDate', sortable: false },
-        { text: this.$t('report.transactionReport.headers.osName'), value: 'status', sortable: false },
-        { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
-        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'phoneNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
-        { text: this.$t('report.transactionReport.headers.source'), value: 'source', sortable: false },
-        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
-        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
-      ],
-      items: []
+
+      items: [],
+      cardList: [],
+      depositList: [],
+      otherList: []
     }
-  },
-  mounted () {
-    this.search(this.searchModel)
   },
   methods: {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
     search (searchModel) {
-      this.loading = true
-      reportManager.operatorActivity(searchModel, this.$axios).then((response) => {
+      this.loading = false
+      reportManager.transactionStatistics(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
+        this.depositList = this.getDeposit()
+        this.cardList = this.getCard()
+        this.otherList = this.getOther()
+
+        console.log(this.otherList)
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
       }).catch((error) => {
@@ -248,6 +112,29 @@ export default {
         }
         this.loading = false
       })
+    },
+    getDeposit: function () {
+      console.log('inja omad')
+      if (this.items.length > 0) {
+        return this.items.filter(object => object.operationType === 'DEPOSIT')
+      }
+      return null
+    },
+    getCard: function () {
+      console.log('inja omad')
+      if (this.items.length > 0) {
+        return this.items.filter(object => object.operationType === 'CARD')
+      }
+      return null
+    },
+    getOther: function () {
+      console.log('inja omad')
+      if (this.items.length > 0) {
+        console.log('majid inja omad')
+        console.log(this.items.filter(object => object.operationType === 'PUBLIC'))
+        return this.items.filter(object => object.operationType === 'PUBLIC')
+      }
+      return null
     },
     downloadReports (searchModel) {
       this.downloadLoading = true

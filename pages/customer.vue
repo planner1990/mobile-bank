@@ -33,11 +33,22 @@
         >
           <template #top>
             <v-toolbar
+              class="black--text"
               color="lightGreen"
               flat
-              dense
               dark
-            />
+              dense
+            >
+              <v-btn
+                color="warning"
+                :loading="downloadLoading"
+                dark
+                small
+                @click="downloadReports(requestObject)"
+              >
+                {{ $t('report.download') }}
+              </v-btn>
+            </v-toolbar>
           </template>
 
           <template #[`item.actions`]="{ item }">
@@ -48,14 +59,6 @@
             >
               mdi-pencil
             </v-icon>
-            <!--            <v-icon-->
-            <!--              small-->
-            <!--              class="mr-2"-->
-            <!--              :disabled="item.status === 0"-->
-            <!--              @click.stop="del(item)"-->
-            <!--            >-->
-            <!--              mdi-trash-can-->
-            <!--            </v-icon>-->
           </template>
         </v-data-table>
         <v-dialog
@@ -99,34 +102,14 @@
 import { mapMutations } from 'vuex'
 import CustomerFilter from '@/components/customerFilter'
 import userManager from '@/repository/user_manager'
-// import ProvinceSelector from '@/components/location/provinceSelector.vue'
-// import CitySelector from '@/components/location/citySelector'
-// import BranchSelector from '@/components/location/branchSelector'
-import provinceViewer from '@/components/location/provinceViewer'
-import cityViewer from '@/components/location/cityViewer'
-import branchViewer from '@/components/location/branchViewer'
-
+import reportManager from '~/repository/report_manager'
 export default {
   components: {
-    'customer-filter': CustomerFilter,
-    // ProvinceSelector,
-    // CitySelector,
-    // BranchSelector,
-    cityViewer,
-    provinceViewer,
-    branchViewer
+    'customer-filter': CustomerFilter
   },
   data: function () {
     return {
       isShowTitleOfEditDialog: false,
-      // paginate: {
-      //   page: 1,
-      //   length: 20,
-      //   sort: {
-      //     property: 'status',
-      //     direction: 'desc'
-      //   }
-      // },
       totalNumberOfItems: 0,
       guids: [
         {
@@ -180,46 +163,7 @@ export default {
     }
   },
   computed: {
-    // ...mapGetters({
-    //   loggedInUser: 'user/me'
-    // }),
-    // computedProvince: function () {
-    //   if (this.userForm.userObj.provinceCode) {
-    //     return this.userForm.userObj.provinceCode
-    //   } else {
-    //     return this.loggedInUser.provinceCode
-    //   }
-    // },
-    // computedCity: function () {
-    //   if (this.userForm.userObj.cityCode) {
-    //     return this.userForm.userObj.cityCode
-    //   } else {
-    //     return this.loggedInUser.cityCode
-    //   }
-    // },
-    // computedLocationAccess: function () {
-    //   if (this.userForm.userObj.role === 'ADMIN' || this.userForm.userObj.role === 'REPORTER') {
-    //     return this.userForm.locationAccess.filter(e => e.value === 'UNIVERSAL' || e.value === 'PROVINCE')
-    //   } else if (this.userForm.userObj.role === 'OPERATOR') {
-    //     const tmp = this.userForm.locationAccess.filter(e => e.value === 'BRANCH')
-    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //     this.userForm.userObj.locationAccess = tmp[0].value
-    //     return tmp
-    //   }
-    //   return []
-    // },
-    // computedUserAccessList: function () {
-    //   if (this.userForm.userObj.role === 'OPERATOR') {
-    //     const temp = this.userForm.permissions.filter(e => e.value === 'EXPORT_OPENED_DEPOSIT_FILE')
-    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //     this.userForm.userObj.userAccessList = [temp[0].value]
-    //     return temp
-    //   } else {
-    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //     // this.userForm.userObj.userAccessList = []
-    //     return this.userForm.permissions
-    //   }
-    // },
+
     computedErrorsInCreateDialog: function () {
       if (this.createUserErrors.length !== 0) {
         this.createUserErrors.forEach((e) => {
@@ -230,21 +174,12 @@ export default {
         return []
       }
     }
-    //   if (this.userForm.userObj.role === 'ADMIN' || this.userForm.userObj.role === 'REPORTER') {
-    //     return this.userForm.locationAccess.filter(e => e.value === 'UNIVERSAL' || e.value === 'PROVINCE')
-    //   } else
-    //     return this.userForm.locationAccess.filter(e => e.value === 'BRANCH')
-    //   }
-    //   return []
-    // }
+
   },
   methods: {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
-    // async pagination () {
-    //   await this.search(this.requestObject)
-    // },
     clearAllDataInForm () {
       delete this.userForm.userObj.locationAccess
       delete this.userForm.userObj.userAccessList
@@ -260,6 +195,8 @@ export default {
       try {
         const response = await userManager.getCustomerList(searchModel, this.$axios)
         this.users = response.data.itemList
+        console.log('man omadam')
+        console.log(this.users)
         this.totalNumberOfItems = response.data.filteredItem
       } catch (e) {
         this.alert({
@@ -269,6 +206,27 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    downloadReports (searchModel) {
+      this.downloadLoading = true
+      delete searchModel.paginate
+      reportManager.downloadCustomer(searchModel, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'customer-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        console.log(error)
+        this.alert({
+          color: 'error',
+          content: 'global.failed'
+        })
+      }).finally(() => {
+        this.downloadLoading = false
+      })
     },
     showErrorsInCreateUserDialog (errors) {
       this.loading = false
