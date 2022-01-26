@@ -44,14 +44,14 @@
           />
           <p-date-picker
             v-model="fromDate"
-            type="month"
+            type="month,y"
             element="createFromDate"
             color="dimgray"
             dense
             outlined
             popove
             auto-submit
-            format="jMM"
+            format="jYYYY/jMM"
             @close="checkIsNull()"
           />
         </v-col>

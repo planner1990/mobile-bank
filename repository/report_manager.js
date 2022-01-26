@@ -125,15 +125,15 @@ const errorCode = [
 
 const osName = [
   {
-    value: 'android',
+    value: 'ANDROID',
     text: 'report.transactionReport.osName.ANDROID'
   },
   {
-    value: 'ios',
+    value: 'IOS',
     text: 'report.transactionReport.osName.iOS'
   },
   {
-    value: 'web',
+    value: 'WEB',
     text: 'report.transactionReport.osName.mobileweb'
   }
 ]

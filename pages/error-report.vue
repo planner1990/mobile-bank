@@ -16,6 +16,8 @@
       >
         <v-data-table
           dense
+          item-key="cardOwnerId"
+          sort-by="cardOwnerId"
           :items="items"
           :headers="headers"
           class="elevation-5 fullScreen"
@@ -70,17 +72,17 @@ export default {
   },
   data () {
     return {
-      downloadLoading: false,
       searchModel: {
         paginate: {
           page: 1,
           length: 20,
           sort: {
-            property: 'operationDate',
+            property: 'operation',
             direction: 'desc'
           }
         }
       },
+      downloadLoading: false,
       totalNumberOfItems: 0,
       loading: false,
       headers: [
@@ -101,6 +103,8 @@ export default {
       alert: 'snacks/showMessage'
     }),
     search (searchModel) {
+      console.log('searchModel')
+      console.log(searchModel)
       this.loading = true
       reportManager.errorList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
@@ -124,7 +128,7 @@ export default {
     downloadReports (searchModel) {
       this.downloadLoading = true
       delete searchModel.paginate
-      reportManager.downloadOperatorActivity(searchModel, this.$axios).then((res) => {
+      reportManager.downloadErrorReport(searchModel, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL

@@ -73,19 +73,6 @@
         </v-col>
         <v-col />
         <v-col />
-
-        <!--      <province-selector-->
-        <!--        v-model="filter.locationFilter.provinceCode"-->
-        <!--      />-->
-        <!--      <city-selector-->
-        <!--        v-model="filter.locationFilter.cityCode"-->
-        <!--        :province="computedProvince"-->
-        <!--      />-->
-        <!--      <branch-selector-->
-        <!--        v-model="filter.locationFilter.branchCode"-->
-        <!--        :province="computedProvince"-->
-        <!--        :city="computedCity"-->
-        <!--      />-->
       </v-row>
       <v-row>
         <v-col>
@@ -137,7 +124,6 @@ const defaultFilter = {
   errorReportListFilter: {
     operation: null,
     responseCode: null
-
   },
   dateFilter: {
     from: null,
@@ -148,9 +134,7 @@ export default {
   name: 'ErrorReportFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
-    // ProvinceSelector
-    // CitySelector,
-    // BranchSelector
+
   },
   props: {
     value: Object({})
@@ -164,37 +148,7 @@ export default {
       errorCode: reportManager.errorCode
     }
   },
-  // computed: {
-  //   ...mapGetters({
-  //     me: 'user/me'
-  //   }),
-  //   computedProvince: function () {
-  //     if (this.me.provinceCode) {
-  //       return this.me.provinceCode
-  //     } else {
-  //       return this.filter.locationFilter.provinceCode
-  //     }
-  //   },
-  //   computedCity: function () {
-  //     if (this.me.cityCode) {
-  //       return this.me.cityCode
-  //     } else {
-  //       return this.filter.locationFilter.cityCode
-  //     }
-  //   }
-  // },
-  // mounted: function () {
-  //   if (this.me.provinceCode) {
-  //     defaultFilter.locationFilter.provinceCode = this.me.provinceCode
-  //   }
-  //   if (this.me.cityCode) {
-  //     defaultFilter.locationFilter.cityCode = this.me.cityCode
-  //   }
-  //   if (this.me.branchCode) {
-  //     defaultFilter.locationFilter.branchCode = this.me.branchCode
-  //   }
-  //   this.filter = Object.assign(this.value, defaultFilter)
-  // },
+
   methods: {
     search () {
       this.$emit('search', this.filter)
