@@ -59,10 +59,13 @@ async function downloadTransactionList (request, axios) {
   return await axios.post('export/transaction', request, { responseType: 'blob' })
 }
 
+async function downloadCustomerStatistics (request, axios) {
+  console.log('majid')
+  return await axios.post('export/customer-statistics-report', request, { responseType: 'blob' })
+}
 async function downloadCustomer (request, axios) {
   return await axios.post('export/customer', request, { responseType: 'blob' })
 }
-
 async function downloadErrorReport (request, axios) {
   return await axios.post('export/error-report-list', request, { responseType: 'blob' })
 }
@@ -125,15 +128,15 @@ const errorCode = [
 
 const osName = [
   {
-    value: 'android',
+    value: 'ANDROID',
     text: 'report.transactionReport.osName.ANDROID'
   },
   {
-    value: 'ios',
+    value: 'IOS',
     text: 'report.transactionReport.osName.iOS'
   },
   {
-    value: 'web',
+    value: 'WEB',
     text: 'report.transactionReport.osName.mobileweb'
   }
 ]
@@ -210,6 +213,7 @@ export default {
   downloadOperatorActivity,
   downloadTransactionList,
   downloadCustomer,
+  downloadCustomerStatistics,
   downloadErrorReport
 
 }

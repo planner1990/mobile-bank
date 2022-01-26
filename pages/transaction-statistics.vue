@@ -88,7 +88,7 @@ export default {
       alert: 'snacks/showMessage'
     }),
     search (searchModel) {
-      this.loading = false
+      this.loading = true
       reportManager.transactionStatistics(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.depositList = this.getDeposit()

@@ -47,6 +47,17 @@ const userRoles = [
   }
 ]
 
+const customerType = [
+  {
+    value: 'REGISTERED',
+    text: 'customer.customerStatistics.customerTypeTitle.REGISTERED'
+  },
+  {
+    value: 'GUEST',
+    text: 'customer.customerStatistics.customerTypeTitle.GUEST'
+  }
+]
+
 const userPermissions = [
   {
     value: 'OPEN_DEPOSIT_PROCESS',
@@ -102,6 +113,7 @@ export default {
   getCustomerList,
   getCustomerStatisticsReport,
   userRoles,
+  customerType,
   userPermissions,
   locationAccess,
   userStatus,

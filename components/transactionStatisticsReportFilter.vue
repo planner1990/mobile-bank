@@ -70,12 +70,12 @@
         </v-col>
         <v-col>
           <v-select
-            v-model="filter.reportFilter.platform"
-            :items="platform"
+            v-model="filter.operatingSystem"
+            :items="osName"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
-            :label="$t('filters.platform')"
+            :label="$t('filters.osName')"
             prepend-icon="mdi-clipboard-list"
             dense
             clearable
@@ -92,9 +92,7 @@ import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
-  reportFilter: {
-    platform: null
-  },
+  operatingSystem: null,
   dateFilter: {
     from: null,
     to: null
@@ -116,7 +114,6 @@ export default {
       filter: defaultFilter,
       status: reportManager.status,
       osName: reportManager.osName,
-      platform: reportManager.platform,
       source: reportManager.source,
       operationName: reportManager.operationName
     }

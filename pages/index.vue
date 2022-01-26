@@ -236,6 +236,8 @@ export default {
       this.createDialog = false
     },
     search (searchModel) {
+      console.log('searchModel')
+      console.log(searchModel)
       this.loading = true
       reportManager.transactionList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
