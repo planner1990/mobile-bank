@@ -34,6 +34,21 @@
     <v-container fluid>
       <v-row>
         <v-col>
+          <v-select
+            v-model="request.customerListFilter.customerType"
+            :items="customerType"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('customer.customerType')"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
+        </v-col>
+        <v-col cols="1" />
+        <v-col>
           <v-text-field
             id="createFromDate"
             v-model="fromDate"
@@ -55,7 +70,7 @@
             @close="checkIsNullFromDate()"
           />
         </v-col>
-
+        <v-col cols="1" />
         <v-col>
           <v-text-field
             id="createToDate"
@@ -146,6 +161,7 @@ export default {
       fromDate: this.currentDayFrom(),
       toDate: this.currentDayTo(),
       roles: userManager.userRoles,
+      customerType: userManager.customerType,
       status: userManager.userStatus,
       loading: false,
       request: defaultSearchModel

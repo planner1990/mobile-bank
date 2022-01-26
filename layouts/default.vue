@@ -153,6 +153,11 @@ export default {
         },
         {
           icon: 'mdi-account-supervisor-circle-outline',
+          title: 'menu.customerStatistics',
+          to: '/customer-statistics'
+        },
+        {
+          icon: 'mdi-account-supervisor-circle-outline',
           title: 'menu.customer',
           to: '/customer'
         }

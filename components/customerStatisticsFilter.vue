@@ -40,11 +40,11 @@
             prepend-icon="mdi-calendar-month"
             outlined
             dense
-            :placeholder="$t('filters.fromDate')"
+            :placeholder="$t('filters.month')"
           />
           <p-date-picker
             v-model="fromDate"
-            type="month,y"
+            type="date"
             element="createFromDate"
             color="dimgray"
             dense
@@ -55,29 +55,7 @@
             @close="checkIsNull()"
           />
         </v-col>
-        <v-col />
-        <v-col>
-          <v-text-field
-            id="createToDate"
-            v-model="toDate"
-            prepend-icon="mdi-calendar-month"
-            outlined
-            dense
-            :placeholder="$t('filters.toDate')"
-          />
-          <p-date-picker
-            v-model="toDate"
-            type="year"
-            element="createToDate"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="jYYYY"
-            @close="checkIsNull()"
-          />
-        </v-col>
+        <v-col cols="1" />
         <v-col />
       </v-row>
     </v-container>
@@ -94,16 +72,7 @@ import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import userManager from '@/repository/user_manager'
 
 const defaultSearchModel = {
-  customerListFilter: {
-    cif: null,
-    phoneNumber: null,
-    customerType: null,
-    fullName: null
-  },
-  dateFilter: {
-    from: null,
-    to: null
-  }
+  persianDate: null
 
 }
 
@@ -156,15 +125,19 @@ export default {
     },
     checkIsNull () {
       if (this.fromDate != null) {
-        this.request.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+        console.log('sddsdsd')
+        console.log(this.fromDate)
+        console.log(this.convertJalaliDateToTimestamp(this.fromDate))
+
+        this.request.persianDate = this.fromDate
       }
       if (this.toDate != null) {
         this.request.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
       }
     },
     convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'hh:MM jYYYY/jMM/jDD').format('YYYY')
-      const month = moment(date, 'hh:MM jYYYY/jMM/jDD').format('MM')
+      const year = moment(date, 'jYYYY/jMM/jDD').format('YYYY')
+      const month = moment(date, 'jYYYY/jMM/jDD').format('MM')
       return new Date(Date.UTC(year, month - 1)).getTime()
     }
   }

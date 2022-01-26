@@ -57,42 +57,30 @@
             <!--              mdi-trash-can-->
             <!--            </v-icon>-->
           </template>
-          <template #[`item.platform`]="{ item }">
-            {{ $t('customer.customerTypeTitle.' + item.platform) }}
+
+          <template #top>
+            <v-toolbar
+              class="black--text"
+              color="lightGreen"
+              flat
+              dark
+              dense
+            >
+              <v-btn
+                color="warning"
+                :loading="downloadLoading"
+                dark
+                small
+                @click="downloadReports(requestObject)"
+              >
+                {{ $t('report.download') }}
+              </v-btn>
+            </v-toolbar>
+          </template>
+          <template #[`item.customerType`]="{ item }">
+            {{ $t('customer.customerStatistics.customerTypeTitle.' + item.customerType) }}
           </template>
         </v-data-table>
-        <v-dialog
-          v-model="deleteUserDialog"
-          max-width="290"
-        >
-          <v-card
-            dark
-            color="primary"
-          >
-            <v-card-title class="headline">
-              {{ $t('messages.warning') }}
-            </v-card-title>
-            <v-card-actions>
-              <v-spacer />
-              <v-btn
-                class="mb-2"
-                small
-                color="success"
-                @click="deleteItem(item)"
-              >
-                {{ $t('messages.ok') }}
-              </v-btn>
-              <v-btn
-                class="mb-2"
-                small
-                color="error"
-                @click="deleteUserDialog = false"
-              >
-                {{ $t('buttons.cancel') }}
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
       </v-row>
     </v-col>
   </v-container>
@@ -102,6 +90,7 @@
 import { mapMutations } from 'vuex'
 import CustomerStatisticsFilter from '@/components/customerStatisticsFilter'
 import userManager from '@/repository/user_manager'
+import reportManager from '~/repository/report_manager'
 // import ProvinceSelector from '@/components/location/provinceSelector.vue'
 // import CitySelector from '@/components/location/citySelector'
 // import BranchSelector from '@/components/location/branchSelector'
@@ -164,8 +153,7 @@ export default {
       headers: [
         { text: this.$t('customer.customerStatistics.headers.customerType'), value: 'customerType' },
         { text: this.$t('customer.customerStatistics.headers.countNew'), value: 'countNew' },
-        { text: this.$t('customer.customerStatistics.headers.countActive'), value: 'countActive' },
-        { text: '', value: 'actions', sortable: false }
+        { text: this.$t('customer.customerStatistics.headers.countActive'), value: 'countActive' }
 
       ],
       users: []
@@ -216,6 +204,27 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    downloadReports (searchModel) {
+      this.downloadLoading = true
+      delete searchModel.paginate
+      reportManager.downloadCustomerStatistics(searchModel, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'customer-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        console.log(error)
+        this.alert({
+          color: 'error',
+          content: 'global.failed'
+        })
+      }).finally(() => {
+        this.downloadLoading = false
+      })
     },
     showErrorsInCreateUserDialog (errors) {
       this.loading = false

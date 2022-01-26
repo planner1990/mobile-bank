@@ -166,6 +166,18 @@
       "depositOrCard": "کارت یاحساب",
       "registerDate": "تاریخ ثبت نام"
     },
+    "customerStatistics": {
+      "title": "جست و جوی کاربران",
+      "headers": {
+        "customerType": "نوع کاربر",
+        "countNew": "جدید(در بازه)",
+        "countActive": "فعال(در بازه)"
+      },
+      "customerTypeTitle": {
+        "REGISTERED": "مشتری",
+        "GUEST": "مهمان"
+      }
+    },
     "customerType1": {
       "customer": "مشتری",
       "guest": "میهمان"
@@ -472,6 +484,7 @@
     "createFile": "ایجاد فایل"
   },
   "filters": {
+    "month": "انتخاب ماه",
     "fromDate": "از تاریخ",
     "toDate": "تا تاریخ",
     "fromHour": "از ساعت",
