@@ -60,6 +60,9 @@
               mdi-pencil
             </v-icon>
           </template>
+          <template #[`item.registerDate`]="{ item }">
+            {{ convertToJalali(item.registerDate) }}
+          </template>
         </v-data-table>
         <v-dialog
           v-model="deleteUserDialog"
@@ -153,7 +156,7 @@ export default {
         { text: this.$t('customer.phoneNumber'), value: 'phoneNumber' },
         { text: this.$t('customer.cif'), value: 'cif' },
         { text: this.$t('customer.name'), value: 'fullName' },
-        { text: this.$t('customer.headers.depositOrCard'), value: 'cardOrDeposit' },
+        { text: this.$t('customer.headers.depositOrCard'), value: 'cardOrDeposit[0]' },
         { text: this.$t('customer.headers.registerDate'), value: 'registerDate' },
         { text: '', value: 'actions', sortable: false }
 
@@ -189,8 +192,6 @@ export default {
       this.resetValidation()
     },
     async search (searchModel) {
-      // searchModel.page = this.pagination.page
-      // searchModel.length = this.pagination.rowsPerPage
       this.loading = true
       try {
         const response = await userManager.getCustomerList(searchModel, this.$axios)
