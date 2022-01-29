@@ -115,7 +115,7 @@ const customerType = [
   }
 ]
 
-const errorCode = [
+const operation = [
   {
     value: 'ok',
     text: 'report.transactionReport.errorCode.ok'
@@ -203,7 +203,7 @@ export default {
   downloadSmsReport,
   status,
   osName,
-  errorCode,
+  operation,
   platform,
   groupBy,
   operationName,

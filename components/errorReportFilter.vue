@@ -78,9 +78,9 @@
         <v-col>
           <v-select
             v-model="filter.errorReportListFilter.operation"
-            :items="status"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
+            :items="items"
+            item-text="title"
+            item-value="url"
             :return-object="false"
             :label="$t('filters.operation')"
             prepend-icon="mdi-clipboard-list"
@@ -137,7 +137,7 @@ export default {
 
   },
   props: {
-    value: Object({})
+    value: Object(defaultFilter)
   },
   data () {
     return {
@@ -145,13 +145,43 @@ export default {
       toDate: null,
       filter: defaultFilter,
       status: reportManager.status,
-      errorCode: reportManager.errorCode
+      items: []
     }
+  },
+  mounted: function () {
+    this.filter = Object.assign(this.value, defaultFilter)
+    this.operation()
   },
 
   methods: {
     search () {
       this.$emit('search', this.filter)
+    },
+    operation () {
+      console.log('majid')
+      this.loading = true
+      reportManager.operationList(this.$axios).then((response) => {
+        console.log(response)
+        const operationList = response.data
+        this.items = operationList
+        console.log(operationList)
+      }).catch((error) => {
+        console.log('majid11')
+        if (error.response) {
+          console.log(error.response)
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          console.log('error.response is null')
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+        this.loading = false
+      })
     },
     checkIsNull () {
       if (this.fromDate != null) {

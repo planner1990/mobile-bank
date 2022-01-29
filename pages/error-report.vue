@@ -103,8 +103,6 @@ export default {
       alert: 'snacks/showMessage'
     }),
     search (searchModel) {
-      console.log('searchModel')
-      console.log(searchModel)
       this.loading = true
       reportManager.errorList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
