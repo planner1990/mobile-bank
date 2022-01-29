@@ -346,22 +346,25 @@ export default {
       }
     },
     currentDayFrom: function () {
-      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('YYYY')
-      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('MM')
-      const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('DD')
+      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
 
-      const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
-      const d = new Date(gmtDate)
-      return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
+      // const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
+      // const d = new Date(gmtDate)
+      // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
+      return '00:00 ' + year + '/' + month + '/' + day
     },
     currentDayTo: function () {
-      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('YYYY')
-      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('MM')
-      const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('DD')
+      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
 
-      const gmtDate = Date.UTC(year, month - 1, day, 23, 59, 0)
-      const d = new Date(gmtDate)
-      return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
+      // const gmtDate = Date.UTC(year, month - 1, day, 23, 59, 0)
+      // const d = new Date(gmtDate)
+      // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
+
+      return '23:59 ' + year + '/' + month + '/' + day
     },
     convertJalaliDateToTimestamp (date) {
       const year = moment(date, 'HH:mm jYYYY/jMM/jDD').format('YYYY')
@@ -371,6 +374,7 @@ export default {
       const minute = moment(date, 'HH:mm jYYYY/jMM/jDD').format('mm')
       const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
       const d = new Date(gmtDate)
+      console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
       return d.getTime() + (d.getTimezoneOffset() * 60000)
     }
 
