@@ -94,8 +94,8 @@
         />
         <v-col>
           <v-select
-            v-model="filter.errorReportListFilter.errorCode"
-            :items="errorCode"
+            v-model="filter.errorReportListFilter.responseCode"
+            :items="responseCodes"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
@@ -145,6 +145,7 @@ export default {
       toDate: null,
       filter: defaultFilter,
       status: reportManager.status,
+      responseCodes: reportManager.responseCode,
       items: []
     }
   },

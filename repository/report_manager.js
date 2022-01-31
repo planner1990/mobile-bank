@@ -104,6 +104,17 @@ const status = [
   }
 ]
 
+const responseCode = [
+  {
+    value: '200',
+    text: 'report.transactionReport.errorCode.ok'
+  },
+  {
+    value: '400',
+    text: 'report.transactionReport.errorCode.BAD_REQUEST'
+  }
+]
+
 const customerType = [
   {
     value: 'REGISTERED',
@@ -201,6 +212,7 @@ export default {
   errorList,
   smsReport,
   downloadSmsReport,
+  responseCode,
   status,
   osName,
   operation,
