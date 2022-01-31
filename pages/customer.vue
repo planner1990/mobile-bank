@@ -103,6 +103,7 @@
 
 <script>
 import { mapMutations } from 'vuex'
+import moment from 'moment-jalaali'
 import CustomerFilter from '@/components/customerFilter'
 import userManager from '@/repository/user_manager'
 import reportManager from '~/repository/report_manager'
@@ -196,9 +197,8 @@ export default {
       try {
         const response = await userManager.getCustomerList(searchModel, this.$axios)
         this.users = response.data.itemList
-        console.log('man omadam')
-        console.log(this.users)
         this.totalNumberOfItems = response.data.filteredItem
+        this.loading = false
       } catch (e) {
         this.alert({
           color: 'orange',
@@ -207,6 +207,9 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    convertToJalali (date) {
+      return moment(date).format('hh:mm:ss jYYYY/jM/jD')
     },
     downloadReports (searchModel) {
       this.downloadLoading = true

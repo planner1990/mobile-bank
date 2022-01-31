@@ -77,7 +77,7 @@ export default {
           page: 1,
           length: 20,
           sort: {
-            property: 'operation',
+            property: 'url',
             direction: 'desc'
           }
         }
