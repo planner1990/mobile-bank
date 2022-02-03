@@ -51,17 +51,11 @@
             </v-toolbar>
           </template>
 
-          <template #[`item.actions`]="{ item }">
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(item)"
-            >
-              mdi-pencil
-            </v-icon>
-          </template>
           <template #[`item.registerDate`]="{ item }">
             {{ convertToJalali(item.registerDate) }}
+          </template>
+          <template #[`item.customerType`]="{ item }">
+            {{ $t('customer.customerStatistics.customerTypeTitle.' + item.customerType) }}
           </template>
         </v-data-table>
         <v-dialog
