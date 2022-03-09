@@ -240,6 +240,10 @@ export default {
       console.log(searchModel)
       this.loading = true
       reportManager.transactionList(searchModel, this.$axios).then((response) => {
+        setTimeout(() => {
+          this.steps.createCustomer.loading = false
+          this.steps.createCustomer.color = 'success'
+        }, 5000)
         this.items = response.data.itemList
         console.log(this.items)
         this.totalNumberOfItems = response.data.filteredItem
