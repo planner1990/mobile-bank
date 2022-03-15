@@ -95,9 +95,9 @@
         <v-col>
           <v-select
             v-model="filter.errorReportListFilter.responseCode"
-            :items="responseCodes"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
+            :items="errorItems"
+            item-text="title"
+            item-value=""
             :return-object="false"
             :label="$t('filters.errorCode')"
             prepend-icon="mdi-clipboard-list"
@@ -136,22 +136,26 @@ export default {
     PDatePicker: VuePersianDatetimePicker
 
   },
+  mounted: function () {
+    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    this.filter = Object.assign(this.value, defaultFilter)
+    this.operation()
+    this.errorList()
+  },
   props: {
     value: Object(defaultFilter)
   },
   data () {
     return {
-      fromDate: null,
-      toDate: null,
+      fromDate: this.currentDayFrom(),
+      toDate: this.currentDayTo(),
       filter: defaultFilter,
       status: reportManager.status,
       responseCodes: reportManager.responseCode,
-      items: []
+      items: [],
+      errorItems: []
     }
-  },
-  mounted: function () {
-    this.filter = Object.assign(this.value, defaultFilter)
-    this.operation()
   },
 
   methods: {
@@ -184,6 +188,30 @@ export default {
         this.loading = false
       })
     },
+    errorList () {
+      this.loading = true
+      reportManager.errorList(this.$axios).then((response) => {
+        console.log(response)
+        const errorList = response.data
+        this.errorItems = errorList
+        console.log(errorList)
+      }).catch((error) => {
+        if (error.response) {
+          console.log(error.response)
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          console.log('error.response is null')
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+        this.loading = false
+      })
+    },
     checkIsNull () {
       if (this.fromDate != null) {
         this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
@@ -197,6 +225,19 @@ export default {
       const month = moment(date, 'jYYYY/jM/jD').format('MM')
       const day = moment(date, 'jYYYY/jM/jD').format('DD')
       return new Date(Date.UTC(year, month - 1, day)).getTime()
+    },
+    currentDayFrom: function () {
+      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
+      return year + '/' + month + '/' + day
+    },
+    currentDayTo: function () {
+      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
+
+      return year + '/' + month + '/' + day
     }
   }
 }

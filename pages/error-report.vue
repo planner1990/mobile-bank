@@ -23,7 +23,7 @@
           class="elevation-5 fullScreen"
           :loading="loading"
           :footer-props="{
-            'items-per-page-options': [10, 20, 30, 40, 50]
+            'items-per-page-options': [100]
           }"
           :items-per-page.sync="searchModel.paginate.length"
           :page.sync="searchModel.paginate.page"
@@ -50,9 +50,6 @@
               </v-btn>
             </v-toolbar>
           </template>
-          <template #[`item.status`]="{ item }">
-            {{ $t('report.operatorReport.status.' + item.status) }}
-          </template>
         </v-data-table>
       </v-row>
     </v-col>
@@ -75,7 +72,7 @@ export default {
       searchModel: {
         paginate: {
           page: 1,
-          length: 20,
+          length: 100,
           sort: {
             property: 'url',
             direction: 'desc'
@@ -86,13 +83,12 @@ export default {
       totalNumberOfItems: 0,
       loading: false,
       headers: [
-        { text: this.$t('report.errorReport.headers.url'), value: 'responseCode', sortable: false },
         { text: this.$t('report.errorReport.headers.operationName'), value: 'operation', sortable: false },
         { text: this.$t('report.errorReport.headers.count'), value: 'count', sortable: false },
+        { text: this.$t('report.errorReport.headers.errorTextPersian'), value: 'errorTextPersian', sortable: false },
         { text: this.$t('report.errorReport.headers.errorName'), value: 'errorName', sortable: false },
-        { text: this.$t('report.errorReport.headers.errorCode'), value: 'responseCode', sortable: false },
         { text: this.$t('report.errorReport.headers.errorType'), value: 'errorType', sortable: false },
-        { text: this.$t('report.errorReport.headers.errorTextPersian'), value: 'errorTextPersian', sortable: false }
+        { text: this.$t('report.errorReport.headers.errorCode'), value: 'responseCode', sortable: false }
 
       ],
       items: []

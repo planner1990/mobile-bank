@@ -20,41 +20,54 @@
       >
         {{ $t('customer.search') }}
       </v-btn>
-      <!--      <v-btn-->
-      <!--        color="warning"-->
-      <!--        fab-->
-      <!--        x-small-->
-      <!--        @click="clean"-->
-      <!--      >-->
-      <!--        <v-icon>-->
-      <!--          mdi-broom-->
-      <!--        </v-icon>-->
-      <!--      </v-btn>-->
     </v-toolbar>
     <v-container fluid>
       <v-row>
         <v-col>
           <v-text-field
-            id="createFromDate"
-            v-model="fromDate"
+            id="createFromYear"
+            v-model="fromYear"
             prepend-icon="mdi-calendar-month"
             outlined
             dense
             :placeholder="$t('filters.month')"
           />
           <p-date-picker
-            v-model="fromDate"
-            type="date"
-            element="createFromDate"
+            v-model="fromYear"
+            type="year"
+            element="createFromYear"
             color="dimgray"
             dense
             outlined
             popove
             auto-submit
-            format="jYYYY/jMM"
+            format="jYYYY"
             @close="checkIsNull()"
           />
         </v-col>
+        <v-col>
+          <v-text-field
+            id="createFromMonth"
+            v-model="fromMonth"
+            prepend-icon="mdi-calendar-month"
+            outlined
+            dense
+            :placeholder="$t('filters.month')"
+          />
+          <p-date-picker
+            v-model="fromMonth"
+            type="month"
+            element="createFromMonth"
+            color="dimgray"
+            dense
+            outlined
+            popove
+            auto-submit
+            format="jMM"
+            @close="checkIsNull()"
+          />
+        </v-col>
+
         <v-col cols="1" />
         <v-col />
       </v-row>
@@ -63,59 +76,38 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
-// import ProvinceSelector from '../location/provinceSelector.vue'
-// import CitySelector from '../location/citySelector.vue'
-// import BranchSelector from '../location/branchSelector.vue'
-import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
+import moment from 'moment-jalaali'
 import userManager from '@/repository/user_manager'
 
 const defaultSearchModel = {
   persianDate: null
-
 }
 
 export default {
   name: 'LoanFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
-    // ProvinceSelector,
-    // CitySelector,
-    // BranchSelector
+  },
+  mounted: function () {
+    // defaultSearchModel.persianDate = this.convertJalaliDateToTimestamp(this.fromMonth, this.fromYear)
+    console.log(this.currentYear() + this.currentMonth())
+    defaultSearchModel.persianDate = this.currentYear() + '/' + this.currentMonth()
+    this.filter = Object.assign(this.value, defaultSearchModel)
   },
   props: {
     value: Object(defaultSearchModel)
   },
   data () {
     return {
-      fromDate: null,
-      toDate: null,
+      fromMonth: this.currentMonth(),
+      fromYear: this.currentYear(),
       roles: userManager.userRoles,
       status: userManager.userStatus,
       loading: false,
       request: defaultSearchModel
     }
   },
-  // computed: {
-  //   ...mapGetters({
-  //     me: 'user/me'
-  //   }),
-  //   computedProvince: function () {
-  //     if (this.me.provinceCode) {
-  //       return this.me.provinceCode
-  //     } else {
-  //       return this.request.locationFilter.provinceCode
-  //     }
-  //   },
-  //   computedCity: function () {
-  //     if (this.me.cityCode) {
-  //       return this.me.cityCode
-  //     } else {
-  //       return this.request.locationFilter.cityCode
-  //     }
-  //   }
-  // },
   methods: {
     search () {
       this.loading = true
@@ -124,21 +116,26 @@ export default {
       this.loading = false
     },
     checkIsNull () {
-      if (this.fromDate != null) {
+      if (this.fromYear != null) {
         console.log('sddsdsd')
-        console.log(this.fromDate)
-        console.log(this.convertJalaliDateToTimestamp(this.fromDate))
+        console.log(this.convertJalaliDateToTimestamp(this.fromYear))
+        console.log(this.convertJalaliDateToTimestamp(this.fromMonth))
 
-        this.request.persianDate = this.fromDate
-      }
-      if (this.toDate != null) {
-        this.request.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+        defaultSearchModel.persianDate = this.convertJalaliDateToTimestamp(this.fromMonth, this.fromYear)
+        console.log(defaultSearchModel.persianDate)
       }
     },
-    convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'jYYYY/jMM/jDD').format('YYYY')
-      const month = moment(date, 'jYYYY/jMM/jDD').format('MM')
-      return new Date(Date.UTC(year, month - 1)).getTime()
+    convertJalaliDateToTimestamp (month, year) {
+      return year + '/' + month
+    },
+    currentMonth: function () {
+      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      return month
+    },
+    currentYear: function () {
+      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+
+      return year
     }
   }
 }

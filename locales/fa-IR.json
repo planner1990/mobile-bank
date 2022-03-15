@@ -36,6 +36,11 @@
         "errorCode": "کد پاسخ",
         "errorType": "نوع حطا",
         "errorTextPersian": "شرح خطا"
+      },
+      "errorType": {
+        "c": "کاربری",
+        "s": "سیستمی",
+        "": "تعیین نشده"
       }
     },
     "transactionReport": {
@@ -50,8 +55,6 @@
         "osName": "سیستم عامل",
         "transactionId": "شناسه تراکنش",
         "amount": "مبلغ " ,
-        "customerNationalCode": "کد پیگیری",
-        "errorMessage": "شماره موبایل",
         "cif": "شماره مشتری",
         "sourceNumber": "شماره مبدا",
         "requestTime": "زمان درخواست",
@@ -59,12 +62,22 @@
         "traceId": "Trace ID",
         "detail": "جزییات",
         "phoneNumber" : "شماره موبایل",
-        "trackerId": "کد پیگیری"
+        "trackerId": "کد پیگیری",
+        "operator": "اپراتور",
+        "chargeAmount": "مبلغ شارژ",
+        "chargeType": "نوع شارژ",
+        "sellTime": "زمان خرید",
+        "responseTime": "زمان پاسخ( میلی ثانیه)",
+        "appVersion": "ورژن اپلیکیشن"
+      },
+      "status": {
+        "successful": "موفق",
+        "fail": "ناموفق"
       },
       "osName": {
         "ANDROID": "android",
         "iOS": "ios",
-        "mobileweb": "web",
+        "WEB": "web",
         "null": "نامشخص"
       },
       "platform": {
@@ -97,7 +110,7 @@
         "BAD_REQUEST": "400"
       }
     },
-    "operatorReport": {
+    "chargeReport": {
       "title": "عملکرد اپراتور",
       "headers": {
         "operation": "عملیات",
@@ -107,46 +120,56 @@
         "operationDate": "تاریخ انجام عملیات",
         "status": "وضعیت"
       },
-      "status": {
-        "successful": "موفق",
-        "fail": "ناموفق"
+      "chargeAmount": {
+        "amountA": "10,000",
+        "amountB": "20,000",
+        "amountC": "50,000",
+        "amountD": "100,000"
       },
-      "operationName": {
-        "DOWNLOAD_EXCEL_REQUESTS": "ایجاد فایل اکسل",
-        "CREATED_OPENED_DEPOSIT_FILE": "ایجاد فایل اکسل",
-        "DELETE_ONLINE_DEPOSIT": "حذف درخواست",
-        "VIDEO_ARTIFICIAL_INTELLIGENCE": "سرویس تشخیص هوش مصنوعی",
-        "RECOVERY_CUSTOMER": "بازیابی شماره مشتری",
-        "OPEN_DEPOSIT_STATISTIC_REPORT": "گرفتن گزارش از درخواست ها",
-        "CHANGE_DELIVERY_POSTAL_CODE": "ویرایش کد پستی محل تحویل",
-        "CONFIRM_DOCUMENT": "تایید مدارک ارسالی",
-        "CREATE_CUSTOMER": "تعریف مشتری",
-        "OPEN_DEPOSIT": "افتتاح حساب",
-        "RECOVERY_CUSTOMER_DEPOSIT": "بازیابی شماره حساب",
-        "SHOW_CUSTOMER_INFO": "نمایش اطلاعات درخواست",
-        "MAKE_READY_FOR_PROCESS": "انتقال به وضعیت آماده برای بررسی",
-        "CHANGE_BRANCH_CODE": "ویرایش کد شعبه",
-        "SHARE_MONEY": "تقسیم پول",
-        "SEARCH_ONLINE_DEPOSIT": "جستجوی درخواست",
-        "SEARCH_EXCEL_FILES": "جستجوی فایل های ایجاد شده",
-        "PRINT_DELIVERY_INFO": "چاپ آدرس",
-        "REJECT_DOCUMENT": "رد مدارک ارسالی",
-        "SAVE_USER_PASS": "ثبت نام کاربری و رمز عبور",
-        "CHANGE_POSTAL_CODE": "ویرایش کد پستی",
-        "CHANGE_CARD_PRINT_STATUS": "تغییر وضعیت فایل ایجاد شده",
-        "UPDATE_OPENED_DEPOSIT_FILE_STATUS": "تغییر وضعیت فایل ایجاد شده",
-        "REJECT": "رد مدارک ارسالی",
-        "CHANGE_DELIVERY_ADDRESS": "ویرایش آدرس محل تحویل",
-        "UPDATE_STATUS_TO_IN_PROGRESS": "بررسی درخواست",
-        "UPDATE_STATUS_TO_READY_FOR_PROCESS": "لغو بررسی",
-        "CREATE_EXCEL_FILE": "ایجاد فایل اکسل",
-        "PAYMENT_LIST_SEARCH": "جستجوی پرداخت ها",
-        "CHANGE_Address": "ویرایش آدرس",
-        "EDIT_ADDRESS": "ویرایش آدرس",
-        "SAVE_USERNAME": "ثبت نام کاربری و رمز عبور",
-        "REVERT_STATUS_TO_READY_FOR_PROCESS": "بازگردانی وضعیت به اماده برای بررسی",
-        "UPDATE_STATUS_TO_CARD_SENT": "تغییر وضعیت به کارت صادر شده",
-        "UNKNOWN": "نامعلوم"
+      "chargeType": {
+        "chargingCode": "کدشارژ",
+        "direct": "مستقیم"
+      },
+      "operatorType": {
+        "irancell": "ایرانسل",
+        "irmci": "همراه اول",
+        "rigtell": "رایتل"
+      }
+    },
+    "refundReport": {
+      "title": "استرداد وجه",
+      "headers": {
+        "id": "شناسه",
+        "transactionId": "شناسه موبایل بانک",
+        "transactionTime": "زمان تراکنش شارژ",
+        "phoneNumber": "موبایل(مشتری)",
+        "source": "شماره مبدا",
+        "transactionErrorCode": "کد پاسخ تراکنش شارژ",
+        "ip": "آی پی",
+        "amount": "مبلغ",
+        "url": "نوع تراکنش",
+        "createdTime": "زمان ایجاد",
+        "state": "استرداد وجه",
+        "switchResponseRrn":"کد پیگیری یاقوت",
+        "requestId":"کد پیگیری عملیات"
+      },
+      "refundType": {
+        "pending": "در انتظار",
+        "successful": "انجام شده",
+        "failed": "ناموفق",
+        "wait": "درحال پردازش",
+        "need_Follow": "نیازمند بررسی",
+        "manual": "بازگشت وجه به صورت دستی",
+        "refund_not_required": "عدم نیاز به بازگشت وجه"
+      },
+      "transactionTimeType": {
+        "transactionTime": "زمان تراکنش",
+        "createTime": "زمان ایجاد",
+        "refundTime": "زمان بازگشت وجه"
+      },
+      "orderType": {
+        "desc": "نزولی",
+        "asc": "صعودی"
       }
     },
     "smsReport": {
@@ -356,119 +379,6 @@
     "printAddressV2": "فرمت دوم",
     "removeOnlineDeposit": "حذف درخواست"
   },
-  "onlineDepositStatus": {
-    "INIT": {
-      "value": "INIT",
-      "name": "کاربر مدرکی ارسال نکرده"
-    },
-    "IN_PROGRESS": {
-      "value": "IN_PROGRESS",
-      "name": "در حال تکمیل مدارک"
-    },
-    "REGISTRY_INQUIRY_REJECTED": {
-      "value": "REGISTRY_INQUIRY_REJECTED",
-      "name": "رد وضعیت کاربر توسط ثبت احوال"
-    },
-    "REGISTRY_INQUIRY_ERROR": {
-      "value": "REGISTRY_INQUIRY_ERROR",
-      "name": "خطا در تایید ثبت احوال"
-    },
-    "READY_FOR_PROCESS": {
-      "value": "READY_FOR_PROCESS",
-      "name": "آماده برای بررسی"
-    },
-    "IN_PROCESS": {
-      "value": "IN_PROCESS",
-      "name": "در حال بررسی",
-      "openDepositProcessStep": 1,
-      "stepName": "تایید مدارک",
-      "buttonText": "تایید مدارک و شروع فرایند افتتاح حساب"
-    },
-    "DOC_CONFIRMED": {
-      "value": "DOC_CONFIRMED",
-      "name": "مدارک ارسالی تایید شده",
-      "openDepositProcessStep": 2,
-      "stepName": "تعریف مشتری",
-      "buttonText": "تعریف مشتری و ادامه‌ی فرایند"
-    },
-    "CUSTOMER_CREATED": {
-      "value": "CUSTOMER_CREATED",
-      "name": "مشتری تعریف شده",
-      "openDepositProcessStep": 3,
-      "stepName": "افتتاح حساب",
-      "buttonText": "افتتاح حساب و ادامه‌ی فرایند"
-    },
-    "DEPOSIT_OPENED": {
-      "value": "DEPOSIT_OPENED",
-      "name": "حساب افتتاح شده",
-      "openDepositProcessStep": 4,
-      "stepName": "تقسیم پول و تکمیل فرایند",
-      "buttonText": "تقسیم پول"
-    },
-    "SHARED_MONEY": {
-      "value": "SHARED_MONEY",
-      "name": "تقسیم پول انجام شده"
-    },
-    "READY_FOR_CARD_ISSUE": {
-      "value": "READY_FOR_CARD_ISSUE",
-      "name": "آماده برای صدور کارت"
-    },
-    "REJECTED": {
-      "value": "REJECTED",
-      "name": "درخواست توسط اپراتور رد شده",
-      "stepName": "مدارک ارسالی توسط اپراتور رد شد"
-    },
-    "CARD_SENT": {
-      "value": "CARD_SENT",
-      "name": "کارت صادر شده"
-    },
-    "MOBILE_DONE": {
-      "value": "MOBILE_DONE",
-      "name": "دارای رمز موبایل بانک"
-    },
-    "CARD_PIN_SET": {
-      "value": "CARD_PIN_SET",
-      "name": "دارای رمز اول"
-    },
-    "EPAY_PIN_SET": {
-      "value": "EPAY_PIN_SET",
-      "name": "دارای رمز دوم"
-    },
-    "CARD_REGISTERED": {
-      "value": "CARD_REGISTERED",
-      "name": "کارت  با موفقیت ثبت شد"
-    },
-    "REFUND": {
-      "value": "REFUND",
-      "name": "کاربر درخواست بازگشت وجه داده"
-    }
-  },
-  "onlineDepositFields": {
-    "id": "شناسه درخواست",
-    "status": "وضعیت",
-    "createdDate": "تاریخ ثبت درخواست",
-    "depositType": "نوع حساب",
-    "branchCode": "کد شعبه",
-    "amountPayed": "مبلغ پرداخت شده",
-    "paymentPattern": "الگوی پرداخت",
-    "deliveryType": "نحوه‌ی دریافت",
-    "smsEnabled": "سرویس ارسال پیامک",
-    "depositNo": "شماره حساب",
-    "customerNo": "شماره مشتری",
-    "nationalCode": "کد ملی",
-    "shenasnameNo": "شماره شناسنامه",
-    "firstname": "نام",
-    "lastname": "نام خانوادگی",
-    "fullName": "نام و نام خانوادگی",
-    "fatherName": "نام پدر",
-    "birthDate": "تاریخ تولد",
-    "mobileNumber": "شماره موبایل",
-    "job": "شغل",
-    "address": "آدرس محل سکونت",
-    "postalCode": "کد پستی محل سکونت",
-    "deliveryAddress": "آدرس ارسال کارت",
-    "deliveryPostalCode": "کد پستی ارسال کارت"
-  },
   "titles": {
     "filters": "فیلتر ها",
     "requestInfo": "اطلاعات درخواست",
@@ -487,6 +397,8 @@
     "month": "انتخاب ماه",
     "fromDate": "از تاریخ",
     "toDate": "تا تاریخ",
+    "operator": "اپراتور",
+    "chargeAmount": "مقدار شارژ",
     "fromHour": "از ساعت",
     "toHour": "تا ساعت",
     "status": "وضعیت",
@@ -512,7 +424,18 @@
     "transactionId": "شناسه تراکنش",
     "trackerId": "کد پیگیری",
     "amount": "مبلغ ",
-    "cif": "کد مشتری"
+    "cif": "کد مشتری",
+    "transactionTime": "زمان تراکنش از",
+    "createTime": "زمان ایجاد از",
+    "to": "تا",
+    "refundTime": "بازگشت وجه از",
+    "orderField": "مرتب سازی براساس",
+    "transactionBank": "شناسه موبایل بانک",
+    "trackerIdBank": "کد پیگیری بانک",
+    "refund": "استرداد وجه",
+    "trackerIdBank": "کد پیگیری عملیات",
+    "errorCode": "کد پاسخ تراکنش",
+    "source": "شماره مبدا"
   },
   "messages": {
     "successful": "عملیات شما با موفقیت انجام شد",
@@ -568,3 +491,4 @@
     "DocConfirm": "تایید مدارک"
   }
 }
+

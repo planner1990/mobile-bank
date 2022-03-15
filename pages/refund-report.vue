@@ -7,7 +7,7 @@
       <v-row
         justify="center"
       >
-        <transactionReportFilter v-model="searchModel" @search="search" />
+        <refundReportFilter v-model="searchModel" @search="search" />
       </v-row>
       <br>
       <br>
@@ -40,15 +40,12 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                  {{ $t('user.newUser') }}
+                  {{ $t('report.download') }}
                 </v-btn>
               </template>
               <v-card
                 :loading="loading"
               >
-                <v-card-title class="lightGreen black--text font-weight-bold headline">
-                  {{ $t('user.createDialog') }}
-                </v-card-title>
                 <v-container>
                   <v-form
                     ref="form"
@@ -132,13 +129,13 @@
 <script>
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
-import transactionReportFilter from '~/components/transactionReportFilter'
+import refundReportFilter from '~/components/refundReportFilter'
 import reportManager from '~/repository/report_manager'
 
 export default {
-  name: 'OperatorReport',
+  name: 'RefundReport',
   components: {
-    transactionReportFilter
+    refundReportFilter
   },
   data () {
     return {
@@ -152,7 +149,7 @@ export default {
       searchModel: {
         paginate: {
           page: 1,
-          length: 20,
+          length: 50,
           sort: {
             property: 'id',
             direction: 'desc'
@@ -162,77 +159,42 @@ export default {
       totalNumberOfItems: 0,
       loading: false,
       headers: [
-        { text: this.$t('report.transactionReport.headers.source'), value: 'operationName', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operatorUserName', sortable: false },
-        { text: this.$t('report.transactionReport.headers.platform'), value: 'platform', sortable: false },
-        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.smsTransactionId'), value: 'operationDate', sortable: false },
-        { text: this.$t('report.transactionReport.headers.osName'), value: 'status', sortable: false },
-        { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
-        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
-        { text: this.$t('report.transactionReport.headers.source'), value: 'source', sortable: false },
-        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
-        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
+        { text: this.$t('report.refundReport.headers.id'), value: 'id', sortable: false },
+        { text: this.$t('report.refundReport.headers.transactionId'), value: 'transactionId', sortable: false },
+        { text: this.$t('report.refundReport.headers.transactionTime'), value: 'transactionTime', sortable: false },
+        { text: this.$t('report.refundReport.headers.phoneNumber'), value: 'phoneNumber', sortable: false },
+        { text: this.$t('report.refundReport.headers.source'), value: 'source', sortable: false },
+        { text: this.$t('report.refundReport.headers.transactionErrorCode'), value: 'transactionErrorCode', sortable: false },
+        { text: this.$t('report.refundReport.headers.ip'), value: 'ip', sortable: false },
+        { text: this.$t('report.refundReport.headers.amount'), value: 'amount', sortable: false },
+        { text: this.$t('report.refundReport.headers.url'), value: 'url', sortable: false },
+        { text: this.$t('report.refundReport.headers.createdTime'), value: 'createdTime', sortable: false },
+        { text: this.$t('report.refundReport.headers.state'), value: 'state', sortable: false },
+        { text: this.$t('report.refundReport.headers.switchResponseRrn'), value: 'switchResponseRrn', sortable: false },
+        { text: this.$t('report.refundReport.headers.requestId'), value: 'requestId', sortable: false }
+
       ],
-      headers2: [
-        { text: this.$t('report.transactionReport.headers.source'), value: 'operationName', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operatorUserName', sortable: false },
-        { text: this.$t('report.transactionReport.headers.platform'), value: 'platform', sortable: false },
-        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.smsTransactionId'), value: 'operationDate', sortable: false },
-        { text: this.$t('report.transactionReport.headers.osName'), value: 'status', sortable: false },
-        { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
-        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'phoneNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
-        { text: this.$t('report.transactionReport.headers.source'), value: 'source', sortable: false },
-        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
-        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
-      ],
-      items: [],
-      items1: []
+
+      items: []
     }
   },
   // mounted () {
   //   this.search(this.searchModel)
   // },
+  priceFormat (amount) {
+    if (amount) {
+      return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    } else {
+      return ''
+    }
+  },
   methods: {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
-    editItem (searchModel) {
-      this.createDialog = true
-      reportManager.transactionList(this.searchModel, this.$axios).then((response) => {
-        this.items1 = response.data.itemList
-        console.log(this.items1)
-        /*  this.totalNumberOfItems = response.data.filteredItem */
-        this.loading = false
-      }).catch((error) => {
-        if (error.response) {
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-        this.loading = false
-      })
-    },
     search (searchModel) {
       this.loading = true
-      reportManager.transactionList(searchModel, this.$axios).then((response) => {
+      reportManager.refundList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         console.log(this.items)
         this.totalNumberOfItems = response.data.filteredItem
@@ -251,17 +213,6 @@ export default {
         }
         this.loading = false
       })
-    },
-    closeCreateUserDialog () {
-      this.createUserErrors = []
-      this.loading = false
-      this.userForm.userObj = {}
-      this.reset()
-      this.resetValidation()
-      this.createDialog = false
-      if (this.isShowTitleOfEditDialog) {
-        this.isShowTitleOfEditDialog = false
-      }
     },
     downloadReports (searchModel) {
       this.downloadLoading = true

@@ -104,13 +104,18 @@ export default {
   components: {
     PDatePicker: VuePersianDatetimePicker
   },
+  mounted: function () {
+    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    this.filter = Object.assign(this.value, defaultFilter)
+  },
   props: {
     value: Object({})
   },
   data () {
     return {
-      fromDate: null,
-      toDate: null,
+      fromDate: this.currentDayFrom(),
+      toDate: this.currentDayTo(),
       filter: defaultFilter,
       status: reportManager.status,
       osName: reportManager.osName,
@@ -135,6 +140,19 @@ export default {
       const month = moment(date, 'jYYYY/jM/jD').format('MM')
       const day = moment(date, 'jYYYY/jM/jD').format('DD')
       return new Date(Date.UTC(year, month - 1, day)).getTime()
+    },
+    currentDayFrom: function () {
+      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
+      return year + '/' + month + '/' + day
+    },
+    currentDayTo: function () {
+      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
+
+      return year + '/' + month + '/' + day
     }
   }
 }

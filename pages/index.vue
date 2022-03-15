@@ -23,7 +23,7 @@
           class="elevation-5 fullScreen"
           :loading="loading"
           :footer-props="{
-            'items-per-page-options': [10, 20, 30, 40, 50]
+            'items-per-page-options': [50, 100, 300, 500, 1000]
           }"
           :items-per-page.sync="searchModel.paginate.length"
           :page.sync="searchModel.paginate.page"
@@ -52,8 +52,7 @@
 
             <v-dialog
               v-model="createDialog"
-              max-width="800"
-              persistent
+              max-width="1000"
               transition="dialog-bottom-transition"
             >
               <v-card
@@ -71,27 +70,56 @@
                         dense
                         item-key="cardOwnerId"
                         sort-by="cardOwnerId"
-                        :items="itemsTransaction"
+                        :items="itemsTransactionData"
                         :headers="headersTransaction"
                         class="elevation-5 fullScreen"
                         :hide-default-footer="true"
-                      />
+                      >
+                        <template #[`item.platform`]="{ item }">
+                          {{ $t('report.transactionReport.platform.' + item.platform) }}
+                        </template>
+                        <template #[`item.sourceType`]="{ item }">
+                          {{ $t('report.transactionReport.source.' + item.sourceType) }}
+                        </template>
+                      </v-data-table>
                     </v-row>
-                    <br>
-                    <br>
+
                     <v-row>
                       <v-data-table
                         dense
                         item-key="cardOwnerId"
                         sort-by="cardOwnerId"
+                        dir="ltr"
                         :items="itemsTransaction"
-                        :headers="headersTransactionRequest"
                         :hide-default-footer="true"
                         class="elevation-5 fullScreen"
-                      />
+                      >
+                        <template #item="{ item }">
+                          <tr class="black--text lightGreen">
+                            <th style="text-align: center; width: 50%">
+                              پاسخ
+                            </th>
+                            <th style="text-align: center; width: 50%">
+                              درخواست
+                            </th>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div style="width:490px;overflow:auto">
+                                <pre>   {{ item.responseJson }}
+                              </pre>
+                              </div>
+                            </td>
+                            <td>
+                              <div style="width:490px;overflow:auto">
+                                <pre>   {{ item.requestJson }}
+                              </pre>
+                              </div>
+                            </td>
+                          </tr>
+                        </template>
+                      </v-data-table>
                     </v-row>
-                    <br>
-                    <br>
                   </v-form>
                 </v-container>
                 <v-card-actions>
@@ -109,19 +137,23 @@
           <template #[`item.platform`]="{ item }">
             {{ $t('report.transactionReport.platform.' + item.platform) }}
           </template>
+
           <template #[`item.sourceType`]="{ item }">
             {{ $t('report.transactionReport.source.' + item.sourceType) }}
           </template>
-          <template #[`item.requestTime`]="{ item }">
-            {{ convertToJalali(item.requestTime) }}
+          <template #[`item.amount`]="{ item }">
+            {{ priceFormat(item.amount) }}
+          </template>
+          <template #[`item.operation`]="{ item }">
+            {{ checkUrl(item.operation, item.url ) }}
           </template>
           <template #[`item.detail`]="{ item }">
             <v-icon
               small
               class="mr-2"
-              @click="editItem(item.id)"
+              @click="editItem(item)"
             >
-              mdi-pencil
+              mdi-eye
             </v-icon>
           </template>
         </v-data-table>
@@ -153,7 +185,7 @@ export default {
       searchModel: {
         paginate: {
           page: 1,
-          length: 20,
+          length: 50,
           sort: {
             property: 'id',
             direction: 'desc'
@@ -166,14 +198,11 @@ export default {
       headers: [
         { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.platform'), value: 'platform', sortable: false },
         { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.smsTransactionId'), value: 'smsId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false },
         { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
-        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'phoneNumber', sortable: false },
+        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'issueTracking', sortable: false },
+        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false },
         { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
         { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
         { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
@@ -181,22 +210,24 @@ export default {
         { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
       ],
       headersTransaction: [
+        { text: this.$t('report.transactionReport.headers.responseTime'), value: 'sourceType', sortable: false },
+        { text: this.$t('report.transactionReport.headers.appVersion'), value: 'sourceType', sortable: false },
         { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.platform'), value: 'platform', sortable: false },
         { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.smsTransactionId'), value: 'smsId', sortable: false },
         { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false }
       ],
       headersTransactionRequest: [
-        { text: this.$t('report.transactionReport.headers.source'), value: 'requestJson', sortable: false },
-        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'responseJson', sortable: false }
+        { text: this.$t('report.transactionReport.headers.requestJson'), value: 'requestJson', sortable: false },
+        { text: this.$t('report.transactionReport.headers.responseJson'), value: 'responseJson', sortable: false }
       ],
       headersTransactionLog: [
         { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false }
       ],
       items: [],
-      itemsTransaction: []
+      itemsTransaction: [],
+      itemsTransactionData: []
     }
   },
   // mounted () {
@@ -206,15 +237,38 @@ export default {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
-    editItem (searchModel) {
+    priceFormat (amount) {
+      if (amount) {
+        return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      } else {
+        return ''
+      }
+    },
+    checkUrl (operation, url) {
+      if (operation != null) {
+        return operation + '\n' + operation
+      } else {
+        return url + '\n' + url
+      }
+    },
+    editItem (item) {
       this.createDialog = true
-      console.log(searchModel)
-      defaultFilterdetails.transactionListFilter.transactionId = searchModel
+      this.itemsTransactionData.splice(0, 1)
+      this.itemsTransactionData.push({
+        sourceType: item.sourceType,
+        sourceNumber: item.sourceNumber,
+        platform: item.platform,
+        responseCode: item.responseCode
+      })
+
+      defaultFilterdetails.transactionListFilter.transactionId = item.id
       reportManager.transactionDetails(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
-        this.itemsTransaction.push(response.data)
-        console.log(this.itemsTransaction)
-        console.log(this.itemsTransaction[0].requestJson)
-        /*  this.totalNumberOfItems = response.data.filteredItem */
+        this.itemsTransaction.splice(0, 1)
+        // this.itemsTransaction.push(response.data)
+        this.itemsTransaction.push({
+          responseJson: JSON.parse(response.data.responseJson),
+          requestJson: JSON.parse(response.data.requestJson)
+        })
         this.loading = false
       }).catch((error) => {
         if (error.response) {
@@ -245,6 +299,7 @@ export default {
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
       }).catch((error) => {
+        this.loading = false
         if (error.response) {
           this.alert({
             color: 'orange',
@@ -256,7 +311,6 @@ export default {
             content: 'messages.failed'
           })
         }
-        this.loading = false
       })
     },
     convertToJalali (date) {
@@ -264,7 +318,6 @@ export default {
     },
     downloadReports (searchModel) {
       this.downloadLoading = true
-      delete searchModel.paginate
       reportManager.downloadTransactionList(searchModel, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')

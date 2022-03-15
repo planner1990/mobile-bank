@@ -7,7 +7,7 @@
       <v-row
         justify="center"
       >
-        <transactionReportFilter v-model="searchModel" @search="search" />
+        <chargeReportFilter v-model="searchModel" @search="search" />
       </v-row>
       <br>
       <br>
@@ -16,6 +16,9 @@
       >
         <v-data-table
           dense
+          :footer-props="{
+            'items-per-page-options': [50, 100, 300, 500, 1000]
+          }"
           item-key="cardOwnerId"
           sort-by="cardOwnerId"
           :items="items"
@@ -40,7 +43,7 @@
                   v-bind="attrs"
                   v-on="on"
                 >
-                  {{ $t('user.newUser') }}
+                  {{ $t('report.download') }}
                 </v-btn>
               </template>
               <v-card
@@ -132,13 +135,13 @@
 <script>
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
-import transactionReportFilter from '~/components/transactionReportFilter'
+import chargeReportFilter from '~/components/chargeReportFilter'
 import reportManager from '~/repository/report_manager'
 
 export default {
   name: 'OperatorReport',
   components: {
-    transactionReportFilter
+    chargeReportFilter
   },
   data () {
     return {
@@ -152,7 +155,7 @@ export default {
       searchModel: {
         paginate: {
           page: 1,
-          length: 20,
+          length: 50,
           sort: {
             property: 'id',
             direction: 'desc'
@@ -162,43 +165,17 @@ export default {
       totalNumberOfItems: 0,
       loading: false,
       headers: [
-        { text: this.$t('report.transactionReport.headers.source'), value: 'operationName', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operatorUserName', sortable: false },
-        { text: this.$t('report.transactionReport.headers.platform'), value: 'platform', sortable: false },
-        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.smsTransactionId'), value: 'operationDate', sortable: false },
-        { text: this.$t('report.transactionReport.headers.osName'), value: 'status', sortable: false },
-        { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
-        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
+        { text: this.$t('report.transactionReport.headers.transactionId'), value: 'id', sortable: false },
         { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
-        { text: this.$t('report.transactionReport.headers.source'), value: 'source', sortable: false },
-        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
-        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
-      ],
-      headers2: [
-        { text: this.$t('report.transactionReport.headers.source'), value: 'operationName', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operatorUserName', sortable: false },
-        { text: this.$t('report.transactionReport.headers.platform'), value: 'platform', sortable: false },
-        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.smsTransactionId'), value: 'operationDate', sortable: false },
-        { text: this.$t('report.transactionReport.headers.osName'), value: 'status', sortable: false },
-        { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
         { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'phoneNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
-        { text: this.$t('report.transactionReport.headers.source'), value: 'source', sortable: false },
-        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
-        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
-      ],
-      items: [],
-      items1: []
+        { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
+        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'source', sortable: false },
+        { text: this.$t('report.transactionReport.headers.chargeType'), value: 'chargeType', sortable: false },
+        { text: this.$t('report.transactionReport.headers.operator'), value: 'operator', sortable: false },
+        { text: this.$t('report.transactionReport.headers.sellTime'), value: 'requestTime', sortable: false },
+        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'errorCode', sortable: false }],
+
+      items: []
     }
   },
   // mounted () {
@@ -208,31 +185,9 @@ export default {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
-    editItem (searchModel) {
-      this.createDialog = true
-      reportManager.transactionList(this.searchModel, this.$axios).then((response) => {
-        this.items1 = response.data.itemList
-        console.log(this.items1)
-        /*  this.totalNumberOfItems = response.data.filteredItem */
-        this.loading = false
-      }).catch((error) => {
-        if (error.response) {
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-        this.loading = false
-      })
-    },
     search (searchModel) {
       this.loading = true
-      reportManager.transactionList(searchModel, this.$axios).then((response) => {
+      reportManager.chargeList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         console.log(this.items)
         this.totalNumberOfItems = response.data.filteredItem

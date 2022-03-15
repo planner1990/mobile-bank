@@ -23,7 +23,7 @@
           :loading="loading"
           dense
           :footer-props="{
-            'items-per-page-options': [10, 20, 30, 40, 50]
+            'items-per-page-options': [50, 100, 300, 500, 1000]
           }"
           :items-per-page.sync="requestObject.paginate.length"
           :page.sync="requestObject.paginate.page"
@@ -56,6 +56,13 @@
           </template>
           <template #[`item.customerType`]="{ item }">
             {{ $t('customer.customerStatistics.customerTypeTitle.' + item.customerType) }}
+          </template>
+          <template #[`item.cardOrDeposit`]="{ item }">
+            <v-row v-for="cord in item.cardOrDeposit" :key="cord" class="my-1 " style="direction: ltr" align-content="center">
+              <v-col class="mx-0 my-0 px-0 py-0" style="direction: ltr">
+                {{ cord }}
+              </v-col>
+            </v-row>
           </template>
         </v-data-table>
         <v-dialog
@@ -126,7 +133,7 @@ export default {
       requestObject: {
         paginate: {
           page: 1,
-          length: 20,
+          length: 50,
           sort: {
             property: 'id',
             direction: 'desc'
@@ -151,7 +158,7 @@ export default {
         { text: this.$t('customer.phoneNumber'), value: 'phoneNumber' },
         { text: this.$t('customer.cif'), value: 'cif' },
         { text: this.$t('customer.name'), value: 'fullName' },
-        { text: this.$t('customer.headers.depositOrCard'), value: 'cardOrDeposit[0]' },
+        { text: this.$t('customer.headers.depositOrCard'), value: 'cardOrDeposit' },
         { text: this.$t('customer.headers.registerDate'), value: 'registerDate' },
         { text: '', value: 'actions', sortable: false }
 
@@ -207,7 +214,6 @@ export default {
     },
     downloadReports (searchModel) {
       this.downloadLoading = true
-      delete searchModel.paginate
       reportManager.downloadCustomer(searchModel, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
