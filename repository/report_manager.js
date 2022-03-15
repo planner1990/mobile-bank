@@ -4,7 +4,25 @@ async function onlineDepositReport (request, axios) {
 
 async function transactionList (request, axios) {
   console.log('transactionLisu us call')
-  const rest = await axios.post('transaction/list', request)
+  const rest = await axios.post('transaction/list', request, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  console.log(rest)
+  return rest
+}
+
+async function chargeList (request, axios) {
+  console.log('chargeList us call')
+  const rest = await axios.post('charge-report/list', request)
+  console.log(rest)
+  return rest
+}
+
+async function refundList (request, axios) {
+  console.log('chargeList us call')
+  const rest = await axios.post('refund/list', request)
   console.log(rest)
   return rest
 }
@@ -30,11 +48,13 @@ async function operationList (axios) {
   return rest
 }
 
-async function errorList (request, axios) {
-  const rest = await axios.post('error-report/list', request)
+async function errorList (axios) {
+  console.log('errorList us call')
+  const rest = await axios.get('error-report/error-list')
   console.log(rest)
   return rest
 }
+
 async function operatorActivity (request, axios) {
   return await axios.post('report-statistic/operator-activity', request)
 }
@@ -57,6 +77,10 @@ async function downloadOperatorActivity (request, axios) {
 
 async function downloadTransactionList (request, axios) {
   return await axios.post('export/transaction', request, { responseType: 'blob' })
+}
+
+async function downloadTransactionStatistics (request, axios) {
+  return await axios.post('export/transaction-statistics-report', request, { responseType: 'blob' })
 }
 
 async function downloadCustomerStatistics (request, axios) {
@@ -95,12 +119,12 @@ const groupBy = [
 
 const status = [
   {
-    value: '200',
-    text: 'report.operatorReport.status.successful'
+    value: 'SUCCESSFUL',
+    text: 'report.transactionReport.status.successful'
   },
   {
-    value: 'fail',
-    text: 'report.operatorReport.status.fail'
+    value: 'FAILED',
+    text: 'report.transactionReport.status.fail'
   }
 ]
 
@@ -148,17 +172,17 @@ const osName = [
   },
   {
     value: 'WEB',
-    text: 'report.transactionReport.osName.mobileweb'
+    text: 'report.transactionReport.osName.WEB'
   }
 ]
 
 const platform = [
   {
-    value: 'net',
+    value: 'NET',
     text: 'report.transactionReport.platform.net'
   },
   {
-    value: 'sms',
+    value: 'SMS',
     text: 'report.transactionReport.platform.sms'
   }
 ]
@@ -178,6 +202,108 @@ const source = [
   }
 ]
 
+const chargeAmount = [
+  {
+    value: '10000',
+    text: 'report.chargeReport.chargeAmount.amountA'
+  },
+  {
+    value: '20000',
+    text: 'report.chargeReport.chargeAmount.amountB'
+  },
+  {
+    value: '50000',
+    text: 'report.chargeReport.chargeAmount.amountC'
+  },
+  {
+    value: '100000',
+    text: 'report.chargeReport.chargeAmount.amountD'
+  }
+]
+
+const operatorType = [
+  {
+    value: 'IRANCEL',
+    text: 'report.chargeReport.operatorType.irancell'
+  },
+  {
+    value: 'IRMCI',
+    text: 'report.chargeReport.operatorType.irmci'
+  },
+  {
+    value: 'RIGTELL',
+    text: 'report.chargeReport.operatorType.rigtell'
+  }
+]
+
+const chargeType = [
+  {
+    value: 'CHARGINGCODE',
+    text: 'report.chargeReport.chargeType.chargingCode'
+  },
+  {
+    value: 'DIRECT',
+    text: 'report.chargeReport.chargeType.direct'
+  }
+]
+
+const refundType = [
+  {
+    value: 0,
+    text: 'report.refundReport.refundType.pending'
+  },
+  {
+    value: 1,
+    text: 'report.refundReport.refundType.successful'
+  },
+  {
+    value: 2,
+    text: 'report.refundReport.refundType.failed'
+  },
+  {
+    value: 3,
+    text: 'report.refundReport.refundType.wait'
+  },
+  {
+    value: 4,
+    text: 'report.refundReport.refundType.need_Follow'
+  },
+  {
+    value: 5,
+    text: 'report.refundReport.refundType.manual'
+  },
+  {
+    value: 6,
+    text: 'report.refundReport.refundType.refund_not_required'
+  }
+]
+const transactionTimeType = [
+  {
+    value: 'TRANSACTION_TIME',
+    text: 'report.refundReport.transactionTimeType.transactionTime'
+  },
+  {
+    value: 'CREATE_TIME',
+    text: 'report.refundReport.transactionTimeType.createTime'
+  },
+  {
+    value: 'REFUND_TIME',
+    text: 'report.refundReport.transactionTimeType.refundTime'
+  }
+
+]
+
+const orderType = [
+  {
+    value: 'ASC',
+    text: 'report.refundReport.orderType.asc'
+  },
+  {
+    value: 'DESC',
+    text: 'report.refundReport.orderType.desc'
+  }
+
+]
 const operationName = [
   { header: 'حساب ' },
   {
@@ -206,6 +332,8 @@ export default {
   onlineDepositReport,
   operatorActivity,
   transactionList,
+  chargeList,
+  refundList,
   transactionStatistics,
   transactionDetails,
   operationList,
@@ -220,11 +348,19 @@ export default {
   groupBy,
   operationName,
   source,
+  chargeAmount,
   customerType,
+  operatorType,
+  chargeType,
+  refundType,
+  transactionTimeType,
+  orderType,
   downloadOnlineDepositReport,
   downloadOperatorActivity,
   downloadTransactionList,
+  downloadTransactionStatistics,
   downloadCustomer,
+
   downloadCustomerStatistics,
   downloadErrorReport
 

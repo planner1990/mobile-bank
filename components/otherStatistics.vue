@@ -10,11 +10,23 @@
       :headers="headers"
       class="elevation-5 fullScreen"
       :loading="loading"
-    />
+    >
+      <template #[`item.successfulAmount`]="{ item }">
+        {{ priceFormat(item.successfulAmount) }}
+      </template>
+      <template #[`item.successfulNumber`]="{ item }">
+        {{ priceFormat(item.successfulNumber) }}
+      </template>
+      <template #[`item.unsuccessfulNumber`]="{ item }">
+        {{ priceFormat(item.unsuccessfulNumber) }}
+      </template>
+    </v-data-table>
   </v-row>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'Other',
   props: {
@@ -28,11 +40,23 @@ export default {
       loading: false,
       headers: [
         { text: 'تراکنشها', value: 'operationTitle', sortable: false },
-        { text: 'تعداد موفق', value: 'internet.successfulNumber', sortable: false },
-        { text: 'مبلغ موفق', value: 'internet.successfulAmount', sortable: false },
-        { text: 'تعداد ناموفق', value: 'internet.unsuccessfulNumber', sortable: false }
+        { text: 'تعداد موفق', value: 'successfulNumber', sortable: false },
+        { text: 'مبلغ موفق', value: 'successfulAmount', sortable: false },
+        { text: 'تعداد ناموفق', value: 'unsuccessfulNumber', sortable: false }
 
       ]
+    }
+  },
+  methods: {
+    ...mapMutations({
+      alert: 'snacks/showMessage'
+    }),
+    priceFormat (amount) {
+      if (amount) {
+        return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      } else {
+        return 0
+      }
     }
   }
 }

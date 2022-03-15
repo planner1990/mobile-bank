@@ -9,36 +9,46 @@
       >
         <transactionStatisticsReportFilter v-model="searchModel" @search="search" />
       </v-row>
-      <br>
-      <br>
+      <v-row class="my-5">
+        <v-btn
+          color="warning"
+          :loading="downloadLoading"
+          dark
+          small
+          @click="downloadReports(searchModel)"
+        >
+          {{ $t('report.download') }}
+        </v-btn>
+      </v-row>
+      <v-row>
+        <v-tabs
+          v-model="tabsModel"
+          align-with-title
+          center-active
+          color="success"
+        >
+          <v-tab href="#search2">
+            آمار تراکنش های حساب
+          </v-tab>
+          <v-tab-item value="search2">
+            <deposit-statistics :deposits="depositList" />
+          </v-tab-item>
 
-      <v-tabs
-        v-model="tabsModel"
-        align-with-title
-        center-active
-        color="success"
-      >
-        <v-tab href="#search2">
-          آمار تراکنش های حساب
-        </v-tab>
-        <v-tab-item value="search2">
-          <deposit-statistics :deposits="depositList" />
-        </v-tab-item>
+          <v-tab href="#search">
+            آمار تراکنش های کارت
+          </v-tab>
+          <v-tab-item value="search">
+            <card-statistics :cards="cardList" />
+          </v-tab-item>
 
-        <v-tab href="#search">
-          آمار تراکنش های کارت
-        </v-tab>
-        <v-tab-item value="search">
-          <card-statistics :cards="cardList" />
-        </v-tab-item>
-
-        <v-tab href="#search3">
-          آمار سایر تراکنش ها
-        </v-tab>
-        <v-tab-item value="search3">
-          <other-statistics :others="otherList" />
-        </v-tab-item>
-      </v-tabs>
+          <v-tab href="#search3">
+            آمار سایر تراکنش ها
+          </v-tab>
+          <v-tab-item value="search3">
+            <other-statistics :others="otherList" />
+          </v-tab-item>
+        </v-tabs>
+      </v-row>
     </v-col>
   </v-container>
 </template>
@@ -73,13 +83,13 @@ export default {
           }
         }
       },
-
       totalNumberOfItems: 0,
       loading: false,
 
       items: [],
       cardList: [],
       depositList: [],
+      depositList1: [],
       otherList: []
     }
   },
@@ -94,8 +104,6 @@ export default {
         this.depositList = this.getDeposit()
         this.cardList = this.getCard()
         this.otherList = this.getOther()
-
-        console.log(this.otherList)
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
       }).catch((error) => {
@@ -116,6 +124,8 @@ export default {
     getDeposit: function () {
       console.log('inja omad')
       if (this.items.length > 0) {
+        console.log('inja  1')
+        console.log(this.items.filter(object => object.operationType === 'DEPOSIT'))
         return this.items.filter(object => object.operationType === 'DEPOSIT')
       }
       return null
@@ -139,7 +149,7 @@ export default {
     downloadReports (searchModel) {
       this.downloadLoading = true
       delete searchModel.paginate
-      reportManager.downloadOperatorActivity(searchModel, this.$axios).then((res) => {
+      reportManager.downloadTransactionStatistics(searchModel, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL

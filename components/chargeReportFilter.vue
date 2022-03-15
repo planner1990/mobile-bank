@@ -26,77 +26,50 @@
       <v-row>
         <v-col>
           <v-text-field
-            id="createFromDate"
-            v-model="fromDate"
-            prepend-icon="mdi-calendar-month"
-            outlined
-            dense
-            :placeholder="$t('filters.fromDate')"
-          />
-          <p-date-picker
-            v-model="fromDate"
-            type="datetime"
-            element="createFromDate"
-            color="dimgray"
+            v-model="filter.transactionListFilter.trackerId"
             dense
             outlined
-            popove
-            auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullFromDate()"
+            :label="$t('filters.trackerId')"
+            prepend-icon="mdi-account"
           />
         </v-col>
-
+      </v-row>
+      <v-row>
         <v-col>
-          <v-text-field
-            id="createToDate"
-            v-model="toDate"
-            prepend-icon="mdi-calendar-month"
-            outlined
+          <v-select
+            v-model="filter.transactionListFilter.chargeAmount"
+            :items="chargeAmount"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('filters.chargeAmount')"
+            prepend-icon="mdi-clipboard-list"
             dense
-            :placeholder="$t('filters.toDate')"
-          />
-          <p-date-picker
-            v-model="toDate"
-            type="datetime"
-            element="createToDate"
-            color="dimgray"
-            dense
+            clearable
             outlined
-            popove
-            auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullToDate()"
           />
         </v-col>
-        <!--      <province-selector-->
-        <!--        v-model="filter.locationFilter.provinceCode"-->
-        <!--      />-->
-        <!--      <city-selector-->
-        <!--        v-model="filter.locationFilter.cityCode"-->
-        <!--        :province="computedProvince"-->
-        <!--      />-->
-        <!--      <branch-selector-->
-        <!--        v-model="filter.locationFilter.branchCode"-->
-        <!--        :province="computedProvince"-->
-        <!--        :city="computedCity"-->
-        <!--      />-->
         <v-col>
           <v-text-field
-            v-model="filter.transactionListFilter.amount"
+            v-model="filter.transactionListFilter.phoneNumber"
             dense
             outlined
-            :label="$t('filters.amount')"
+            :label="$t('customer.phoneNumber')"
             prepend-icon="mdi-account"
           />
         </v-col>
         <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.transactionId"
+          <v-select
+            v-model="filter.transactionListFilter.operator"
+            :items="operator"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('filters.operator')"
+            prepend-icon="mdi-clipboard-list"
             dense
+            clearable
             outlined
-            :label="$t('filters.transactionId')"
-            prepend-icon="mdi-account"
           />
         </v-col>
       </v-row>
@@ -124,20 +97,7 @@
             prepend-icon="mdi-account"
           />
         </v-col>
-        <v-col>
-          <v-select
-            v-model="filter.transactionListFilter.operation"
-            :items="items"
-            item-text="title"
-            item-value="url"
-            :return-object="false"
-            :label="$t('filters.operation')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
+
         <v-col>
           <v-select
             v-model="filter.transactionListFilter.result"
@@ -152,91 +112,36 @@
             outlined
           />
         </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col>
-          <v-select
-            v-model="filter.transactionListFilter.responseCode"
-            :items="errorItems"
-            item-text="title"
-            item-value=""
-            :return-object="false"
-            :label="$t('filters.errorCode')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-
         <v-col>
           <v-text-field
-            v-model="filter.transactionListFilter.cif"
+            v-model="filter.transactionListFilter.transactionId"
             dense
             outlined
-            :label="$t('customer.cif')"
+            :label="$t('filters.transactionId')"
             prepend-icon="mdi-account"
           />
         </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.phoneNumber"
-            dense
-            outlined
-            :label="$t('customer.phoneNumber')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.cif"
-            dense
-            outlined
-            :label="$t('filters.smsTransactionId')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-select
-            v-model="filter.transactionListFilter.os"
-            :items="osName"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.osName')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col />
       </v-row>
     </v-container>
   </v-card>
 </template>
 
 <script>
-import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
   transactionListFilter: {
-    // smsId: null,
     phoneNumber: null,
     operation: null,
     sourceNumber: null,
     sourceType: null,
     result: null,
     platform: null,
-    issueTracking: null,
+    chargeAmount: null,
     os: null,
     transactionId: null,
+    trackerId: null,
     amount: null,
-    cif: null,
     responseCode: null
   },
   dateFilter: {
@@ -245,11 +150,7 @@ const defaultFilter = {
   }
 }
 export default {
-  name: 'TransactionReportFilter',
-  components: {
-    PDatePicker: VuePersianDatetimePicker
-    // OperationSelector
-  },
+  name: 'ChargeReportFilter',
   props: {
     value: Object({})
   },
@@ -265,23 +166,29 @@ export default {
       osName: reportManager.osName,
       platform: reportManager.platform,
       source: reportManager.source,
-      operationName: reportManager.operationName,
-      items: [],
-      errorItems: []
+      chargeAmount: reportManager.chargeAmount,
+      operator: reportManager.operatorType,
+      chargeType: reportManager.chargeType,
+      items: []
     }
   },
+  // computed: {
+  //   computedOperation: function () {
+  //     return this.filter.transactionListFilter.operation
+  //   }
+  // },
   mounted: function () {
     defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
     defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
-    this.errorList()
   },
   methods: {
     search () {
       this.$emit('search', this.filter)
     },
     operation () {
+      console.log('majid')
       this.loading = true
       reportManager.operationList(this.$axios).then((response) => {
         console.log(response)
@@ -289,30 +196,7 @@ export default {
         this.items = operationList
         console.log(operationList)
       }).catch((error) => {
-        if (error.response) {
-          console.log(error.response)
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          console.log('error.response is null')
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-        this.loading = false
-      })
-    },
-    errorList () {
-      this.loading = true
-      reportManager.errorList(this.$axios).then((response) => {
-        console.log(response)
-        const errorList = response.data
-        this.errorItems = errorList
-        console.log(errorList)
-      }).catch((error) => {
+        console.log('majid11')
         if (error.response) {
           console.log(error.response)
           this.alert({
