@@ -68,6 +68,7 @@
         "chargeType": "نوع شارژ",
         "sellTime": "زمان خرید",
         "responseTime": "زمان پاسخ( میلی ثانیه)",
+        "osVersion": "ورژن سیستم عامل",
         "appVersion": "ورژن اپلیکیشن"
       },
       "status": {
@@ -292,6 +293,8 @@
     "reports": "گزارشات",
     "error": "گزاررش خطا",
     "customer": "کاربران",
+    "charge": "شارژها",
+    "refund": "استرداد وجه",
     "customerStatistics": "آمار کاربران"
   },
   "createExcel": {
