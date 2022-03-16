@@ -50,7 +50,6 @@ export default {
   data () {
     return {
       downloadLoading: false,
-
       totalNumberOfItems: 0,
       loading: false,
       headers: [

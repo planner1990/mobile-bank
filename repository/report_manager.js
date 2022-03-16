@@ -48,9 +48,14 @@ async function operationList (axios) {
   return rest
 }
 
-async function errorList (axios) {
+async function errorCodeList (axios) {
   console.log('errorList us call')
   const rest = await axios.get('error-report/error-list')
+  console.log(rest)
+  return rest
+}
+async function errorList (request, axios) {
+  const rest = await axios.post('error-report/list', request)
   console.log(rest)
   return rest
 }
@@ -338,6 +343,7 @@ export default {
   transactionDetails,
   operationList,
   errorList,
+  errorCodeList,
   smsReport,
   downloadSmsReport,
   responseCode,
