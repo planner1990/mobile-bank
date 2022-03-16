@@ -160,6 +160,16 @@ export default {
           icon: 'mdi-account-supervisor-circle-outline',
           title: 'menu.customer',
           to: '/customer'
+        },
+        {
+          icon: 'mdi-account-supervisor-circle-outline',
+          title: 'menu.charge',
+          to: '/charge-report'
+        },
+        {
+          icon: 'mdi-account-supervisor-circle-outline',
+          title: 'menu.refund',
+          to: '/refund-report'
         }
       ],
       reports: [

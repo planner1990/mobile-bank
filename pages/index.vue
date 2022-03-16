@@ -194,21 +194,20 @@ export default {
         { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
         { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false },
         { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
         { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
-        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
         { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false },
+        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
         { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
       ],
       headersTransaction: [
-        { text: this.$t('report.transactionReport.headers.responseTime'), value: 'sourceType', sortable: false },
-        { text: this.$t('report.transactionReport.headers.appVersion'), value: 'sourceType', sortable: false },
-        { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
-        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.platform'), value: 'platform', sortable: false },
-        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false }
+        { text: this.$t('report.transactionReport.headers.responseTime'), value: 'responseTimeLong', sortable: false },
+        { text: this.$t('report.transactionReport.headers.appVersion'), value: 'appVersion', sortable: false },
+        { text: this.$t('report.transactionReport.headers.osVersion'), value: 'osVersion', sortable: false },
+        { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false },
+        { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
+        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false }
       ],
       headersTransactionRequest: [
         { text: this.$t('report.transactionReport.headers.requestJson'), value: 'requestJson', sortable: false },
@@ -250,7 +249,14 @@ export default {
         sourceType: item.sourceType,
         sourceNumber: item.sourceNumber,
         platform: item.platform,
-        responseCode: item.responseCode
+        responseCode: item.responseCode,
+        appVersion: item.appVersion,
+        osVersion: item.osVersion,
+        osName: item.osName,
+        responseTimeLong: item.responseTimeLong,
+        requestId: item.requestId,
+        ip: item.ip
+
       })
 
       defaultFilterdetails.transactionListFilter.transactionId = item.id
