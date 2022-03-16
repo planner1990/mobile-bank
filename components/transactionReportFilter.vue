@@ -190,10 +190,10 @@
         </v-col>
         <v-col>
           <v-text-field
-            v-model="filter.transactionListFilter.cif"
+            v-model="filter.transactionListFilter.requestId"
             dense
             outlined
-            :label="$t('filters.smsTransactionId')"
+            :label="$t('filters.trackerId')"
             prepend-icon="mdi-account"
           />
         </v-col>
@@ -232,7 +232,7 @@ const defaultFilter = {
     sourceType: null,
     result: null,
     platform: null,
-    issueTracking: null,
+    requestId: null,
     os: null,
     transactionId: null,
     amount: null,
@@ -307,7 +307,7 @@ export default {
     },
     errorList () {
       this.loading = true
-      reportManager.errorList(this.$axios).then((response) => {
+      reportManager.errorCodeList(this.$axios).then((response) => {
         console.log(response)
         const errorList = response.data
         this.errorItems = errorList

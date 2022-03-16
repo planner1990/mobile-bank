@@ -190,7 +190,7 @@ export default {
     },
     errorList () {
       this.loading = true
-      reportManager.errorList(this.$axios).then((response) => {
+      reportManager.errorCodeList(this.$axios).then((response) => {
         console.log(response)
         const errorList = response.data
         this.errorItems = errorList

@@ -9,6 +9,11 @@
       >
         <transactionStatisticsReportFilter v-model="searchModel" @search="search" />
       </v-row>
+      <v-row>
+        <v-card
+          :loading="loading"
+        />
+      </v-row>
       <v-row class="my-5">
         <v-btn
           color="warning"

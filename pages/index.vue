@@ -74,14 +74,7 @@
                         :headers="headersTransaction"
                         class="elevation-5 fullScreen"
                         :hide-default-footer="true"
-                      >
-                        <template #[`item.platform`]="{ item }">
-                          {{ $t('report.transactionReport.platform.' + item.platform) }}
-                        </template>
-                        <template #[`item.sourceType`]="{ item }">
-                          {{ $t('report.transactionReport.source.' + item.sourceType) }}
-                        </template>
-                      </v-data-table>
+                      />
                     </v-row>
 
                     <v-row>
@@ -134,18 +127,17 @@
               </v-card>
             </v-dialog>
           </template>
+          <template #[`item.requestTime`]="{ item }">
+            {{ convertToJalali(item.requestTime) }}
+          </template>
           <template #[`item.platform`]="{ item }">
             {{ $t('report.transactionReport.platform.' + item.platform) }}
           </template>
-
           <template #[`item.sourceType`]="{ item }">
             {{ $t('report.transactionReport.source.' + item.sourceType) }}
           </template>
           <template #[`item.amount`]="{ item }">
             {{ priceFormat(item.amount) }}
-          </template>
-          <template #[`item.operation`]="{ item }">
-            {{ checkUrl(item.operation, item.url ) }}
           </template>
           <template #[`item.detail`]="{ item }">
             <v-icon
