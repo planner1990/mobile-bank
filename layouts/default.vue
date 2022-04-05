@@ -148,6 +148,11 @@ export default {
         },
         {
           icon: 'mdi-apps',
+          title: 'menu.transactionQuery',
+          to: '/transactionQuery'
+        },
+        {
+          icon: 'mdi-apps',
           title: 'menu.transactionStatistics',
           to: '/transaction-statistics'
         },

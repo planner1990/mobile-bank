@@ -61,7 +61,6 @@ export default {
       },
 
       totalNumberOfItems: 0,
-      loading: false,
       headers: [
         { text: 'تراکنشها', value: 'operationTitle', sortable: false },
         { text: 'تعداد موفق', value: 'successfulNumber', sortable: false },

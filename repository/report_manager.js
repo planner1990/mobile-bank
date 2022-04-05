@@ -76,6 +76,25 @@ async function downloadSmsReport (request, axios) {
   return await axios.post('export/sms-enabled', request, { responseType: 'blob' })
 }
 
+async function uploadOffer (request, axios) {
+  const res = await axios.post('offer/upload-offer', request)
+  return res
+}
+async function updateUploadOffer (request, id, axios) {
+  return await axios.post('offer/' + id, request)
+}
+async function addParams (request, axios) {
+  return await axios.post('offer/addParams', request)
+}
+
+async function listOffer (request, axios) {
+  const res = await axios.post('offer/list', request)
+  return res
+}
+async function listParam (request, axios) {
+  const res = await axios.post('offer/paramList', request)
+  return res
+}
 async function downloadOperatorActivity (request, axios) {
   return await axios.post('export/operator-activity', request, { responseType: 'blob' })
 }
@@ -130,6 +149,52 @@ const status = [
   {
     value: 'FAILED',
     text: 'report.transactionReport.status.fail'
+  }
+]
+const offerTypDisplay = [
+  {
+    value: '1',
+    text: 'url'
+  },
+  {
+    value: '2',
+    text: 'in app'
+  }
+]
+const offerType = [
+  {
+    value: '1',
+    text: 'offer.offerTypeList.1'
+  },
+  {
+    value: '2',
+    text: 'offer.offerTypeList.2'
+  },
+  {
+    value: '3',
+    text: 'offer.offerTypeList.3'
+  },
+  {
+    value: '4',
+    text: 'offer.offerTypeList.4'
+  },
+  {
+    value: '5',
+    text: 'offer.offerTypeList.5'
+  }
+]
+const offerToType = [
+  {
+    value: 'ALL',
+    text: 'offer.toType.all'
+  },
+  {
+    value: 'ANDROID',
+    text: 'offer.toType.android'
+  },
+  {
+    value: 'IOS',
+    text: 'offer.toType.ios'
   }
 ]
 
@@ -346,6 +411,14 @@ export default {
   errorCodeList,
   smsReport,
   downloadSmsReport,
+  uploadOffer,
+  updateUploadOffer,
+  addParams,
+  listOffer,
+  listParam,
+  offerTypDisplay,
+  offerType,
+  offerToType,
   responseCode,
   status,
   osName,

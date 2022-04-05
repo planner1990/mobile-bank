@@ -23,7 +23,7 @@
           class="elevation-5 fullScreen"
           :loading="loading"
           :footer-props="{
-            'items-per-page-options': [100]
+            'items-per-page-options': [50, 100, 300, 500, 1000]
           }"
           :items-per-page.sync="searchModel.paginate.length"
           :page.sync="searchModel.paginate.page"
@@ -72,7 +72,7 @@ export default {
       searchModel: {
         paginate: {
           page: 1,
-          length: 100,
+          length: 20,
           sort: {
             property: 'url',
             direction: 'desc'
@@ -100,6 +100,7 @@ export default {
     }),
     search (searchModel) {
       this.loading = true
+      console.log('searchModel')
       reportManager.errorList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.totalNumberOfItems = response.data.filteredItem

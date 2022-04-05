@@ -217,26 +217,33 @@ export default {
         this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
       }
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, 23, 59, 59)
+        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
       }
     },
     convertJalaliDateToTimestamp (date) {
       const year = moment(date, 'jYYYY/jM/jD').format('YYYY')
       const month = moment(date, 'jYYYY/jM/jD').format('MM')
       const day = moment(date, 'jYYYY/jM/jD').format('DD')
-      return new Date(Date.UTC(year, month - 1, day)).getTime()
+      const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
+      const d = new Date(gmtDate)
+      console.log('convertJalaliDateToTimestamp')
+      console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
+      return d.getTime() + (d.getTimezoneOffset() * 60000)
     },
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
+      console.log('convertJalaliDateToTimestamp1')
+      console.log(year + '/' + month + '/' + day)
       return year + '/' + month + '/' + day
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-
+      console.log('convertJalaliDateToTimestamp2')
+      console.log(year + '/' + month + '/' + day)
       return year + '/' + month + '/' + day
     }
   }

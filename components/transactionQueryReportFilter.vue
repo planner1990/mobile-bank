@@ -125,7 +125,7 @@
           />
         </v-col>
         <v-col>
-          <!-- <v-select
+          <v-select
             v-model="filter.transactionListFilter.operation"
             :items="items"
 
@@ -142,32 +142,18 @@
               slot="item"
               slot-scope="data"
             >
-              &lt;!&ndash; Divider and Header&ndash;&gt;
+              <!-- Divider and Header-->
               <template v-if="typeof data.item !== 'object'">
                 <v-list-tile-content v-text="data.item" />
               </template>
-              &lt;!&ndash; Normal item &ndash;&gt;
+              <!-- Normal item -->
               <template v-else>
                 <v-list-tile-content>
                   <v-list-tile-title v-html="data.item.title" />
                 </v-list-tile-content>
               </template>
             </template>
-
-          </v-select>-->
-
-          <v-select
-            v-model="filter.transactionListFilter.operation"
-            :items="items"
-            item-text="title"
-            item-value="url"
-            :return-object="false"
-            :label="$t('filters.operation')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
+          </v-select>
         </v-col>
         <v-col>
           <v-select
@@ -307,7 +293,7 @@ export default {
   mounted: function () {
     defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
     defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
-    defaultFilter.transactionListFilter.typeList = 'LIST'
+    defaultFilter.transactionListFilter.typeList = 'QUERY_LIST'
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
     this.errorList()

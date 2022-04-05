@@ -83,170 +83,22 @@
         <!--      />-->
         <v-col>
           <v-text-field
-            v-model="filter.transactionListFilter.amount"
+            v-model="filter.offerListFilter.status"
             dense
             outlined
-            :label="$t('filters.amount')"
+            :label="$t('offer.status')"
             prepend-icon="mdi-account"
           />
         </v-col>
         <v-col>
           <v-text-field
-            v-model="filter.transactionListFilter.transactionId"
+            v-model="filter.offerListFilter.title"
             dense
             outlined
-            :label="$t('filters.transactionId')"
+            :label="$t('offer.title')"
             prepend-icon="mdi-account"
           />
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-select
-            v-model="filter.transactionListFilter.sourceType"
-            :items="source"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.source')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.sourceNumber"
-            dense
-            outlined
-            :label="$t('report.transactionReport.transaction.sourceNumber')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col>
-          <!-- <v-select
-            v-model="filter.transactionListFilter.operation"
-            :items="items"
-
-            :return-object="false"
-            item-value="url"
-            item-text="title"
-            :label="$t('filters.operation')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          >
-            <template
-              slot="item"
-              slot-scope="data"
-            >
-              &lt;!&ndash; Divider and Header&ndash;&gt;
-              <template v-if="typeof data.item !== 'object'">
-                <v-list-tile-content v-text="data.item" />
-              </template>
-              &lt;!&ndash; Normal item &ndash;&gt;
-              <template v-else>
-                <v-list-tile-content>
-                  <v-list-tile-title v-html="data.item.title" />
-                </v-list-tile-content>
-              </template>
-            </template>
-
-          </v-select>-->
-
-          <v-select
-            v-model="filter.transactionListFilter.operation"
-            :items="items"
-            item-text="title"
-            item-value="url"
-            :return-object="false"
-            :label="$t('filters.operation')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col>
-          <v-select
-            v-model="filter.transactionListFilter.result"
-            :items="status"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.result')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col>
-          <v-select
-            v-model="filter.transactionListFilter.responseCode"
-            :items="errorItems"
-            item-text="title"
-            item-value=""
-            :return-object="false"
-            :label="$t('filters.errorCode')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.cif"
-            dense
-            outlined
-            :label="$t('customer.cif')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.phoneNumber"
-            dense
-            outlined
-            :label="$t('customer.phoneNumber')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.requestId"
-            dense
-            outlined
-            :label="$t('filters.trackerId')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-select
-            v-model="filter.transactionListFilter.os"
-            :items="osName"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.osName')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col />
-        <v-col />
-        <v-col />
       </v-row>
     </v-container>
   </v-card>
@@ -257,21 +109,10 @@ import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
-  transactionListFilter: {
+  offerListFilter: {
     // smsId: null,
-    phoneNumber: null,
-    operation: null,
-    sourceNumber: null,
-    sourceType: null,
-    result: null,
-    platform: null,
-    requestId: null,
-    os: null,
-    transactionId: null,
-    amount: null,
-    cif: null,
-    responseCode: null,
-    typeList: null
+    status: null,
+    title: null
   },
   dateFilter: {
     from: null,
@@ -307,7 +148,6 @@ export default {
   mounted: function () {
     defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
     defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
-    defaultFilter.transactionListFilter.typeList = 'LIST'
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
     this.errorList()
