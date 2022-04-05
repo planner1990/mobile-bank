@@ -301,7 +301,7 @@
 
 <script>
 import { mapMutations, mapGetters } from 'vuex'
-import OfferFilter from '@/components/OfferFilter'
+import OfferFilter from '~/components/OfferFilter'
 import reportManager from '@/repository/report_manager'
 import userManager from '@/repository/user_manager'
 
