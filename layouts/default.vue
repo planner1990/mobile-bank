@@ -148,6 +148,11 @@ export default {
         },
         {
           icon: 'mdi-apps',
+          title: 'menu.transactionQuery',
+          to: '/transactionQuery'
+        },
+        {
+          icon: 'mdi-apps',
           title: 'menu.transactionStatistics',
           to: '/transaction-statistics'
         },
@@ -170,6 +175,11 @@ export default {
           icon: 'mdi-account-supervisor-circle-outline',
           title: 'menu.refund',
           to: '/refund-report'
+        },
+        {
+          icon: 'mdi-account-supervisor-circle-outline',
+          title: 'menu.offer',
+          to: '/offer'
         }
       ],
       reports: [

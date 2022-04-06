@@ -243,7 +243,7 @@ export default {
       console.log(platform)
     },
     moment (date) {
-      return momentJalali(date).format('hh:mm:ss jYYYY/jM/jD')
+      return momentJalali(date).format('HH:mm:ss jYYYY/jM/jD')
     }
   }
 }

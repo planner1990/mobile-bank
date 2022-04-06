@@ -214,6 +214,48 @@
     "cif": "شماره مشتری",
     "customerName": "نام کاربری"
   },
+  "offer": {
+    "headers": {
+      "id": "شناسه",
+      "depositOrCard": "کارت یاحساب",
+      "registerDate": "تاریخ ثبت نام"
+    },
+    "offerTypeList": {
+      "1": "پیشنهاد خرید",
+      "2": "اعلان وآگهی",
+      "3": "نیکوکاری",
+      "4": "کمپین",
+      "5": "تبلیغات"
+    },
+    "toType": {
+      "all": "همه",
+      "android": "ANDROID",
+      "ios": "IOS"
+    },
+    "offerStatus": {
+      "display": "نمایش",
+      "noDisplay": "عدم نمایش"
+    },
+    "dialogTitle": "آپلود پیشنهاد",
+    "title": "عنوان",
+    "widgetTitle": "عنوان widget",
+    "url": "url",
+    "alternativeUrl": "alternativeUrl",
+    "dateFrom": "از",
+    "dateTo": "تا",
+    "type": "type",
+    "uri": "URI",
+    "offerType": "نوع پیشنهاد",
+    "description": "شرح",
+    "to": "برای",
+    "active": "فعال",
+    "upload": "آپلود",
+    "newOffer": "افزودن پیشنهاد روز",
+    "addParams": "مشاهده و افزودن پارامتر ",
+    "key" : "key",
+    "value" : "value",
+    "status": "وضعیت"
+  },
   "user": {
     "title": "جست و جوی کاربران",
     "search": "جست و جو",
@@ -289,13 +331,15 @@
   },
   "menu": {
     "transaction": "تراکنش ها",
+    "transactionQuery": "درخواست ها",
     "transactionStatistics": "آمار تراکنش ها",
     "reports": "گزارشات",
     "error": "گزاررش خطا",
     "customer": "کاربران",
     "charge": "شارژها",
     "refund": "استرداد وجه",
-    "customerStatistics": "آمار کاربران"
+    "customerStatistics": "آمار کاربران",
+    "offer": "پیشنهاد روز"
   },
   "createExcel": {
     "download": "دانلود فایل",

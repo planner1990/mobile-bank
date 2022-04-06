@@ -36,7 +36,7 @@
             آمار تراکنش های حساب
           </v-tab>
           <v-tab-item value="search2">
-            <deposit-statistics :deposits="depositList" />
+            <deposit-statistics :deposits="depositList" :loading="enableLoading(true)" />
           </v-tab-item>
 
           <v-tab href="#search">
@@ -102,15 +102,18 @@ export default {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+    enableLoading (loading) {
+      return loading
+    },
     search (searchModel) {
-      this.loading = true
+      this.enableLoading(true)
       reportManager.transactionStatistics(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.depositList = this.getDeposit()
         this.cardList = this.getCard()
         this.otherList = this.getOther()
         this.totalNumberOfItems = response.data.filteredItem
-        this.loading = false
+        this.enableLoading(false)
       }).catch((error) => {
         if (error.response) {
           this.alert({
@@ -173,7 +176,7 @@ export default {
       })
     },
     moment (date) {
-      return momentJalali(date).format('hh:mm:ss jYYYY/jM/jD')
+      return momentJalali(date).format('HH:mm:ss jYYYY/jM/jD')
     }
   }
 }

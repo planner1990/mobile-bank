@@ -26,88 +26,84 @@
       <v-row>
         <v-col>
           <v-text-field
-            id="my-custom-input"
+            id="createFromDate"
             v-model="fromDate"
             prepend-icon="mdi-calendar-month"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
-            format="jYYYY/jMM/jDD"
-            input-format="jYYYY/jMM/jDD"
           />
           <p-date-picker
             v-model="fromDate"
-            element="my-custom-input"
+            type="datetime"
+            element="createFromDate"
             color="dimgray"
             dense
             outlined
             popove
             auto-submit
-            @close="checkIsNull()"
+            format="HH:mm jYYYY/jMM/jDD"
+            @close="checkIsNullFromDate()"
           />
         </v-col>
-        <v-col
-          cols="1"
-        />
+
         <v-col>
           <v-text-field
-            id="custom-input"
+            id="createToDate"
             v-model="toDate"
             prepend-icon="mdi-calendar-month"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
-            format="jYYYY/jMM/jDD"
-            input-format="jYYYY/jMM/jDD"
           />
           <p-date-picker
             v-model="toDate"
-            element="custom-input"
+            type="datetime"
+            element="createToDate"
             color="dimgray"
             dense
             outlined
             popove
             auto-submit
-            @close="checkIsNull()"
+            format="HH:mm jYYYY/jMM/jDD"
+            @close="checkIsNullToDate()"
           />
         </v-col>
-        <v-col />
-        <v-col />
-      </v-row>
-      <v-row>
+        <!--      <province-selector-->
+        <!--        v-model="filter.locationFilter.provinceCode"-->
+        <!--      />-->
+        <!--      <city-selector-->
+        <!--        v-model="filter.locationFilter.cityCode"-->
+        <!--        :province="computedProvince"-->
+        <!--      />-->
+        <!--      <branch-selector-->
+        <!--        v-model="filter.locationFilter.branchCode"-->
+        <!--        :province="computedProvince"-->
+        <!--        :city="computedCity"-->
+        <!--      />-->
         <v-col>
           <v-select
-            v-model="filter.errorReportListFilter.operation"
-            :items="items"
-            item-text="title"
-            item-value="url"
+            v-model="filter.offerListFilter.status"
+            :items="status"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
             :return-object="false"
-            :label="$t('filters.operation')"
+            :label="$t('offer.status')"
             prepend-icon="mdi-clipboard-list"
             dense
             clearable
             outlined
           />
         </v-col>
-        <v-col
-          cols="1"
-        />
         <v-col>
-          <v-select
-            v-model="filter.errorReportListFilter.responseCode"
-            :items="errorItems"
-            item-text="title"
-            item-value=""
-            :return-object="false"
-            :label="$t('filters.errorCode')"
-            prepend-icon="mdi-clipboard-list"
+          <v-text-field
+            v-model="filter.offerListFilter.title"
             dense
-            clearable
             outlined
+            :label="$t('offer.title')"
+            prepend-icon="mdi-account"
           />
         </v-col>
-        <v-col />
-        <v-col />
       </v-row>
     </v-container>
   </v-card>
@@ -116,54 +112,53 @@
 <script>
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
-// import ProvinceSelector from '@/components/location/provinceSelector.vue'
-// import CitySelector from '@/components/location/citySelector'
-// import BranchSelector from '~/components/location/branchSelector'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
-  errorReportListFilter: {
-    operation: null,
-    responseCode: null
-  },
-  dateFilter: {
-    from: null,
-    to: null
+  offerListFilter: {
+    status: null,
+    title: null,
+    dateFrom: null,
+    dateTo: null
   }
 }
 export default {
-  name: 'ErrorReportFilter',
+  name: 'OfferFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
-
-  },
-  mounted: function () {
-    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
-    this.filter = Object.assign(this.value, defaultFilter)
-    this.operation()
-    this.errorList()
+    // OperationSelector
   },
   props: {
-    value: Object(defaultFilter)
+    value: Object({})
   },
   data () {
     return {
       fromDate: this.currentDayFrom(),
       toDate: this.currentDayTo(),
+      time: null,
+      menu2: false,
+      modal2: false,
       filter: defaultFilter,
-      status: reportManager.status,
-      responseCodes: reportManager.responseCode,
+      osName: reportManager.osName,
+      platform: reportManager.platform,
+      source: reportManager.source,
+      operationName: reportManager.operationName,
+      status: reportManager.offerStatus,
       items: [],
       errorItems: []
     }
   },
-
+  mounted: function () {
+    defaultFilter.offerListFilter.dateFrom = this.convertJalaliDateToTimestamp(this.fromDate)
+    defaultFilter.offerListFilter.dateTo = this.convertJalaliDateToTimestamp(this.toDate)
+    this.filter = Object.assign(this.value, defaultFilter)
+    this.operation()
+    this.errorList()
+  },
   methods: {
     search () {
       this.$emit('search', this.filter)
     },
     operation () {
-      console.log('majid')
       this.loading = true
       reportManager.operationList(this.$axios).then((response) => {
         console.log(response)
@@ -171,7 +166,6 @@ export default {
         this.items = operationList
         console.log(operationList)
       }).catch((error) => {
-        console.log('majid11')
         if (error.response) {
           console.log(error.response)
           this.alert({
@@ -190,7 +184,7 @@ export default {
     },
     errorList () {
       this.loading = true
-      reportManager.errorCodeList(this.$axios).then((response) => {
+      reportManager.errorList(this.$axios).then((response) => {
         console.log(response)
         const errorList = response.data
         this.errorItems = errorList
@@ -212,40 +206,49 @@ export default {
         this.loading = false
       })
     },
-    checkIsNull () {
+    checkIsNullFromDate () {
       if (this.fromDate != null) {
         this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
       }
+    },
+    checkIsNullToDate () {
       if (this.toDate != null) {
         this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
       }
-    },
-    convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'jYYYY/jM/jD').format('YYYY')
-      const month = moment(date, 'jYYYY/jM/jD').format('MM')
-      const day = moment(date, 'jYYYY/jM/jD').format('DD')
-      const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
-      const d = new Date(gmtDate)
-      console.log('convertJalaliDateToTimestamp')
-      console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
-      return d.getTime() + (d.getTimezoneOffset() * 60000)
     },
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      console.log('convertJalaliDateToTimestamp1')
-      console.log(year + '/' + month + '/' + day)
-      return year + '/' + month + '/' + day
+
+      // const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
+      // const d = new Date(gmtDate)
+      // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
+      return '00:00 ' + year + '/' + month + '/' + day
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      console.log('convertJalaliDateToTimestamp2')
-      console.log(year + '/' + month + '/' + day)
-      return year + '/' + month + '/' + day
+
+      // const gmtDate = Date.UTC(year, month - 1, day, 23, 59, 0)
+      // const d = new Date(gmtDate)
+      // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
+
+      return '23:59 ' + year + '/' + month + '/' + day
+    },
+    convertJalaliDateToTimestamp (date) {
+      const year = moment(date, 'HH:mm jYYYY/jMM/jDD').format('YYYY')
+      const month = moment(date, 'HH:mm jYYYY/jMM/jDD').format('MM')
+      const day = moment(date, 'HH:mm jYYYY/jMM/jDD').format('DD')
+      const hour = moment(date, 'HH:mm jYYYY/jMM/jDD').format('HH')
+      const minute = moment(date, 'HH:mm jYYYY/jMM/jDD').format('mm')
+      const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
+      const d = new Date(gmtDate)
+      console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
+      return d.getTime() + (d.getTimezoneOffset() * 60000)
     }
+
   }
 }
 </script>

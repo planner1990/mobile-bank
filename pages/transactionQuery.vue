@@ -7,7 +7,7 @@
       <v-row
         justify="center"
       >
-        <transactionReportFilter v-model="searchModel" @search="search" />
+        <transactionQueryReportFilter v-model="searchModel" @search="search" />
       </v-row>
       <br>
       <br>
@@ -70,7 +70,7 @@
                         dense
                         item-key="cardOwnerId"
                         sort-by="cardOwnerId"
-                        :items="itemsTransaction"
+                        :items="itemsTransactionData"
                         :headers="headersTransaction"
                         class="elevation-5 fullScreen"
                         :hide-default-footer="true"
@@ -158,7 +158,7 @@
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
-import transactionReportFilter from '~/components/transactionReportFilter'
+import transactionQueryReportFilter from '~/components/transactionQueryReportFilter'
 import reportManager from '~/repository/report_manager'
 const defaultFilterdetails = {
   transactionListFilter: {
@@ -168,7 +168,7 @@ const defaultFilterdetails = {
 export default {
   name: 'TransactionReport',
   components: {
-    transactionReportFilter
+    transactionQueryReportFilter
   },
   data () {
     return {
@@ -190,19 +190,19 @@ export default {
       headers: [
         { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
+        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
         { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
         { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
-        { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false },
-        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
         { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
+        { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false },
+        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false },
         { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
         { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
       ],
       headersTransaction: [
-        { text: this.$t('report.transactionReport.headers.responseTime'), value: 'responseLongTime', sortable: false },
+        { text: this.$t('report.transactionReport.headers.responseTime'), value: 'responseTimeLong', sortable: false },
         { text: this.$t('report.transactionReport.headers.appVersion'), value: 'appVersion', sortable: false },
         { text: this.$t('report.transactionReport.headers.osVersion'), value: 'osVersion', sortable: false },
         { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false },
@@ -261,31 +261,17 @@ export default {
 
       defaultFilterdetails.transactionListFilter.transactionId = item.id
       reportManager.transactionDetails(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
-        console.log('searchModel')
-        console.log(response.data)
         this.itemsTransaction.splice(0, 1)
         // this.itemsTransaction.push(response.data)
         try {
           this.itemsTransaction.push({
 
-            appVersion: response.data.appVersion,
-            osVersion: response.data.osVersion,
-            osName: response.data.osName,
-            responseLongTime: response.data.responseLongTime,
-            requestId: response.data.requestId,
-            ip: response.data.ipAddress,
             responseJson: JSON.parse(response.data.responseJson),
             requestJson: JSON.parse(response.data.requestJson)
           })
         } catch (e) {
           this.itemsTransaction.push({
 
-            appVersion: response.data.appVersion,
-            osVersion: response.data.osVersion,
-            osName: response.data.osName,
-            responseLongTime: response.data.responseLongTime,
-            requestId: response.data.requestId,
-            ip: response.data.ipAddress,
             responseJson: response.data.responseJson,
             requestJson: response.data.requestJson
           })
@@ -315,10 +301,6 @@ export default {
       console.log(searchModel)
       this.loading = true
       reportManager.transactionList(searchModel, this.$axios).then((response) => {
-        setTimeout(() => {
-          this.steps.createCustomer.loading = false
-          this.steps.createCustomer.color = 'success'
-        }, 5000)
         this.items = response.data.itemList
         console.log(this.items)
         this.totalNumberOfItems = response.data.filteredItem

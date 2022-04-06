@@ -85,6 +85,7 @@
             v-model="filter.transactionListFilter.amount"
             dense
             outlined
+            popove
             :label="$t('filters.amount')"
             prepend-icon="mdi-account"
           />
@@ -142,8 +143,8 @@
               slot-scope="data"
             >
               <!-- Divider and Header-->
-              <template v-if="typeof data.item !== 'object'">
-                <v-list-tile-content style="font-size: 1.80rem !important;" v-text="data.item" />
+              <template v-if="typeof data.item !== 'object'" class="font-weight-black">
+                <v-list-tile-content v-text="data.item" />
               </template>
               <!-- Normal item -->
               <template v-else>
@@ -153,19 +154,6 @@
               </template>
             </template>
           </v-select>
-
-          <!-- <v-select
-            v-model="filter.transactionListFilter.operation"
-            :items="items"
-            item-text="title"
-            item-value="url"
-            :return-object="false"
-            :label="$t('filters.operation')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />-->
         </v-col>
         <v-col>
           <v-select
@@ -305,7 +293,7 @@ export default {
   mounted: function () {
     defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
     defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
-    defaultFilter.transactionListFilter.typeList = 'LIST'
+    defaultFilter.transactionListFilter.typeList = 'QUERY_LIST'
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
     this.errorList()
@@ -432,14 +420,5 @@ export default {
 </script>
 
 <style scoped>
-
-  .v-subheader {
-    align-items: center;
-    display: flex;
-    height: 48px;
-    font-size: 0.875rem;
-    font-weight: 400;
-    padding: 0 16px 0 16px;
-  }
 
 </style>

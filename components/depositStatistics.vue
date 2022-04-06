@@ -32,7 +32,6 @@ export default {
   name: 'Deposit',
   props: {
     deposits: Object([])
-
   },
   methods: {
     ...mapMutations({
@@ -51,7 +50,6 @@ export default {
     return {
       downloadLoading: false,
       totalNumberOfItems: 0,
-      loading: false,
       headers: [
         { text: 'تراکنشها', value: 'operationTitle', sortable: false },
         { text: 'تعداد موفق', value: 'successfulNumber', sortable: false },
