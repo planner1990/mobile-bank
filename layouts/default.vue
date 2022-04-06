@@ -175,6 +175,11 @@ export default {
           icon: 'mdi-account-supervisor-circle-outline',
           title: 'menu.refund',
           to: '/refund-report'
+        },
+        {
+          icon: 'mdi-account-supervisor-circle-outline',
+          title: 'menu.offer',
+          to: '/offer'
         }
       ],
       reports: [

@@ -232,6 +232,10 @@
       "android": "ANDROID",
       "ios": "IOS"
     },
+    "offerStatus": {
+      "display": "نمایش",
+      "noDisplay": "عدم نمایش"
+    },
     "dialogTitle": "آپلود پیشنهاد",
     "title": "عنوان",
     "widgetTitle": "عنوان widget",
@@ -334,7 +338,8 @@
     "customer": "کاربران",
     "charge": "شارژها",
     "refund": "استرداد وجه",
-    "customerStatistics": "آمار کاربران"
+    "customerStatistics": "آمار کاربران",
+    "offer": "پیشنهاد روز"
   },
   "createExcel": {
     "download": "دانلود فایل",

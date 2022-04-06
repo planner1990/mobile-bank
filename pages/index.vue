@@ -190,14 +190,14 @@ export default {
       headers: [
         { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
+        { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
         { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
         { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
-        { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
         { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false },
+        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
         { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
         { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
         { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
       ],

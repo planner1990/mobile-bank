@@ -82,12 +82,17 @@
         <!--        :city="computedCity"-->
         <!--      />-->
         <v-col>
-          <v-text-field
+          <v-select
             v-model="filter.offerListFilter.status"
-            dense
-            outlined
+            :items="status"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
             :label="$t('offer.status')"
-            prepend-icon="mdi-account"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
           />
         </v-col>
         <v-col>
@@ -110,13 +115,10 @@ import moment from 'moment-jalaali'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
   offerListFilter: {
-    // smsId: null,
     status: null,
-    title: null
-  },
-  dateFilter: {
-    from: null,
-    to: null
+    title: null,
+    dateFrom: null,
+    dateTo: null
   }
 }
 export default {
@@ -136,18 +138,18 @@ export default {
       menu2: false,
       modal2: false,
       filter: defaultFilter,
-      status: reportManager.status,
       osName: reportManager.osName,
       platform: reportManager.platform,
       source: reportManager.source,
       operationName: reportManager.operationName,
+      status: reportManager.offerStatus,
       items: [],
       errorItems: []
     }
   },
   mounted: function () {
-    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    defaultFilter.offerListFilter.dateFrom = this.convertJalaliDateToTimestamp(this.fromDate)
+    defaultFilter.offerListFilter.dateTo = this.convertJalaliDateToTimestamp(this.toDate)
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
     this.errorList()

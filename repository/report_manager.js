@@ -43,7 +43,7 @@ async function transactionDetails (request, axios) {
 
 async function operationList (axios) {
   console.log('transactionLisu us call')
-  const rest = await axios.get('operation/list')
+  const rest = await axios.get('operation/groupList')
   console.log(rest)
   return rest
 }
@@ -195,6 +195,17 @@ const offerToType = [
   {
     value: 'IOS',
     text: 'offer.toType.ios'
+  }
+]
+
+const offerStatus = [
+  {
+    value: 'Y',
+    text: 'offer.offerStatus.display'
+  },
+  {
+    value: 'N',
+    text: 'offer.offerStatus.noDisplay'
   }
 ]
 
@@ -416,6 +427,7 @@ export default {
   addParams,
   listOffer,
   listParam,
+  offerStatus,
   offerTypDisplay,
   offerType,
   offerToType,

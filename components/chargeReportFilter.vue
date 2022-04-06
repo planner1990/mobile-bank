@@ -33,8 +33,6 @@
             prepend-icon="mdi-account"
           />
         </v-col>
-      </v-row>
-      <v-row>
         <v-col>
           <v-select
             v-model="filter.transactionListFilter.chargeAmount"

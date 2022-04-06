@@ -2,7 +2,6 @@
   <v-card
     elevation="10"
     class="fullScreen"
-    color="#f6f6f6"
   >
     <v-toolbar
       class="black--text"
@@ -125,7 +124,7 @@
           />
         </v-col>
         <v-col>
-          <!-- <v-select
+          <v-select
             v-model="filter.transactionListFilter.operation"
             :items="items"
 
@@ -142,21 +141,20 @@
               slot="item"
               slot-scope="data"
             >
-              &lt;!&ndash; Divider and Header&ndash;&gt;
+              <!-- Divider and Header-->
               <template v-if="typeof data.item !== 'object'">
-                <v-list-tile-content v-text="data.item" />
+                <v-list-tile-content style="font-size: 1.80rem !important;" v-text="data.item" />
               </template>
-              &lt;!&ndash; Normal item &ndash;&gt;
+              <!-- Normal item -->
               <template v-else>
                 <v-list-tile-content>
                   <v-list-tile-title v-html="data.item.title" />
                 </v-list-tile-content>
               </template>
             </template>
+          </v-select>
 
-          </v-select>-->
-
-          <v-select
+          <!-- <v-select
             v-model="filter.transactionListFilter.operation"
             :items="items"
             item-text="title"
@@ -167,7 +165,7 @@
             dense
             clearable
             outlined
-          />
+          />-->
         </v-col>
         <v-col>
           <v-select
@@ -321,8 +319,30 @@ export default {
       reportManager.operationList(this.$axios).then((response) => {
         console.log(response)
         const operationList = response.data
-        this.items = operationList
-        console.log(operationList)
+        const operationCardList = operationList.cardOperation
+        operationCardList.push({ divider: true })
+        const operationDepositList = operationList.depositOperation
+        operationDepositList.push({ divider: true })
+        const operationUserList = operationList.userOperation
+        operationUserList.push({ divider: true })
+        const operationSettingList = operationList.settingOperation
+        operationSettingList.push({ divider: true })
+        const operationPublicList = operationList.publicOperation
+        operationSettingList.push({ divider: true })
+        const operationLastList = operationDepositList
+        operationCardList.unshift({ divider: true })
+        operationCardList.unshift({ header: 'عملیات کارت' })
+        operationDepositList.unshift({ divider: true })
+        operationDepositList.unshift({ header: 'عملیات حساب' })
+        operationDepositList.unshift({ divider: true })
+        operationUserList.unshift({ divider: true })
+        operationUserList.unshift({ header: 'عملیات کاربری' })
+        operationSettingList.unshift({ divider: true })
+        operationSettingList.unshift({ header: 'عملیات تنظیمات' })
+        operationPublicList.unshift({ divider: true })
+        operationPublicList.unshift({ header: 'عملیات عمومی' })
+        const array1 = operationLastList.concat(operationCardList, operationUserList, operationSettingList, operationPublicList)
+        this.items = array1
       }).catch((error) => {
         if (error.response) {
           console.log(error.response)
@@ -342,7 +362,7 @@ export default {
     },
     errorList () {
       this.loading = true
-      reportManager.errorList(this.$axios).then((response) => {
+      reportManager.errorCodeList(this.$axios).then((response) => {
         console.log(response)
         const errorList = response.data
         this.errorItems = errorList
@@ -412,5 +432,14 @@ export default {
 </script>
 
 <style scoped>
+
+  .v-subheader {
+    align-items: center;
+    display: flex;
+    height: 48px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    padding: 0 16px 0 16px;
+  }
 
 </style>
