@@ -372,6 +372,11 @@ export default {
         this.loading = false
       })
     },
+    convertToJalali (date) {
+      if (date !== null) {
+        return moment(date).format('HH:mm:ss jYYYY/jM/jD')
+      }
+    },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
         this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)

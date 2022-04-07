@@ -107,6 +107,13 @@
               mdi-pencil
             </v-icon>
           </template>
+          <template #[`item.transactionTime`]="{ item }">
+            {{ convertToJalali(item.transactionTime) }}
+          </template>
+
+          <template #[`item.createdTime`]="{ item }">
+            {{ convertToJalali(item.createdTime) }}
+          </template>
 
           <!--   <template #[`item.source`]="{ item }">
             {{ $t('report.transactionReport.status.' + item.source) }}
