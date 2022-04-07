@@ -104,6 +104,15 @@
               </v-card>
             </v-dialog>
           </template>
+          <template #[`item.requestTime`]="{ item }">
+            {{ convertToJalali(item.requestTime) }}
+          </template>
+          <template #[`item.sourceType`]="{ item }">
+            {{ $t('report.transactionReport.source.' + item.sourceType) }}
+          </template>
+          <template #[`item.chargeType`]="{ item }">
+            {{ $t('report.chargeReport.chargeType.' + item.chargeType) }}
+          </template>
           <template #[`item.detail`]="{ item }">
             <v-icon
               small
@@ -135,6 +144,7 @@
 <script>
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
+import moment from 'moment-jalaali'
 import chargeReportFilter from '~/components/chargeReportFilter'
 import reportManager from '~/repository/report_manager'
 
@@ -172,6 +182,7 @@ export default {
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'source', sortable: false },
         { text: this.$t('report.transactionReport.headers.chargeType'), value: 'chargeType', sortable: false },
         { text: this.$t('report.transactionReport.headers.operator'), value: 'operator', sortable: false },
+        { text: this.$t('report.chargeReport.headers.amount'), value: 'amount', sortable: false },
         { text: this.$t('report.transactionReport.headers.sellTime'), value: 'requestTime', sortable: false },
         { text: this.$t('report.transactionReport.headers.errorCode'), value: 'errorCode', sortable: false }],
 
@@ -216,6 +227,11 @@ export default {
       this.createDialog = false
       if (this.isShowTitleOfEditDialog) {
         this.isShowTitleOfEditDialog = false
+      }
+    },
+    convertToJalali (date) {
+      if (date !== null) {
+        return moment(date).format('HH:mm:ss jYYYY/jM/jD')
       }
     },
     downloadReports (searchModel) {

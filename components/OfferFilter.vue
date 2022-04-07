@@ -83,7 +83,7 @@
         <!--      />-->
         <v-col>
           <v-select
-            v-model="filter.offerListFilter.status"
+            v-model="filter.status"
             :items="status"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
@@ -97,7 +97,7 @@
         </v-col>
         <v-col>
           <v-text-field
-            v-model="filter.offerListFilter.title"
+            v-model="filter.title"
             dense
             outlined
             :label="$t('offer.title')"
@@ -114,12 +114,11 @@ import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
-  offerListFilter: {
-    status: null,
-    title: null,
-    dateFrom: null,
-    dateTo: null
-  }
+  status: null,
+  title: null,
+  dateFrom: null,
+  dateTo: null
+
 }
 export default {
   name: 'OfferFilter',
@@ -148,8 +147,8 @@ export default {
     }
   },
   mounted: function () {
-    defaultFilter.offerListFilter.dateFrom = this.convertJalaliDateToTimestamp(this.fromDate)
-    defaultFilter.offerListFilter.dateTo = this.convertJalaliDateToTimestamp(this.toDate)
+    defaultFilter.dateFrom = this.convertJalaliDateToTimestamp(this.fromDate)
+    defaultFilter.dateTo = this.convertJalaliDateToTimestamp(this.toDate)
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
     this.errorList()
@@ -208,12 +207,12 @@ export default {
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+        this.filter.from = this.convertJalaliDateToTimestamp(this.fromDate)
       }
     },
     checkIsNullToDate () {
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+        this.filter.to = this.convertJalaliDateToTimestamp(this.toDate)
       }
     },
     currentDayFrom: function () {

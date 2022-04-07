@@ -117,7 +117,6 @@
                             dense
                             outlined
                             popove
-                            auto-submit
                             format="HH:mm jYYYY/jMM/jDD"
                             @close="checkIsNullFromDate()"
                           />
@@ -139,7 +138,6 @@
                             dense
                             outlined
                             popove
-                            auto-submit
                             format="HH:mm jYYYY/jMM/jDD"
                             @close="checkIsNullToDate()"
                           />

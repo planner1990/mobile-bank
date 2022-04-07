@@ -120,12 +120,62 @@
           />
         </v-col>
       </v-row>
+      <v-row>
+        <v-col>
+          <v-text-field
+            id="createFromDate"
+            v-model="fromDate"
+            prepend-icon="mdi-calendar-month"
+            outlined
+            dense
+            :placeholder="$t('filters.fromDate')"
+          />
+          <p-date-picker
+            v-model="fromDate"
+            type="datetime"
+            element="createFromDate"
+            color="dimgray"
+            dense
+            outlined
+            popove
+            auto-submit
+            format="HH:mm jYYYY/jMM/jDD"
+            @close="checkIsNullFromDate()"
+          />
+        </v-col>
+
+        <v-col>
+          <v-text-field
+            id="createToDate"
+            v-model="toDate"
+            prepend-icon="mdi-calendar-month"
+            outlined
+            dense
+            :placeholder="$t('filters.toDate')"
+          />
+          <p-date-picker
+            v-model="toDate"
+            type="datetime"
+            element="createToDate"
+            color="dimgray"
+            dense
+            outlined
+            popove
+            auto-submit
+            format="HH:mm jYYYY/jMM/jDD"
+            @close="checkIsNullToDate()"
+          />
+        </v-col>
+        <v-col />
+        <v-col />
+      </v-row>
     </v-container>
   </v-card>
 </template>
 
 <script>
 import moment from 'moment-jalaali'
+import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
   transactionListFilter: {
@@ -149,6 +199,10 @@ const defaultFilter = {
 }
 export default {
   name: 'ChargeReportFilter',
+  components: {
+    PDatePicker: VuePersianDatetimePicker
+    // OperationSelector
+  },
   props: {
     value: Object({})
   },
