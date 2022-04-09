@@ -2,7 +2,6 @@
   <v-card
     elevation="10"
     class="fullScreen"
-    color="#f6f6f6"
   >
     <v-toolbar
       class="black--text"
@@ -287,7 +286,7 @@ const defaultFilter = {
     amount: null,
     transactionResponseCode: null,
     orderType: 'DESC',
-    orderField: 'TRANSACTION_TIME',
+    orderField: 'requestTime',
     errorCode: null,
     transactionFromDate: null,
     transactionToDate: null,
