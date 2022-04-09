@@ -26,77 +26,23 @@
           :server-items-length="totalNumberOfItems"
         >
           <template #top>
-            <v-dialog
-              v-model="createDialog"
-              max-width="640"
-              persistent
-              transition="dialog-bottom-transition"
+            <v-toolbar
+              class="black--text"
+              color="lightGreen"
+              flat
+              dark
+              dense
             >
-              <template #activator="{ on, attrs }">
-                <v-btn
-                  color="warning"
-                  class="mb-2"
-                  small
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  {{ $t('report.download') }}
-                </v-btn>
-              </template>
-              <v-card
-                :loading="loading"
+              <v-btn
+                color="warning"
+                :loading="downloadLoading"
+                dark
+                small
+                @click="downloadReports(searchModel)"
               >
-                <v-container>
-                  <v-form
-                    ref="form"
-                  >
-                    <v-row>
-                      <v-data-table
-                        dense
-                        item-key="cardOwnerId"
-                        sort-by="cardOwnerId"
-                        :items="items1"
-                        :headers="headers2"
-                        class="elevation-5 fullScreen"
-                        :loading="loading"
-                        :hide-default-footer="true"
-                        :items-per-page.sync="searchModel.paginate.length"
-                        :server-items-length="totalNumberOfItems"
-                      />
-                    </v-row>
-                    <v-row>
-                      <v-data-table
-                        dense
-                        item-key="cardOwnerId"
-                        sort-by="cardOwnerId"
-                        :items="items1"
-                        :headers="headers2"
-                        :hide-default-footer="true"
-                        class="elevation-5 fullScreen"
-                        :loading="loading"
-                        :items-per-page.sync="searchModel.paginate.length"
-                        :server-items-length="totalNumberOfItems"
-                      />
-                    </v-row>
-                  </v-form>
-                </v-container>
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn
-                    color="success"
-                    @click="save"
-                  >
-                    {{ $t('global.submit') }}
-                  </v-btn>
-                  <v-btn
-                    color="orange"
-                    @click="cancel"
-                  >
-                    {{ $t('global.cancel') }}
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+                {{ $t('report.download') }}
+              </v-btn>
+            </v-toolbar>
           </template>
           <template #[`item.detail`]="{ item }">
             <v-icon
@@ -127,6 +73,12 @@
           <!-- <template #[`item.operationDate`]="{ item }">
             {{ moment(item.operationDate) }}
           </template>-->
+          </v-dialog>
+        </v-data-table>
+      </v-row>
+    </v-col>
+  </v-container>
+</template>
         </v-data-table>
       </v-row>
     </v-col>
@@ -201,6 +153,8 @@ export default {
     }),
     search (searchModel) {
       this.loading = true
+      searchModel.paginate.sort.property = searchModel.refundListFilter.orderField
+      searchModel.paginate.sort.direction = searchModel.refundListFilter.orderType
       reportManager.refundList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         console.log(this.items)
@@ -224,11 +178,11 @@ export default {
     downloadReports (searchModel) {
       this.downloadLoading = true
       delete searchModel.paginate
-      reportManager.downloadOperatorActivity(searchModel, this.$axios).then((res) => {
+      reportManager.downloadRefundList(searchModel, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL
-        fileLink.setAttribute('download', 'operator-reports.xlsx')
+        fileLink.setAttribute('download', 'refund-reports.xlsx')
         document.body.appendChild(fileLink)
         fileLink.click()
         // ------------

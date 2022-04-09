@@ -26,7 +26,7 @@
       <v-row>
         <v-col>
           <v-text-field
-            v-model="filter.transactionListFilter.trackerId"
+            v-model="filter.chargeListFilter.requestId"
             dense
             outlined
             :label="$t('filters.trackerId')"
@@ -35,7 +35,7 @@
         </v-col>
         <v-col>
           <v-select
-            v-model="filter.transactionListFilter.chargeAmount"
+            v-model="filter.chargeListFilter.amount"
             :items="chargeAmount"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
@@ -49,7 +49,7 @@
         </v-col>
         <v-col>
           <v-text-field
-            v-model="filter.transactionListFilter.phoneNumber"
+            v-model="filter.chargeListFilter.phoneNumber"
             dense
             outlined
             :label="$t('customer.phoneNumber')"
@@ -58,7 +58,7 @@
         </v-col>
         <v-col>
           <v-select
-            v-model="filter.transactionListFilter.operator"
+            v-model="filter.chargeListFilter.operator"
             :items="operator"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
@@ -74,7 +74,7 @@
       <v-row>
         <v-col>
           <v-select
-            v-model="filter.transactionListFilter.sourceType"
+            v-model="filter.chargeListFilter.sourceType"
             :items="source"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
@@ -88,7 +88,7 @@
         </v-col>
         <v-col>
           <v-text-field
-            v-model="filter.transactionListFilter.sourceNumber"
+            v-model="filter.chargeListFilter.source"
             dense
             outlined
             :label="$t('report.transactionReport.transaction.sourceNumber')"
@@ -98,8 +98,8 @@
 
         <v-col>
           <v-select
-            v-model="filter.transactionListFilter.result"
-            :items="status"
+            v-model="filter.chargeListFilter.result"
+            :items="resultId"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
@@ -112,7 +112,7 @@
         </v-col>
         <v-col>
           <v-text-field
-            v-model="filter.transactionListFilter.transactionId"
+            v-model="filter.chargeListFilter.transactionId"
             dense
             outlined
             :label="$t('filters.transactionId')"
@@ -178,18 +178,17 @@ import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
-  transactionListFilter: {
+  chargeListFilter: {
     phoneNumber: null,
-    operation: null,
+    operator: null,
     sourceNumber: null,
     sourceType: null,
     result: null,
     platform: null,
-    chargeAmount: null,
+    amount: null,
     os: null,
     transactionId: null,
-    trackerId: null,
-    amount: null,
+    requestId: null,
     responseCode: null
   },
   dateFilter: {
@@ -214,7 +213,7 @@ export default {
       menu2: false,
       modal2: false,
       filter: defaultFilter,
-      status: reportManager.status,
+      resultId: reportManager.resultId,
       osName: reportManager.osName,
       platform: reportManager.platform,
       source: reportManager.source,

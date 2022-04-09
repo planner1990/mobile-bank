@@ -29,80 +29,23 @@
           :server-items-length="totalNumberOfItems"
         >
           <template #top>
-            <v-dialog
-              v-model="createDialog"
-              max-width="640"
-              persistent
-              transition="dialog-bottom-transition"
+            <v-toolbar
+              class="black--text"
+              color="lightGreen"
+              flat
+              dark
+              dense
             >
-              <template #activator="{ on, attrs }">
-                <v-btn
-                  color="warning"
-                  class="mb-2"
-                  small
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  {{ $t('report.download') }}
-                </v-btn>
-              </template>
-              <v-card
-                :loading="loading"
+              <v-btn
+                color="warning"
+                :loading="downloadLoading"
+                dark
+                small
+                @click="downloadReports(searchModel)"
               >
-                <v-card-title class="lightGreen black--text font-weight-bold headline">
-                  {{ $t('user.createDialog') }}
-                </v-card-title>
-                <v-container>
-                  <v-form
-                    ref="form"
-                  >
-                    <v-row>
-                      <v-data-table
-                        dense
-                        item-key="cardOwnerId"
-                        sort-by="cardOwnerId"
-                        :items="items1"
-                        :headers="headers2"
-                        class="elevation-5 fullScreen"
-                        :loading="loading"
-                        :hide-default-footer="true"
-                        :items-per-page.sync="searchModel.paginate.length"
-                        :server-items-length="totalNumberOfItems"
-                      />
-                    </v-row>
-                    <v-row>
-                      <v-data-table
-                        dense
-                        item-key="cardOwnerId"
-                        sort-by="cardOwnerId"
-                        :items="items1"
-                        :headers="headers2"
-                        :hide-default-footer="true"
-                        class="elevation-5 fullScreen"
-                        :loading="loading"
-                        :items-per-page.sync="searchModel.paginate.length"
-                        :server-items-length="totalNumberOfItems"
-                      />
-                    </v-row>
-                  </v-form>
-                </v-container>
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn
-                    color="success"
-                    @click="save"
-                  >
-                    {{ $t('global.submit') }}
-                  </v-btn>
-                  <v-btn
-                    color="orange"
-                    @click="cancel"
-                  >
-                    {{ $t('global.cancel') }}
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+                {{ $t('report.download') }}
+              </v-btn>
+            </v-toolbar>
           </template>
           <template #[`item.requestTime`]="{ item }">
             {{ convertToJalali(item.requestTime) }}
@@ -177,7 +120,7 @@ export default {
       headers: [
         { text: this.$t('report.transactionReport.headers.transactionId'), value: 'id', sortable: false },
         { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'phoneNumber', sortable: false },
+        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'source', sortable: false },
         { text: this.$t('report.transactionReport.headers.chargeType'), value: 'chargeType', sortable: false },
@@ -237,11 +180,11 @@ export default {
     downloadReports (searchModel) {
       this.downloadLoading = true
       delete searchModel.paginate
-      reportManager.downloadOperatorActivity(searchModel, this.$axios).then((res) => {
+      reportManager.downloadChargeList(searchModel, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL
-        fileLink.setAttribute('download', 'operator-reports.xlsx')
+        fileLink.setAttribute('download', 'charge-reports.xlsx')
         document.body.appendChild(fileLink)
         fileLink.click()
         // ------------
