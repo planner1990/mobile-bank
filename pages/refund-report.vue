@@ -52,7 +52,7 @@
           <template #[`item.createdTime`]="{ item }">
             {{ convertToJalali(item.createdTime) }}
           </template>
-          <template #footer.page-text>
+          <template #footer>
             جمع مبالغ : {{ sumAmount }}
           </template>
         </v-data-table>
@@ -112,7 +112,7 @@ export default {
       ],
 
       items: [],
-      sumAmount: 2000000
+      sumAmount: null
     }
   },
   // mounted () {
