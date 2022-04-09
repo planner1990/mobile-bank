@@ -22,8 +22,14 @@
           :headers="headers"
           class="elevation-5 fullScreen"
           :loading="loading"
+          :footer-props="{
+            'items-per-page-options': [50, 100, 300, 500, 1000]
+          }"
           :items-per-page.sync="searchModel.paginate.length"
           :server-items-length="totalNumberOfItems"
+          :page.sync="searchModel.paginate.page"
+          @update:page="search(searchModel)"
+          @update:items-per-page="search(searchModel)"
         >
           <template #top>
             <v-toolbar
