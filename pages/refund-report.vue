@@ -201,6 +201,8 @@ export default {
     }),
     search (searchModel) {
       this.loading = true
+      searchModel.paginate.sort.property = searchModel.refundListFilter.orderField
+      searchModel.paginate.sort.direction = searchModel.refundListFilter.orderType
       reportManager.refundList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         console.log(this.items)

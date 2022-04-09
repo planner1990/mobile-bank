@@ -304,7 +304,7 @@ export default {
     },
     operation () {
       this.loading = true
-      reportManager.operationList(this.$axios).then((response) => {
+      reportManager.operationListQuery(this.$axios).then((response) => {
         console.log(response)
         const operationList = response.data
         const operationCardList = operationList.cardOperation

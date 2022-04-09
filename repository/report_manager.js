@@ -47,6 +47,12 @@ async function operationList (axios) {
   console.log(rest)
   return rest
 }
+async function operationListQuery (axios) {
+  console.log('transactionLisu us call')
+  const rest = await axios.get('operation/groupListQuery')
+  console.log(rest)
+  return rest
+}
 
 async function errorCodeList (axios) {
   console.log('errorList us call')
@@ -95,8 +101,12 @@ async function listParam (request, axios) {
   const res = await axios.post('offer/paramList', request)
   return res
 }
-async function downloadOperatorActivity (request, axios) {
-  return await axios.post('export/operator-activity', request, { responseType: 'blob' })
+async function downloadRefundList (request, axios) {
+  return await axios.post('export/refund-report', request, { responseType: 'blob' })
+}
+
+async function downloadChargeList (request, axios) {
+  return await axios.post('export/charge-report', request, { responseType: 'blob' })
 }
 
 async function downloadTransactionList (request, axios) {
@@ -148,6 +158,17 @@ const status = [
   },
   {
     value: 'FAILED',
+    text: 'report.transactionReport.status.fail'
+  }
+]
+
+const resultId = [
+  {
+    value: '200',
+    text: 'report.transactionReport.status.successful'
+  },
+  {
+    value: '-1',
     text: 'report.transactionReport.status.fail'
   }
 ]
@@ -360,15 +381,15 @@ const refundType = [
 ]
 const transactionTimeType = [
   {
-    value: 'TRANSACTION_TIME',
+    value: 'requestTime',
     text: 'report.refundReport.transactionTimeType.transactionTime'
   },
   {
-    value: 'CREATE_TIME',
+    value: 'refundCreatedTime',
     text: 'report.refundReport.transactionTimeType.createTime'
   },
   {
-    value: 'REFUND_TIME',
+    value: 'refundOrFailTime',
     text: 'report.refundReport.transactionTimeType.refundTime'
   }
 
@@ -418,6 +439,7 @@ export default {
   transactionStatistics,
   transactionDetails,
   operationList,
+  operationListQuery,
   errorList,
   errorCodeList,
   smsReport,
@@ -433,6 +455,7 @@ export default {
   offerToType,
   responseCode,
   status,
+  resultId,
   osName,
   operation,
   platform,
@@ -447,7 +470,8 @@ export default {
   transactionTimeType,
   orderType,
   downloadOnlineDepositReport,
-  downloadOperatorActivity,
+  downloadRefundList,
+  downloadChargeList,
   downloadTransactionList,
   downloadTransactionStatistics,
   downloadCustomer,

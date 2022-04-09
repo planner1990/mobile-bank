@@ -52,7 +52,7 @@
             v-model="filter.refundListFilter.source"
             dense
             outlined
-            :label="$t('filters.source')"
+            :label="$t('filters.sourceNumber')"
             prepend-icon="mdi-account"
           />
         </v-col>
