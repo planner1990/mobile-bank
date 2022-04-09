@@ -40,16 +40,9 @@ async function transactionDetails (request, axios) {
   console.log(rest)
   return rest
 }
-
-async function operationList (axios) {
+async function operationList (request, axios) {
   console.log('transactionLisu us call')
-  const rest = await axios.get('operation/groupList')
-  console.log(rest)
-  return rest
-}
-async function operationListQuery (axios) {
-  console.log('transactionLisu us call')
-  const rest = await axios.get('operation/groupListQuery')
+  const rest = await axios.post('operation/groupList', request)
   console.log(rest)
   return rest
 }
@@ -439,7 +432,6 @@ export default {
   transactionStatistics,
   transactionDetails,
   operationList,
-  operationListQuery,
   errorList,
   errorCodeList,
   smsReport,

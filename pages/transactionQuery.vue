@@ -184,6 +184,9 @@ export default {
           }
         }
       },
+      operationType: {
+        operationType: 'QUERY'
+      },
       filterDetails: defaultFilterdetails,
       totalNumberOfItems: 0,
       loading: false,

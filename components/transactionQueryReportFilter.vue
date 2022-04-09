@@ -287,7 +287,10 @@ export default {
       source: reportManager.source,
       operationName: reportManager.operationName,
       items: [],
-      errorItems: []
+      errorItems: [],
+      operationType: {
+        operationType: 'QUERY'
+      }
     }
   },
   mounted: function () {
@@ -304,7 +307,7 @@ export default {
     },
     operation () {
       this.loading = true
-      reportManager.operationListQuery(this.$axios).then((response) => {
+      reportManager.operationList(this.operationType, this.$axios).then((response) => {
         console.log(response)
         const operationList = response.data
         const operationCardList = operationList.cardOperation
