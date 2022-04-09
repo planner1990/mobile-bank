@@ -23,7 +23,8 @@
           class="elevation-5 fullScreen"
           :loading="loading"
           :footer-props="{
-            'items-per-page-options': [50, 100, 300, 500, 1000]
+            'items-per-page-options': [50, 100, 300, 500, 1000],
+            'items-per-page-text': ' جمع مبالغ بازگشتی : '+sumAmount
           }"
           :items-per-page.sync="searchModel.paginate.length"
           :server-items-length="totalNumberOfItems"
@@ -58,9 +59,9 @@
           <template #[`item.createdTime`]="{ item }">
             {{ convertToJalali(item.createdTime) }}
           </template>
-          <template #footer>
+          <!-- <template #footer>
             جمع مبالغ : {{ sumAmount }}
-          </template>
+          </template>-->
         </v-data-table>
       </v-row>
     </v-col>
