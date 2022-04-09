@@ -73,7 +73,6 @@
           <!-- <template #[`item.operationDate`]="{ item }">
             {{ moment(item.operationDate) }}
           </template>-->
-          </v-dialog>
         </v-data-table>
       </v-row>
     </v-col>

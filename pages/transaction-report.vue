@@ -159,6 +159,9 @@ export default {
           }
         }
       },
+      operationType: {
+        operationType: 'LIST'
+      },
       totalNumberOfItems: 0,
       loading: false,
       headers: [

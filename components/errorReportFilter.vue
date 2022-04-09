@@ -153,6 +153,9 @@ export default {
       filter: defaultFilter,
       status: reportManager.status,
       responseCodes: reportManager.responseCode,
+      operationType: {
+        operationType: 'ALL'
+      },
       items: [],
       errorItems: []
     }
@@ -163,15 +166,35 @@ export default {
       this.$emit('search', this.filter)
     },
     operation () {
-      console.log('majid')
       this.loading = true
-      reportManager.operationList(this.$axios).then((response) => {
+      reportManager.operationList(this.operationType, this.$axios).then((response) => {
         console.log(response)
         const operationList = response.data
-        this.items = operationList
-        console.log(operationList)
+        const operationCardList = operationList.cardOperation
+        operationCardList.push({ divider: true })
+        const operationDepositList = operationList.depositOperation
+        operationDepositList.push({ divider: true })
+        const operationUserList = operationList.userOperation
+        operationUserList.push({ divider: true })
+        const operationSettingList = operationList.settingOperation
+        operationSettingList.push({ divider: true })
+        const operationPublicList = operationList.publicOperation
+        operationSettingList.push({ divider: true })
+        const operationLastList = operationDepositList
+        operationCardList.unshift({ divider: true })
+        operationCardList.unshift({ header: 'عملیات کارت' })
+        operationDepositList.unshift({ divider: true })
+        operationDepositList.unshift({ header: 'عملیات حساب' })
+        operationDepositList.unshift({ divider: true })
+        operationUserList.unshift({ divider: true })
+        operationUserList.unshift({ header: 'عملیات کاربری' })
+        operationSettingList.unshift({ divider: true })
+        operationSettingList.unshift({ header: 'عملیات تنظیمات' })
+        operationPublicList.unshift({ divider: true })
+        operationPublicList.unshift({ header: 'عملیات عمومی' })
+        const array1 = operationLastList.concat(operationCardList, operationUserList, operationSettingList, operationPublicList)
+        this.items = array1
       }).catch((error) => {
-        console.log('majid11')
         if (error.response) {
           console.log(error.response)
           this.alert({
