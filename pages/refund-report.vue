@@ -24,7 +24,7 @@
           :loading="loading"
           :footer-props="{
             'items-per-page-options': [50, 100, 300, 500, 1000],
-            'items-per-page-text': ' جمع مبالغ بازگشتی : '+sumAmount
+            'items-per-page-text': ' جمع مبالغ بازگشتی : '+ priceFormat(sumAmount)
           }"
           :items-per-page.sync="searchModel.paginate.length"
           :server-items-length="totalNumberOfItems"
@@ -59,6 +59,16 @@
           <template #[`item.createdTime`]="{ item }">
             {{ convertToJalali(item.createdTime) }}
           </template>
+          <template #[`item.state`]="{ item }">
+            {{ $t('report.refundReport.refundTypeNum.' + item.state) }}
+          </template>
+          <template #[`item.url`]="{ item }">
+            {{ $t('report.refundReport.refundUrlType.' + item.url) }}
+          </template>
+          <template #[`item.amount`]="{ item }">
+            {{ priceFormat(item.amount) }}
+          </template>
+
           <!-- <template #footer>
             جمع مبالغ : {{ sumAmount }}
           </template>-->
@@ -103,39 +113,40 @@ export default {
       loading: false,
       headers: [
         { text: this.$t('report.refundReport.headers.id'), value: 'id', sortable: false },
+        { text: this.$t('report.refundReport.headers.transactionId'), value: 'transactionId', sortable: false },
         { text: this.$t('report.refundReport.headers.transactionTime'), value: 'transactionTime', sortable: false },
         { text: this.$t('report.refundReport.headers.phoneNumber'), value: 'phoneNumber', sortable: false },
         { text: this.$t('report.refundReport.headers.source'), value: 'source', sortable: false },
         { text: this.$t('report.refundReport.headers.transactionErrorCode'), value: 'transactionErrorCode', sortable: false },
-        { text: this.$t('report.refundReport.headers.ip'), value: 'ip', sortable: false },
         { text: this.$t('report.refundReport.headers.amount'), value: 'amount', sortable: false },
-        { text: this.$t('report.refundReport.headers.url'), value: 'url', sortable: false },
         { text: this.$t('report.refundReport.headers.createdTime'), value: 'createdTime', sortable: false },
+        { text: this.$t('report.refundReport.headers.url'), value: 'url', sortable: false },
+        { text: this.$t('report.refundReport.headers.ip'), value: 'ip', sortable: false },
         { text: this.$t('report.refundReport.headers.state'), value: 'state', sortable: false },
-        { text: this.$t('report.refundReport.headers.transactionId'), value: 'transactionId', sortable: false },
         { text: this.$t('report.refundReport.headers.switchResponseRrn'), value: 'switchResponseRrn', sortable: false },
-        { text: this.$t('report.refundReport.headers.requestId'), value: 'requestId', sortable: false }
+        { text: this.$t('report.refundReport.headers.requestId'), value: 'requestId', sortable: false },
+        { text: this.$t('report.refundReport.headers.refundOrFailTime'), value: 'refundOrFailTime', sortable: false }
 
       ],
 
       items: [],
-      sumAmount: null
+      sumAmount: 0
     }
   },
   // mounted () {
   //   this.search(this.searchModel)
   // },
-  priceFormat (amount) {
-    if (amount) {
-      return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    } else {
-      return ''
-    }
-  },
   methods: {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+    priceFormat (amount) {
+      if (amount) {
+        return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      } else {
+        return ''
+      }
+    },
     search (searchModel) {
       this.loading = true
       searchModel.paginate.sort.property = searchModel.refundListFilter.orderField

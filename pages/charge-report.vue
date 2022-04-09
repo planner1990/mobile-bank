@@ -56,6 +56,9 @@
           <template #[`item.chargeType`]="{ item }">
             {{ $t('report.chargeReport.chargeType.' + item.chargeType) }}
           </template>
+          <template #[`item.url`]="{ item }">
+            {{ $t('report.refundReport.refundUrlType.' + item.url) }}
+          </template>
           <template #[`item.detail`]="{ item }">
             <v-icon
               small
@@ -65,19 +68,9 @@
               mdi-pencil
             </v-icon>
           </template>
-
-          <!--   <template #[`item.source`]="{ item }">
-            {{ $t('report.transactionReport.status.' + item.source) }}
-          </template>-->
-
-          <!--   <template #[`item.platform`]="{ item }">
-            &lt;!&ndash;            {{ item }}&ndash;&gt;
-            {{ test(item.platform) }}
-            &lt;!&ndash;            {{ $t('report.transactionReport.platform.' + item.platform) }}&ndash;&gt;
-          </template>-->
-          <!-- <template #[`item.operationDate`]="{ item }">
-            {{ moment(item.operationDate) }}
-          </template>-->
+          <template #[`item.amount`]="{ item }">
+            {{ priceFormat(item.amount) }}
+          </template>
         </v-data-table>
       </v-row>
     </v-col>
@@ -139,6 +132,13 @@ export default {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+    priceFormat (amount) {
+      if (amount) {
+        return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      } else {
+        return ''
+      }
+    },
     search (searchModel) {
       this.loading = true
       reportManager.chargeList(searchModel, this.$axios).then((response) => {
