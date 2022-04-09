@@ -44,12 +44,16 @@
               </v-btn>
             </v-toolbar>
           </template>
+
           <template #[`item.transactionTime`]="{ item }">
             {{ convertToJalali(item.transactionTime) }}
           </template>
 
           <template #[`item.createdTime`]="{ item }">
             {{ convertToJalali(item.createdTime) }}
+          </template>
+          <template #footer.page-text>
+            جمع مبالغ : {{ sumAmount }}
           </template>
         </v-data-table>
       </v-row>
@@ -60,9 +64,9 @@
 <script>
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
+import moment from 'moment-jalaali'
 import refundReportFilter from '~/components/refundReportFilter'
 import reportManager from '~/repository/report_manager'
-import moment from "moment-jalaali";
 
 export default {
   name: 'RefundReport',
@@ -92,7 +96,6 @@ export default {
       loading: false,
       headers: [
         { text: this.$t('report.refundReport.headers.id'), value: 'id', sortable: false },
-        { text: this.$t('report.refundReport.headers.transactionId'), value: 'transactionId', sortable: false },
         { text: this.$t('report.refundReport.headers.transactionTime'), value: 'transactionTime', sortable: false },
         { text: this.$t('report.refundReport.headers.phoneNumber'), value: 'phoneNumber', sortable: false },
         { text: this.$t('report.refundReport.headers.source'), value: 'source', sortable: false },
@@ -102,12 +105,14 @@ export default {
         { text: this.$t('report.refundReport.headers.url'), value: 'url', sortable: false },
         { text: this.$t('report.refundReport.headers.createdTime'), value: 'createdTime', sortable: false },
         { text: this.$t('report.refundReport.headers.state'), value: 'state', sortable: false },
+        { text: this.$t('report.refundReport.headers.transactionId'), value: 'transactionId', sortable: false },
         { text: this.$t('report.refundReport.headers.switchResponseRrn'), value: 'switchResponseRrn', sortable: false },
         { text: this.$t('report.refundReport.headers.requestId'), value: 'requestId', sortable: false }
 
       ],
 
-      items: []
+      items: [],
+      sumAmount: 2000000
     }
   },
   // mounted () {
@@ -129,9 +134,12 @@ export default {
       searchModel.paginate.sort.property = searchModel.refundListFilter.orderField
       searchModel.paginate.sort.direction = searchModel.refundListFilter.orderType
       reportManager.refundList(searchModel, this.$axios).then((response) => {
-        this.items = response.data.itemList
+        console.log(response.data)
+        this.items = response.data.pageRefundList.itemList
         console.log(this.items)
-        this.totalNumberOfItems = response.data.filteredItem
+        this.sumAmount = response.data.sumAmount
+        console.log(this.items)
+        this.totalNumberOfItems = response.data.pageRefundList.filteredItem
         this.loading = false
       }).catch((error) => {
         if (error.response) {

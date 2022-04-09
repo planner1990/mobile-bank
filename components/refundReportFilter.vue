@@ -126,7 +126,7 @@
             :label="$t('filters.transactionTime')"
           />
           <p-date-picker
-            v-model="fromDate"
+            v-model="transactionFromDate"
             type="datetime"
             element="transactionFromDate"
             color="dimgray"
@@ -135,7 +135,7 @@
             popove
             auto-submit
             format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullFromDate()"
+            @close="checkIsNullTransactionFromDate()"
           />
         </v-col>
 
@@ -150,7 +150,7 @@
             :label="$t('filters.to')"
           />
           <p-date-picker
-            v-model="toDate"
+            v-model="transactionToDate"
             type="datetime"
             element="transactionToDate"
             color="dimgray"
@@ -159,7 +159,7 @@
             popove
             auto-submit
             format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullToDate()"
+            @close="checkIsNullTransactionToDate()"
           />
         </v-col>
         <v-col>
@@ -193,7 +193,7 @@
             popove
             auto-submit
             format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullFromDate()"
+            @close="checkIsNullRefundFromDate()"
           />
         </v-col>
 
@@ -217,7 +217,7 @@
             popove
             auto-submit
             format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullToDate()"
+            @close="checkIsNullRefundToDate()"
           />
         </v-col>
         <v-col>
@@ -378,12 +378,35 @@ export default {
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
+        console.log('fromDate')
+        console.log(this.fromDate)
         this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+        console.log(this.filter.dateFilter.from)
       }
     },
     checkIsNullToDate () {
       if (this.toDate != null) {
         this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+      }
+    },
+    checkIsNullTransactionFromDate () {
+      if (this.fromDate != null) {
+        this.filter.refundListFilter.transactionFromDate = this.convertJalaliDateToTimestamp(this.fromDate)
+      }
+    },
+    checkIsNullTransactionToDate () {
+      if (this.toDate != null) {
+        this.filter.refundListFilter.transactionToDate = this.convertJalaliDateToTimestamp(this.toDate)
+      }
+    },
+    checkIsNullRefundFromDate () {
+      if (this.fromDate != null) {
+        this.filter.refundListFilter.refundFromDate = this.convertJalaliDateToTimestamp(this.fromDate)
+      }
+    },
+    checkIsNullRefundToDate () {
+      if (this.toDate != null) {
+        this.filter.refundListFilter.refundToDate = this.convertJalaliDateToTimestamp(this.toDate)
       }
     },
     currentDayFrom: function () {

@@ -50,16 +50,6 @@
               </v-btn>
             </v-toolbar>
           </template>
-          <template #footer.page-text>
-            <v-btn
-              color="primary"
-              dark
-              class="ma-2"
-              @click="buttonCallback"
-            >
-              Button
-            </v-btn>
-          </template>
         </v-data-table>
       </v-row>
     </v-col>
