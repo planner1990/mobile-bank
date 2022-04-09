@@ -44,15 +44,6 @@
               </v-btn>
             </v-toolbar>
           </template>
-          <template #[`item.detail`]="{ item }">
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(item)"
-            >
-              mdi-pencil
-            </v-icon>
-          </template>
           <template #[`item.transactionTime`]="{ item }">
             {{ convertToJalali(item.transactionTime) }}
           </template>
@@ -60,19 +51,6 @@
           <template #[`item.createdTime`]="{ item }">
             {{ convertToJalali(item.createdTime) }}
           </template>
-
-          <!--   <template #[`item.source`]="{ item }">
-            {{ $t('report.transactionReport.status.' + item.source) }}
-          </template>-->
-
-          <!--   <template #[`item.platform`]="{ item }">
-            &lt;!&ndash;            {{ item }}&ndash;&gt;
-            {{ test(item.platform) }}
-            &lt;!&ndash;            {{ $t('report.transactionReport.platform.' + item.platform) }}&ndash;&gt;
-          </template>-->
-          <!-- <template #[`item.operationDate`]="{ item }">
-            {{ moment(item.operationDate) }}
-          </template>-->
         </v-data-table>
       </v-row>
     </v-col>
@@ -84,6 +62,7 @@ import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
 import refundReportFilter from '~/components/refundReportFilter'
 import reportManager from '~/repository/report_manager'
+import moment from "moment-jalaali";
 
 export default {
   name: 'RefundReport',
@@ -168,6 +147,9 @@ export default {
         }
         this.loading = false
       })
+    },
+    convertToJalali (date) {
+      return moment(date).format('HH:mm:ss jYYYY/jM/jD')
     },
     downloadReports (searchModel) {
       this.downloadLoading = true
