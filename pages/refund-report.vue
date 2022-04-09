@@ -78,11 +78,6 @@
     </v-col>
   </v-container>
 </template>
-        </v-data-table>
-      </v-row>
-    </v-col>
-  </v-container>
-</template>
 
 <script>
 import momentJalali from 'moment-jalaali'
