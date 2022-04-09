@@ -2,7 +2,6 @@
   <v-card
     elevation="10"
     class="fullScreen"
-    color="#f6f6f6"
   >
     <v-toolbar
       class="black--text"
@@ -25,28 +24,6 @@
       <v-row>
         <v-col>
           <v-text-field
-            id="createFromYear"
-            v-model="fromYear"
-            prepend-icon="mdi-calendar-month"
-            outlined
-            dense
-            :placeholder="$t('filters.month')"
-          />
-          <p-date-picker
-            v-model="fromYear"
-            type="year"
-            element="createFromYear"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="jYYYY"
-            @close="checkIsNull()"
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
             id="createFromMonth"
             v-model="fromMonth"
             prepend-icon="mdi-calendar-month"
@@ -67,7 +44,28 @@
             @close="checkIsNull()"
           />
         </v-col>
-
+        <v-col>
+          <v-text-field
+            id="createFromYear"
+            v-model="fromYear"
+            prepend-icon="mdi-calendar-month"
+            outlined
+            dense
+            :placeholder="$t('filters.month')"
+          />
+          <p-date-picker
+            v-model="fromYear"
+            type="year"
+            element="createFromYear"
+            color="dimgray"
+            dense
+            outlined
+            popove
+            auto-submit
+            format="jYYYY"
+            @close="checkIsNull()"
+          />
+        </v-col>
         <v-col cols="1" />
         <v-col />
       </v-row>

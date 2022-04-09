@@ -2,7 +2,6 @@
   <v-card
     elevation="10"
     class="fullScreen"
-    color="#f6f6f6"
   >
     <v-toolbar
       class="black--text"
