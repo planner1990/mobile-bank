@@ -120,7 +120,7 @@ export default {
       headers: [
         { text: this.$t('report.transactionReport.headers.transactionId'), value: 'id', sortable: false },
         { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'phoneNumber', sortable: false },
+        { text: this.$t('report.transactionReport.headers.mobileNumber'), value: 'phoneNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'source', sortable: false },
         { text: this.$t('report.transactionReport.headers.chargeType'), value: 'chargeType', sortable: false },
