@@ -318,16 +318,16 @@ const chargeAmount = [
 
 const operatorType = [
   {
-    value: 'IRANCEL',
-    text: 'report.chargeReport.operatorType.irancell'
+    value: 'IRANCELL',
+    text: 'report.chargeReport.operatorType.IRANCELL'
   },
   {
     value: 'IRMCI',
-    text: 'report.chargeReport.operatorType.irmci'
+    text: 'report.chargeReport.operatorType.IRMCI'
   },
   {
     value: 'RIGTELL',
-    text: 'report.chargeReport.operatorType.rigtell'
+    text: 'report.chargeReport.operatorType.RIGTELL'
   }
 ]
 
