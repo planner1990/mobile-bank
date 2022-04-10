@@ -55,9 +55,11 @@
           <template #[`item.transactionTime`]="{ item }">
             {{ convertToJalali(item.transactionTime) }}
           </template>
-
           <template #[`item.createdTime`]="{ item }">
             {{ convertToJalali(item.createdTime) }}
+          </template>
+          <template #[`item.refundOrFailTime`]="{ item }">
+            {{ convertToJalali(item.refundOrFailTime) }}
           </template>
           <template #[`item.state`]="{ item }">
             {{ $t('report.refundReport.refundTypeNum.' + item.state) }}

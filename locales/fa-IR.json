@@ -247,9 +247,24 @@
       "android": "ANDROID",
       "ios": "IOS"
     },
+    "toTypeFilter": {
+      "ALL": "همه",
+      "ANDROID": "ANDROID",
+      "IOS": "IOS",
+      "null": ""
+    },
     "offerStatus": {
       "display": "نمایش",
       "noDisplay": "عدم نمایش"
+    },
+    "offerStatusFilter": {
+      "Y": "فعال",
+      "N": "غیر فعال"
+    },
+    "offerTypeFilter": {
+      "1": "url",
+      "2": "in app",
+      "null": ""
     },
     "dialogTitle": "آپلود پیشنهاد",
     "title": "عنوان",

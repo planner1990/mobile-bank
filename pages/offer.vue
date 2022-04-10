@@ -23,7 +23,7 @@
           :loading="loading"
           dense
           :footer-props="{
-            'items-per-page-options': [10, 20, 30, 40, 50]
+            'items-per-page-options': [50, 100, 200, 400, 500]
           }"
           :items-per-page.sync="requestObject.paginate.length"
           :page.sync="requestObject.paginate.page"
@@ -371,6 +371,22 @@
             <!--              mdi-trash-can-->
             <!--            </v-icon>-->
           </template>
+
+          <template #[`item.dateFrom`]="{ item }">
+            {{ convertToJalali(item.dateFrom) }}
+          </template>
+          <template #[`item.dateTo`]="{ item }">
+            {{ convertToJalali(item.dateTo) }}
+          </template>
+          <template #[`item.os`]="{ item }">
+            {{ $t('offer.toTypeFilter.' + item.os) }}
+          </template>
+          <template #[`item.status`]="{ item }">
+            {{ $t('offer.offerStatusFilter.' + item.status) }}
+          </template>
+          <template #[`item.type`]="{ item }">
+            {{ $t('offer.offerTypeFilter.' + item.type) }}
+          </template>
         </v-data-table>
         <v-dialog
           v-model="deleteUserDialog"
@@ -456,9 +472,9 @@ export default {
       requestObject: {
         paginate: {
           page: 1,
-          length: 20,
+          length: 50,
           sort: {
-            property: 'status',
+            property: 'id',
             direction: 'desc'
           }
         }
@@ -493,16 +509,15 @@ export default {
       headers: [
         { text: this.$t('offer.title'), value: 'title' },
         { text: this.$t('offer.widgetTitle'), value: 'widgetTitle' },
+        { text: this.$t('offer.active'), value: 'status' },
+        { text: this.$t('offer.description'), value: 'content' },
         { text: this.$t('offer.url'), value: 'url' },
         { text: this.$t('offer.alternativeUrl'), value: 'alternativeUrl' },
-        { text: this.$t('offer.dateFrom'), value: 'dateFrom' },
-        { text: this.$t('offer.dateTo'), value: 'dateTo' },
         { text: this.$t('offer.uri'), value: 'uri' },
         { text: this.$t('offer.type'), value: 'type' },
-        { text: this.$t('offer.offerType'), value: 'type' },
-        { text: this.$t('offer.description'), value: 'description' },
-        { text: this.$t('offer.to'), value: 'to' },
-        { text: this.$t('offer.active'), value: 'active' },
+        { text: this.$t('offer.to'), value: 'os' },
+        { text: this.$t('offer.dateFrom'), value: 'dateFrom' },
+        { text: this.$t('offer.dateTo'), value: 'dateTo' },
         { text: this.$t('offer.addParams'), value: 'addParams', sortable: false },
         { text: '', value: 'actions', sortable: false }
       ],
@@ -533,13 +548,6 @@ export default {
         return []
       }
     }
-    //   if (this.userForm.userObj.role === 'ADMIN' || this.userForm.userObj.role === 'REPORTER') {
-    //     return this.userForm.locationAccess.filter(e => e.value === 'UNIVERSAL' || e.value === 'PROVINCE')
-    //   } else
-    //     return this.userForm.locationAccess.filter(e => e.value === 'BRANCH')
-    //   }
-    //   return []
-    // }
   },
   methods: {
     ...mapMutations({
@@ -574,6 +582,9 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    convertToJalali (date) {
+      return moment(date).format('HH:mm:ss jYYYY/jM/jD')
     },
     async searchParams (searchModel) {
       // searchModel.page = this.pagination.page

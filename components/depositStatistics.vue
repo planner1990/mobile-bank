@@ -31,7 +31,11 @@ import { mapMutations } from 'vuex'
 export default {
   name: 'Deposit',
   props: {
-    deposits: Object([])
+    deposits: Object([]),
+    loading: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     ...mapMutations({

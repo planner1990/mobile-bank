@@ -26,14 +26,14 @@
         <v-col>
           <v-text-field
             id="createFromDate"
-            v-model="fromDate"
+            v-model="from"
             prepend-icon="mdi-calendar-month"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
           />
           <p-date-picker
-            v-model="fromDate"
+            v-model="from"
             type="datetime"
             element="createFromDate"
             color="dimgray"
@@ -49,14 +49,14 @@
         <v-col>
           <v-text-field
             id="createToDate"
-            v-model="toDate"
+            v-model="to"
             prepend-icon="mdi-calendar-month"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
           />
           <p-date-picker
-            v-model="toDate"
+            v-model="to"
             type="datetime"
             element="createToDate"
             color="dimgray"
@@ -130,8 +130,8 @@ export default {
   },
   data () {
     return {
-      fromDate: this.currentDayFrom(),
-      toDate: this.currentDayTo(),
+      from: this.currentDayFrom(),
+      to: this.currentDayTo(),
       time: null,
       menu2: false,
       modal2: false,
@@ -146,8 +146,8 @@ export default {
     }
   },
   mounted: function () {
-    defaultFilter.dateFrom = this.convertJalaliDateToTimestamp(this.fromDate)
-    defaultFilter.dateTo = this.convertJalaliDateToTimestamp(this.toDate)
+    defaultFilter.dateFrom = this.convertJalaliDateToTimestamp(this.from)
+    defaultFilter.dateTo = this.convertJalaliDateToTimestamp(this.to)
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
     this.errorList()
@@ -205,13 +205,13 @@ export default {
       })
     },
     checkIsNullFromDate () {
-      if (this.fromDate != null) {
-        this.filter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+      if (this.from != null) {
+        this.filter.dateFrom = this.convertJalaliDateToTimestamp(this.from)
       }
     },
     checkIsNullToDate () {
-      if (this.toDate != null) {
-        this.filter.to = this.convertJalaliDateToTimestamp(this.toDate)
+      if (this.to != null) {
+        this.filter.dateTo = this.convertJalaliDateToTimestamp(this.to)
       }
     },
     currentDayFrom: function () {

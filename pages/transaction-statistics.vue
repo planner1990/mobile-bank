@@ -36,21 +36,21 @@
             آمار تراکنش های حساب
           </v-tab>
           <v-tab-item value="search2">
-            <deposit-statistics :deposits="depositList" :loading="enableLoading(true)" />
+            <deposit-statistics :deposits="depositList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
 
           <v-tab href="#search">
             آمار تراکنش های کارت
           </v-tab>
           <v-tab-item value="search">
-            <card-statistics :cards="cardList" />
+            <card-statistics :cards="cardList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
 
           <v-tab href="#search3">
             آمار سایر تراکنش ها
           </v-tab>
           <v-tab-item value="search3">
-            <other-statistics :others="otherList" />
+            <other-statistics :others="otherList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
         </v-tabs>
       </v-row>
@@ -90,6 +90,7 @@ export default {
       },
       totalNumberOfItems: 0,
       loading: false,
+      loadingStatus: false,
 
       items: [],
       cardList: [],
@@ -107,6 +108,7 @@ export default {
     },
     search (searchModel) {
       this.enableLoading(true)
+      this.loadingStatus = true
       reportManager.transactionStatistics(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.depositList = this.getDeposit()
@@ -114,6 +116,7 @@ export default {
         this.otherList = this.getOther()
         this.totalNumberOfItems = response.data.filteredItem
         this.enableLoading(false)
+        this.loadingStatus = false
       }).catch((error) => {
         if (error.response) {
           this.alert({
