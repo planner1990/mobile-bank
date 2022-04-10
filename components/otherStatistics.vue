@@ -30,14 +30,17 @@ import { mapMutations } from 'vuex'
 export default {
   name: 'Other',
   props: {
-    others: Object([])
+    others: Object([]),
+    loading: {
+      type: Boolean,
+      default: false
+    }
 
   },
   data () {
     return {
       downloadLoading: false,
       totalNumberOfItems: 0,
-      loading: false,
       headers: [
         { text: 'تراکنشها', value: 'operationTitle', sortable: false },
         { text: 'تعداد موفق', value: 'successfulNumber', sortable: false },

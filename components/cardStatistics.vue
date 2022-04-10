@@ -31,7 +31,11 @@ import { mapMutations } from 'vuex'
 export default {
   name: 'Card',
   props: {
-    cards: Object([])
+    cards: Object([]),
+    loading: {
+      type: Boolean,
+      default: false
+    }
 
   },
   methods: {
