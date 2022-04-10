@@ -98,13 +98,13 @@
                           </tr>
                           <tr>
                             <td>
-                              <div style="width:490px;overflow:auto">
+                              <div align="justify" style="width:490px;overflow:auto">
                                 <pre>   {{ item.responseJson }}
                               </pre>
                               </div>
                             </td>
                             <td>
-                              <div style="width:490px;overflow:auto">
+                              <div align="justify" style="width:490px;overflow:auto">
                                 <pre>   {{ item.requestJson }}
                               </pre>
                               </div>

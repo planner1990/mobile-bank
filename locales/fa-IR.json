@@ -135,7 +135,8 @@
       "operatorType": {
         "IRANCELL": "ایرانسل",
         "IRMCI": "همراه اول",
-        "RIGTELL": "رایتل"
+        "RIGTELL": "رایتل",
+        "null": ""
       }
     },
     "refundReport": {
