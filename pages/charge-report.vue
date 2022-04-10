@@ -59,6 +59,9 @@
           <template #[`item.url`]="{ item }">
             {{ $t('report.refundReport.refundUrlType.' + item.url) }}
           </template>
+          <template #[`item.operator`]="{ item }">
+            {{ $t('report.chargeReport.operatorType.' + item.operator) }}
+          </template>
           <template #[`item.detail`]="{ item }">
             <v-icon
               small
