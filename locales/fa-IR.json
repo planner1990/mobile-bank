@@ -287,6 +287,40 @@
     "value" : "value",
     "status": "وضعیت"
   },
+  "income": {
+    "headers": {
+      "id": "شناسه",
+      "transactionName": "تراکنش",
+      "transactionCount": "تعداد",
+      "feeSum": "کارمزد",
+      "coSharePercent": "درصد سهم شرکت",
+      "coShareAmount": "مبلغ ریالی سهم شرکت ",
+      "operator": "نام اپراتور",
+      "amount": "نوع شار(ریال)",
+      "count": "تعداد فروش",
+      "sum": "مقدار فروش (ریال)",
+      "incomePercent": "درصد سهم درآمد فروش",
+      "incomeAmount": "مبلغ ریالی درآمد فروش",
+      "countSuccess": "تعداد بازگشت های موفق",
+      "amountSuccess": "مبلغ بازگشت های موفق(ریال)",
+      "countFail": "تعداد بازگشت های ناموفق",
+      "amountFail": "مبلغ بازگشت های ناموفق(ریال)"
+    },
+    "title": "گزارش درآمد",
+    "transferIncomeTitle": "درآمد انتقال وجه",
+    "chargerIncomeTitle": "درآمد شارژ",
+    "chargeRefundIncomeTitle": "بازگشت وجوه شارژ",
+    "search": "جستجو",
+    "constants": {
+      "card": "انتقال وجه شتابی",
+      "irmciSum": "مجموع همراه اول",
+      "irancellSum": "مجموع ایرانسل",
+      "rightelSum": "مجموع رایتل",
+      "totalChargeSales": "مجموع فروش شارژ",
+      "totalChargeIncome": "مجموع درآمد شارژ"
+    }
+
+  },
   "user": {
     "title": "جست و جوی کاربران",
     "search": "جست و جو",
