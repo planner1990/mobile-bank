@@ -317,7 +317,8 @@
       "irancellSum": "مجموع ایرانسل",
       "rightelSum": "مجموع رایتل",
       "totalChargeSales": "مجموع فروش شارژ",
-      "totalChargeIncome": "مجموع درآمد شارژ"
+      "totalChargeIncome": "مجموع درآمد شارژ",
+      "null": ""
     }
 
   },

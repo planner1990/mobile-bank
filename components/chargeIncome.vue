@@ -12,10 +12,10 @@
       :loading="loading"
     >
       <template #[`item.operator`]="{ item }">
-        {{ $t('report.operatorType.' + item.operator) }}
+        {{ $t('report.chargeReport.operatorType.' + item.operator) }}
       </template>
-      <template #[`item.incomePercent`]="{ item }">
-        {{ $t('income.constants.' + item.incomePercent) }}
+      <template #[`item.amount`]="{ item }">
+        {{ $t('income.constants.' + item.amount) }}
       </template>
     </v-data-table>
   </v-row>
@@ -57,7 +57,9 @@ export default {
         { text: this.$t('income.headers.count'), value: 'count' },
         { text: this.$t('income.headers.sum'), value: 'sum' },
         { text: this.$t('income.headers.incomePercent'), value: 'incomePercent' },
-        { text: this.$t('income.headers.incomeAmount'), value: 'incomeAmount' }
+        { text: this.$t('income.headers.incomeAmount'), value: 'incomeAmount' },
+        { text: this.$t('income.headers.coSharePercent'), value: 'coSharePercent' },
+        { text: this.$t('income.headers.coShareAmount'), value: 'coIncomeShareAmount' }
 
       ]
     }
