@@ -119,12 +119,9 @@ export default {
     },
     checkIsNull () {
       if (this.fromYear != null) {
-        console.log('sddsdsd')
-        console.log(this.convertJalaliDateToTimestamp(this.fromYear))
-        console.log(this.convertJalaliDateToTimestamp(this.fromMonth))
-
         defaultSearchModel.persianDate = this.convertJalaliDateToTimestamp(this.fromMonth, this.fromYear)
-        console.log(defaultSearchModel.persianDate)
+        defaultSearchModel.year = this.fromYear
+        defaultSearchModel.month = this.fromMonth
       }
     },
     convertJalaliDateToTimestamp (month, year) {

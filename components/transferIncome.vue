@@ -14,6 +14,12 @@
       <template #[`item.transactionName`]="{ item }">
         {{ $t('income.constants.' + item.transactionName) }}
       </template>
+      <template #[`item.coShareAmount`]="{ item }">
+        {{ priceFormat(item.coShareAmount) }}
+      </template>
+      <template #[`item.feeSum`]="{ item }">
+        {{ priceFormat(item.feeSum) }}
+      </template>
     </v-data-table>
   </v-row>
 </template>
