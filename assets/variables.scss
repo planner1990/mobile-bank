@@ -50,6 +50,14 @@
   text-align: left;
 }
 
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 1.0rem !important;
+  height: 48px;
+}
 
 $font-size-root: 14px;
 $sheet-border-radius: 4px;
