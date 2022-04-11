@@ -181,10 +181,12 @@ export default {
     },
     downloadReports (searchModel) {
       this.downloadLoading = true
-      delete searchModel.paginate
       reportManager.downloadRefundList(searchModel, this.$axios).then((res) => {
+        console.log('error1')
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        console.log('error2')
         const fileLink = document.createElement('a')
+        console.log('error3')
         fileLink.href = fileURL
         fileLink.setAttribute('download', 'refund-reports.xlsx')
         document.body.appendChild(fileLink)

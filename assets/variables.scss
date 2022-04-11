@@ -38,9 +38,15 @@
   height: 50px;
   padding: 0 8px;
 }
+.v-label {
+  font-size: 12px !important;
+  line-height: 1;
+  min-height: 8px;
+  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+}
 
 
-$font-size-root: 18px;
+$font-size-root: 14px;
 $sheet-border-radius: 4px;
 $list-item-title-font-size: 0.929rem;
 $list-item-dense-title-font-size: 0.929rem;
@@ -50,7 +56,7 @@ $btn-font-sizes: ( default: 0.80rem, large: 1rem );
 $btn-sizes: ( default: 41, large: 54 );
 $btn-letter-spacing: 0;
 $btn-font-weight: 400;
-$card-text-font-size: 16px;
+$card-text-font-size: 14px;
 
 $headings: (
   'h1': (
@@ -143,7 +149,7 @@ tbody tr td {
   font-size: .875rem;
   font-weight: 400;
   letter-spacing: .0178571429em;
-  line-height: 1.25rem;
+  line-height: 1.0rem;
   margin-right: auto;
   padding: 0;
   text-align: initial;

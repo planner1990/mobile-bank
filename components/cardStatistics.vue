@@ -2,7 +2,6 @@
   <v-row
     justify="center"
   >
-    <p> {{ cards.length }}</p>
     <v-data-table
       dense
       :footer-props="{
