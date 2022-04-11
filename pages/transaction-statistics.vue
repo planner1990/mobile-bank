@@ -36,6 +36,7 @@
             آمار تراکنش های حساب
           </v-tab>
           <v-tab-item value="search2">
+            <br>
             <deposit-statistics :deposits="depositList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
 
@@ -43,6 +44,7 @@
             آمار تراکنش های کارت
           </v-tab>
           <v-tab-item value="search">
+            <br>
             <card-statistics :cards="cardList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
 
@@ -50,6 +52,7 @@
             آمار سایر تراکنش ها
           </v-tab>
           <v-tab-item value="search3">
+            <br>
             <other-statistics :others="otherList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
         </v-tabs>

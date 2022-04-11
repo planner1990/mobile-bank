@@ -32,24 +32,6 @@
           @update:items-per-page="search(searchModel)"
         >
           <template #top>
-            <v-toolbar
-              class="black--text"
-              color="lightGreen"
-              flat
-              dark
-              dense
-            >
-              <v-btn
-                color="warning"
-                :loading="downloadLoading"
-                dark
-                small
-                @click="downloadReports(searchModel)"
-              >
-                {{ $t('report.download') }}
-              </v-btn>
-            </v-toolbar>
-
             <v-dialog
               v-model="createDialog"
               max-width="1000"
@@ -196,9 +178,7 @@ export default {
         { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
         { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false },
         { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
-        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
+        // { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
         { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
       ],
       headersTransaction: [
