@@ -13,15 +13,9 @@
     >
       {{ $t('titles.filters') }}
       <v-spacer />
-      <v-btn
-        color="success"
-        small
-        @click="search"
-      >
-        {{ $t('buttons.search') }}
-      </v-btn>
     </v-toolbar>
     <v-container fluid>
+      <br>
       <v-row>
         <v-col>
           <v-text-field
@@ -68,62 +62,6 @@
             @close="checkIsNullToDate()"
           />
         </v-col>
-        <!--      <province-selector-->
-        <!--        v-model="filter.locationFilter.provinceCode"-->
-        <!--      />-->
-        <!--      <city-selector-->
-        <!--        v-model="filter.locationFilter.cityCode"-->
-        <!--        :province="computedProvince"-->
-        <!--      />-->
-        <!--      <branch-selector-->
-        <!--        v-model="filter.locationFilter.branchCode"-->
-        <!--        :province="computedProvince"-->
-        <!--        :city="computedCity"-->
-        <!--      />-->
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.amount"
-            dense
-            outlined
-            popove
-            :label="$t('filters.amount')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.transactionId"
-            dense
-            outlined
-            :label="$t('filters.transactionId')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-select
-            v-model="filter.transactionListFilter.sourceType"
-            :items="source"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.source')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.sourceNumber"
-            dense
-            outlined
-            :label="$t('report.transactionReport.transaction.sourceNumber')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
         <v-col>
           <v-select
             v-model="filter.transactionListFilter.operation"
@@ -143,8 +81,8 @@
               slot-scope="data"
             >
               <!-- Divider and Header-->
-              <template v-if="typeof data.item !== 'object'" class="font-weight-black">
-                <v-list-tile-content v-text="data.item" />
+              <template v-if="typeof data.item !== 'object'">
+                <v-list-tile-content style="font-size: 1.80rem !important;" v-text="data.item" />
               </template>
               <!-- Normal item -->
               <template v-else>
@@ -154,6 +92,20 @@
               </template>
             </template>
           </v-select>
+        </v-col>
+        <v-col>
+          <v-select
+            v-model="filter.transactionListFilter.responseCode"
+            :items="errorItems"
+            item-text="title"
+            item-value=""
+            :return-object="false"
+            :label="$t('filters.errorCode')"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
         </v-col>
         <v-col>
           <v-select
@@ -169,33 +121,23 @@
             outlined
           />
         </v-col>
-      </v-row>
 
-      <v-row>
         <v-col>
           <v-select
-            v-model="filter.transactionListFilter.responseCode"
-            :items="errorItems"
-            item-text="title"
-            item-value=""
+            v-model="filter.transactionListFilter.sourceType"
+            :items="source"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
             :return-object="false"
-            :label="$t('filters.errorCode')"
+            :label="$t('filters.source')"
             prepend-icon="mdi-clipboard-list"
             dense
             clearable
             outlined
           />
         </v-col>
-
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.cif"
-            dense
-            outlined
-            :label="$t('customer.cif')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
+      </v-row>
+      <v-row>
         <v-col>
           <v-text-field
             v-model="filter.transactionListFilter.phoneNumber"
@@ -207,6 +149,33 @@
         </v-col>
         <v-col>
           <v-text-field
+            v-model="filter.transactionListFilter.sourceNumber"
+            dense
+            outlined
+            :label="$t('report.transactionReport.transaction.sourceNumber')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model="filter.transactionListFilter.cif"
+            dense
+            outlined
+            :label="$t('customer.cif')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <!--   <v-col>
+          <v-text-field
+            v-model="filter.transactionListFilter.amount"
+            dense
+            outlined
+            :label="$t('filters.amount')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>-->
+        <v-col>
+          <v-text-field
             v-model="filter.transactionListFilter.requestId"
             dense
             outlined
@@ -214,8 +183,15 @@
             prepend-icon="mdi-account"
           />
         </v-col>
-      </v-row>
-      <v-row>
+        <v-col>
+          <v-text-field
+            v-model="filter.transactionListFilter.transactionId"
+            dense
+            outlined
+            :label="$t('filters.transactionId')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
         <v-col>
           <v-select
             v-model="filter.transactionListFilter.os"
@@ -230,9 +206,36 @@
             outlined
           />
         </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-btn
+            color="success"
+            small
+            @click="search"
+          >
+            {{ $t('buttons.search') }}
+          </v-btn>
+        </v-col>
         <v-col />
         <v-col />
         <v-col />
+        <v-col />
+        <v-col />
+        <v-col />
+        <v-col />
+        <v-col />
+        <v-col>
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="downloadReports(searchModel)"
+          >
+            {{ $t('report.download') }}
+          </v-btn>
+        </v-col>
       </v-row>
     </v-container>
   </v-card>

@@ -44,6 +44,11 @@
   min-height: 8px;
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
 }
+.v-input {
+  font-size: 12px !important;
+  letter-spacing: normal;
+  text-align: left;
+}
 
 
 $font-size-root: 14px;
