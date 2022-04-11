@@ -6,7 +6,7 @@
       dense
       item-key="operationUrl"
       sort-by="operationUrl"
-      :items="deposits"
+      :items="refundList"
       :headers="headers"
       class="elevation-5 fullScreen"
       :loading="loading"
@@ -14,11 +14,14 @@
       <template #[`item.successfulAmount`]="{ item }">
         {{ priceFormat(item.successfulAmount) }}
       </template>
-      <template #[`item.successfulNumber`]="{ item }">
-        {{ priceFormat(item.successfulNumber) }}
+      <template #[`item.successFulCount`]="{ item }">
+        {{ priceFormat(item.successFulCount) }}
       </template>
-      <template #[`item.unsuccessfulNumber`]="{ item }">
-        {{ priceFormat(item.unsuccessfulNumber) }}
+      <template #[`item.failedCount`]="{ item }">
+        {{ priceFormat(item.failedCount) }}
+      </template>
+      <template #[`item.failedAmount`]="{ item }">
+        {{ priceFormat(item.failedAmount) }}
       </template>
     </v-data-table>
   </v-row>
@@ -55,7 +58,7 @@ export default {
       downloadLoading: false,
       totalNumberOfItems: 0,
       headers: [
-        { text: this.$t('income.headers.amount'), value: 'successFulAmount' },
+        { text: this.$t('income.headers.amount'), value: 'amount' },
         { text: this.$t('income.headers.countSuccess'), value: 'successFulCount' },
         { text: this.$t('income.headers.amountSuccess'), value: 'successFulAmount' },
         { text: this.$t('income.headers.countFail'), value: 'failedCount' },

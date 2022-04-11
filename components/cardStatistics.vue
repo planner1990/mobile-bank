@@ -5,6 +5,9 @@
     <p> {{ cards.length }}</p>
     <v-data-table
       dense
+      :footer-props="{
+        'items-per-page-options': [50, 100, 300, 500, 1000]
+      }"
       item-key="operationUrl"
       sort-by="operationUrl"
       :items="cards"

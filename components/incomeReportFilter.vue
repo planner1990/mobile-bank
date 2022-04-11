@@ -124,7 +124,10 @@ export default {
         console.log(this.convertJalaliDateToTimestamp(this.fromMonth))
 
         defaultSearchModel.persianDate = this.convertJalaliDateToTimestamp(this.fromMonth, this.fromYear)
-        console.log(defaultSearchModel.persianDate)
+        console.log('majid')
+        defaultSearchModel.year = this.fromYear
+        defaultSearchModel.month = this.fromMonth
+        console.log(defaultSearchModel)
       }
     },
     convertJalaliDateToTimestamp (month, year) {

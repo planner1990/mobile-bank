@@ -4,6 +4,9 @@
   >
     <v-data-table
       dense
+      :footer-props="{
+        'items-per-page-options': [100, 200]
+      }"
       item-key="operationUrl"
       sort-by="operationUrl"
       :items="deposits"
