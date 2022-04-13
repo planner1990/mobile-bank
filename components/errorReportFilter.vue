@@ -2,7 +2,6 @@
   <v-card
     elevation="10"
     class="fullScreen"
-    color="#f6f6f6"
   >
     <v-toolbar
       class="black--text"
@@ -14,17 +13,10 @@
     >
       {{ $t('titles.filters') }}
       <v-spacer />
-      <v-btn
-        color="success"
-        small
-        @click="search"
-      >
-        {{ $t('buttons.search') }}
-      </v-btn>
     </v-toolbar>
     <v-container fluid>
       <v-row>
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="my-custom-input"
             v-model="fromDate"
@@ -46,10 +38,7 @@
             @close="checkIsNull()"
           />
         </v-col>
-        <v-col
-          cols="1"
-        />
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="custom-input"
             v-model="toDate"
@@ -71,11 +60,7 @@
             @close="checkIsNull()"
           />
         </v-col>
-        <v-col />
-        <v-col />
-      </v-row>
-      <v-row>
-        <v-col>
+        <v-col cols="2">
           <v-select
             v-model="filter.errorReportListFilter.operation"
             :items="items"
@@ -89,10 +74,7 @@
             outlined
           />
         </v-col>
-        <v-col
-          cols="1"
-        />
-        <v-col>
+        <v-col cols="2">
           <v-select
             v-model="filter.errorReportListFilter.responseCode"
             :items="errorItems"
@@ -106,8 +88,30 @@
             outlined
           />
         </v-col>
-        <v-col />
-        <v-col />
+      </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <v-btn
+            color="success"
+            small
+            class="mr-10"
+            @click="search"
+          >
+            {{ $t('buttons.search') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="10" />
+        <v-col>
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="downloadReports(defaultFilter)"
+          >
+            {{ $t('report.download') }}
+          </v-btn>
+        </v-col>
       </v-row>
     </v-container>
   </v-card>
@@ -116,9 +120,6 @@
 <script>
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
-// import ProvinceSelector from '@/components/location/provinceSelector.vue'
-// import CitySelector from '@/components/location/citySelector'
-// import BranchSelector from '~/components/location/branchSelector'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
   errorReportListFilter: {

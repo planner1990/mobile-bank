@@ -69,7 +69,12 @@
         "sellTime": "زمان خرید",
         "responseTime": "زمان پاسخ( میلی ثانیه)",
         "osVersion": "ورژن سیستم عامل",
-        "appVersion": "ورژن اپلیکیشن"
+        "appVersion": "ورژن اپلیکیشن",
+        "request": "درخواست",
+        "response": "پاسخ",
+        "depositTransaction": " آمار تراکنشهای حساب",
+        "cardTransaction": "آمار تراکنشهای کارت",
+        "otherTransaction": "آمار سایر تراکنشها"
       },
       "status": {
         "successful": "موفق",

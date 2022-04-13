@@ -14,42 +14,35 @@
           :loading="loading"
         />
       </v-row>
-      <v-row class="my-5">
-        <v-btn
-          color="warning"
-          :loading="downloadLoading"
-          dark
-          small
-          @click="downloadReports(searchModel)"
-        >
-          {{ $t('report.download') }}
-        </v-btn>
-      </v-row>
+      <v-row class="my-5" />
       <v-row>
         <v-tabs
           v-model="tabsModel"
           align-with-title
           center-active
-          color="success"
+          color="light-green darken-3"
+
+          background-color="grey lighten-2"
+          dark
         >
-          <v-tab href="#search2">
-            آمار تراکنش های حساب
+          <v-tab href="#search2" class="font-weight-black">
+            {{ $t('report.transactionReport.headers.depositTransaction') }}
           </v-tab>
           <v-tab-item value="search2">
             <br>
             <deposit-statistics :deposits="depositList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
 
-          <v-tab href="#search">
-            آمار تراکنش های کارت
+          <v-tab href="#search" class="font-weight-black">
+            {{ $t('report.transactionReport.headers.cardTransaction') }}
           </v-tab>
           <v-tab-item value="search">
             <br>
             <card-statistics :cards="cardList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
 
-          <v-tab href="#search3">
-            آمار سایر تراکنش ها
+          <v-tab href="#search3" class="font-weight-black">
+            {{ $t('report.transactionReport.headers.otherTransaction') }}
           </v-tab>
           <v-tab-item value="search3">
             <br>

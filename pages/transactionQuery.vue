@@ -32,24 +32,6 @@
           @update:items-per-page="search(searchModel)"
         >
           <template #top>
-            <v-toolbar
-              class="black--text"
-              color="lightGreen"
-              flat
-              dark
-              dense
-            >
-              <v-btn
-                color="warning"
-                :loading="downloadLoading"
-                dark
-                small
-                @click="downloadReports(searchModel)"
-              >
-                {{ $t('report.download') }}
-              </v-btn>
-            </v-toolbar>
-
             <v-dialog
               v-model="createDialog"
               max-width="1000"
@@ -58,60 +40,98 @@
               <v-card
                 :loading="loading"
               >
-                <v-card-title class="lightGreen black--text font-weight-bold headline">
+                <v-card-title class="lightGreen light-green--text font-weight-bold headline">
                   {{ $t('user.createDialog') }}
                 </v-card-title>
                 <v-container>
                   <v-form
                     ref="form"
                   >
+                    <br>
                     <v-row>
                       <v-data-table
                         dense
                         item-key="cardOwnerId"
                         sort-by="cardOwnerId"
-                        :items="itemsTransactionData"
+                        :items="itemsTransaction"
                         :headers="headersTransaction"
                         class="elevation-5 fullScreen"
                         :hide-default-footer="true"
                       />
                     </v-row>
-
+                    <br>
+                    <br>
+                    <br>
+                    <br>
                     <v-row>
-                      <v-data-table
-                        dense
-                        item-key="cardOwnerId"
-                        sort-by="cardOwnerId"
-                        dir="ltr"
-                        :items="itemsTransaction"
-                        :hide-default-footer="true"
-                        class="elevation-5 fullScreen"
-                      >
-                        <template #item="{ item }">
-                          <tr class="black--text lightGreen">
-                            <th style="text-align: center; width: 50%">
-                              پاسخ
-                            </th>
-                            <th style="text-align: center; width: 50%">
-                              درخواست
-                            </th>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div style="width:490px;overflow:auto">
-                                <pre>   {{ item.responseJson }}
-                              </pre>
-                              </div>
-                            </td>
-                            <td>
-                              <div style="width:490px;overflow:auto">
-                                <pre>   {{ item.requestJson }}
-                              </pre>
-                              </div>
-                            </td>
-                          </tr>
-                        </template>
-                      </v-data-table>
+                      <v-col cols="6">
+                        <v-card
+                          color="#f6f6f6"
+                        >
+                          <v-toolbar
+                            class="black--text"
+                            color="grey lighten-4"
+                            flat
+                            dark
+                            dense
+                            elevation="1"
+                          >
+                            {{ $t('report.transactionReport.headers.request') }}
+                            <v-spacer />
+                            <v-btn
+                              color="success"
+                              :loading="downloadLoading"
+                              dark
+                              small
+                              @click="downloadReports(searchModel)"
+                            >
+                              copy
+                            </v-btn>
+                          </v-toolbar>
+                          <v-card-text dir="ltr">
+                            <div style="width:450px;overflow:auto">
+                              <vue-json-pretty :data="requestJson" />
+                              <!-- <pre>   //{{ item.responseJson }}
+
+                              </pre>-->
+                            </div>
+                          </v-card-text>
+                        </v-card>
+                      </v-col>
+                      <v-col cols="6">
+                        <v-card
+                          color="#f6f6f6"
+                        >
+                          <v-toolbar
+                            class="black--text"
+                            color="grey lighten-4"
+                            flat
+                            dark
+                            dense
+                            elevation="1"
+                          >
+                            {{ $t('report.transactionReport.headers.response') }}
+                            <v-spacer />
+                            <v-btn
+                              color="success"
+                              :loading="downloadLoading"
+                              dark
+                              small
+                              @click="downloadReports(searchModel)"
+                            >
+                              copy
+                            </v-btn>
+                          </v-toolbar>
+                          <v-card-text dir="ltr">
+                            <div style="width:450px;overflow:auto">
+                              <vue-json-pretty :data="responseJson" />
+                              <!-- <pre>   //{{ item.responseJson }}
+
+                              </pre>-->
+                            </div>
+                          </v-card-text>
+                        </v-card>
+                      </v-col>
                     </v-row>
                   </v-form>
                 </v-container>
@@ -127,6 +147,7 @@
               </v-card>
             </v-dialog>
           </template>
+
           <template #[`item.requestTime`]="{ item }">
             {{ convertToJalali(item.requestTime) }}
           </template>
@@ -210,6 +231,7 @@ export default {
         { text: this.$t('report.transactionReport.headers.osVersion'), value: 'osVersion', sortable: false },
         { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false },
         { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
+        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false },
         { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false }
       ],
       headersTransactionRequest: [

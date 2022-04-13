@@ -1,6 +1,6 @@
 <template>
   <v-card
-    elevation="10"
+    elevation="5"
     class="fullScreen"
   >
     <v-toolbar
@@ -12,42 +12,10 @@
     >
       {{ $t("customer.title") }}
       <v-spacer />
-      <v-btn
-        color="success"
-        small
-        @click="search"
-      >
-        {{ $t('customer.search') }}
-      </v-btn>
-      <!--      <v-btn-->
-      <!--        color="warning"-->
-      <!--        fab-->
-      <!--        x-small-->
-      <!--        @click="clean"-->
-      <!--      >-->
-      <!--        <v-icon>-->
-      <!--          mdi-broom-->
-      <!--        </v-icon>-->
-      <!--      </v-btn>-->
     </v-toolbar>
     <v-container fluid>
       <v-row>
-        <v-col>
-          <v-select
-            v-model="request.customerListFilter.customerType"
-            :items="customerType"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('customer.customerType')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col cols="1" />
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="createFromDate"
             v-model="fromDate"
@@ -69,8 +37,7 @@
             @close="checkIsNullFromDate()"
           />
         </v-col>
-        <v-col cols="1" />
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="createToDate"
             v-model="toDate"
@@ -92,9 +59,22 @@
             @close="checkIsNullToDate()"
           />
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
+        <v-col cols="2">
+          <v-select
+            v-model="request.customerListFilter.customerType"
+            :items="customerType"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('customer.customerType')"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
+        </v-col>
+
+        <v-col cols="2">
           <v-text-field
             v-model="request.customerListFilter.phoneNumber"
             :label="$t('customer.phoneNumber')"
@@ -103,8 +83,7 @@
             prepend-icon="mdi-account"
           />
         </v-col>
-        <v-col cols="1" />
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             v-model="request.customerListFilter.cif"
             :label="$t('customer.cif')"
@@ -113,8 +92,7 @@
             prepend-icon="mdi-account"
           />
         </v-col>
-        <v-col cols="1" />
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             v-model="request.customerListFilter.fullName"
             :label="$t('customer.name')"
@@ -122,6 +100,30 @@
             outlined
             prepend-icon="mdi-account"
           />
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <v-btn
+            color="success"
+            small
+            class="mr-10"
+            @click="search"
+          >
+            {{ $t('buttons.search') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="10" />
+        <v-col>
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="downloadReports(defaultFilter)"
+          >
+            {{ $t('report.download') }}
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -132,6 +134,7 @@
 import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import userManager from '@/repository/user_manager'
+import reportManager from '~/repository/report_manager'
 
 const defaultSearchModel = {
   customerListFilter: {
@@ -143,6 +146,14 @@ const defaultSearchModel = {
   dateFilter: {
     from: null,
     to: null
+  },
+  paginate: {
+    page: 1,
+    length: 50,
+    sort: {
+      property: 'id',
+      direction: 'desc'
+    }
   }
 
 }
@@ -177,6 +188,26 @@ export default {
       this.request = Object.assign(this.value, defaultSearchModel)
       this.$emit('search', this.request)
       this.loading = false
+    },
+    downloadReports (searchModel) {
+      this.downloadLoading = true
+      reportManager.downloadCustomer(defaultSearchModel, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'customer-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        console.log(error)
+        this.alert({
+          color: 'error',
+          content: 'global.failed'
+        })
+      }).finally(() => {
+        this.downloadLoading = false
+      })
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {

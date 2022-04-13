@@ -32,25 +32,7 @@
           @update:page="search(searchModel)"
           @update:items-per-page="search(searchModel)"
         >
-          <template #top>
-            <v-toolbar
-              class="black--text"
-              color="lightGreen"
-              flat
-              dark
-              dense
-            >
-              <v-btn
-                color="warning"
-                :loading="downloadLoading"
-                dark
-                small
-                @click="downloadReports(searchModel)"
-              >
-                {{ $t('report.download') }}
-              </v-btn>
-            </v-toolbar>
-          </template>
+          <template #top />
 
           <template #[`item.transactionTime`]="{ item }">
             {{ convertToJalali(item.transactionTime) }}

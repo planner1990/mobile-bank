@@ -40,13 +40,14 @@
               <v-card
                 :loading="loading"
               >
-                <v-card-title class="lightGreen black--text font-weight-bold headline">
+                <v-card-title class="lightGreen light-green--text font-weight-bold headline">
                   {{ $t('user.createDialog') }}
                 </v-card-title>
                 <v-container>
                   <v-form
                     ref="form"
                   >
+                    <br>
                     <v-row>
                       <v-data-table
                         dense
@@ -58,42 +59,79 @@
                         :hide-default-footer="true"
                       />
                     </v-row>
-
+                    <br>
+                    <br>
+                    <br>
+                    <br>
                     <v-row>
-                      <v-data-table
-                        dense
-                        item-key="cardOwnerId"
-                        sort-by="cardOwnerId"
-                        dir="ltr"
-                        :items="itemsTransaction"
-                        :hide-default-footer="true"
-                        class="elevation-5 fullScreen"
-                      >
-                        <template #item="{ item }">
-                          <tr class="black--text lightGreen">
-                            <th style="text-align: center; width: 50%">
-                              پاسخ
-                            </th>
-                            <th style="text-align: center; width: 50%">
-                              درخواست
-                            </th>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div align="justify" style="width:490px;overflow:auto">
-                                <pre>   {{ item.responseJson }}
-                              </pre>
-                              </div>
-                            </td>
-                            <td>
-                              <div align="justify" style="width:490px;overflow:auto">
-                                <pre>   {{ item.requestJson }}
-                              </pre>
-                              </div>
-                            </td>
-                          </tr>
-                        </template>
-                      </v-data-table>
+                      <v-col cols="6">
+                        <v-card
+                          color="#f6f6f6"
+                        >
+                          <v-toolbar
+                            class="black--text"
+                            color="grey lighten-4"
+                            flat
+                            dark
+                            dense
+                            elevation="1"
+                          >
+                            {{ $t('report.transactionReport.headers.request') }}
+                            <v-spacer />
+                            <v-btn
+                              color="success"
+                              :loading="downloadLoading"
+                              dark
+                              small
+                              @click="downloadReports1()"
+                            >
+                              copy
+                            </v-btn>
+                          </v-toolbar>
+                          <v-card-text dir="ltr">
+                            <div style="width:450px;overflow:auto">
+                              <vue-json-pretty :data="requestJson" />
+                            <!-- <pre>   //{{ item.responseJson }}
+
+                            </pre>-->
+                            </div>
+                          </v-card-text>
+                        </v-card>
+                      </v-col>
+                      <v-col cols="6">
+                        <v-card
+                          color="#f6f6f6"
+                        >
+                          <v-toolbar
+                            class="black--text"
+                            color="grey lighten-4"
+                            flat
+                            dark
+                            dense
+                            elevation="1"
+                          >
+                            {{ $t('report.transactionReport.headers.response') }}
+                            <v-spacer />
+                            <v-btn
+                              color="success"
+                              :loading="downloadLoading"
+                              dark
+                              small
+                              @click="downloadReports1()"
+                            >
+                              copy
+                            </v-btn>
+                          </v-toolbar>
+                          <v-card-text dir="ltr">
+                            <div style="width:450px;overflow:auto">
+                              <vue-json-pretty :data="responseJson" />
+                            <!-- <pre>   //{{ item.responseJson }}
+
+                            </pre>-->
+                            </div>
+                          </v-card-text>
+                        </v-card>
+                      </v-col>
                     </v-row>
                   </v-form>
                 </v-container>
@@ -140,8 +178,11 @@
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
+import VueJsonPretty from 'vue-json-pretty'
 import transactionReportFilter from '~/components/transactionReportFilter'
 import reportManager from '~/repository/report_manager'
+import 'vue-json-pretty/lib/styles.css'
+
 const defaultFilterdetails = {
   transactionListFilter: {
     transactionId: null
@@ -150,7 +191,8 @@ const defaultFilterdetails = {
 export default {
   name: 'TransactionReport',
   components: {
-    transactionReportFilter
+    transactionReportFilter,
+    VueJsonPretty
   },
   data () {
     return {
@@ -178,7 +220,6 @@ export default {
         { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
         { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false },
         { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
-        // { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
         { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
       ],
       headersTransaction: [
@@ -187,7 +228,8 @@ export default {
         { text: this.$t('report.transactionReport.headers.osVersion'), value: 'osVersion', sortable: false },
         { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false },
         { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false }
+        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false }
       ],
       headersTransactionRequest: [
         { text: this.$t('report.transactionReport.headers.requestJson'), value: 'requestJson', sortable: false },
@@ -198,7 +240,9 @@ export default {
       ],
       items: [],
       itemsTransaction: [],
-      itemsTransactionData: []
+      itemsTransactionData: [],
+      requestJson: null,
+      responseJson: null
     }
   },
   // mounted () {
@@ -246,6 +290,10 @@ export default {
         this.itemsTransaction.splice(0, 1)
         // this.itemsTransaction.push(response.data)
         try {
+          this.requestJson = JSON.parse(response.data.requestJson)
+          this.responseJson = JSON.parse(response.data.responseJson)
+          console.log('majid')
+          console.log(this.responseJson)
           this.itemsTransaction.push({
 
             appVersion: response.data.appVersion,
@@ -317,6 +365,9 @@ export default {
     convertToJalali (date) {
       return moment(date).format('HH:mm:ss jYYYY/jM/jD')
     },
+    downloadReports1 () {
+
+    },
     downloadReports (searchModel) {
       this.downloadLoading = true
       reportManager.downloadTransactionList(searchModel, this.$axios).then((res) => {
@@ -343,7 +394,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
   .fullScreen {
     width: 100%;
   }

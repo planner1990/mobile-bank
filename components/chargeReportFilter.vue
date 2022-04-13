@@ -1,6 +1,6 @@
 <template>
   <v-card
-    elevation="10"
+    elevation="5"
     class="fullScreen"
   >
     <v-toolbar
@@ -13,114 +13,10 @@
     >
       {{ $t('titles.filters') }}
       <v-spacer />
-      <v-btn
-        color="success"
-        small
-        @click="search"
-      >
-        {{ $t('buttons.search') }}
-      </v-btn>
     </v-toolbar>
     <v-container fluid>
       <v-row>
-        <v-col>
-          <v-text-field
-            v-model="filter.chargeListFilter.requestId"
-            dense
-            outlined
-            :label="$t('filters.trackerId')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col>
-          <v-select
-            v-model="filter.chargeListFilter.amount"
-            :items="chargeAmount"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.chargeAmount')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.chargeListFilter.phoneNumber"
-            dense
-            outlined
-            :label="$t('customer.phoneNumber')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col>
-          <v-select
-            v-model="filter.chargeListFilter.operator"
-            :items="operator"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.operator')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-select
-            v-model="filter.chargeListFilter.sourceType"
-            :items="source"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.source')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.chargeListFilter.source"
-            dense
-            outlined
-            :label="$t('report.transactionReport.transaction.sourceNumber')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-
-        <v-col>
-          <v-select
-            v-model="filter.chargeListFilter.result"
-            :items="resultId"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.result')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.chargeListFilter.transactionId"
-            dense
-            outlined
-            :label="$t('filters.transactionId')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="createFromDate"
             v-model="fromDate"
@@ -143,7 +39,7 @@
           />
         </v-col>
 
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="createToDate"
             v-model="toDate"
@@ -165,8 +61,125 @@
             @close="checkIsNullToDate()"
           />
         </v-col>
-        <v-col />
-        <v-col />
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.chargeListFilter.phoneNumber"
+            dense
+            outlined
+            :label="$t('customer.phoneNumber')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-select
+            v-model="filter.chargeListFilter.operator"
+            :items="operator"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('filters.operator')"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-select
+            v-model="filter.chargeListFilter.sourceType"
+            :items="source"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('filters.source')"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.chargeListFilter.source"
+            dense
+            outlined
+            :label="$t('report.transactionReport.transaction.sourceNumber')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.chargeListFilter.requestId"
+            dense
+            outlined
+            :label="$t('filters.trackerId')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-select
+            v-model="filter.chargeListFilter.amount"
+            :items="chargeAmount"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('filters.chargeAmount')"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-select
+            v-model="filter.chargeListFilter.result"
+            :items="resultId"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('filters.result')"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.chargeListFilter.transactionId"
+            dense
+            outlined
+            :label="$t('filters.transactionId')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+      </v-row>
+      <v-row />
+      <v-row no-gutters>
+        <v-col>
+          <v-btn
+            color="success"
+            small
+            class="mr-10"
+            @click="search"
+          >
+            {{ $t('buttons.search') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="10" />
+        <v-col>
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="downloadReports(defaultFilter)"
+          >
+            {{ $t('report.download') }}
+          </v-btn>
+        </v-col>
       </v-row>
     </v-container>
   </v-card>
@@ -193,6 +206,14 @@ const defaultFilter = {
   dateFilter: {
     from: null,
     to: null
+  },
+  paginate: {
+    page: 1,
+    length: 50,
+    sort: {
+      property: 'id',
+      direction: 'desc'
+    }
   }
 }
 export default {
@@ -238,7 +259,6 @@ export default {
       this.$emit('search', this.filter)
     },
     operation () {
-      console.log('majid')
       this.loading = true
       reportManager.operationList(this.$axios).then((response) => {
         console.log(response)
@@ -246,7 +266,6 @@ export default {
         this.items = operationList
         console.log(operationList)
       }).catch((error) => {
-        console.log('majid11')
         if (error.response) {
           console.log(error.response)
           this.alert({
@@ -261,6 +280,26 @@ export default {
           })
         }
         this.loading = false
+      })
+    },
+    downloadReports (searchModel) {
+      this.downloadLoading = true
+      reportManager.downloadChargeList(defaultFilter, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'charge-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        console.log(error)
+        this.alert({
+          color: 'error',
+          content: 'global.failed'
+        })
+      }).finally(() => {
+        this.downloadLoading = false
       })
     },
     checkIsNullFromDate () {

@@ -31,25 +31,7 @@
           @update:page="search (requestObject)"
           @update:items-per-page="search (requestObject)"
         >
-          <template #top>
-            <v-toolbar
-              class="black--text"
-              color="lightGreen"
-              flat
-              dark
-              dense
-            >
-              <v-btn
-                color="warning"
-                :loading="downloadLoading"
-                dark
-                small
-                @click="downloadReports(requestObject)"
-              >
-                {{ $t('report.download') }}
-              </v-btn>
-            </v-toolbar>
-          </template>
+          <template #top />
 
           <template #[`item.registerDate`]="{ item }">
             {{ convertToJalali(item.registerDate) }}

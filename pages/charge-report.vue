@@ -28,25 +28,7 @@
           :items-per-page.sync="searchModel.paginate.length"
           :server-items-length="totalNumberOfItems"
         >
-          <template #top>
-            <v-toolbar
-              class="black--text"
-              color="lightGreen"
-              flat
-              dark
-              dense
-            >
-              <v-btn
-                color="warning"
-                :loading="downloadLoading"
-                dark
-                small
-                @click="downloadReports(searchModel)"
-              >
-                {{ $t('report.download') }}
-              </v-btn>
-            </v-toolbar>
-          </template>
+          <template #top />
           <template #[`item.requestTime`]="{ item }">
             {{ convertToJalali(item.requestTime) }}
           </template>
@@ -179,27 +161,6 @@ export default {
       if (date !== null) {
         return moment(date).format('HH:mm:ss jYYYY/jM/jD')
       }
-    },
-    downloadReports (searchModel) {
-      this.downloadLoading = true
-      delete searchModel.paginate
-      reportManager.downloadChargeList(searchModel, this.$axios).then((res) => {
-        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
-        const fileLink = document.createElement('a')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', 'charge-reports.xlsx')
-        document.body.appendChild(fileLink)
-        fileLink.click()
-        // ------------
-      }).catch((error) => {
-        console.log(error)
-        this.alert({
-          color: 'error',
-          content: 'global.failed'
-        })
-      }).finally(() => {
-        this.downloadLoading = false
-      })
     },
     test (platform) {
       console.log(platform)
