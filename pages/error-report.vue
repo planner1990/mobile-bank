@@ -101,6 +101,9 @@ export default {
         }
         this.loading = false
       })
+        .finally(() => {
+          this.loading = false
+        })
     },
     downloadReports (searchModel) {
       this.downloadLoading = true

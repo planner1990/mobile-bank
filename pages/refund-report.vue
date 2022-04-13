@@ -157,6 +157,9 @@ export default {
         }
         this.loading = false
       })
+        .finally(() => {
+          this.loading = false
+        })
     },
     convertToJalali (date) {
       return moment(date).format('HH:mm:ss jYYYY/jM/jD')

@@ -344,7 +344,11 @@ export default {
           })
         }
       })
+        .finally(() => {
+          this.loading = false
+        })
     },
+
     convertToJalali (date) {
       return moment(date).format('HH:mm:ss jYYYY/jM/jD')
     },

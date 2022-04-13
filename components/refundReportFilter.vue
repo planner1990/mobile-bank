@@ -322,12 +322,12 @@ export default {
   },
   data () {
     return {
-      fromDate: this.currentDayFrom(),
-      toDate: this.currentDayTo(),
-      transactionFromDate: this.currentDayFrom(),
-      transactionToDate: this.currentDayTo(),
-      refundFromDate: this.currentDayFrom(),
-      refundToDate: this.currentDayTo(),
+      fromDate: null,
+      toDate: null,
+      transactionFromDate: null,
+      transactionToDate: null,
+      refundFromDate: null,
+      refundToDate: null,
       menu2: false,
       modal2: false,
       filter: defaultFilter,
