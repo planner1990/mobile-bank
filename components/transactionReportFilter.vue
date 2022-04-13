@@ -1,6 +1,6 @@
 <template>
   <v-card
-    elevation="10"
+    elevation="5"
     class="fullScreen"
   >
     <v-toolbar
@@ -82,7 +82,7 @@
             >
               <!-- Divider and Header-->
               <template v-if="typeof data.item !== 'object'">
-                <v-list-tile-content style="font-size: 1.80rem !important;" v-text="data.item" />
+                <v-list-tile-content style="font-size: 1.80rem !important; background-color: #70F570 " v-text="data.item" />
               </template>
               <!-- Normal item -->
               <template v-else>
@@ -207,31 +207,25 @@
           />
         </v-col>
       </v-row>
-      <v-row>
+      <v-row no-gutters>
         <v-col>
           <v-btn
             color="success"
             small
+            class="mr-10"
             @click="search"
           >
             {{ $t('buttons.search') }}
           </v-btn>
         </v-col>
-        <v-col />
-        <v-col />
-        <v-col />
-        <v-col />
-        <v-col />
-        <v-col />
-        <v-col />
-        <v-col />
+        <v-col cols="10" />
         <v-col>
           <v-btn
             color="warning"
             :loading="downloadLoading"
             dark
             small
-            @click="downloadReports(searchModel)"
+            @click="downloadReports(defaultFilter)"
           >
             {{ $t('report.download') }}
           </v-btn>
@@ -265,6 +259,14 @@ const defaultFilter = {
   dateFilter: {
     from: null,
     to: null
+  },
+  paginate: {
+    page: 1,
+    length: 50,
+    sort: {
+      property: 'id',
+      direction: 'desc'
+    }
   }
 }
 export default {
@@ -352,6 +354,26 @@ export default {
           })
         }
         this.loading = false
+      })
+    },
+    downloadReports (searchModel) {
+      this.downloadLoading = true
+      reportManager.downloadTransactionList(defaultFilter, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'transaction-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        console.log(error)
+        this.alert({
+          color: 'error',
+          content: 'global.failed'
+        })
+      }).finally(() => {
+        this.downloadLoading = false
       })
     },
     errorList () {

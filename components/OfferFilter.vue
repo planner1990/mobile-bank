@@ -1,6 +1,6 @@
 <template>
   <v-card
-    elevation="10"
+    elevation="5"
     class="fullScreen"
   >
     <v-toolbar
@@ -13,17 +13,10 @@
     >
       {{ $t('titles.filters') }}
       <v-spacer />
-      <v-btn
-        color="success"
-        small
-        @click="search"
-      >
-        {{ $t('buttons.search') }}
-      </v-btn>
     </v-toolbar>
     <v-container fluid>
       <v-row>
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="createFromDate"
             v-model="from"
@@ -46,7 +39,7 @@
           />
         </v-col>
 
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="createToDate"
             v-model="to"
@@ -68,19 +61,7 @@
             @close="checkIsNullToDate()"
           />
         </v-col>
-        <!--      <province-selector-->
-        <!--        v-model="filter.locationFilter.provinceCode"-->
-        <!--      />-->
-        <!--      <city-selector-->
-        <!--        v-model="filter.locationFilter.cityCode"-->
-        <!--        :province="computedProvince"-->
-        <!--      />-->
-        <!--      <branch-selector-->
-        <!--        v-model="filter.locationFilter.branchCode"-->
-        <!--        :province="computedProvince"-->
-        <!--        :city="computedCity"-->
-        <!--      />-->
-        <v-col>
+        <v-col cols="2">
           <v-select
             v-model="filter.status"
             :items="status"
@@ -94,7 +75,7 @@
             outlined
           />
         </v-col>
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             v-model="filter.title"
             dense
@@ -102,6 +83,30 @@
             :label="$t('offer.title')"
             prepend-icon="mdi-account"
           />
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <v-btn
+            color="success"
+            small
+            class="mr-10"
+            @click="search"
+          >
+            {{ $t('buttons.search') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="10" />
+        <v-col>
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="downloadReports(defaultFilter)"
+          >
+            {{ $t('report.download') }}
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>

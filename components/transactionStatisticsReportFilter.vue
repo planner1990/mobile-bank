@@ -1,8 +1,7 @@
 <template>
   <v-card
-    elevation="10"
+    elevation="5"
     class="fullScreen"
-    color="#f6f6f6"
   >
     <v-toolbar
       class="black--text"
@@ -14,17 +13,10 @@
     >
       {{ $t('titles.filters') }}
       <v-spacer />
-      <v-btn
-        color="success"
-        small
-        @click="search"
-      >
-        {{ $t('buttons.search') }}
-      </v-btn>
     </v-toolbar>
     <v-container fluid>
       <v-row>
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="my-custom-input"
             v-model="fromDate"
@@ -46,7 +38,7 @@
             @close="checkIsNull()"
           />
         </v-col>
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="custom-input"
             v-model="toDate"
@@ -68,7 +60,7 @@
             @close="checkIsNull()"
           />
         </v-col>
-        <v-col>
+        <v-col cols="2">
           <v-select
             v-model="filter.operatingSystem"
             :items="osName"
@@ -81,6 +73,30 @@
             clearable
             outlined
           />
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <v-btn
+            color="success"
+            small
+            class="mr-10"
+            @click="search"
+          >
+            {{ $t('buttons.search') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="10" />
+        <v-col>
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="downloadReports(defaultFilter)"
+          >
+            {{ $t('report.download') }}
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -134,6 +150,27 @@ export default {
       if (this.toDate != null) {
         this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, 23, 59, 59)
       }
+    },
+
+    downloadReports (searchModel) {
+      this.downloadLoading = true
+      reportManager.downloadTransactionStatistics(defaultFilter, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'transactionStatistics-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        console.log(error)
+        this.alert({
+          color: 'error',
+          content: 'global.failed'
+        })
+      }).finally(() => {
+        this.downloadLoading = false
+      })
     },
     convertJalaliDateToTimestamp (date) {
       const year = moment(date, 'jYYYY/jM/jD').format('YYYY')

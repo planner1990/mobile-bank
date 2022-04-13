@@ -1,6 +1,6 @@
 <template>
   <v-card
-    elevation="10"
+    elevation="5"
     class="fullScreen"
   >
     <v-toolbar
@@ -13,51 +13,10 @@
     >
       {{ $t('titles.filters') }}
       <v-spacer />
-      <v-btn
-        color="success"
-        small
-        @click="search"
-      >
-        {{ $t('buttons.search') }}
-      </v-btn>
     </v-toolbar>
     <v-container fluid>
       <v-row>
-        <v-col>
-          <v-select
-            v-model="filter.refundListFilter.state"
-            :items="refundType"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.refund')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.refundListFilter.requestId"
-            dense
-            outlined
-            :label="$t('filters.trackerIdBank')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.refundListFilter.source"
-            dense
-            outlined
-            :label="$t('filters.sourceNumber')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="createFromDate"
             v-model="fromDate"
@@ -81,7 +40,7 @@
           />
         </v-col>
 
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="createToDate"
             v-model="toDate"
@@ -102,142 +61,6 @@
             auto-submit
             format="HH:mm jYYYY/jMM/jDD"
             @close="checkIsNullToDate()"
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.refundListFilter.phoneNumber"
-            dense
-            outlined
-            :label="$t('filters.phoneNumber')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-text-field
-            id="transactionFromDate"
-            v-model="transactionFromDate"
-            prepend-icon="mdi-calendar-month"
-            outlined
-            dense
-            :placeholder="$t('filters.fromDate')"
-            :label="$t('filters.transactionTime')"
-          />
-          <p-date-picker
-            v-model="transactionFromDate"
-            type="datetime"
-            element="transactionFromDate"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullTransactionFromDate()"
-          />
-        </v-col>
-
-        <v-col>
-          <v-text-field
-            id="transactionToDate"
-            v-model="transactionToDate"
-            prepend-icon="mdi-calendar-month"
-            outlined
-            dense
-            :placeholder="$t('filters.toDate')"
-            :label="$t('filters.to')"
-          />
-          <p-date-picker
-            v-model="transactionToDate"
-            type="datetime"
-            element="transactionToDate"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullTransactionToDate()"
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.refundListFilter.amount"
-            dense
-            outlined
-            :label="$t('filters.amount')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-text-field
-            id="refundFromDate"
-            v-model="refundFromDate"
-            prepend-icon="mdi-calendar-month"
-            outlined
-            dense
-            :placeholder="$t('filters.fromDate')"
-            :label="$t('filters.refundTime')"
-          />
-          <p-date-picker
-            v-model="refundFromDate"
-            type="datetime"
-            element="refundFromDate"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullRefundFromDate()"
-          />
-        </v-col>
-
-        <v-col>
-          <v-text-field
-            id="refundToDate"
-            v-model="refundToDate"
-            prepend-icon="mdi-calendar-month"
-            outlined
-            dense
-            :placeholder="$t('filters.toDate')"
-            :label="$t('filters.to')"
-          />
-          <p-date-picker
-            v-model="refundToDate"
-            type="datetime"
-            element="refundToDate"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullRefundToDate()"
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.refundListFilter.transactionId"
-            dense
-            outlined
-            :label="$t('filters.transactionBank')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="4">
-          <v-text-field
-            v-model="filter.refundListFilter.transactionResponseCode"
-            dense
-            outlined
-            :label="$t('filters.errorCode')"
-            prepend-icon="mdi-account"
           />
         </v-col>
         <v-col cols="2">
@@ -261,12 +84,202 @@
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
             :label="$t('filters.orderField')"
+            prepend-icon="mdi-clipboard-list"
             dense
             clearable
             outlined
           />
         </v-col>
-        <v-col cols="3" />
+
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.refundListFilter.source"
+            dense
+            outlined
+            :label="$t('filters.sourceNumber')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.refundListFilter.phoneNumber"
+            dense
+            outlined
+            :label="$t('filters.phoneNumber')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="2">
+          <v-text-field
+            id="transactionFromDate"
+            v-model="transactionFromDate"
+            prepend-icon="mdi-calendar-month"
+            outlined
+            dense
+            :placeholder="$t('filters.fromDate')"
+            :label="$t('filters.transactionTime')"
+          />
+          <p-date-picker
+            v-model="transactionFromDate"
+            type="datetime"
+            element="transactionFromDate"
+            color="dimgray"
+            dense
+            outlined
+            popove
+            auto-submit
+            format="HH:mm jYYYY/jMM/jDD"
+            @close="checkIsNullTransactionFromDate()"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            id="transactionToDate"
+            v-model="transactionToDate"
+            prepend-icon="mdi-calendar-month"
+            outlined
+            dense
+            :placeholder="$t('filters.toDate')"
+            :label="$t('filters.to')"
+          />
+          <p-date-picker
+            v-model="transactionToDate"
+            type="datetime"
+            element="transactionToDate"
+            color="dimgray"
+            dense
+            outlined
+            popove
+            auto-submit
+            format="HH:mm jYYYY/jMM/jDD"
+            @close="checkIsNullTransactionToDate()"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-select
+            v-model="filter.refundListFilter.state"
+            :items="refundType"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('filters.refund')"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.refundListFilter.requestId"
+            dense
+            outlined
+            :label="$t('filters.trackerIdBank')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.refundListFilter.amount"
+            dense
+            outlined
+            :label="$t('filters.amount')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.refundListFilter.transactionId"
+            dense
+            outlined
+            :label="$t('filters.transactionBank')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="2">
+          <v-text-field
+            id="refundFromDate"
+            v-model="refundFromDate"
+            prepend-icon="mdi-calendar-month"
+            outlined
+            dense
+            :placeholder="$t('filters.fromDate')"
+            :label="$t('filters.refundTime')"
+          />
+          <p-date-picker
+            v-model="refundFromDate"
+            type="datetime"
+            element="refundFromDate"
+            color="dimgray"
+            dense
+            outlined
+            popove
+            auto-submit
+            format="HH:mm jYYYY/jMM/jDD"
+            @close="checkIsNullRefundFromDate()"
+          />
+        </v-col>
+
+        <v-col cols="2">
+          <v-text-field
+            id="refundToDate"
+            v-model="refundToDate"
+            prepend-icon="mdi-calendar-month"
+            outlined
+            dense
+            :placeholder="$t('filters.toDate')"
+            :label="$t('filters.to')"
+          />
+          <p-date-picker
+            v-model="refundToDate"
+            type="datetime"
+            element="refundToDate"
+            color="dimgray"
+            dense
+            outlined
+            popove
+            auto-submit
+            format="HH:mm jYYYY/jMM/jDD"
+            @close="checkIsNullRefundToDate()"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.refundListFilter.transactionResponseCode"
+            dense
+            outlined
+            :label="$t('filters.errorCode')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <v-btn
+            color="success"
+            small
+            class="mr-10"
+            @click="search"
+          >
+            {{ $t('buttons.search') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="10" />
+        <v-col>
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="downloadReports(defaultFilter)"
+          >
+            {{ $t('report.download') }}
+          </v-btn>
+        </v-col>
       </v-row>
     </v-container>
   </v-card>

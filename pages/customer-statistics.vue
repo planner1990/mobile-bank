@@ -48,35 +48,9 @@
             >
               mdi-pencil
             </v-icon>
-            <!--            <v-icon-->
-            <!--              small-->
-            <!--              class="mr-2"-->
-            <!--              :disabled="item.status === 0"-->
-            <!--              @click.stop="del(item)"-->
-            <!--            >-->
-            <!--              mdi-trash-can-->
-            <!--            </v-icon>-->
           </template>
 
-          <template #top>
-            <v-toolbar
-              class="black--text"
-              color="lightGreen"
-              flat
-              dark
-              dense
-            >
-              <v-btn
-                color="warning"
-                :loading="downloadLoading"
-                dark
-                small
-                @click="downloadReports(requestObject)"
-              >
-                {{ $t('report.download') }}
-              </v-btn>
-            </v-toolbar>
-          </template>
+          <template #top />
           <template #[`item.customerType`]="{ item }">
             {{ $t('customer.customerStatistics.customerTypeTitle.' + item.customerType) }}
           </template>
