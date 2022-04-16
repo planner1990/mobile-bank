@@ -53,7 +53,7 @@
                         dense
                         item-key="cardOwnerId"
                         sort-by="cardOwnerId"
-                        :items="itemsTransaction"
+                        :items="itemsTransactionData"
                         :headers="headersTransaction"
                         class="elevation-5 fullScreen"
                         :hide-default-footer="true"
@@ -67,6 +67,7 @@
                       <v-col cols="6">
                         <v-card
                           color="#f6f6f6"
+                          height="100%"
                         >
                           <v-toolbar
                             class="black--text"
@@ -78,17 +79,8 @@
                           >
                             {{ $t('report.transactionReport.headers.request') }}
                             <v-spacer />
-                            <v-btn
-                              color="success"
-                              :loading="downloadLoading"
-                              dark
-                              small
-                              @click="downloadReports1()"
-                            >
-                              copy
-                            </v-btn>
                           </v-toolbar>
-                          <v-card-text dir="ltr">
+                          <v-card-text dir="ltr" class="text-center">
                             <div style="width:450px;overflow:auto">
                               <vue-json-pretty :data="requestJson" />
                             <!-- <pre>   //{{ item.responseJson }}
@@ -99,38 +91,34 @@
                         </v-card>
                       </v-col>
                       <v-col cols="6">
-                        <v-card
-                          color="#f6f6f6"
-                        >
-                          <v-toolbar
-                            class="black--text"
-                            color="grey lighten-4"
-                            flat
-                            dark
-                            dense
-                            elevation="1"
+                        <v-flex text-xs-center fill-height>
+                          <v-card
+                            color="#f6f6f6"
+                            height="100%"
+
+                            class="justify-center"
                           >
-                            {{ $t('report.transactionReport.headers.response') }}
-                            <v-spacer />
-                            <v-btn
-                              color="success"
-                              :loading="downloadLoading"
+                            <v-toolbar
+                              class="black--text"
+                              color="grey lighten-4"
+                              flat
                               dark
-                              small
-                              @click="downloadReports1()"
+                              dense
+                              elevation="1"
                             >
-                              copy
-                            </v-btn>
-                          </v-toolbar>
-                          <v-card-text dir="ltr">
-                            <div style="width:450px;overflow:auto">
-                              <vue-json-pretty :data="responseJson" />
-                            <!-- <pre>   //{{ item.responseJson }}
+                              {{ $t('report.transactionReport.headers.response') }}
+                              <v-spacer />
+                            </v-toolbar>
+                            <v-card-text dir="ltr">
+                              <div style="width:450px" class=" justify-center">
+                                <vue-json-pretty :data="responseJson" />
+                                <!-- <pre>   //{{ item.responseJson }}
 
                             </pre>-->
-                            </div>
-                          </v-card-text>
-                        </v-card>
+                              </div>
+                            </v-card-text>
+                          </v-card>
+                        </v-flex>
                       </v-col>
                     </v-row>
                   </v-form>
@@ -159,6 +147,17 @@
           <template #[`item.amount`]="{ item }">
             {{ priceFormat(item.amount) }}
           </template>
+          <!--     <template #item.responseCode="{ item }">
+            <template v-if="item.responseCode !== null">
+              <v-chip
+                label="false"
+                class="width:100px;"
+                :color="getColor(item.responseCode)"
+              >
+                {{ item.responseCode }}
+              </v-chip>
+            </template>
+          </template>-->
           <template #[`item.detail`]="{ item }">
             <v-icon
               small
@@ -252,6 +251,13 @@ export default {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+    getColor (status) {
+      if (status === 200) {
+        return '#E4E8E3'
+      } else {
+        return '#0c0c0d'
+      }
+    },
     priceFormat (amount) {
       if (amount) {
         return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -267,6 +273,8 @@ export default {
       }
     },
     editItem (item) {
+      console.log('item')
+      console.log(item)
       this.createDialog = true
       this.itemsTransactionData.splice(0, 1)
       this.itemsTransactionData.push({
@@ -279,29 +287,21 @@ export default {
         osName: item.osName,
         responseTimeLong: item.responseTimeLong,
         requestId: item.requestId,
+        traceId: item.traceId,
         ip: item.ip
 
       })
 
       defaultFilterdetails.transactionListFilter.transactionId = item.id
       reportManager.transactionDetails(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
-        console.log('searchModel')
-        console.log(response.data)
         this.itemsTransaction.splice(0, 1)
         // this.itemsTransaction.push(response.data)
         try {
           this.requestJson = JSON.parse(response.data.requestJson)
           this.responseJson = JSON.parse(response.data.responseJson)
-          console.log('majid')
-          console.log(this.responseJson)
+
           this.itemsTransaction.push({
 
-            appVersion: response.data.appVersion,
-            osVersion: response.data.osVersion,
-            osName: response.data.osName,
-            responseLongTime: response.data.responseLongTime,
-            requestId: response.data.requestId,
-            ip: response.data.ipAddress,
             responseJson: JSON.parse(response.data.responseJson),
             requestJson: JSON.parse(response.data.requestJson)
           })
@@ -319,20 +319,10 @@ export default {
           })
         }
         this.loading = false
-      }).catch((error) => {
-        if (error.response) {
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-        this.loading = false
       })
+        .finally(() => {
+          this.loading = false
+        })
     },
     closeTransactionDetailsDialog () {
       this.itemsTransaction = []
@@ -404,5 +394,10 @@ export default {
 <style scoped>
   .fullScreen {
     width: 100%;
+  }
+
+  html {
+    font-size: 12px !important;
+    text-rendering: optimizeLegibility;
   }
 </style>

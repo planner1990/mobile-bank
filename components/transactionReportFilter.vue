@@ -87,7 +87,7 @@
               <!-- Normal item -->
               <template v-else>
                 <v-list-tile-content>
-                  <v-list-tile-title v-html="data.item.title" />
+                  <v-list-tile-title style="font-size: 12px !important;" v-text="data.item.title" />
                 </v-list-tile-content>
               </template>
             </template>
