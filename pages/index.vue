@@ -53,7 +53,7 @@
                         dense
                         item-key="cardOwnerId"
                         sort-by="cardOwnerId"
-                        :items="itemsTransaction"
+                        :items="itemsTransactionData"
                         :headers="headersTransaction"
                         class="elevation-5 fullScreen"
                         :hide-default-footer="true"
@@ -273,6 +273,8 @@ export default {
       }
     },
     editItem (item) {
+      console.log('item')
+      console.log(item)
       this.createDialog = true
       this.itemsTransactionData.splice(0, 1)
       this.itemsTransactionData.push({
@@ -285,6 +287,7 @@ export default {
         osName: item.osName,
         responseTimeLong: item.responseTimeLong,
         requestId: item.requestId,
+        traceId: item.traceId,
         ip: item.ip
 
       })
@@ -294,6 +297,9 @@ export default {
         this.itemsTransaction.splice(0, 1)
         // this.itemsTransaction.push(response.data)
         try {
+          this.requestJson = JSON.parse(response.data.requestJson)
+          this.responseJson = JSON.parse(response.data.responseJson)
+
           this.itemsTransaction.push({
 
             responseJson: JSON.parse(response.data.responseJson),
@@ -302,6 +308,12 @@ export default {
         } catch (e) {
           this.itemsTransaction.push({
 
+            appVersion: response.data.appVersion,
+            osVersion: response.data.osVersion,
+            osName: response.data.osName,
+            responseLongTime: response.data.responseLongTime,
+            requestId: response.data.requestId,
+            ip: response.data.ipAddress,
             responseJson: response.data.responseJson,
             requestJson: response.data.requestJson
           })

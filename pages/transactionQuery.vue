@@ -53,7 +53,7 @@
                         dense
                         item-key="cardOwnerId"
                         sort-by="cardOwnerId"
-                        :items="itemsTransaction"
+                        :items="itemsTransactionData"
                         :headers="headersTransaction"
                         class="elevation-5 fullScreen"
                         :hide-default-footer="true"
@@ -270,25 +270,39 @@ export default {
         osName: item.osName,
         responseTimeLong: item.responseTimeLong,
         requestId: item.requestId,
+        traceId: item.traceId,
         ip: item.ip
 
       })
 
       defaultFilterdetails.transactionListFilter.transactionId = item.id
       reportManager.transactionDetails(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
-        console.log('details')
-        console.log(response.data)
         this.itemsTransaction.splice(0, 1)
         // this.itemsTransaction.push(response.data)
         try {
+          this.requestJson = JSON.parse(response.data.requestJson)
+          this.responseJson = JSON.parse(response.data.responseJson)
+
           this.itemsTransaction.push({
 
+            appVersion: response.data.appVersion,
+            osVersion: response.data.osVersion,
+            osName: response.data.osName,
+            responseLongTime: response.data.responseLongTime,
+            requestId: response.data.requestId,
+            ip: response.data.ipAddress,
             responseJson: JSON.parse(response.data.responseJson),
             requestJson: JSON.parse(response.data.requestJson)
           })
         } catch (e) {
           this.itemsTransaction.push({
 
+            appVersion: response.data.appVersion,
+            osVersion: response.data.osVersion,
+            osName: response.data.osName,
+            responseLongTime: response.data.responseLongTime,
+            requestId: response.data.requestId,
+            ip: response.data.ipAddress,
             responseJson: response.data.responseJson,
             requestJson: response.data.requestJson
           })

@@ -67,7 +67,7 @@
         "chargeAmount": "مبلغ شارژ",
         "chargeType": "نوع شارژ",
         "sellTime": "زمان خرید",
-        "responseTime": "زمان پاسخ( میلی ثانیه)",
+        "responseTime": "زمان پاسخ",
         "osVersion": "ورژن سیستم عامل",
         "appVersion": "ورژن اپلیکیشن",
         "request": "درخواست",
@@ -158,7 +158,7 @@
         "url": "نوع تراکنش",
         "createdTime": "زمان ایجاد",
         "refundOrFailTime": "زمان استرداد وجه",
-        "state": "استرداد وجه",
+        "state": "وضعیت",
         "switchResponseRrn":"کد پیگیری یاقوت",
         "requestId":"کد پیگیری عملیات"
       },
