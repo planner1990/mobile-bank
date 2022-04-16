@@ -221,7 +221,8 @@ export default {
         { text: this.$t('report.refundReport.headers.transactionId'), value: 'transactionId', sortable: false },
         { text: this.$t('report.refundReport.headers.url'), value: 'url', sortable: false },
         { text: this.$t('report.refundReport.headers.ip'), value: 'ip', sortable: false },
-        { text: this.$t('report.refundReport.headers.switchResponseRrn'), value: 'switchResponseRrn', sortable: false }
+        { text: this.$t('report.refundReport.headers.switchResponseRrn'), value: 'switchResponseRrn', sortable: false },
+        { text: this.$t('report.refundReport.headers.errorCode'), value: 'errorCode', sortable: false }
       ],
 
       items: [],
@@ -282,7 +283,8 @@ export default {
         transactionId: item.transactionId,
         url: item.url,
         switchResponseRrn: item.switchResponseRrn,
-        ip: item.ip
+        ip: item.ip,
+        errorCode: item.errorCode
 
       })
       defaultFilterdetails.transactionListFilter.transactionId = item.id

@@ -53,7 +53,7 @@
                         dense
                         item-key="cardOwnerId"
                         sort-by="cardOwnerId"
-                        :items="itemsTransactionData"
+                        :items="itemsTransaction"
                         :headers="headersTransaction"
                         class="elevation-5 fullScreen"
                         :hide-default-footer="true"
@@ -214,7 +214,7 @@ export default {
         { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
       ],
       headersTransaction: [
-        { text: this.$t('report.transactionReport.headers.responseTime'), value: 'responseTimeLong', sortable: false },
+        { text: this.$t('report.transactionReport.headers.responseTime'), value: 'responseLongTime', sortable: false },
         { text: this.$t('report.transactionReport.headers.appVersion'), value: 'appVersion', sortable: false },
         { text: this.$t('report.transactionReport.headers.osVersion'), value: 'osVersion', sortable: false },
         { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false },
@@ -260,6 +260,8 @@ export default {
     editItem (item) {
       this.createDialog = true
       this.itemsTransactionData.splice(0, 1)
+      console.log('query0')
+      console.log(item)
       this.itemsTransactionData.push({
         sourceType: item.sourceType,
         sourceNumber: item.sourceNumber,
@@ -274,10 +276,13 @@ export default {
         ip: item.ip
 
       })
-
+      console.log('query1')
+      console.log(this.itemsTransactionData)
       defaultFilterdetails.transactionListFilter.transactionId = item.id
-      reportManager.transactionDetails(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
+      reportManager.transactionDetailsQuery(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
         this.itemsTransaction.splice(0, 1)
+        console.log('query')
+        console.log(response.data)
         // this.itemsTransaction.push(response.data)
         try {
           this.requestJson = JSON.parse(response.data.requestJson)
@@ -291,21 +296,12 @@ export default {
             responseLongTime: response.data.responseLongTime,
             requestId: response.data.requestId,
             ip: response.data.ipAddress,
-            responseJson: JSON.parse(response.data.responseJson),
-            requestJson: JSON.parse(response.data.requestJson)
-          })
-        } catch (e) {
-          this.itemsTransaction.push({
+            traceId: response.data.traceId
 
-            appVersion: response.data.appVersion,
-            osVersion: response.data.osVersion,
-            osName: response.data.osName,
-            responseLongTime: response.data.responseLongTime,
-            requestId: response.data.requestId,
-            ip: response.data.ipAddress,
-            responseJson: response.data.responseJson,
-            requestJson: response.data.requestJson
           })
+          console.log('query2')
+          console.log(this.itemsTransactionData)
+        } catch (e) {
         }
         this.loading = false
       })
