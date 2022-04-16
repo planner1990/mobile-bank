@@ -260,8 +260,6 @@ export default {
     editItem (item) {
       this.createDialog = true
       this.itemsTransactionData.splice(0, 1)
-      console.log('query0')
-      console.log(item)
       this.itemsTransactionData.push({
         sourceType: item.sourceType,
         sourceNumber: item.sourceNumber,
@@ -276,13 +274,9 @@ export default {
         ip: item.ip
 
       })
-      console.log('query1')
-      console.log(this.itemsTransactionData)
       defaultFilterdetails.transactionListFilter.transactionId = item.id
       reportManager.transactionDetailsQuery(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
         this.itemsTransaction.splice(0, 1)
-        console.log('query')
-        console.log(response.data)
         // this.itemsTransaction.push(response.data)
         try {
           this.requestJson = JSON.parse(response.data.requestJson)
@@ -299,8 +293,6 @@ export default {
             traceId: response.data.traceId
 
           })
-          console.log('query2')
-          console.log(this.itemsTransactionData)
         } catch (e) {
         }
         this.loading = false
