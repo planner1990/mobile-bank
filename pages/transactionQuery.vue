@@ -161,10 +161,11 @@
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
+import VueJsonPretty from 'vue-json-pretty'
 import transactionQueryReportFilter from '~/components/transactionQueryReportFilter'
 import reportManager from '~/repository/report_manager'
 import 'vue-json-pretty/lib/styles.css'
-import VueJsonPretty from 'vue-json-pretty'
+
 const defaultFilterdetails = {
   transactionListFilter: {
     transactionId: null

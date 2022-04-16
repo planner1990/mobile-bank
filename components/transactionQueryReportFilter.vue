@@ -82,7 +82,7 @@
             >
               <!-- Divider and Header-->
               <template v-if="typeof data.item !== 'object'">
-                <v-list-tile-content style="font-size: 1.80rem !important;" v-text="data.item" />
+                <v-list-tile-content style="font-size: 1.80rem !important; background-color: #70F570 " v-text="data.item" />
               </template>
               <!-- Normal item -->
               <template v-else>
@@ -165,15 +165,6 @@
             prepend-icon="mdi-account"
           />
         </v-col>
-        <!--   <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.amount"
-            dense
-            outlined
-            :label="$t('filters.amount')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>-->
         <v-col>
           <v-text-field
             v-model="filter.transactionListFilter.requestId"
