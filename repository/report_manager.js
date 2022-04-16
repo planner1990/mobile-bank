@@ -47,6 +47,12 @@ async function transactionDetails (request, axios) {
   console.log(rest)
   return rest
 }
+async function transactionDetailsQuery (request, axios) {
+  console.log('transactionDetails us call')
+  const rest = await axios.post('transaction-data/info-query', request)
+  console.log(rest)
+  return rest
+}
 async function operationList (request, axios) {
   console.log('transactionLisu us call')
   const rest = await axios.post('operation/groupList', request)
@@ -439,6 +445,7 @@ export default {
   transactionStatistics,
   incomeList,
   transactionDetails,
+  transactionDetailsQuery,
   operationList,
   errorList,
   errorCodeList,

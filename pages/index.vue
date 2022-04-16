@@ -53,7 +53,7 @@
                         dense
                         item-key="cardOwnerId"
                         sort-by="cardOwnerId"
-                        :items="itemsTransactionData"
+                        :items="itemsTransaction"
                         :headers="headersTransaction"
                         class="elevation-5 fullScreen"
                         :hide-default-footer="true"
@@ -299,24 +299,17 @@ export default {
         try {
           this.requestJson = JSON.parse(response.data.requestJson)
           this.responseJson = JSON.parse(response.data.responseJson)
-
           this.itemsTransaction.push({
-
-            responseJson: JSON.parse(response.data.responseJson),
-            requestJson: JSON.parse(response.data.requestJson)
-          })
-        } catch (e) {
-          this.itemsTransaction.push({
-
             appVersion: response.data.appVersion,
             osVersion: response.data.osVersion,
             osName: response.data.osName,
             responseLongTime: response.data.responseLongTime,
             requestId: response.data.requestId,
             ip: response.data.ipAddress,
-            responseJson: response.data.responseJson,
-            requestJson: response.data.requestJson
+            traceId: response.data.traceId
           })
+        } catch (e) {
+
         }
         this.loading = false
       })
@@ -332,6 +325,7 @@ export default {
       console.log('searchModel')
       console.log(searchModel)
       this.loading = true
+
       reportManager.transactionList(searchModel, this.$axios).then((response) => {
         setTimeout(() => {
           this.steps.createCustomer.loading = false

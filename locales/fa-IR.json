@@ -160,7 +160,8 @@
         "refundOrFailTime": "زمان استرداد وجه",
         "state": "وضعیت",
         "switchResponseRrn":"کد پیگیری یاقوت",
-        "requestId":"کد پیگیری عملیات"
+        "requestId":"کد پیگیری عملیات",
+        "errorCode": "کد پاسخ بازگشت وجه"
       },
       "refundType": {
         "pending": "در انتظار",
