@@ -82,7 +82,7 @@
                             <v-spacer />
                           </v-toolbar>
                           <v-card-text dir="ltr" class="text-center">
-                            <div style="width:450px;overflow:auto">
+                            <div style="width:450px" class=" justify-center">
                               <vue-json-pretty :data="requestJson" />
                             </div>
                           </v-card-text>
@@ -107,9 +107,12 @@
                               {{ $t('report.transactionReport.headers.response') }}
                               <v-spacer />
                             </v-toolbar>
-                            <v-card-text dir="ltr">
+                            <v-card-text dir="ltr" class="text-center">
                               <div style="width:450px" class=" justify-center">
                                 <vue-json-pretty :data="responseJson" />
+                                <!-- <pre>   //{{ item.responseJson }}
+
+                            </pre>-->
                               </div>
                             </v-card-text>
                           </v-card>
