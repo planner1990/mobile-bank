@@ -53,31 +53,15 @@
   letter-spacing: normal;
   text-align: left;
 }
-html {
-  font-size: 12px !important;
-  text-rendering: optimizeLegibility;
-}
+
 
 .v-data-table > .v-data-table__wrapper > table > thead > tr > th, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  font-size: 1rem !important;
+  font-size: 0.86rem !important;
   height: 48px;
-}
-
-.v-data-table > .v-data-table__wrapper > table > tbody > tr > th, .v-data-table > .v-data-table__wrapper > table > thead > tr > th, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  font-size: 1rem  !important;
-  height: 48px;
-}
-
-.v-btn.v-size--small {
-  font-size: 1.0rem !important;
 }
 
 .v-application {
@@ -86,11 +70,21 @@ html {
 }
 
 .v-list--dense .v-list-item .v-list-item__title, .v-list--dense .v-list-item .v-list-item__subtitle {
-  font-size: 1rem !important;
+  font-size: 0.86rem !important;
   font-weight: normal;
   font-weight: initial;
   line-height: 1.5rem !important;
 }
+
+.vjs-value__string {
+  color: #595b5a !important;
+}
+
+.theme--light.v-card > .v-card__text, .theme--light.v-card .v-card__subtitle {
+  color: rgb(13, 12, 12) !important;
+}
+
+
 $font-size-root: 14px;
 $sheet-border-radius: 4px;
 $list-item-title-font-size: 1rem;
