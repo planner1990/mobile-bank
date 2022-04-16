@@ -168,6 +168,7 @@
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
+import VueJsonPretty from 'vue-json-pretty'
 import refundReportFilter from '~/components/refundReportFilter'
 import reportManager from '~/repository/report_manager'
 const defaultFilterdetails = {
@@ -178,7 +179,8 @@ const defaultFilterdetails = {
 export default {
   name: 'RefundReport',
   components: {
-    refundReportFilter
+    refundReportFilter,
+    VueJsonPretty
   },
   data () {
     return {

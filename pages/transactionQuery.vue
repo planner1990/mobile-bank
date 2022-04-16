@@ -83,9 +83,6 @@
                           <v-card-text dir="ltr" class="text-center">
                             <div style="width:450px;overflow:auto">
                               <vue-json-pretty :data="requestJson" />
-                              <!-- <pre>   //{{ item.responseJson }}
-
-                              </pre>-->
                             </div>
                           </v-card-text>
                         </v-card>
@@ -112,9 +109,6 @@
                             <v-card-text dir="ltr">
                               <div style="width:450px" class=" justify-center">
                                 <vue-json-pretty :data="responseJson" />
-                                <!-- <pre>   //{{ item.responseJson }}
-
-                            </pre>-->
                               </div>
                             </v-card-text>
                           </v-card>
@@ -169,6 +163,8 @@ import { mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
 import transactionQueryReportFilter from '~/components/transactionQueryReportFilter'
 import reportManager from '~/repository/report_manager'
+import 'vue-json-pretty/lib/styles.css'
+import VueJsonPretty from 'vue-json-pretty'
 const defaultFilterdetails = {
   transactionListFilter: {
     transactionId: null
@@ -177,7 +173,8 @@ const defaultFilterdetails = {
 export default {
   name: 'TransactionReport',
   components: {
-    transactionQueryReportFilter
+    transactionQueryReportFilter,
+    VueJsonPretty
   },
   data () {
     return {
@@ -210,7 +207,6 @@ export default {
         { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
         { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false },
         { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
         { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
       ],
       headersTransaction: [
@@ -365,5 +361,9 @@ export default {
 <style>
   .fullScreen {
     width: 100%;
+  }
+  html {
+    font-size: 12px !important;
+    text-rendering: optimizeLegibility;
   }
 </style>
