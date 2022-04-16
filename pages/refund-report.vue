@@ -287,7 +287,7 @@ export default {
         errorCode: item.errorCode
 
       })
-      defaultFilterdetails.transactionListFilter.transactionId = item.id
+      defaultFilterdetails.transactionListFilter.transactionId = item.transactionId
       reportManager.transactionDetails(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
         try {
           console.log('editItem11')
