@@ -14,17 +14,7 @@
           :loading="loading"
         />
       </v-row>
-      <v-row class="my-5">
-        <v-btn
-          color="warning"
-          :loading="downloadLoading"
-          dark
-          small
-          @click="downloadReports(searchModel)"
-        >
-          {{ $t('report.download') }}
-        </v-btn>
-      </v-row>
+      <v-row class="my-5" />
       <v-row>
         <v-tabs
           v-model="tabsModel"
@@ -33,21 +23,21 @@
           color="success"
         >
           <v-tab href="#search2">
-            درآمد انتقال وجه
+            {{ $t('income.transferIncomeTitle') }}
           </v-tab>
           <v-tab-item value="search2">
             <transfer-income :transfer-list="transferList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
 
           <v-tab href="#search">
-            درآمد شارژ
+            {{ $t('income.chargerIncomeTitle') }}
           </v-tab>
           <v-tab-item value="search">
             <charge-income :charge-list="chargeList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
 
           <v-tab href="#search3">
-            بازگشت وجوه شارژ
+            {{ $t('income.chargeRefundIncomeTitle') }}
           </v-tab>
           <v-tab-item value="search3">
             <refund-income :refund-list="refundList" :loading="enableLoading( loadingStatus)" />
@@ -161,27 +151,7 @@ export default {
       }
       return null
     },
-    downloadReports (searchModel) {
-      this.downloadLoading = true
-      delete searchModel.paginate
-      reportManager.downloadTransactionStatistics(searchModel, this.$axios).then((res) => {
-        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
-        const fileLink = document.createElement('a')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', 'operator-reports.xlsx')
-        document.body.appendChild(fileLink)
-        fileLink.click()
-        // ------------
-      }).catch((error) => {
-        console.log(error)
-        this.alert({
-          color: 'error',
-          content: 'global.failed'
-        })
-      }).finally(() => {
-        this.downloadLoading = false
-      })
-    },
+
     moment (date) {
       return momentJalali(date).format('HH:mm:ss jYYYY/jM/jD')
     }

@@ -20,10 +20,7 @@
           v-model="tabsModel"
           align-with-title
           center-active
-          color="light-green darken-3"
-
-          background-color="grey lighten-2"
-          dark
+          color="success"
         >
           <v-tab href="#search2" class="font-weight-black">
             {{ $t('report.transactionReport.headers.depositTransaction') }}
@@ -152,27 +149,6 @@ export default {
         return this.items.filter(object => object.operationType === 'PUBLIC')
       }
       return null
-    },
-    downloadReports (searchModel) {
-      this.downloadLoading = true
-      delete searchModel.paginate
-      reportManager.downloadTransactionStatistics(searchModel, this.$axios).then((res) => {
-        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
-        const fileLink = document.createElement('a')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', 'operator-reports.xlsx')
-        document.body.appendChild(fileLink)
-        fileLink.click()
-        // ------------
-      }).catch((error) => {
-        console.log(error)
-        this.alert({
-          color: 'error',
-          content: 'global.failed'
-        })
-      }).finally(() => {
-        this.downloadLoading = false
-      })
     },
     moment (date) {
       return momentJalali(date).format('HH:mm:ss jYYYY/jM/jD')

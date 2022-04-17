@@ -70,7 +70,7 @@
 }
 
 .v-list--dense .v-list-item .v-list-item__title, .v-list--dense .v-list-item .v-list-item__subtitle {
-  font-size: 0.86rem !important;
+  font-size: 0.95rem !important;
   font-weight: normal;
   font-weight: initial;
   line-height: 1.5rem !important;
@@ -83,8 +83,36 @@
 .theme--light.v-card > .v-card__text, .theme--light.v-card .v-card__subtitle {
   color: rgb(13, 12, 12) !important;
 }
+.vjs-tree {
+  font-family: Monaco,Menlo,Consolas,Bitstream Vera Sans Mono,monospace;
+  font-size: 12px;
+}
 
-
+.v-tab {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex: 0 1 auto;
+  font-size: 1rem;
+  font-weight: 900 !important;
+  justify-content: center;
+  letter-spacing: 0.0892857143em;
+  line-height: normal;
+  min-width: 90px;
+  max-width: 360px ;
+  outline: none;
+  outline-width: medium;
+  padding: 0 32px !important;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 $font-size-root: 14px;
 $sheet-border-radius: 4px;
 $list-item-title-font-size: 1rem;

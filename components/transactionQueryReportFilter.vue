@@ -63,10 +63,21 @@
           />
         </v-col>
         <v-col>
-          <v-select
+          <v-autocomplete
             v-model="filter.transactionListFilter.operation"
             :items="items"
-
+            item-value="url"
+            :return-object="false"
+            item-text="title"
+            dense
+            outlined
+            prepend-icon="mdi-clipboard-list"
+            clearable
+            :label="$t('filters.operation')"
+          >
+            <!-- <v-select
+            v-model="filter.transactionListFilter.operation"
+            :items="items"
             :return-object="false"
             item-value="url"
             item-text="title"
@@ -75,7 +86,7 @@
             dense
             clearable
             outlined
-          >
+          >-->
             <template
               slot="item"
               slot-scope="data"
@@ -91,7 +102,8 @@
                 </v-list-tile-content>
               </template>
             </template>
-          </v-select>
+          <!--</v-select>-->
+          </v-autocomplete>
         </v-col>
         <v-col>
           <v-select
@@ -440,8 +452,4 @@ export default {
 
 <style scoped>
 
-  html {
-    font-size: 12px !important;
-    text-rendering: optimizeLegibility;
-  }
 </style>

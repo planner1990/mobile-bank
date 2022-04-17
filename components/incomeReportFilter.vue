@@ -1,6 +1,6 @@
 <template>
   <v-card
-    elevation="10"
+    elevation="5"
     class="fullScreen"
   >
     <v-toolbar
@@ -12,17 +12,10 @@
     >
       {{ $t("income.title") }}
       <v-spacer />
-      <v-btn
-        color="success"
-        small
-        @click="search"
-      >
-        {{ $t('customer.search') }}
-      </v-btn>
     </v-toolbar>
     <v-container fluid>
       <v-row>
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="createFromMonth"
             v-model="fromMonth"
@@ -44,7 +37,7 @@
             @close="checkIsNull()"
           />
         </v-col>
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="createFromYear"
             v-model="fromYear"
@@ -66,8 +59,30 @@
             @close="checkIsNull()"
           />
         </v-col>
-        <v-col cols="1" />
-        <v-col />
+      </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <v-btn
+            color="success"
+            small
+            class="mr-10"
+            @click="search"
+          >
+            {{ $t('buttons.search') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="10" />
+        <v-col>
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="downloadReports(defaultFilter)"
+          >
+            {{ $t('report.download') }}
+          </v-btn>
+        </v-col>
       </v-row>
     </v-container>
   </v-card>
@@ -77,11 +92,20 @@
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
 import userManager from '@/repository/user_manager'
+import reportManager from '~/repository/report_manager'
 
 const defaultSearchModel = {
   persianDate: null,
   month: null,
-  year: null
+  year: null,
+  paginate: {
+    page: 1,
+    length: 50,
+    sort: {
+      property: 'id',
+      direction: 'desc'
+    }
+  }
 }
 
 export default {
@@ -116,6 +140,27 @@ export default {
       this.request = Object.assign(this.value, defaultSearchModel)
       this.$emit('search', this.request)
       this.loading = false
+    },
+    downloadReports (searchModel) {
+      this.downloadLoading = true
+      delete searchModel.paginate
+      reportManager.downloadTransactionStatistics(defaultSearchModel, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'operator-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        console.log(error)
+        this.alert({
+          color: 'error',
+          content: 'global.failed'
+        })
+      }).finally(() => {
+        this.downloadLoading = false
+      })
     },
     checkIsNull () {
       if (this.fromYear != null) {

@@ -82,7 +82,7 @@
                             <v-spacer />
                           </v-toolbar>
                           <v-card-text dir="ltr" class="text-center">
-                            <div style="width:450px;overflow:auto">
+                            <div style="width:450px" class=" justify-center">
                               <vue-json-pretty :data="requestJson" />
                             </div>
                           </v-card-text>
@@ -107,9 +107,12 @@
                               {{ $t('report.transactionReport.headers.response') }}
                               <v-spacer />
                             </v-toolbar>
-                            <v-card-text dir="ltr">
+                            <v-card-text dir="ltr" class="text-center">
                               <div style="width:450px" class=" justify-center">
                                 <vue-json-pretty :data="responseJson" />
+                                <!-- <pre>   //{{ item.responseJson }}
+
+                            </pre>-->
                               </div>
                             </v-card-text>
                           </v-card>
@@ -309,29 +312,7 @@ export default {
     convertToJalali (date) {
       return moment(date).format('HH:mm:ss jYYYY/jM/jD')
     },
-    downloadReports (searchModel) {
-      this.downloadLoading = true
-      reportManager.downloadRefundList(searchModel, this.$axios).then((res) => {
-        console.log('error1')
-        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
-        console.log('error2')
-        const fileLink = document.createElement('a')
-        console.log('error3')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', 'refund-reports.xlsx')
-        document.body.appendChild(fileLink)
-        fileLink.click()
-        // ------------
-      }).catch((error) => {
-        console.log(error)
-        this.alert({
-          color: 'error',
-          content: 'global.failed'
-        })
-      }).finally(() => {
-        this.downloadLoading = false
-      })
-    },
+
     test (platform) {
       console.log(platform)
     },

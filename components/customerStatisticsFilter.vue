@@ -95,7 +95,15 @@ import userManager from '@/repository/user_manager'
 import reportManager from '~/repository/report_manager'
 
 const defaultSearchModel = {
-  persianDate: null
+  persianDate: null,
+  paginate: {
+    page: 1,
+    length: 50,
+    sort: {
+      property: 'id',
+      direction: 'desc'
+    }
+  }
 }
 
 export default {
@@ -131,8 +139,7 @@ export default {
     },
     downloadReports (searchModel) {
       this.downloadLoading = true
-      delete searchModel.paginate
-      reportManager.downloadCustomerStatistics(searchModel, this.$axios).then((res) => {
+      reportManager.downloadCustomerStatistics(defaultSearchModel, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL
