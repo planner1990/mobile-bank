@@ -20,6 +20,9 @@
       <template #[`item.feeSum`]="{ item }">
         {{ priceFormat(item.feeSum) }}
       </template>
+      <template #[`item.transactionCount`]="{ item }">
+        {{ priceFormat(item.transactionCount) }}
+      </template>
     </v-data-table>
   </v-row>
 </template>

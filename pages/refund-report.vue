@@ -174,6 +174,7 @@ import moment from 'moment-jalaali'
 import VueJsonPretty from 'vue-json-pretty'
 import refundReportFilter from '~/components/refundReportFilter'
 import reportManager from '~/repository/report_manager'
+import 'vue-json-pretty/lib/styles.css'
 const defaultFilterdetails = {
   transactionListFilter: {
     transactionId: null
