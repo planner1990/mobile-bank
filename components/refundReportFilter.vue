@@ -384,6 +384,26 @@ export default {
         this.loading = false
       })
     },
+    downloadReports (searchModel) {
+      this.downloadLoading = true
+      reportManager.downloadRefundList(searchModel, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'refund-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        console.log(error)
+        this.alert({
+          color: 'error',
+          content: 'global.failed'
+        })
+      }).finally(() => {
+        this.downloadLoading = false
+      })
+    },
     convertToJalali (date) {
       if (date !== null) {
         return moment(date).format('HH:mm:ss jYYYY/jM/jD')

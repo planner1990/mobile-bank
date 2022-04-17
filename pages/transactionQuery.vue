@@ -363,8 +363,4 @@ export default {
   .fullScreen {
     width: 100%;
   }
-  html {
-    font-size: 12px !important;
-    text-rendering: optimizeLegibility;
-  }
 </style>

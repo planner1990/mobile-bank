@@ -411,7 +411,8 @@
     "charge": "شارژها",
     "refund": "استرداد وجه",
     "customerStatistics": "آمار کاربران",
-    "offer": "پیشنهاد روز"
+    "offer": "پیشنهاد روز",
+    "income": "گزارش درآمد"
   },
   "createExcel": {
     "download": "دانلود فایل",

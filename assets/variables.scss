@@ -88,6 +88,31 @@
   font-size: 12px;
 }
 
+.v-tab {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex: 0 1 auto;
+  font-size: 1rem;
+  font-weight: 900 !important;
+  justify-content: center;
+  letter-spacing: 0.0892857143em;
+  line-height: normal;
+  min-width: 90px;
+  max-width: 360px ;
+  outline: none;
+  outline-width: medium;
+  padding: 0 32px !important;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 $font-size-root: 14px;
 $sheet-border-radius: 4px;
 $list-item-title-font-size: 1rem;

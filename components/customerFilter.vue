@@ -189,6 +189,7 @@ export default {
       this.$emit('search', this.request)
       this.loading = false
     },
+
     downloadReports (searchModel) {
       this.downloadLoading = true
       reportManager.downloadCustomer(defaultSearchModel, this.$axios).then((res) => {

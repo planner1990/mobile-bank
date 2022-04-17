@@ -64,7 +64,7 @@
 import { mapMutations } from 'vuex'
 import CustomerStatisticsFilter from '@/components/customerStatisticsFilter'
 import userManager from '@/repository/user_manager'
-import reportManager from '~/repository/report_manager'
+
 // import ProvinceSelector from '@/components/location/provinceSelector.vue'
 // import CitySelector from '@/components/location/citySelector'
 // import BranchSelector from '@/components/location/branchSelector'
@@ -179,27 +179,7 @@ export default {
         this.loading = false
       }
     },
-    downloadReports (searchModel) {
-      this.downloadLoading = true
-      delete searchModel.paginate
-      reportManager.downloadCustomerStatistics(searchModel, this.$axios).then((res) => {
-        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
-        const fileLink = document.createElement('a')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', 'customer-reports.xlsx')
-        document.body.appendChild(fileLink)
-        fileLink.click()
-        // ------------
-      }).catch((error) => {
-        console.log(error)
-        this.alert({
-          color: 'error',
-          content: 'global.failed'
-        })
-      }).finally(() => {
-        this.downloadLoading = false
-      })
-    },
+
     showErrorsInCreateUserDialog (errors) {
       this.loading = false
       this.createUserErrors = errors

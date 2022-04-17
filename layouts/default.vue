@@ -175,18 +175,23 @@ export default {
           icon: 'mdi-account-supervisor-circle-outline',
           title: 'menu.refund',
           to: '/refund-report'
-        },
-        {
+        }
+        /* {
           icon: 'mdi-account-supervisor-circle-outline',
           title: 'menu.offer',
           to: '/offer'
-        }
+        } */
       ],
       reports: [
         {
           icon: 'mdi-chart-bell-curve',
           title: 'menu.error',
           to: '/error-report'
+        },
+        {
+          icon: 'mdi-chart-bell-curve',
+          title: 'menu.income',
+          to: '/incomeReport'
         }
       ]
     }

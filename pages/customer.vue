@@ -89,7 +89,6 @@ import { mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
 import CustomerFilter from '@/components/customerFilter'
 import userManager from '@/repository/user_manager'
-import reportManager from '~/repository/report_manager'
 export default {
   components: {
     'customer-filter': CustomerFilter
@@ -194,26 +193,7 @@ export default {
     convertToJalali (date) {
       return moment(date).format('hh:mm:ss jYYYY/jM/jD')
     },
-    downloadReports (searchModel) {
-      this.downloadLoading = true
-      reportManager.downloadCustomer(searchModel, this.$axios).then((res) => {
-        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
-        const fileLink = document.createElement('a')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', 'customer-reports.xlsx')
-        document.body.appendChild(fileLink)
-        fileLink.click()
-        // ------------
-      }).catch((error) => {
-        console.log(error)
-        this.alert({
-          color: 'error',
-          content: 'global.failed'
-        })
-      }).finally(() => {
-        this.downloadLoading = false
-      })
-    },
+
     showErrorsInCreateUserDialog (errors) {
       this.loading = false
       this.createUserErrors = errors
