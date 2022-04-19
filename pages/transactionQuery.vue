@@ -199,6 +199,7 @@ export default {
       loading: false,
       headers: [
         { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
+        { text: this.$t('report.transactionReport.headers.transactionId'), value: 'id', sortable: false },
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
         { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
@@ -303,8 +304,6 @@ export default {
       this.createDialog = false
     },
     search (searchModel) {
-      console.log('searchModel')
-      console.log(searchModel)
       this.loading = true
       reportManager.transactionList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList

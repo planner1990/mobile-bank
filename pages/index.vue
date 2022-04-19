@@ -212,6 +212,7 @@ export default {
       loading: false,
       headers: [
         { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
+        { text: this.$t('report.transactionReport.headers.transactionId'), value: 'id', sortable: false },
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
         { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
