@@ -34,16 +34,16 @@ async function deleteUser (form, axios) {
 
 const userRoles = [
   {
-    value: 'ADMIN',
-    text: 'user.roles.ADMIN'
+    value: 'ROLE_PANEL_ADMIN',
+    text: 'user.roles.ROLE_PANEL_ADMIN'
   },
   {
-    value: 'OPERATOR',
-    text: 'user.roles.USER'
+    value: 'ROLE_PANEL_USER',
+    text: 'user.roles.ROLE_PANEL_USER'
   },
   {
-    value: 'REPORTER',
-    text: 'user.roles.REPORTER'
+    value: 'ROLE_PANEL_REPORTER',
+    text: 'user.roles.ROLE_PANEL_REPORTER'
   }
 ]
 

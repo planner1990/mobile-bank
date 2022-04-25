@@ -10,6 +10,9 @@
       :headers="headers"
       class="elevation-5 fullScreen"
       :loading="loading"
+      :footer-props="{
+        'items-per-page-options': [500, 1000]
+      }"
     >
       <template #[`item.successfulAmount`]="{ item }">
         {{ priceFormat(item.successfulAmount) }}

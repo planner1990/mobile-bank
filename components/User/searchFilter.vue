@@ -1,5 +1,8 @@
 <template>
-  <v-card>
+  <v-card
+    elevation="5"
+    class="fullScreen"
+  >
     <v-toolbar
       class="black--text"
       color="lightGreen"
@@ -9,13 +12,7 @@
     >
       {{ $t("user.title") }}
       <v-spacer />
-      <v-btn
-        color="success"
-        small
-        @click="search"
-      >
-        {{ $t('user.search') }}
-      </v-btn>
+
       <!--      <v-btn-->
       <!--        color="warning"-->
       <!--        fab-->
@@ -28,54 +25,81 @@
       <!--      </v-btn>-->
     </v-toolbar>
     <v-container fluid>
-      <v-text-field
-        v-model="request.userFilter.username"
-        :label="$t('user.username')"
-        dense
-        outlined
-        prepend-icon="mdi-account"
-      />
-      <v-select
-        v-model="request.userFilter.role"
-        :items="roles"
-        :item-text="(item) => $t(item.text)"
-        item-value="value"
-        :label="$t('user.role')"
-        dense
-        outlined
-        prepend-icon="mdi-account-lock"
-      />
-      <v-select
-        v-model="request.userFilter.status"
-        :items="status"
-        :item-text="(item) => $t(item.text)"
-        item-value="value"
-        :label="$t('user.status.title')"
-        dense
-        outlined
-        prepend-icon="mdi-account-lock"
-      />
-      <province-selector
-        v-model="request.locationFilter.provinceCode"
-      />
-      <city-selector
-        v-model="request.locationFilter.cityCode"
-        :province="computedProvince"
-      />
-      <branch-selector
-        v-model="request.locationFilter.branchCode"
-        :city="computedCity"
-        :province="computedProvince"
-      />
+      <v-row>
+        <v-col cols="2">
+          <v-text-field
+            v-model="request.userFilter.username"
+            :label="$t('user.username')"
+            dense
+            outlined
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-select
+            v-model="request.userFilter.role"
+            :items="roles"
+            :item-text="(item) => $t(item.text)"
+            item-value="value"
+            :label="$t('user.role')"
+            dense
+            outlined
+            prepend-icon="mdi-account-lock"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-select
+            v-model="request.userFilter.status"
+            :items="status"
+            :item-text="(item) => $t(item.text)"
+            item-value="value"
+            :label="$t('user.status.title')"
+            dense
+            outlined
+            prepend-icon="mdi-account-lock"
+          />
+        </v-col>
+      <!--  <v-col cols="2">
+          <province-selector
+            v-model="request.locationFilter.provinceCode"
+          />
+        </v-col>
+        <v-col cols="2">
+          <city-selector
+            v-model="request.locationFilter.cityCode"
+            :province="computedProvince"
+          />
+        </v-col>
+        <v-col cols="2">
+          <branch-selector
+            v-model="request.locationFilter.branchCode"
+            :city="computedCity"
+            :province="computedProvince"
+          />
+        </v-col>-->
+      </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <v-btn
+            color="success"
+            small
+            class="mr-10"
+            @click="search"
+          >
+            {{ $t('buttons.search') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="10" />
+      </v-row>
     </v-container>
   </v-card>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import ProvinceSelector from '../location/provinceSelector.vue'
-import CitySelector from '../location/citySelector.vue'
-import BranchSelector from '../location/branchSelector.vue'
+// import ProvinceSelector from '../location/provinceSelector.vue'
+// import CitySelector from '../location/citySelector.vue'
+// import BranchSelector from '../location/branchSelector.vue'
 import userManager from '@/repository/user_manager'
 
 const defaultSearchModel = {
@@ -88,6 +112,14 @@ const defaultSearchModel = {
     username: null,
     status: null,
     role: null
+  },
+  paginate: {
+    page: 1,
+    length: 50,
+    sort: {
+      property: 'id',
+      direction: 'desc'
+    }
   }
 
 }
@@ -95,9 +127,9 @@ const defaultSearchModel = {
 export default {
   name: 'LoanFilter',
   components: {
-    ProvinceSelector,
+    /*   ProvinceSelector,
     CitySelector,
-    BranchSelector
+    BranchSelector */
   },
   props: {
     value: Object(defaultSearchModel)
@@ -108,6 +140,7 @@ export default {
       status: userManager.userStatus,
       loading: false,
       request: defaultSearchModel
+
     }
   },
   computed: {
@@ -149,3 +182,7 @@ export default {
 }
 
 </script>
+
+<style scoped>
+
+</style>

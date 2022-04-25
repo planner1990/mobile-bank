@@ -266,7 +266,8 @@
     },
     "offerStatusFilter": {
       "Y": "فعال",
-      "N": "غیر فعال"
+      "N": "غیر فعال",
+      "null": ""
     },
     "offerTypeFilter": {
       "1": "url",
@@ -329,7 +330,9 @@
 
   },
   "user": {
+    "profile": "پروفایل",
     "title": "جست و جوی کاربران",
+    "id": "شناسه",
     "search": "جست و جو",
     "username": "نام کاربری",
     "password": "رمز",
@@ -340,6 +343,8 @@
     "role": "نقش",
     "permission": "دسترسی",
     "cif": "شماره مشتری",
+    "statusHeader": "وضعیت",
+    "edit": "عملیات",
     "customerName": "نام کاربری",
     "status": {
       "title": "وضعیت",
@@ -368,9 +373,9 @@
     "active": "فعال",
     "inactive": "غیر فعال",
     "roles": {
-      "ADMIN": "مدیر",
-      "USER": "کارگزار شعبه",
-      "REPORTER": "گزارشگیر"
+      "ROLE_PANEL_ADMIN": "مدیر",
+      "ROLE_PANEL_USER": "کارگزار شعبه",
+      "ROLE_PANEL_REPORTER": "گزارشگیر"
     },
     "validation": {
       "required": "این فیلد اجباری است.",
@@ -412,7 +417,8 @@
     "refund": "استرداد وجه",
     "customerStatistics": "آمار کاربران",
     "offer": "پیشنهاد روز",
-    "income": "گزارش درآمد"
+    "income": "گزارش درآمد",
+    "users": "مدیریت کاربران"
   },
   "createExcel": {
     "download": "دانلود فایل",

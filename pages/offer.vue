@@ -41,8 +41,7 @@
             >
               <v-dialog
                 v-model="createDialog"
-                persistent
-                max-width="860"
+                max-width="1000"
                 transition="dialog-bottom-transition"
               >
                 <template #activator="{ on, attrs }">
@@ -67,7 +66,7 @@
                       ref="form"
                     >
                       <v-row>
-                        <v-col>
+                        <v-col cols="3">
                           <v-text-field
                             v-model="offerForm.offerObj.title"
                             prepend-icon="mdi-account"
@@ -78,7 +77,7 @@
                             required
                           />
                         </v-col>
-                        <v-col>
+                        <v-col cols="3">
                           <v-text-field
                             v-model="offerForm.offerObj.widgetTitle"
                             :label="$t('offer.widgetTitle')"
@@ -89,7 +88,7 @@
                             outlined
                           />
                         </v-col>
-                        <v-col>
+                        <v-col cols="3">
                           <v-text-field
                             v-model="offerForm.offerObj.url"
                             :label="$t('offer.url')"
@@ -98,9 +97,23 @@
                             dense
                           />
                         </v-col>
+                        <v-col cols="3">
+                          <v-select
+                            v-model="offerForm.offerObj.type"
+                            :items="offerTypDisplayItem"
+                            item-value="value"
+                            :item-text="(item)=>(item.text)"
+                            :return-object="false"
+                            :label="$t('offer.type')"
+                            prepend-icon="mdi-clipboard-list"
+                            dense
+                            clearable
+                            outlined
+                          />
+                        </v-col>
                       </v-row>
                       <v-row>
-                        <v-col>
+                        <v-col cols="3">
                           <v-text-field
                             id="createFromDate"
                             v-model="from"
@@ -121,7 +134,7 @@
                             @close="checkIsNullFromDate()"
                           />
                         </v-col>
-                        <v-col>
+                        <v-col cols="3">
                           <v-text-field
                             id="createToDate"
                             v-model="to"
@@ -142,7 +155,7 @@
                             @close="checkIsNullToDate()"
                           />
                         </v-col>
-                        <v-col>
+                        <v-col cols="3">
                           <v-text-field
                             v-model="offerForm.offerObj.alternativeUrl"
                             :label="$t('offer.alternativeUrl')"
@@ -151,23 +164,7 @@
                             dense
                           />
                         </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col>
-                          <v-select
-                            v-model="offerForm.offerObj.type"
-                            :items="offerTypDisplayItem"
-                            item-value="value"
-                            :item-text="(item)=>(item.text)"
-                            :return-object="false"
-                            :label="$t('offer.type')"
-                            prepend-icon="mdi-clipboard-list"
-                            dense
-                            clearable
-                            outlined
-                          />
-                        </v-col>
-                        <v-col>
+                        <v-col cols="3">
                           <v-select
                             v-model="offerForm.offerObj.to"
                             :items="offerToTypeItem"
@@ -181,7 +178,9 @@
                             outlined
                           />
                         </v-col>
-                        <v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col cols="3">
                           <v-text-field
                             v-model="offerForm.offerObj.uri"
                             :label="$t('offer.uri')"
@@ -190,7 +189,7 @@
                             dense
                           />
                         </v-col>
-                        <v-col>
+                        <v-col cols="3">
                           <v-select
                             v-model="offerForm.offerObj.offerType"
                             :items="offerType"
@@ -204,24 +203,38 @@
                             outlined
                           />
                         </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col>
-                          <v-textarea
-                            v-model="offerForm.offerObj.description"
-                            :label="$t('offer.description')"
-                            prepend-icon="mdi-account"
-                            outlined
-                            dense
-                          />
-                        </v-col>
-                        <v-col>
+                        <v-col cols="6">
                           <v-file-input
                             v-model="offerForm.offerObj.file"
                             show-size
                             outlined
                             dense
+                            :rules="[
+                              v => !!v || $t('user.validation.required')
+
+                            ]"
+                            validate-on-blur
                             label="File input"
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col cols="3">
+                          <v-textarea
+                            v-model="offerForm.offerObj.description"
+                            :label="$t('offer.description')"
+                            prepend-icon="mdi-account"
+                            outlined
+                            full-width
+                            height="80"
+                            dense
+                          />
+                        </v-col>
+                        <v-col cols="1">
+                          <v-checkbox
+                            v-model="checkbox1"
+                            dense
+                            :label="`  غعال`"
                           />
                         </v-col>
                       </v-row>
@@ -337,14 +350,6 @@
             </v-toolbar>
           </template>
 
-          <!--    <template #[`item.status`]="{ item }">
-            <span v-if="item.status === 1">
-              {{ $t('user.active') }}
-            </span>
-            <span v-else-if="item.status === 0">
-              {{ $t('user.inactive') }}
-            </span>
-          </template>-->
           <template #[`item.addParams`]="{ item }">
             <v-icon
               small
@@ -362,14 +367,6 @@
             >
               mdi-pencil
             </v-icon>
-            <!--            <v-icon-->
-            <!--              small-->
-            <!--              class="mr-2"-->
-            <!--              :disabled="item.status === 0"-->
-            <!--              @click.stop="del(item)"-->
-            <!--            >-->
-            <!--              mdi-trash-can-->
-            <!--            </v-icon>-->
           </template>
 
           <template #[`item.dateFrom`]="{ item }">
@@ -441,6 +438,7 @@ export default {
     return {
       isShowTitleOfEditDialog: false,
       file: '',
+      checkbox1: true,
       from: this.currentDayFrom(),
       to: this.currentDayTo(),
       offerType: reportManager.offerType,
@@ -665,6 +663,7 @@ export default {
       formData.append('type', this.offerForm.offerObj.type)
       formData.append('offerType', this.offerForm.offerObj.offerType)
       formData.append('widgetTitle', this.offerForm.offerObj.widgetTitle)
+      formData.append('status', this.checkbox1)
 
       if (this.validate()) {
         this.loading = true
@@ -676,9 +675,11 @@ export default {
                 color: 'success',
                 content: 'messages.successful'
               })
+              this.loading = false
               this.closeCreateUserDialog()
               this.search(this.requestObject)
             }).catch((e) => {
+              this.loading = false
               // this.alert({
               //   color: 'orange',
               //   content: e.response.data.error_message
@@ -691,9 +692,11 @@ export default {
                 color: 'success',
                 content: 'messages.successful'
               })
+              this.loading = false
               this.closeCreateUserDialog()
               this.search(this.requestObject)
             }).catch((e) => {
+              this.loading = false
               // this.alert({
               //   color: 'orange',
               //   content: e.response.data.error_message
@@ -702,10 +705,14 @@ export default {
             })
           }
         } catch (e) {
+          this.loading = false
           this.alert({
             color: 'orange',
             content: 'messages.failed'
           })
+            .finally(() => {
+              this.loading = false
+            })
         }
       }
     },
@@ -741,6 +748,16 @@ export default {
           })
         }
       }
+    },
+    closeCreateUserDialog () {
+    /*  this.loading = false
+      this.offerForm.offerObj = {}
+      this.reset()
+      this.resetValidation() */
+      this.createDialog = false
+      /* if (this.isShowTitleOfEditDialog) {
+        this.isShowTitleOfEditDialog = false
+      } */
     },
     del (item) {
       this.deleteUserDialog = true
@@ -782,8 +799,8 @@ export default {
     closeCreateParamDialog () {
       this.loading = false
       this.offerForm.offerObj = {}
-      // this.reset()
-      // this.resetValidation()
+      this.reset()
+      this.resetValidation()
       this.createParamDialog = false
       /*  if (this.isShowTitleOfEditDialog) {
           this.isShowTitleOfEditDialog = false
