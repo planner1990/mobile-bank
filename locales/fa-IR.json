@@ -374,7 +374,7 @@
     "inactive": "غیر فعال",
     "roles": {
       "ROLE_PANEL_ADMIN": "مدیر",
-      "ROLE_PANEL_USER": "کارگزار شعبه",
+      "ROLE_PANEL_USER": "کارگزار",
       "ROLE_PANEL_REPORTER": "گزارشگیر"
     },
     "validation": {
