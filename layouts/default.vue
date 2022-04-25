@@ -30,14 +30,16 @@
           </v-list-item-title>
         </v-list-item>
         <v-list-item
-          v-for="(item, i) in items"
+          v-for="(item, i) in checkUserAccess"
           :key="i"
           :to="item.to"
           router
           exact
         >
           <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon color="white">
+              {{ item.icon }}
+            </v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="$t(item.title)" />
@@ -71,20 +73,25 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
+      v-if="isLogin"
       id="app-bar"
       :clipped-left="!rtl"
       fixed
-      dark
       app
-      dense
       :clipped-right="rtl"
       color="lightBrown"
+      dense
     >
-      <v-app-bar-nav-icon v-show="isLogin" color="success" @click.stop="drawer=!drawer" />
-      <v-toolbar-title v-if="isLogin" style="color: #f2f2f2;cursor: pointer;" @click="$router.push('/profile')" v-text="rtyrt" />
+      <v-app-bar-nav-icon v-show="isLogin" @click.stop="drawer=!drawer">
+        <v-icon color="success">
+          mdi-menu
+        </v-icon>
+      </v-app-bar-nav-icon>
+      <v-toolbar-title v-if="isLogin" style="font-size:0.90rem;color: #f2f2f2;cursor: pointer;" @click="$router.push('/profile')" v-text="currentUser.username" />
       <v-btn
         v-if="isLogin"
         icon
+        dark
         small
         :to="'/profile'"
       >
@@ -94,20 +101,32 @@
       </v-btn>
       <v-spacer />
       <v-btn
+        v-if="!isLogin"
+        color="success"
+        nuxt
+        to="/login"
+        depressed
+      >
+        {{ $t('login.login') }}
+        <v-icon color="white">
+          mdi-account-arrow-left
+        </v-icon>
+      </v-btn>
+      <v-btn
         v-if="isLogin"
         color="orange"
-        style="color: black"
-        depressed
         @click="doLogout"
       >
         {{ $t('login.logout') }}
-        <v-icon>mdi-account-arrow-right</v-icon>
+        <v-icon>
+          mdi-account-arrow-right
+        </v-icon>
       </v-btn>
     </v-app-bar>
     <v-main>
       <nuxt />
     </v-main>
-    <v-footer :absolute="true" app>
+    <v-footer :fixed="true" app>
       <span>
         &copy; {{ new Date().getFullYear() }} {{ $t('company') }}
         <v-icon small>mdi-account-group</v-icon>
@@ -175,12 +194,17 @@ export default {
           icon: 'mdi-account-supervisor-circle-outline',
           title: 'menu.refund',
           to: '/refund-report'
-        }
-        /* {
+        },
+        {
           icon: 'mdi-account-supervisor-circle-outline',
           title: 'menu.offer',
           to: '/offer'
-        } */
+        },
+        {
+          icon: 'mdi-account-supervisor-circle-outline',
+          title: 'menu.users',
+          to: '/users'
+        }
       ],
       reports: [
         {
@@ -199,29 +223,16 @@ export default {
   computed: {
     ...mapGetters({
       isLogin: 'user/isLogin',
-      rtl: 'rtl'
-      // loggedInUser: 'user/me'
-    })
-    // checkUserAccess: function () {
-    //   const createExcelPermission = this.loggedInUser.permissions.find(e => e.name === this.userManager.userPermissions[1].value)
-    //   if (this.loggedInUser.role.role === this.userManager.userRoles[0].value) {
-    //     return this.items
-    //   } else if (this.loggedInUser.role.role === this.userManager.userRoles[1].value && createExcelPermission !== undefined) {
-    //     return this.items.filter(e => e.to !== '/users')
-    //   } else if (this.loggedInUser.role.role === this.userManager.userRoles[1].value) {
-    //     return this.items.filter(e => e.to !== '/users').filter(e => e.to !== '/create-excel')
-    //   } else if (this.loggedInUser.role.role === this.userManager.userRoles[2].value) {
-    //     return this.items.filter(e => e.to === '/')
-    //   }
-    //   return []
-    // },
-    // checkAccessLevelsForReportingPages: function () {
-    //   if (this.loggedInUser.role.role === this.userManager.userRoles[0].value) {
-    //     return this.reports
-    //   } else {
-    //     return this.reports.filter(e => e.to !== '/operator-report')
-    //   }
-    // }
+      rtl: 'rtl',
+      currentUser: 'user/me'
+    }),
+    checkUserAccess: function () {
+      if (this.currentUser.role.role === 'ROLE_PANEL_ADMIN' || this.currentUser.role.role === 'ROLE_ADMIN') {
+        return this.items
+      } else {
+        return this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users')
+      }
+    }
   },
   methods: {
     ...mapActions({

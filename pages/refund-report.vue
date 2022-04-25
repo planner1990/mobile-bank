@@ -311,7 +311,9 @@ export default {
         })
     },
     convertToJalali (date) {
-      return moment(date).format('HH:mm:ss jYYYY/jM/jD')
+      if (date !== null) {
+        return moment(date).format('HH:mm:ss jYYYY/jM/jD')
+      }
     },
 
     test (platform) {
@@ -328,6 +330,6 @@ export default {
     width: 100%;
   }
   .v-data-footer {
-    font-size: 1.05rem;
+    font-size: 1.05rem !important;
   }
 </style>

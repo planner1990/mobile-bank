@@ -134,7 +134,7 @@ const defaultFilter = {
     page: 1,
     length: 50,
     sort: {
-      property: 'id',
+      property: 'errorCode',
       direction: 'desc'
     }
   }
