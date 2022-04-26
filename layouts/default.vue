@@ -227,23 +227,33 @@ export default {
       currentUser: 'user/me'
     }),
     checkUserAccess: function () {
-      if (this.currentUser.role.role === 'ROLE_PANEL_ADMIN' || this.currentUser.role.role === 'ROLE_ADMIN') {
-        return this.items
-      } else if (this.currentUser.role.role === 'ROLE_PANEL_USER' || this.currentUser.role.role === 'ROLE_USER') {
-        return this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
-      } else if (this.currentUser.role.role === 'ROLE_PANEL_REPORT') {
-        return this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/refund-report')
+      if (this.currentUser.role !== null) {
+        console.log('currentUser is role')
+        if (this.currentUser.role.role === 'ROLE_PANEL_ADMIN' || this.currentUser.role.role === 'ROLE_ADMIN') {
+          return this.items
+        } else if (this.currentUser.role.role === 'ROLE_PANEL_USER' || this.currentUser.role.role === 'ROLE_USER') {
+          return this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
+        } else if (this.currentUser.role.role === 'ROLE_PANEL_REPORT') {
+          return this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/refund-report')
+        } else {
+          return this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users')
+        }
       } else {
-        return this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users')
+        return this.items
       }
     },
     checkUserAccessReports () {
-      if (this.currentUser.role.role === 'ROLE_PANEL_ADMIN' || this.currentUser.role.role === 'ROLE_ADMIN') {
-        return this.reports
-      } else if (this.currentUser.role.role === 'ROLE_PANEL_USER' || this.currentUser.role.role === 'ROLE_USER') {
-        return this.reports.filter(e => e.to !== '/offer').filter(e => e.to !== '/error-report').filter(e => e.to !== '/incomeReport')
-      } else if (this.currentUser.role.role === 'ROLE_PANEL_REPORT') {
-        return this.reports.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/refund-report')
+      if (this.currentUser.role !== null) {
+        console.log('currentUser is role')
+        if (this.currentUser.role.role === 'ROLE_PANEL_ADMIN' || this.currentUser.role.role === 'ROLE_ADMIN') {
+          return this.reports
+        } else if (this.currentUser.role.role === 'ROLE_PANEL_USER' || this.currentUser.role.role === 'ROLE_USER') {
+          return this.reports.filter(e => e.to !== '/offer').filter(e => e.to !== '/error-report').filter(e => e.to !== '/incomeReport')
+        } else if (this.currentUser.role.role === 'ROLE_PANEL_REPORT') {
+          return this.reports.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/refund-report')
+        } else {
+          return this.reports
+        }
       } else {
         return this.reports
       }
