@@ -243,7 +243,7 @@ export default {
       }
     },
     checkUserAccessReports () {
-      if (this.currentUser.role !== null) {
+      /*if (this.currentUser.role !== null) {
         console.log('currentUser is role')
         if (this.currentUser.role.role === 'ROLE_PANEL_ADMIN' || this.currentUser.role.role === 'ROLE_ADMIN') {
           return this.reports
@@ -254,9 +254,9 @@ export default {
         } else {
           return this.reports
         }
-      } else {
+      } else {*/
         return this.reports
-      }
+
     }
   },
   methods: {
