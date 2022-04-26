@@ -227,7 +227,7 @@ export default {
       currentUser: 'user/me'
     }),
     checkUserAccess: function () {
-      if (this.currentUser.role !== null) {
+      if (this.currentUser.role.role !== null) {
         console.log('currentUser is role')
         if (this.currentUser.role.role === 'ROLE_PANEL_ADMIN' || this.currentUser.role.role === 'ROLE_ADMIN') {
           return this.items
