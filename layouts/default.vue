@@ -227,7 +227,8 @@ export default {
       currentUser: 'user/me'
     }),
     checkUserAccess: function () {
-    /*  if (this.currentUser.role.role !== null) {
+      console.log(this.currentUser)
+      if (this.currentUser.role !== undefined) {
         console.log('currentUser is role')
         if (this.currentUser.role.role === 'ROLE_PANEL_ADMIN' || this.currentUser.role.role === 'ROLE_ADMIN') {
           return this.items
@@ -238,12 +239,12 @@ export default {
         } else {
           return this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users')
         }
-      } else { */
-      return this.items
-      // }
+      } else {
+        return this.items
+      }
     },
     checkUserAccessReports () {
-      /* if (this.currentUser.role !== null) {
+      if (this.currentUser.role !== undefined) {
         console.log('currentUser is role')
         if (this.currentUser.role.role === 'ROLE_PANEL_ADMIN' || this.currentUser.role.role === 'ROLE_ADMIN') {
           return this.reports
@@ -254,8 +255,9 @@ export default {
         } else {
           return this.reports
         }
-      } else { */
-      return this.reports
+      } else {
+        return this.reports
+      }
     }
   },
   methods: {
