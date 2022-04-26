@@ -59,7 +59,7 @@
                   :loading="loading"
                 >
                   <v-card-title class="lightGreen black--text font-weight-bold headline">
-                    {{ $t('user.createDialog') }}
+                    {{ $t('user.createUserDialog') }}
                   </v-card-title>
                   <v-container>
                     <v-form
