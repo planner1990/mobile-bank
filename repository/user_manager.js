@@ -42,8 +42,8 @@ const userRoles = [
     text: 'user.roles.ROLE_PANEL_USER'
   },
   {
-    value: 'ROLE_PANEL_REPORTER',
-    text: 'user.roles.ROLE_PANEL_REPORTER'
+    value: 'ROLE_PANEL_REPORT',
+    text: 'user.roles.ROLE_PANEL_REPORT'
   }
 ]
 

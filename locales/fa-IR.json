@@ -368,6 +368,7 @@
     "city": "شهر",
     "branch": "شعبه",
     "newUser": "کاربر جدید",
+    "createUserDialog": "ایجاد کاربر جدید",
     "createDialog": "گزارش جزییات",
     "editDialog": "ویرایش کاربر",
     "active": "فعال",
@@ -375,7 +376,7 @@
     "roles": {
       "ROLE_PANEL_ADMIN": "مدیر",
       "ROLE_PANEL_USER": "کارگزار",
-      "ROLE_PANEL_REPORTER": "گزارشگیر"
+      "ROLE_PANEL_REPORT": "گزارشگیر"
     },
     "validation": {
       "required": "این فیلد اجباری است.",
