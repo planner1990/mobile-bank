@@ -272,7 +272,7 @@ export default {
 
       })
       defaultFilterdetails.transactionListFilter.transactionId = item.id
-      reportManager.transactionDetails(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
+      reportManager.transactionDetailsQuery(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
         this.itemsTransaction.splice(0, 1)
         // this.itemsTransaction.push(response.data)
         try {
