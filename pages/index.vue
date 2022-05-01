@@ -81,7 +81,7 @@
                             <v-spacer />
                           </v-toolbar>
                           <v-card-text dir="ltr" class="text-center">
-                            <div align="justify" style="width:490px;overflow:auto">
+                            <div align="justify" style="width:450px;overflow:auto">
                               <vue-json-pretty :data="requestJson" />
                             <!-- <pre>   //{{ item.responseJson }}
 
@@ -110,7 +110,7 @@
                               <v-spacer />
                             </v-toolbar>
                             <v-card-text dir="ltr">
-                              <div align="justify" style="width:490px;overflow:auto">
+                              <div align="justify" style="width:450px;overflow:auto">
                                 <vue-json-pretty :data="responseJson" />
                                 <!-- <pre>   //{{ item.responseJson }}
 
