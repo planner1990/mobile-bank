@@ -272,26 +272,31 @@ export default {
 
       })
       defaultFilterdetails.transactionListFilter.transactionId = item.id
-      reportManager.transactionDetailsQuery(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
+      reportManager.transactionDetails(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
         this.itemsTransaction.splice(0, 1)
         // this.itemsTransaction.push(response.data)
         try {
           this.requestJson = JSON.parse(response.data.requestJson)
-          this.responseJson = JSON.parse(response.data.responseJson)
-
-          this.itemsTransaction.push({
-
-            appVersion: response.data.appVersion,
-            osVersion: response.data.osVersion,
-            osName: response.data.osName,
-            responseLongTime: response.data.responseLongTime,
-            requestId: response.data.requestId,
-            ip: response.data.ipAddress,
-            traceId: response.data.traceId
-
-          })
         } catch (e) {
+          console.log('catch json Exception')
+          this.requestJson = response.data.requestJson
         }
+        try {
+          this.responseJson = JSON.parse(response.data.responseJson)
+        } catch (e) {
+          console.log('catch json Exception')
+          this.responseJson = response.data.responseJson
+        }
+        this.itemsTransaction.push({
+          appVersion: response.data.appVersion,
+          osVersion: response.data.osVersion,
+          osName: response.data.osName,
+          responseLongTime: response.data.responseLongTime,
+          requestId: response.data.requestId,
+          ip: response.data.ipAddress,
+          traceId: response.data.traceId
+        })
+
         this.loading = false
       })
         .finally(() => {
@@ -301,6 +306,7 @@ export default {
     closeTransactionDetailsDialog () {
       this.itemsTransaction = []
       this.createDialog = false
+      this.itemsTransaction.splice(0, 1)
     },
     search (searchModel) {
       this.loading = true
