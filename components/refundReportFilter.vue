@@ -309,6 +309,14 @@ const defaultFilter = {
   dateFilter: {
     from: null,
     to: null
+  },
+  paginate: {
+    page: 1,
+    length: 50,
+    sort: {
+      property: 'id',
+      direction: 'desc'
+    }
   }
 }
 export default {
@@ -386,7 +394,7 @@ export default {
     },
     downloadReports (searchModel) {
       this.downloadLoading = true
-      reportManager.downloadRefundList(searchModel, this.$axios).then((res) => {
+      reportManager.downloadRefundList(defaultFilter, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL
