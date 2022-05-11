@@ -314,7 +314,7 @@ export default {
           osVersion: response.data.osVersion,
           osName: response.data.osName,
           responseLongTime: response.data.responseLongTime,
-          requestId: response.data.requestId,
+          requestId: response.data.trackerId,
           ip: response.data.ipAddress,
           traceId: response.data.traceId
         })
