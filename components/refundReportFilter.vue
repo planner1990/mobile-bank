@@ -268,8 +268,19 @@
             {{ $t('buttons.search') }}
           </v-btn>
         </v-col>
-        <v-col cols="10" />
-        <v-col>
+        <v-col cols="9" />
+        <v-col cols="1">
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="refundList(defaultFilter)"
+          >
+            {{ $t('report.download') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="1">
           <v-btn
             color="warning"
             :loading="downloadLoading"
@@ -392,6 +403,19 @@ export default {
         this.loading = false
       })
     },
+    refundList (searchModel) {
+      reportManager.refundStatusList(defaultFilter, this.$axios).then((res) => {
+        this.search()
+      }).catch((error) => {
+        console.log(error)
+        this.alert({
+          color: 'error',
+          content: 'global.failed'
+        })
+      }).finally(() => {
+        this.downloadLoading = false
+      })
+    },
     downloadReports (searchModel) {
       this.downloadLoading = true
       reportManager.downloadRefundList(defaultFilter, this.$axios).then((res) => {
@@ -450,6 +474,7 @@ export default {
         this.filter.refundListFilter.refundToDate = this.convertJalaliDateToTimestamp(this.toDate)
       }
     },
+
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')

@@ -20,6 +20,20 @@ async function chargeList (request, axios) {
   return rest
 }
 
+async function refund (request, axios) {
+  console.log('refund us call')
+  const rest = await axios.post('refund/refund', request)
+  console.log(rest)
+  return rest
+}
+
+async function refundStatusList (request, axios) {
+  console.log('refundStatus us call')
+  const rest = await axios.post('refund/refundList', request)
+  console.log(rest)
+  return rest
+}
+
 async function refundList (request, axios) {
   console.log('chargeList us call')
   const rest = await axios.post('refund/list', request)
@@ -92,8 +106,8 @@ async function uploadOffer (request, axios) {
   const res = await axios.post('offer/upload-offer', request)
   return res
 }
-async function updateUploadOffer (request, id, axios) {
-  return await axios.post('offer/' + id, request)
+async function updateUploadOffer (request, axios) {
+  return await axios.post('offer/update-offer', request)
 }
 async function addParams (request, axios) {
   return await axios.post('offer/addParams', request)
@@ -442,6 +456,8 @@ export default {
   transactionList,
   chargeList,
   refundList,
+  refund,
+  refundStatusList,
   transactionStatistics,
   incomeList,
   transactionDetails,
