@@ -228,35 +228,37 @@ export default {
     }),
     checkUserAccess: function () {
       console.log(this.currentUser)
-      if (this.currentUser.role !== undefined) {
-        console.log('currentUser is role')
-        if (this.currentUser.role.role === 'ROLE_PANEL_ADMIN' || this.currentUser.role.role === 'ROLE_ADMIN') {
-          return this.items
-        } else if (this.currentUser.role.role === 'ROLE_PANEL_USER' || this.currentUser.role.role === 'ROLE_USER') {
-          return this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
-        } else if (this.currentUser.role.role === 'ROLE_PANEL_REPORT') {
-          return this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/refund-report')
-        } else {
-          return this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users')
-        }
-      } else {
+      // if (this.currentUser.role !== undefined) {
+      console.log('currentUser is role')
+      console.log(this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS'))
+      if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined) {
         return this.items
+      } else if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined &&
+        this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined &&
+        this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
+        return this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
+      } else if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
+        return this.items.filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
+          .filter(e => e.to !== '/transactionQuery').filter(e => e.to !== '/transaction-statistics')
+          .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
+          .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/')
       }
+      return this.items
     },
     checkUserAccessReports () {
-      if (this.currentUser.role !== undefined) {
-        console.log('currentUser is role')
-        if (this.currentUser.role.role === 'ROLE_PANEL_ADMIN' || this.currentUser.role.role === 'ROLE_ADMIN') {
-          return this.reports
-        } else if (this.currentUser.role.role === 'ROLE_PANEL_USER' || this.currentUser.role.role === 'ROLE_USER') {
-          return this.reports.filter(e => e.to !== '/offer').filter(e => e.to !== '/error-report').filter(e => e.to !== '/incomeReport')
-        } else if (this.currentUser.role.role === 'ROLE_PANEL_REPORT') {
-          return this.reports.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/refund-report')
-        } else {
-          return this.reports
-        }
-      } else {
+      // if (this.currentUser.role !== undefined) {
+      console.log('currentUser is role')
+      if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined) {
+        console.log('currentUser is role2')
         return this.reports
+      } else if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
+        return null
+      } else if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined &&
+        this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined &&
+        this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
+        return this.reports.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
+      } else {
+        return this.reports.filter(e => e.to !== '/offer').filter(e => e.to !== '/users')
       }
     }
   },

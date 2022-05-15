@@ -125,37 +125,26 @@
                             outlined
                             dense
                             required
+                            clearable
+                            @change="clearAllDataInForm()"
                           />
                         </v-col>
-                      <!--  <v-col>
-                          <province-selector
-                            v-model="userForm.userObj.provinceCode"
-                            :is-show-rules="userForm.userObj.role === 'ROLE_USER'"
-                            icon="mdi-map-marker"
+                        <v-col cols="6">
+                          <v-select
+                            v-model="userForm.userObj.userAccessList"
+                            prepend-icon="mdi-folder-lock"
+                            :items="computedUserAccessList"
+                            :item-text="(item) => $t(item.text)"
+                            item-value="value"
+                            :label="$t('user.permission')"
+                            outlined
+                            dense
+                            required
+                            clearable
+                            multiple
                           />
-                        </v-col>-->
+                        </v-col>
                       </v-row>
-                      <!-- <v-row>
-                        <v-col>
-                          <city-selector
-                            v-model="userForm.userObj.cityCode"
-                            :province="computedProvince"
-                            :is-show-rules="userForm.userObj.role === 'ROLE_LOAN_USER'"
-                            :is-disabled="userForm.userObj.role === 'ROLE_ADMIN'"
-                            icon="mdi-map-marker"
-                          />
-                        </v-col>
-                        <v-col>
-                          <branch-selector
-                            v-model="userForm.userObj.branchCode"
-                            icon="mdi-bank"
-                            :city="computedCity"
-                            :is-show-rules="userForm.userObj.role === 'ROLE_USER'"
-                            :is-disabled="userForm.userObj.role === 'ROLE_ADMIN'"
-                            :province="computedProvince"
-                          />
-                        </v-col>
-                      </v-row>-->
                     </v-form>
                     <v-row
                       v-for="(error, index) in computedErrorsInCreateDialog"
@@ -251,6 +240,7 @@ export default {
   data: function () {
     return {
       roles: userManager.userRoles,
+
       pagination: {
         rowsPerPage: 10,
         page: 1,
@@ -263,14 +253,18 @@ export default {
       },
       loading: false,
       userForm: {
+        permissions: userManager.userPermissions,
         showPassword: false,
-        userObj: {}
+        userObj: {
+          userAccessList: []
+        }
       },
       createDialog: false,
       deleteUserDialog: false,
       headers: [
         { text: this.$t('user.username'), value: 'username', sortable: false },
-        { text: this.$t('user.role'), value: 'role', sortable: false }, /*
+        { text: this.$t('user.role'), value: 'role', sortable: false },
+        { text: this.$t('user.permission'), value: 'locationAccess' }, /*
         { text: this.$t('user.province'), value: 'provinceCode', sortable: false },
         // { text: this.$t('user.city'), value: 'cityCode' },
         { text: this.$t('user.branch'), value: 'branchCode', sortable: false }, */
@@ -278,12 +272,30 @@ export default {
         { text: this.$t('user.edit'), value: 'actions', sortable: false }
       ],
       users: []
+
     }
   },
   computed: {
     ...mapGetters({
       currentUser: 'user/me'
     }),
+    computedUserAccessList: function () {
+      console.log('this.userForm.userObj.role')
+
+      /* if (this.userForm.userObj.role === 'ROLE_PANEL_REPORT') {
+        const temp = this.userForm.permissions.filter(e => e.value === 'REPORTER_ACCESS')
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.userForm.userObj.userAccessList = [temp[0].value]
+        return temp
+      } else if (this.userForm.userObj.role === 'ROLE_PANEL_USER') {
+        const temp = []
+        return temp
+      } else { */
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      // this.userForm.userObj.userAccessList = []
+      return this.userForm.permissions
+      /* } */
+    },
     computedProvince: function () {
       if (this.userForm.userObj.provinceCode) {
         return this.userForm.userObj.provinceCode
@@ -291,6 +303,7 @@ export default {
         return this.currentUser.provinceCode
       }
     },
+
     computedCity: function () {
       if (this.userForm.userObj.cityCode) {
         return this.userForm.userObj.cityCode
@@ -312,6 +325,10 @@ export default {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+    clearAllDataInForm () {
+      delete this.userForm.userObj.userAccessList
+      this.resetValidation()
+    },
     paginate () {
       this.search(this.searchModel)
     },
@@ -396,7 +413,8 @@ export default {
         provinceCode: item.provinceCode,
         cityCode: item.cityCode,
         branchCode: item.branchCode,
-        role: item.role.role
+        role: item.role.role,
+        userAccessList: item.userAccess
       }
       this.createDialog = true
       // console.log(this.userForm.userObj)
