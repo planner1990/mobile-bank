@@ -59,17 +59,22 @@ const customerType = [
 ]
 
 const userPermissions = [
+
   {
-    value: 'OPEN_DEPOSIT_PROCESS',
-    text: 'user.permissions.0'
+    value: 'REPORTER_ACCESS',
+    text: 'user.permissions.1'
   },
   {
-    value: 'EXPORT_OPENED_DEPOSIT_FILE',
-    text: 'user.permissions.1'
+    value: 'ACCOUNTING_ACCESS',
+    text: 'user.permissions.3'
   },
   {
     value: 'CREATE_USER',
     text: 'user.permissions.2'
+  },
+  {
+    value: 'OFFER_ACCESS',
+    text: 'user.permissions.4'
   }
 ]
 
