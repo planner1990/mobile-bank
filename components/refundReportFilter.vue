@@ -277,7 +277,7 @@
             small
             @click="refundList(defaultFilter)"
           >
-            {{ $t('report.download') }}
+            {{ $t('report.refundReport.refundList') }}
           </v-btn>
         </v-col>
         <v-col cols="1">
@@ -417,6 +417,7 @@ export default {
       })
     },
     downloadReports (searchModel) {
+      console.log('download')
       this.downloadLoading = true
       reportManager.downloadRefundList(defaultFilter, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))

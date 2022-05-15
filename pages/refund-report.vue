@@ -503,10 +503,6 @@ export default {
         return moment(date).format('HH:mm:ss jYYYY/jM/jD')
       }
     },
-
-    test (platform) {
-      console.log(platform)
-    },
     moment (date) {
       return momentJalali(date).format('HH:mm:ss jYYYY/jM/jD')
     }
