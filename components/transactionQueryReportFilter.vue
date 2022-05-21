@@ -15,225 +15,341 @@
       <v-spacer />
     </v-toolbar>
     <v-container fluid>
-      <br>
-      <v-row>
-        <v-col>
-          <v-text-field
-            id="createFromDate"
-            v-model="fromDate"
-            prepend-icon="mdi-calendar-month"
-            outlined
-            dense
-            :placeholder="$t('filters.fromDate')"
-          />
-          <p-date-picker
-            v-model="fromDate"
-            type="datetime"
-            element="createFromDate"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullFromDate()"
-          />
-        </v-col>
+      <v-container fluid>
+        <br>
+        <v-row>
+          <v-col>
+            <v-text-field
+              id="createFromDate"
+              v-model="fromDate"
+              prepend-icon="mdi-calendar-month"
+              outlined
+              dense
+              :placeholder="$t('filters.fromDate')"
+            />
+            <p-date-picker
+              v-model="fromDate"
+              type="datetime"
+              element="createFromDate"
+              color="dimgray"
+              dense
+              outlined
+              popove
+              auto-submit
+              format="HH:mm jYYYY/jMM/jDD"
+              @close="checkIsNullFromDate()"
+            />
+          </v-col>
 
-        <v-col>
-          <v-text-field
-            id="createToDate"
-            v-model="toDate"
-            prepend-icon="mdi-calendar-month"
-            outlined
-            dense
-            :placeholder="$t('filters.toDate')"
-          />
-          <p-date-picker
-            v-model="toDate"
-            type="datetime"
-            element="createToDate"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullToDate()"
-          />
-        </v-col>
-        <v-col>
-          <v-autocomplete
-            v-model="filter.transactionListFilter.operation"
-            :items="items"
-            item-value="url"
-            :return-object="false"
-            item-text="title"
-            dense
-            outlined
-            prepend-icon="mdi-clipboard-list"
-            clearable
-            :label="$t('filters.operation')"
-          >
-            <!-- <v-select
-            v-model="filter.transactionListFilter.operation"
-            :items="items"
-            :return-object="false"
-            item-value="url"
-            item-text="title"
-            :label="$t('filters.operation')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          >-->
-            <template
-              slot="item"
-              slot-scope="data"
+          <v-col>
+            <v-text-field
+              id="createToDate"
+              v-model="toDate"
+              prepend-icon="mdi-calendar-month"
+              outlined
+              dense
+              :placeholder="$t('filters.toDate')"
+            />
+            <p-date-picker
+              v-model="toDate"
+              type="datetime"
+              element="createToDate"
+              color="dimgray"
+              dense
+              outlined
+              popove
+              auto-submit
+              format="HH:mm jYYYY/jMM/jDD"
+              @close="checkIsNullToDate()"
+            />
+          </v-col>
+          <v-col>
+            <v-select
+              v-model="filter.transactionListFilter.operation"
+              :label="$t('filters.operation')"
+              prepend-icon="mdi-clipboard-list"
+              dense
+              outlined
+              @focus="editItem()"
+            />
+          </v-col>
+          <!-- <v-col>
+            <v-autocomplete
+              v-model="filter.transactionListFilter.operation"
+              :items="items"
+              item-value="url"
+              :return-object="false"
+              item-text="title"
+              dense
+              outlined
+              prepend-icon="mdi-clipboard-list"
+              clearable
+              :label="$t('filters.operation')"
             >
-              <!-- Divider and Header-->
-              <template v-if="typeof data.item !== 'object'">
-                <v-list-tile-content style="font-size: 1.80rem !important; background-color: #70F570 " v-text="data.item" />
-              </template>
-              <!-- Normal item -->
-              <template v-else>
-                <v-list-tile-content>
-                  <v-list-tile-title style="font-size: 12px !important;" v-text="data.item.title" />
-                </v-list-tile-content>
-              </template>
-            </template>
-          <!--</v-select>-->
-          </v-autocomplete>
-        </v-col>
-        <v-col>
-          <v-select
-            v-model="filter.transactionListFilter.responseCode"
-            :items="errorItems"
+              &lt;!&ndash; <v-select
+            v-model="filter.transactionListFilter.operation"
+            :items="items"
+            :return-object="false"
+            item-value="url"
             item-text="title"
-            item-value=""
-            :return-object="false"
-            :label="$t('filters.errorCode')"
+            :label="$t('filters.operation')"
             prepend-icon="mdi-clipboard-list"
             dense
             clearable
             outlined
-          />
-        </v-col>
-        <v-col>
-          <v-select
-            v-model="filter.transactionListFilter.result"
-            :items="status"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.result')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
+          >&ndash;&gt;
+              <template
+                slot="item"
+                slot-scope="data"
+              >
+                &lt;!&ndash; Divider and Header&ndash;&gt;
+                <template v-if="typeof data.item !== 'object'">
+                  <v-list-tile-content style="font-size: 1.80rem !important; background-color: #70F570 " v-text="data.item" />
+                </template>
+                &lt;!&ndash; Normal item &ndash;&gt;
+                <template v-else>
+                  <v-list-tile-content>
+                    <v-list-tile-title style="font-size: 12px !important;" v-text="data.item.title" />
+                  </v-list-tile-content>
+                </template>
+              </template>
+              &lt;!&ndash;</v-select>&ndash;&gt;
+            </v-autocomplete>
+          </v-col>-->
+          <v-col>
+            <v-select
+              v-model="filter.transactionListFilter.responseCode"
+              :items="errorItems"
+              item-text="title"
+              item-value=""
+              :return-object="false"
+              :label="$t('filters.errorCode')"
+              prepend-icon="mdi-clipboard-list"
+              dense
+              clearable
+              outlined
+            />
+          </v-col>
+          <v-col>
+            <v-select
+              v-model="filter.transactionListFilter.result"
+              :items="status"
+              item-value="value"
+              :item-text="(item)=>$t(item.text)"
+              :return-object="false"
+              :label="$t('filters.result')"
+              prepend-icon="mdi-clipboard-list"
+              dense
+              clearable
+              outlined
+            />
+          </v-col>
 
-        <v-col>
-          <v-select
-            v-model="filter.transactionListFilter.sourceType"
-            :items="source"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.source')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.phoneNumber"
-            dense
-            outlined
-            :label="$t('customer.phoneNumber')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.sourceNumber"
-            dense
-            outlined
-            :label="$t('report.transactionReport.transaction.sourceNumber')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.cif"
-            dense
-            outlined
-            :label="$t('customer.cif')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.requestId"
-            dense
-            outlined
-            :label="$t('filters.trackerId')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.transactionId"
-            dense
-            outlined
-            :label="$t('filters.transactionId')"
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col>
-          <v-select
-            v-model="filter.transactionListFilter.os"
-            :items="osName"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.osName')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-        <v-col>
-          <v-btn
-            color="success"
-            small
-            class="mr-10"
-            @click="search"
+          <v-col>
+            <v-select
+              v-model="filter.transactionListFilter.sourceType"
+              :items="source"
+              item-value="value"
+              :item-text="(item)=>$t(item.text)"
+              :return-object="false"
+              :label="$t('filters.source')"
+              prepend-icon="mdi-clipboard-list"
+              dense
+              clearable
+              outlined
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-text-field
+              v-model="filter.transactionListFilter.phoneNumber"
+              dense
+              outlined
+              :label="$t('customer.phoneNumber')"
+              prepend-icon="mdi-account"
+            />
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="filter.transactionListFilter.sourceNumber"
+              dense
+              outlined
+              :label="$t('report.transactionReport.transaction.sourceNumber')"
+              prepend-icon="mdi-account"
+            />
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="filter.transactionListFilter.cif"
+              dense
+              outlined
+              :label="$t('customer.cif')"
+              prepend-icon="mdi-account"
+            />
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="filter.transactionListFilter.requestId"
+              dense
+              outlined
+              :label="$t('filters.trackerId')"
+              prepend-icon="mdi-account"
+            />
+          </v-col>
+          <v-col>
+            <v-text-field
+              v-model="filter.transactionListFilter.transactionId"
+              dense
+              outlined
+              :label="$t('filters.transactionId')"
+              prepend-icon="mdi-account"
+            />
+          </v-col>
+          <v-col>
+            <v-select
+              v-model="filter.transactionListFilter.os"
+              :items="osName"
+              item-value="value"
+              :item-text="(item)=>$t(item.text)"
+              :return-object="false"
+              :label="$t('filters.osName')"
+              prepend-icon="mdi-clipboard-list"
+              dense
+              clearable
+              outlined
+            />
+          </v-col>
+        </v-row>
+        <v-row no-gutters>
+          <v-col>
+            <v-btn
+              color="success"
+              small
+              class="mr-10"
+              @click="search"
+            >
+              {{ $t('buttons.search') }}
+            </v-btn>
+          </v-col>
+          <v-col cols="10" />
+          <v-col>
+            <v-btn
+              color="warning"
+              :loading="downloadLoading"
+              dark
+              small
+              @click="downloadReports(defaultFilter)"
+            >
+              {{ $t('report.download') }}
+            </v-btn>
+          </v-col>
+        </v-row>
+        <template #top>
+          <v-dialog
+            v-model="createDialog"
+            max-width="1000"
+            transition="dialog-bottom-transition"
           >
-            {{ $t('buttons.search') }}
-          </v-btn>
-        </v-col>
-        <v-col cols="10" />
-        <v-col>
-          <v-btn
-            color="warning"
-            :loading="downloadLoading"
-            dark
-            small
-            @click="downloadReports(defaultFilter)"
-          >
-            {{ $t('report.download') }}
-          </v-btn>
-        </v-col>
-      </v-row>
+            <v-card
+              :loading="loading"
+            >
+              <v-card-title class="lightGreen light-green--text font-weight-bold headline">
+                {{ $t('user.createDialog') }}
+              </v-card-title>
+              <v-container>
+                <v-form
+                  ref="form"
+                >
+                  <br>
+                  <v-row>
+                    <v-data-table
+                      dense
+                      item-key="cardOwnerId"
+                      sort-by="cardOwnerId"
+                      :items="itemsTransaction"
+                      :headers="headersTransaction"
+                      class="elevation-5 fullScreen"
+                      :hide-default-footer="true"
+                    />
+                  </v-row>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <v-row>
+                    <v-col cols="6">
+                      <v-card
+                        color="#f6f6f6"
+                        height="100%"
+                      >
+                        <v-toolbar
+                          class="black--text"
+                          color="grey lighten-4"
+                          flat
+                          dark
+                          dense
+                          elevation="1"
+                        >
+                          {{ $t('report.transactionReport.headers.request') }}
+                          <v-spacer />
+                        </v-toolbar>
+                        <v-card-text dir="ltr" class="text-center">
+                          <div align="justify" style="width:450px;overflow:auto">
+                            <vue-json-pretty :data="requestJson" />
+                            <!-- <pre>   //{{ item.responseJson }}
+
+                            </pre>-->
+                          </div>
+                        </v-card-text>
+                      </v-card>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-flex text-xs-center fill-height>
+                        <v-card
+                          color="#f6f6f6"
+                          height="100%"
+
+                          class="justify-center"
+                        >
+                          <v-toolbar
+                            class="black--text"
+                            color="grey lighten-4"
+                            flat
+                            dark
+                            dense
+                            elevation="1"
+                          >
+                            {{ $t('report.transactionReport.headers.response') }}
+                            <v-spacer />
+                          </v-toolbar>
+                          <v-card-text dir="ltr">
+                            <div align="justify" style="width:450px;overflow:auto">
+                              <vue-json-pretty :data="responseJson" />
+                              <!-- <pre>   //{{ item.responseJson }}
+
+                          </pre>-->
+                            </div>
+                          </v-card-text>
+                        </v-card>
+                      </v-flex>
+                    </v-col>
+                  </v-row>
+                </v-form>
+              </v-container>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn
+                  color="orange"
+                  @click="closeTransactionDetailsDialog"
+                >
+                  {{ $t('buttons.cancel') }}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </template>
+      </v-container>
     </v-container>
   </v-card>
 </template>
@@ -246,7 +362,7 @@ const defaultFilter = {
   transactionListFilter: {
     // smsId: null,
     phoneNumber: null,
-    operation: null,
+    operation: [],
     sourceNumber: null,
     sourceType: null,
     result: null,
@@ -283,6 +399,7 @@ export default {
   },
   data () {
     return {
+      createDialog: false,
       fromDate: this.currentDayFrom(),
       toDate: this.currentDayTo(),
       time: null,
@@ -312,6 +429,12 @@ export default {
   methods: {
     search () {
       this.$emit('search', this.filter)
+    },
+    editItem () {
+      console.log('item212112')
+      this.$emit('edit', this.filter)
+
+      this.createDialog = true
     },
     operation () {
       this.loading = true

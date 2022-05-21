@@ -7,7 +7,7 @@
       <v-row
         justify="center"
       >
-        <transactionReportFilter v-model="searchModel" @search="search" />
+        <transactionReportFilter v-model="searchModel" @search="search" @edit="editItem2()" />
       </v-row>
       <br>
       <br>
@@ -135,6 +135,105 @@
               </v-card>
             </v-dialog>
           </template>
+          <template #top>
+            <v-dialog
+              v-model="operationDialog"
+              width="1200"
+              transition="dialog-bottom-transition"
+            >
+              <v-card
+                :loading="loading"
+              >
+                <v-card-title class="lightGreen light-green--text font-weight-bold headline">
+                  {{ $t('report.transactionReport.operationSelect') }}
+                </v-card-title>
+                <v-container>
+                  <v-form
+                    ref="form"
+                  >
+                    <v-card height="400px" color="">
+                      <v-row>
+                        <v-tabs
+                          v-model="tabsModel"
+                          align-with-title
+                          color="success"
+                        >
+                          <v-tab href="#depositOperation" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.depositOperation') }}
+                          </v-tab>
+                          <v-tab-item value="depositOperation">
+                            <br>
+                            <deposit-operations :list-type="listType" />
+                          </v-tab-item>
+
+                          <v-tab href="#cardOperation" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.cardOperation') }}
+                          </v-tab>
+                          <v-tab-item value="cardOperation">
+                            <br>
+                            <card-operations :list-type="listType" />
+                          </v-tab-item>
+
+                          <v-tab href="#userOperation" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.userOperation') }}
+                          </v-tab>
+                          <v-tab-item value="userOperation">
+                            <br>
+                            <user-operations :list-type="listType" />
+                          </v-tab-item>
+
+                          <v-tab href="#publicOperation" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.publicOperation') }}
+                          </v-tab>
+                          <v-tab-item value="publicOperation">
+                            <br>
+                            <public-operations :list-type="listType" />
+                          </v-tab-item>
+
+                          <v-tab href="#cardReissueOperation" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.cardReissueOperation') }}
+                          </v-tab>
+                          <v-tab-item value="cardReissueOperation">
+                            <br>
+                            <card-reissue-operations :list-type="listType" />
+                          </v-tab-item>
+                          <v-tab href="#loanRequestOperation" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.loanRequestOperation') }}
+                          </v-tab>
+                          <v-tab-item value="loanRequestOperation">
+                            <br>
+                            <loan-operations :list-type="listType" />
+                          </v-tab-item>
+                          <v-tab href="#onlineDepositOperation" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.onlineDepositOperation') }}
+                          </v-tab>
+                          <v-tab-item value="onlineDepositOperation">
+                            <br>
+                            <online-deposit-operations :list-type="listType" />
+                          </v-tab-item>
+                        </v-tabs>
+                      </v-row>
+                    </v-card>
+                  </v-form>
+                </v-container>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn
+                    color="orange"
+                    @click="okOperationDialog"
+                  >
+                    {{ $t('buttons.submit') }}
+                  </v-btn>
+                  <v-btn
+                    color="orange"
+                    @click="closeTransactionDetailsDialog"
+                  >
+                    {{ $t('buttons.cancel') }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </template>
           <template #[`item.requestTime`]="{ item }">
             {{ convertToJalali(item.requestTime) }}
           </template>
@@ -175,28 +274,73 @@
 
 <script>
 import momentJalali from 'moment-jalaali'
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
 import VueJsonPretty from 'vue-json-pretty'
 import transactionReportFilter from '~/components/transactionReportFilter'
 import reportManager from '~/repository/report_manager'
 import 'vue-json-pretty/lib/styles.css'
+import depositOperations from '~/components/depositOperations'
+import cardOperations from '~/components/cardOperations'
+import loanOperations from '~/components/loanRequestOperations'
+import onlineDepositOperations from '~/components/onlineDepositeOperations'
+import cardReissueOperations from '~/components/cardReissueOperations'
+import publicOperations from '~/components/publicOperations'
+import userOperations from '~/components/userOperations'
 
 const defaultFilterdetails = {
   transactionListFilter: {
     transactionId: null
   }
 }
+const defaultFilterOperation = {
+  transactionListFilter: {
+    // smsId: null,
+    phoneNumber: null,
+    operation: [],
+    sourceNumber: null,
+    sourceType: null,
+    result: null,
+    platform: null,
+    requestId: null,
+    os: null,
+    transactionId: null,
+    amount: null,
+    cif: null,
+    responseCode: null,
+    typeList: null
+  },
+  dateFilter: {
+    from: null,
+    to: null
+  },
+  paginate: {
+    page: 1,
+    length: 50,
+    sort: {
+      property: 'id',
+      direction: 'desc'
+    }
+  }
+}
 export default {
   name: 'TransactionReport',
   components: {
     transactionReportFilter,
+    depositOperations,
+    cardOperations,
+    loanOperations,
+    cardReissueOperations,
+    onlineDepositOperations,
+    userOperations,
+    publicOperations,
     VueJsonPretty
   },
   data () {
     return {
       downloadLoading: false,
       createDialog: false,
+      operationDialog: false,
       searchModel: {
         paginate: {
           page: 1,
@@ -207,6 +351,10 @@ export default {
           }
         }
       },
+      operationType: {
+        operationType: 'LIST'
+      },
+      filterOperation: defaultFilterOperation,
       filterDetails: defaultFilterdetails,
       totalNumberOfItems: 0,
       loading: false,
@@ -228,7 +376,7 @@ export default {
         { text: this.$t('report.transactionReport.headers.osVersion'), value: 'osVersion', sortable: false },
         { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false },
         { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
         { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false }
       ],
       headersTransactionRequest: [
@@ -242,8 +390,33 @@ export default {
       itemsTransaction: [],
       itemsTransactionData: [],
       requestJson: null,
-      responseJson: null
+      responseJson: null,
+      cardList: [],
+      depositList: [],
+      cardReissueList: [],
+      loanList: [],
+      loanPanelList: [],
+      depositList1: [],
+      onlineDepositList: [],
+      otherList: [],
+      operationList: [],
+      listType: 'LIST'
     }
+  },
+
+  computed: {
+    ...mapGetters({
+      cardOperationList: 'onlineDepositStore/cardOperationList',
+      depositOperationList: 'onlineDepositStore/depositOperationList',
+      publicOperationList: 'onlineDepositStore/publicOperationList',
+      userOperationList: 'onlineDepositStore/userOperationList',
+      inquiryOperationList: 'onlineDepositStore/inquiryOperationList',
+      onlineDepositOperationList: 'onlineDepositStore/onlineDepositOperationList',
+      loanRequestOperationList: 'onlineDepositStore/loanRequestOperationList',
+      cardReissueOperationList: 'onlineDepositStore/cardReissueOperationList'
+
+    })
+
   },
   // mounted () {
   //   this.search(this.searchModel)
@@ -252,6 +425,7 @@ export default {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+
     getColor (status) {
       if (status === 200) {
         return '#E4E8E3'
@@ -272,6 +446,10 @@ export default {
       } else {
         return url + '\n' + url
       }
+    },
+    editItem2 () {
+      console.log('item')
+      this.operationDialog = true
     },
     editItem (item) {
       console.log('item')
@@ -295,6 +473,8 @@ export default {
 
       defaultFilterdetails.transactionListFilter.transactionId = item.id
       reportManager.transactionDetails(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
+        console.log('response.data')
+        console.log(response.data)
         this.itemsTransaction.splice(0, 1)
         // this.itemsTransaction.push(response.data)
         try {
@@ -314,7 +494,7 @@ export default {
           osVersion: response.data.osVersion,
           osName: response.data.osName,
           responseLongTime: response.data.responseLongTime,
-          requestId: response.data.requestId,
+          requestId: response.data.trackerId,
           ip: response.data.ipAddress,
           traceId: response.data.traceId
         })
@@ -328,13 +508,39 @@ export default {
     closeTransactionDetailsDialog () {
       this.itemsTransaction = []
       this.createDialog = false
+      this.operationDialog = false
+    },
+    okOperationDialog () {
+      console.log('this.cardOperations')
+      this.cardList = this.cardOperationList
+      console.log(this.depositOperationList)
+      console.log(this.cardReissueOperationList)
+      console.log(this.loanRequestOperationList)
+      console.log(this.onlineDepositOperationList)
+      console.log(this.inquiryOperationList)
+      console.log(this.publicOperationList)
+      console.log(this.userOperationList)
+      const operationDepositList = this.cardOperationList
+      console.log('this.userOperationList1')
+      console.log(operationDepositList)
+      this.operationList = this.depositOperationList.concat(this.cardReissueOperationList, this.cardOperationList, this.loanRequestOperationList,
+        this.onlineDepositOperationList, this.publicOperationList, this.userOperationList)
+      console.log('this.userOperationList')
+      console.log(this.operationList)
+      this.operationDialog = false
+      console.log('operationDialog = false')
     },
     search (searchModel) {
       console.log('searchModel')
       console.log(searchModel)
       this.loading = true
 
-      reportManager.transactionList(searchModel, this.$axios).then((response) => {
+      this.filterOperation = searchModel
+      console.log(this.filterOperation)
+      this.filterOperation.transactionListFilter.operation = this.operationList
+      console.log(this.filterOperation)
+      reportManager.transactionList(this.filterOperation, this.$axios).then((response) => {
+        this.operationList = []
         this.items = response.data.itemList
         console.log(this.items)
         this.totalNumberOfItems = response.data.filteredItem
