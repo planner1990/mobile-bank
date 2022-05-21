@@ -1,8 +1,7 @@
 <template>
   <v-card
-    elevation="10"
+    elevation="5"
     class="fullScreen"
-    color="#f6f6f6"
   >
     <v-toolbar
       class="black--text"
@@ -14,17 +13,10 @@
     >
       {{ $t('titles.filters') }}
       <v-spacer />
-      <v-btn
-        color="success"
-        small
-        @click="search"
-      >
-        {{ $t('buttons.search') }}
-      </v-btn>
     </v-toolbar>
     <v-container fluid>
       <v-row>
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="my-custom-input"
             v-model="fromDate"
@@ -46,7 +38,7 @@
             @close="checkIsNull()"
           />
         </v-col>
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="custom-input"
             v-model="toDate"
@@ -68,33 +60,44 @@
             @close="checkIsNull()"
           />
         </v-col>
-        <!--      <province-selector-->
-        <!--        v-model="filter.locationFilter.provinceCode"-->
-        <!--      />-->
-        <!--      <city-selector-->
-        <!--        v-model="filter.locationFilter.cityCode"-->
-        <!--        :province="computedProvince"-->
-        <!--      />-->
-        <!--      <branch-selector-->
-        <!--        v-model="filter.locationFilter.branchCode"-->
-        <!--        :province="computedProvince"-->
-        <!--        :city="computedCity"-->
-        <!--      />-->
-        <v-col>
+        <v-col cols="2">
           <v-select
-            v-model="filter.reportFilter.platform"
-            :items="platform"
+            v-model="filter.operatingSystem"
+            :items="osName"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
-            :label="$t('filters.platform')"
+            :label="$t('filters.osName')"
             prepend-icon="mdi-clipboard-list"
             dense
             clearable
             outlined
           />
         </v-col>
-        <v-col />
+      </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <v-btn
+            color="success"
+            small
+            class="mr-10"
+            @click="search"
+          >
+            {{ $t('buttons.search') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="10" />
+        <v-col>
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="downloadReports(defaultFilter)"
+          >
+            {{ $t('report.download') }}
+          </v-btn>
+        </v-col>
       </v-row>
     </v-container>
   </v-card>
@@ -103,91 +106,47 @@
 <script>
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
-// import ProvinceSelector from '@/components/location/provinceSelector.vue'
-// import CitySelector from '@/components/location/citySelector'
-// import BranchSelector from '~/components/location/branchSelector'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
-  reportFilter: {
-    customerNationalCode: null,
-    status: null,
-    operatorUserName: null,
-    operationName: null,
-    customer: null,
-    source: null,
-    operation: null,
-    result: null,
-    platform: null,
-    errorCode: null,
-    osName: null,
-    transactionId: null,
-    amount: null,
-    smsTransactionId: null
-  },
+  operatingSystem: null,
   dateFilter: {
     from: null,
     to: null
   },
-  locationFilter: {
-    provinceCode: null,
-    cityCode: null,
-    branchCode: null
+  paginate: {
+    page: 1,
+    length: 50,
+    sort: {
+      property: 'id',
+      direction: 'desc'
+    }
   }
+
 }
 export default {
   name: 'OperatorReportFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
-    // ProvinceSelector
-    // CitySelector,
-    // BranchSelector
+  },
+  mounted: function () {
+    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    this.filter = Object.assign(this.value, defaultFilter)
   },
   props: {
     value: Object({})
   },
   data () {
     return {
-      fromDate: null,
-      toDate: null,
+      fromDate: this.currentDayFrom(),
+      toDate: this.currentDayTo(),
       filter: defaultFilter,
       status: reportManager.status,
       osName: reportManager.osName,
-      platform: reportManager.platform,
       source: reportManager.source,
       operationName: reportManager.operationName
     }
   },
-  // computed: {
-  //   ...mapGetters({
-  //     me: 'user/me'
-  //   }),
-  //   computedProvince: function () {
-  //     if (this.me.provinceCode) {
-  //       return this.me.provinceCode
-  //     } else {
-  //       return this.filter.locationFilter.provinceCode
-  //     }
-  //   },
-  //   computedCity: function () {
-  //     if (this.me.cityCode) {
-  //       return this.me.cityCode
-  //     } else {
-  //       return this.filter.locationFilter.cityCode
-  //     }
-  //   }
-  // },
-  // mounted: function () {
-  //   if (this.me.provinceCode) {
-  //     defaultFilter.locationFilter.provinceCode = this.me.provinceCode
-  //   }
-  //   if (this.me.cityCode) {
-  //     defaultFilter.locationFilter.cityCode = this.me.cityCode
-  //   }
-  //   if (this.me.branchCode) {
-  //     defaultFilter.locationFilter.branchCode = this.me.branchCode
-  //   }
-  //   this.filter = Object.assign(this.value, defaultFilter)
-  // },
   methods: {
     search () {
       this.$emit('search', this.filter)
@@ -200,11 +159,45 @@ export default {
         this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, 23, 59, 59)
       }
     },
+
+    downloadReports (searchModel) {
+      this.downloadLoading = true
+      reportManager.downloadTransactionStatistics(defaultFilter, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'transactionStatistics-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        console.log(error)
+        this.alert({
+          color: 'error',
+          content: 'global.failed'
+        })
+      }).finally(() => {
+        this.downloadLoading = false
+      })
+    },
     convertJalaliDateToTimestamp (date) {
       const year = moment(date, 'jYYYY/jM/jD').format('YYYY')
       const month = moment(date, 'jYYYY/jM/jD').format('MM')
       const day = moment(date, 'jYYYY/jM/jD').format('DD')
       return new Date(Date.UTC(year, month - 1, day)).getTime()
+    },
+    currentDayFrom: function () {
+      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
+      return year + '/' + month + '/' + day
+    },
+    currentDayTo: function () {
+      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
+
+      return year + '/' + month + '/' + day
     }
   }
 }

@@ -22,34 +22,95 @@
           :headers="headers"
           class="elevation-5 fullScreen"
           :loading="loading"
-          :footer-props="{
-            'items-per-page-options': [10, 20, 30, 40, 50]
-          }"
           :items-per-page.sync="searchModel.paginate.length"
-          :page.sync="searchModel.paginate.page"
           :server-items-length="totalNumberOfItems"
-          @update:page="search(searchModel)"
-          @update:items-per-page="search(searchModel)"
         >
           <template #top>
-            <v-toolbar
-              class="black--text"
-              color="lightGreen"
-              flat
-              dark
-              dense
+            <v-dialog
+              v-model="createDialog"
+              max-width="640"
+              persistent
+              transition="dialog-bottom-transition"
             >
-              <v-btn
-                color="warning"
-                :loading="downloadLoading"
-                dark
-                small
-                @click="downloadReports(searchModel)"
+              <template #activator="{ on, attrs }">
+                <v-btn
+                  color="warning"
+                  class="mb-2"
+                  small
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  {{ $t('user.newUser') }}
+                </v-btn>
+              </template>
+              <v-card
+                :loading="loading"
               >
-                {{ $t('report.download') }}
-              </v-btn>
-            </v-toolbar>
+                <v-card-title class="lightGreen black--text font-weight-bold headline">
+                  {{ $t('user.createDialog') }}
+                </v-card-title>
+                <v-container>
+                  <v-form
+                    ref="form"
+                  >
+                    <v-row>
+                      <v-data-table
+                        dense
+                        item-key="cardOwnerId"
+                        sort-by="cardOwnerId"
+                        :items="items1"
+                        :headers="headers2"
+                        class="elevation-5 fullScreen"
+                        :loading="loading"
+                        :hide-default-footer="true"
+                        :items-per-page.sync="searchModel.paginate.length"
+                        :server-items-length="totalNumberOfItems"
+                      />
+                    </v-row>
+                    <v-row>
+                      <v-data-table
+                        dense
+                        item-key="cardOwnerId"
+                        sort-by="cardOwnerId"
+                        :items="items1"
+                        :headers="headers2"
+                        :hide-default-footer="true"
+                        class="elevation-5 fullScreen"
+                        :loading="loading"
+                        :items-per-page.sync="searchModel.paginate.length"
+                        :server-items-length="totalNumberOfItems"
+                      />
+                    </v-row>
+                  </v-form>
+                </v-container>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn
+                    color="success"
+                    @click="save"
+                  >
+                    {{ $t('global.submit') }}
+                  </v-btn>
+                  <v-btn
+                    color="orange"
+                    @click="cancel"
+                  >
+                    {{ $t('global.cancel') }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </template>
+          <template #[`item.detail`]="{ item }">
+            <v-icon
+              small
+              class="mr-2"
+              @click="editItem(item)"
+            >
+              mdi-pencil
+            </v-icon>
+          </template>
+
           <!--   <template #[`item.source`]="{ item }">
             {{ $t('report.transactionReport.status.' + item.source) }}
           </template>-->
@@ -82,19 +143,46 @@ export default {
   data () {
     return {
       downloadLoading: false,
+      userForm: {
+        showPassword: false,
+        userObj: {}
+      },
+      createDialog: false,
+      deleteUserDialog: false,
       searchModel: {
         paginate: {
           page: 1,
           length: 20,
           sort: {
-            property: 'operationDate',
+            property: 'id',
             direction: 'desc'
           }
         }
       },
+      operationType: {
+        operationType: 'LIST'
+      },
       totalNumberOfItems: 0,
       loading: false,
       headers: [
+        { text: this.$t('report.transactionReport.headers.source'), value: 'operationName', sortable: false },
+        { text: this.$t('report.transactionReport.headers.operation'), value: 'operatorUserName', sortable: false },
+        { text: this.$t('report.transactionReport.headers.platform'), value: 'platform', sortable: false },
+        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
+        { text: this.$t('report.transactionReport.headers.smsTransactionId'), value: 'operationDate', sortable: false },
+        { text: this.$t('report.transactionReport.headers.osName'), value: 'status', sortable: false },
+        { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
+        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false },
+        { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
+        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
+        { text: this.$t('report.transactionReport.headers.source'), value: 'source', sortable: false },
+        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
+        { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
+        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
+      ],
+      headers2: [
         { text: this.$t('report.transactionReport.headers.source'), value: 'operationName', sortable: false },
         { text: this.$t('report.transactionReport.headers.operation'), value: 'operatorUserName', sortable: false },
         { text: this.$t('report.transactionReport.headers.platform'), value: 'platform', sortable: false },
@@ -112,16 +200,39 @@ export default {
         { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
         { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
       ],
-      items: []
+      items: [],
+      items1: []
     }
   },
-  mounted () {
-    this.search(this.searchModel)
-  },
+  // mounted () {
+  //   this.search(this.searchModel)
+  // },
   methods: {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+    editItem (searchModel) {
+      this.createDialog = true
+      reportManager.transactionList(this.searchModel, this.$axios).then((response) => {
+        this.items1 = response.data.itemList
+        console.log(this.items1)
+        /*  this.totalNumberOfItems = response.data.filteredItem */
+        this.loading = false
+      }).catch((error) => {
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+        this.loading = false
+      })
+    },
     search (searchModel) {
       this.loading = true
       reportManager.transactionList(searchModel, this.$axios).then((response) => {
@@ -143,6 +254,17 @@ export default {
         }
         this.loading = false
       })
+    },
+    closeCreateUserDialog () {
+      this.createUserErrors = []
+      this.loading = false
+      this.userForm.userObj = {}
+      this.reset()
+      this.resetValidation()
+      this.createDialog = false
+      if (this.isShowTitleOfEditDialog) {
+        this.isShowTitleOfEditDialog = false
+      }
     },
     downloadReports (searchModel) {
       this.downloadLoading = true

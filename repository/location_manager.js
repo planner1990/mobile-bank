@@ -51,11 +51,19 @@ async function getBranch (code, axios) {
     return []
   }
 }
+async function getOperation (code, axios) {
+  try {
+    return (await axios.get('operation/list')).data
+  } catch {
+    return []
+  }
+}
 
 export default {
   getProvince,
   getProvinces,
   getCities,
   getBranch,
-  getBranches
+  getBranches,
+  getOperation
 }

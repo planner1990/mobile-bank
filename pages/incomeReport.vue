@@ -7,7 +7,7 @@
       <v-row
         justify="center"
       >
-        <transactionStatisticsReportFilter v-model="searchModel" @search="search" />
+        <incomeReportFilter v-model="searchModel" @search="search" />
       </v-row>
       <v-row>
         <v-card
@@ -22,28 +22,25 @@
           center-active
           color="success"
         >
-          <v-tab href="#search2" class="font-weight-black">
-            {{ $t('report.transactionReport.headers.depositTransaction') }}
+          <v-tab href="#search2">
+            {{ $t('income.transferIncomeTitle') }}
           </v-tab>
           <v-tab-item value="search2">
-            <br>
-            <deposit-statistics :deposits="depositList" :loading="enableLoading( loadingStatus)" />
+            <transfer-income :transfer-list="transferList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
 
-          <v-tab href="#search" class="font-weight-black">
-            {{ $t('report.transactionReport.headers.cardTransaction') }}
+          <v-tab href="#search">
+            {{ $t('income.chargerIncomeTitle') }}
           </v-tab>
           <v-tab-item value="search">
-            <br>
-            <card-statistics :cards="cardList" :loading="enableLoading( loadingStatus)" />
+            <charge-income :charge-list="chargeList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
 
-          <v-tab href="#search3" class="font-weight-black">
-            {{ $t('report.transactionReport.headers.otherTransaction') }}
+          <v-tab href="#search3">
+            {{ $t('income.chargeRefundIncomeTitle') }}
           </v-tab>
           <v-tab-item value="search3">
-            <br>
-            <other-statistics :others="otherList" :loading="enableLoading( loadingStatus)" />
+            <refund-income :refund-list="refundList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
         </v-tabs>
       </v-row>
@@ -54,19 +51,19 @@
 <script>
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
-import transactionStatisticsReportFilter from '~/components/transactionStatisticsReportFilter'
-import cardStatistics from '~/components/cardStatistics'
-import depositStatistics from '~/components/depositStatistics'
-import otherStatistics from '~/components/otherStatistics'
+import incomeReportFilter from '~/components/incomeReportFilter'
+import transferIncome from '~/components/transferIncome'
+import chargeIncome from '~/components/chargeIncome'
+import refundIncome from '~/components/refundIncome'
 import reportManager from '~/repository/report_manager'
 
 export default {
   name: 'OperatorReport',
   components: {
-    transactionStatisticsReportFilter,
-    cardStatistics,
-    depositStatistics,
-    otherStatistics
+    incomeReportFilter,
+    transferIncome,
+    chargeIncome,
+    refundIncome
   },
   data () {
     return {
@@ -86,9 +83,9 @@ export default {
       loadingStatus: false,
 
       items: [],
-      cardList: [],
-      depositList: [],
-      depositList1: [],
+      transferList: [],
+      chargeList: [],
+      refundList: [],
       otherList: []
     }
   },
@@ -102,11 +99,15 @@ export default {
     search (searchModel) {
       this.enableLoading(true)
       this.loadingStatus = true
-      reportManager.transactionStatistics(searchModel, this.$axios).then((response) => {
-        this.items = response.data.itemList
-        this.depositList = this.getDeposit()
-        this.cardList = this.getCard()
-        this.otherList = this.getOther()
+      reportManager.incomeList(searchModel, this.$axios).then((response) => {
+        // this.items = response.data.itemList
+        console.log(response.data)
+        this.transferList = response.data.transferIncomeDtoList
+        console.log(this.transferList)
+        this.chargeList = response.data.incomeChargeDtoList
+        console.log(this.chargeList)
+        this.refundList = response.data.chargeRefundDtoList
+        console.log(this.refundList)
         this.totalNumberOfItems = response.data.filteredItem
         this.enableLoading(false)
         this.loadingStatus = false
@@ -150,6 +151,7 @@ export default {
       }
       return null
     },
+
     moment (date) {
       return momentJalali(date).format('HH:mm:ss jYYYY/jM/jD')
     }

@@ -1,9 +1,68 @@
 async function onlineDepositReport (request, axios) {
   return await axios.post('report-statistic/online-deposit', request)
 }
+
 async function transactionList (request, axios) {
   console.log('transactionLisu us call')
-  const rest = await axios.post('transaction/list', request)
+  const rest = await axios.post('transaction/list', request, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  console.log(rest)
+  return rest
+}
+
+async function chargeList (request, axios) {
+  console.log('chargeList us call')
+  const rest = await axios.post('charge-report/list', request)
+  console.log(rest)
+  return rest
+}
+
+async function refundList (request, axios) {
+  console.log('chargeList us call')
+  const rest = await axios.post('refund/list', request)
+  console.log(rest)
+  return rest
+}
+
+async function transactionStatistics (request, axios) {
+  console.log('transactionLisu us call')
+  const rest = await axios.post('transaction-statistics/report', request)
+  console.log(rest)
+  return rest
+}
+
+async function incomeList (request, axios) {
+  console.log('income us call')
+  const rest = await axios.post('income-report/list', request)
+  console.log(rest)
+  return rest
+}
+
+async function transactionDetails (request, axios) {
+  console.log('transactionDetails us call')
+  const rest = await axios.post('transaction-data/info', request)
+  console.log(rest)
+  return rest
+}
+async function transactionDetailsQuery (request, axios) {
+  console.log('transactionDetails us call')
+  const rest = await axios.post('transaction-data/info-query', request)
+  console.log(rest)
+  return rest
+}
+async function operationList (request, axios) {
+  console.log('transactionLisu us call')
+  const rest = await axios.post('operation/groupList', request)
+  console.log(rest)
+  return rest
+}
+
+async function errorCodeList (axios) {
+  console.log('errorList us call')
+  const rest = await axios.get('error-report/error-list')
   console.log(rest)
   return rest
 }
@@ -12,6 +71,7 @@ async function errorList (request, axios) {
   console.log(rest)
   return rest
 }
+
 async function operatorActivity (request, axios) {
   return await axios.post('report-statistic/operator-activity', request)
 }
@@ -28,8 +88,50 @@ async function downloadSmsReport (request, axios) {
   return await axios.post('export/sms-enabled', request, { responseType: 'blob' })
 }
 
-async function downloadOperatorActivity (request, axios) {
-  return await axios.post('export/operator-activity', request, { responseType: 'blob' })
+async function uploadOffer (request, axios) {
+  const res = await axios.post('offer/upload-offer', request)
+  return res
+}
+async function updateUploadOffer (request, id, axios) {
+  return await axios.post('offer/' + id, request)
+}
+async function addParams (request, axios) {
+  return await axios.post('offer/addParams', request)
+}
+
+async function listOffer (request, axios) {
+  const res = await axios.post('offer/list', request)
+  return res
+}
+async function listParam (request, axios) {
+  const res = await axios.post('offer/paramList', request)
+  return res
+}
+async function downloadRefundList (request, axios) {
+  return await axios.post('export/refund-report', request, { responseType: 'blob' })
+}
+
+async function downloadChargeList (request, axios) {
+  return await axios.post('export/charge-report', request, { responseType: 'blob' })
+}
+
+async function downloadTransactionList (request, axios) {
+  return await axios.post('export/transaction', request, { responseType: 'blob' })
+}
+
+async function downloadTransactionStatistics (request, axios) {
+  return await axios.post('export/transaction-statistics-report', request, { responseType: 'blob' })
+}
+
+async function downloadCustomerStatistics (request, axios) {
+  console.log('majid')
+  return await axios.post('export/customer-statistics-report', request, { responseType: 'blob' })
+}
+async function downloadCustomer (request, axios) {
+  return await axios.post('export/customer', request, { responseType: 'blob' })
+}
+async function downloadErrorReport (request, axios) {
+  return await axios.post('export/error-report-list', request, { responseType: 'blob' })
 }
 
 const groupBy = [
@@ -57,16 +159,106 @@ const groupBy = [
 
 const status = [
   {
-    value: '200',
-    text: 'report.operatorReport.status.successful'
+    value: 'SUCCESSFUL',
+    text: 'report.transactionReport.status.successful'
   },
   {
-    value: 'fail',
-    text: 'report.operatorReport.status.fail'
+    value: 'FAILED',
+    text: 'report.transactionReport.status.fail'
   }
 ]
 
-const errorCode = [
+const resultId = [
+  {
+    value: '200',
+    text: 'report.transactionReport.status.successful'
+  },
+  {
+    value: '-1',
+    text: 'report.transactionReport.status.fail'
+  }
+]
+const offerTypDisplay = [
+  {
+    value: '1',
+    text: 'url'
+  },
+  {
+    value: '2',
+    text: 'in app'
+  }
+]
+const offerType = [
+  {
+    value: '1',
+    text: 'offer.offerTypeList.1'
+  },
+  {
+    value: '2',
+    text: 'offer.offerTypeList.2'
+  },
+  {
+    value: '3',
+    text: 'offer.offerTypeList.3'
+  },
+  {
+    value: '4',
+    text: 'offer.offerTypeList.4'
+  },
+  {
+    value: '5',
+    text: 'offer.offerTypeList.5'
+  }
+]
+const offerToType = [
+  {
+    value: 'ALL',
+    text: 'offer.toType.all'
+  },
+  {
+    value: 'ANDROID',
+    text: 'offer.toType.android'
+  },
+  {
+    value: 'IOS',
+    text: 'offer.toType.ios'
+  }
+]
+
+const offerStatus = [
+  {
+    value: 'Y',
+    text: 'offer.offerStatus.display'
+  },
+  {
+    value: 'N',
+    text: 'offer.offerStatus.noDisplay'
+  }
+]
+
+const responseCode = [
+  {
+    value: '200',
+    text: 'report.transactionReport.errorCode.ok'
+  },
+  {
+    value: '400',
+    text: 'report.transactionReport.errorCode.BAD_REQUEST'
+  }
+]
+
+const customerType = [
+  {
+    value: 'REGISTERED',
+    text: 'customer.customerTypeTitle.customer'
+  },
+  {
+    value: 'GUEST',
+    text: 'customer.customerTypeTitle.guest'
+  }
+]
+
+const operation = [
   {
     value: 'ok',
     text: 'report.transactionReport.errorCode.ok'
@@ -79,26 +271,26 @@ const errorCode = [
 
 const osName = [
   {
-    value: 'android',
+    value: 'ANDROID',
     text: 'report.transactionReport.osName.ANDROID'
   },
   {
-    value: 'ios',
+    value: 'IOS',
     text: 'report.transactionReport.osName.iOS'
   },
   {
-    value: 'web',
-    text: 'report.transactionReport.osName.mobileweb'
+    value: 'WEB',
+    text: 'report.transactionReport.osName.WEB'
   }
 ]
 
 const platform = [
   {
-    value: 'net',
+    value: 'NET',
     text: 'report.transactionReport.platform.net'
   },
   {
-    value: 'sms',
+    value: 'SMS',
     text: 'report.transactionReport.platform.sms'
   }
 ]
@@ -118,18 +310,108 @@ const source = [
   }
 ]
 
-const customerType = [
+const chargeAmount = [
   {
-    value: 'customer',
-    text: 'customer.customerType1.customer'
+    value: '10000',
+    text: 'report.chargeReport.chargeAmount.amountA'
   },
   {
-    value: 'guest',
-    text: 'customer.customerType1.guest'
+    value: '20000',
+    text: 'report.chargeReport.chargeAmount.amountB'
+  },
+  {
+    value: '50000',
+    text: 'report.chargeReport.chargeAmount.amountC'
+  },
+  {
+    value: '100000',
+    text: 'report.chargeReport.chargeAmount.amountD'
+  }
+]
+
+const operatorType = [
+  {
+    value: 'IRANCELL',
+    text: 'report.chargeReport.operatorType.IRANCELL'
+  },
+  {
+    value: 'IRMCI',
+    text: 'report.chargeReport.operatorType.IRMCI'
+  },
+  {
+    value: 'RIGTELL',
+    text: 'report.chargeReport.operatorType.RIGTELL'
+  }
+]
+
+const chargeType = [
+  {
+    value: 'CHARGINGCODE',
+    text: 'report.chargeReport.chargeType.chargingCode'
+  },
+  {
+    value: 'DIRECT',
+    text: 'report.chargeReport.chargeType.direct'
+  }
+]
+
+const refundType = [
+  {
+    value: 0,
+    text: 'report.refundReport.refundType.pending'
+  },
+  {
+    value: 1,
+    text: 'report.refundReport.refundType.successful'
+  },
+  {
+    value: 2,
+    text: 'report.refundReport.refundType.failed'
+  },
+  {
+    value: 3,
+    text: 'report.refundReport.refundType.wait'
+  },
+  {
+    value: 4,
+    text: 'report.refundReport.refundType.need_Follow'
+  },
+  {
+    value: 5,
+    text: 'report.refundReport.refundType.manual'
+  },
+  {
+    value: 6,
+    text: 'report.refundReport.refundType.refund_not_required'
+  }
+]
+const transactionTimeType = [
+  {
+    value: 'requestTime',
+    text: 'report.refundReport.transactionTimeType.transactionTime'
+  },
+  {
+    value: 'refundCreatedTime',
+    text: 'report.refundReport.transactionTimeType.createTime'
+  },
+  {
+    value: 'refundOrFailTime',
+    text: 'report.refundReport.transactionTimeType.refundTime'
   }
 
 ]
 
+const orderType = [
+  {
+    value: 'ASC',
+    text: 'report.refundReport.orderType.asc'
+  },
+  {
+    value: 'DESC',
+    text: 'report.refundReport.orderType.desc'
+  }
+
+]
 const operationName = [
   { header: 'حساب ' },
   {
@@ -158,17 +440,50 @@ export default {
   onlineDepositReport,
   operatorActivity,
   transactionList,
+  chargeList,
+  refundList,
+  transactionStatistics,
+  incomeList,
+  transactionDetails,
+  transactionDetailsQuery,
+  operationList,
   errorList,
+  errorCodeList,
   smsReport,
   downloadSmsReport,
+  uploadOffer,
+  updateUploadOffer,
+  addParams,
+  listOffer,
+  listParam,
+  offerStatus,
+  offerTypDisplay,
+  offerType,
+  offerToType,
+  responseCode,
   status,
+  resultId,
   osName,
-  errorCode,
+  operation,
   platform,
   groupBy,
   operationName,
   source,
+  chargeAmount,
   customerType,
+  operatorType,
+  chargeType,
+  refundType,
+  transactionTimeType,
+  orderType,
   downloadOnlineDepositReport,
-  downloadOperatorActivity
+  downloadRefundList,
+  downloadChargeList,
+  downloadTransactionList,
+  downloadTransactionStatistics,
+  downloadCustomer,
+
+  downloadCustomerStatistics,
+  downloadErrorReport
+
 }

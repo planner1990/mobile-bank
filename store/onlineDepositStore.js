@@ -9,6 +9,15 @@ export const state = () => ({
     video: null,
     signature: null
   },
+  cardOperationList: [],
+  depositOperationList: [],
+  cardReissueOperationList: [],
+  loanRequestOperationList: [],
+  loanPanelOperationList: [],
+  onlineDepositOperationList: [],
+  inquiryOperationList: [],
+  publicOperationList: [],
+  userOperationList: [],
   documentConfirm: false
 })
 
@@ -30,8 +39,63 @@ export const mutations = {
   setCurrentRequest (state, request) {
     state.currentRequest = request
     state.openDepositProcessStep = openDepositProcessStepEnum[request.status] || 5
-  }
+  },
 
+  setCardList (state, list) {
+    console.log('setCardList')
+    console.log(list)
+    state.cardOperationList = list
+    console.log(state)
+  },
+
+  setDepositList (state, list) {
+    console.log('setDepositList')
+    console.log(list)
+    state.depositOperationList = list
+    console.log(state)
+  },
+  setOnlineDepositList (state, list) {
+    console.log('setOnlineDepositList')
+    console.log(list)
+    state.onlineDepositOperationList = list
+    console.log(state)
+  },
+  setLoanRequestList (state, list) {
+    console.log('loanRequestOperationList')
+    console.log(list)
+    state.loanRequestOperationList = list
+    console.log(state)
+  },
+  setLoanPanelList (state, list) {
+    console.log('loanPanelOperationList')
+    console.log(list)
+    state.loanPanelOperationList = list
+    console.log(state)
+  },
+  setCardReissueList (state, list) {
+    console.log('cardReissueOperationList')
+    console.log(list)
+    state.cardReissueOperationList = list
+    console.log(state)
+  },
+  setInquiryList (state, list) {
+    console.log('inquiryOperationList')
+    console.log(list)
+    state.inquiryOperationList = list
+    console.log(state)
+  },
+  setPublicList (state, list) {
+    console.log('publicOperationList')
+    console.log(list)
+    state.publicOperationList = list
+    console.log(state)
+  },
+  setUserList (state, list) {
+    console.log('userOperationList')
+    console.log(list)
+    state.userOperationList = list
+    console.log(state)
+  }
 }
 
 export const actions = {
@@ -40,6 +104,34 @@ export const actions = {
     context.commit('setDocumentsStatus', documentsStatus)
   },
 
+  initialCardOperations (context, cardList) {
+    context.commit('setCardList', cardList)
+  },
+
+  initialDepositOperations (context, list) {
+    context.commit('setDepositList', list)
+  },
+  initialCardReissueOperations (context, list) {
+    context.commit('setCardReissueList', list)
+  },
+  initialLoanRequestOperations (context, list) {
+    context.commit('setLoanRequestList', list)
+  },
+  initialLoanPanelOperations (context, list) {
+    context.commit('setLoanPanelList', list)
+  },
+  initialOnlineDepositOperations (context, list) {
+    context.commit('setOnlineDepositList', list)
+  },
+  initialInquiryOperations (context, list) {
+    context.commit('setInquiryList', list)
+  },
+  initialPublicOperations (context, list) {
+    context.commit('setPublicList', list)
+  },
+  initialUserOperations (context, list) {
+    context.commit('setUserList', list)
+  },
   async initOnlineDeposit (context, onlineDepositId) {
     const { data } = await onlineDepositManager.getOnlineDeposit(onlineDepositId, this.$axios)
     context.commit('setCurrentRequest', data)
@@ -98,11 +190,46 @@ export const actions = {
 }
 
 export const getters = {
+
   currentState: (state) => {
     return state.currentRequest || {}
   },
+
   openDepositProcessStep: (state) => {
     return state.openDepositProcessStep
+  },
+  cardOperationList: (state) => {
+    console.log('getCardOperationList')
+    return state.cardOperationList
+  },
+
+  depositOperationList: (state) => {
+    console.log('getDepositOperationList')
+    return state.depositOperationList
+  },
+  cardReissueOperationList: (state) => {
+    console.log('cardReissueOperationList')
+    return state.cardReissueOperationList
+  },
+  loanRequestOperationList: (state) => {
+    console.log('loanRequestOperationList')
+    return state.loanRequestOperationList
+  },
+  loanPanelOperationList: (state) => {
+    console.log('loanPanelOperationList')
+    return state.loanPanelOperationList
+  },
+  onlineDepositOperationList: (state) => {
+    console.log('getOnlineDepositOperationList')
+    return state.onlineDepositOperationList
+  },
+  userOperationList: (state) => {
+    console.log('getUserOperationList')
+    return state.userOperationList
+  },
+  publicOperationList: (state) => {
+    console.log('getPublicOperationList')
+    return state.publicOperationList
   },
   documentsStatus: (state) => {
     return state.documentsStatus
