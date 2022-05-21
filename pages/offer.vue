@@ -529,15 +529,17 @@ export default {
     }
   },
   mounted: function () {
+    console.log('mount')
     this.offerForm.offerObj.dateFrom = this.convertJalaliDateToTimestamp(this.from)
     this.offerForm.offerObj.dateTo = this.convertJalaliDateToTimestamp(this.to)
+    console.log(this.offerForm)
   },
   computed: {
     ...mapGetters({
       loggedInUser: 'user/me'
     }),
     computedErrorsInCreateDialog: function () {
-      if (this.createUserErrors.length !== 0) {
+      if (this.createUserErrors !== undefined && this.createUserErrors !== null && this.createUserErrors.length !== 0) {
         this.createUserErrors.forEach((e) => {
           e.isShow = true
         })
@@ -622,7 +624,8 @@ export default {
         type: item.type,
         offerType: item.type,
         description: item.description,
-        to: item.to
+        to: item.to,
+        file: item.file
       }
       this.createDialog = true
       this.isShowTitleOfEditDialog = true
@@ -670,7 +673,7 @@ export default {
         try {
           if (this.offerForm.offerObj.id) {
             console.log('update')
-            reportManager.updateUploadOffer(formData, this.offerForm.offerObj.id, this.$axios).then(() => {
+            reportManager.updateUploadOffer(formData, this.$axios).then(() => {
               this.alert({
                 color: 'success',
                 content: 'messages.successful'
@@ -680,28 +683,30 @@ export default {
               this.search(this.requestObject)
             }).catch((e) => {
               this.loading = false
-              // this.alert({
-              //   color: 'orange',
-              //   content: e.response.data.error_message
-              // })
+              this.alert({
+                color: 'orange',
+                content: e.response.data.error_message
+              })
               this.showErrorsInCreateUserDialog(e.response.data.detailList)
             })
           } else {
             reportManager.uploadOffer(formData, this.$axios).then(() => {
-              this.alert({
+              /*     this.alert({
                 color: 'success',
                 content: 'messages.successful'
-              })
+              }) */
               this.loading = false
               this.closeCreateUserDialog()
               this.search(this.requestObject)
+              console.log('error')
             }).catch((e) => {
+              console.log('error1')
               this.loading = false
-              // this.alert({
-              //   color: 'orange',
-              //   content: e.response.data.error_message
-              // })
-              //   this.showErrorsInCreateUserDialog(e.response.data.detailList)
+              /*      this.alert({
+                color: 'orange',
+                content: e.response.data.error_message
+              }) */
+              this.showErrorsInCreateUserDialog(e.response.data.detailList)
             })
           }
         } catch (e) {
@@ -733,12 +738,14 @@ export default {
             this.closeCreateParamDialog()
             this.paramObject.id = this.offerForm.paramObj.id
             this.searchParams(this.paramObject)
+            console.log('error1')
           }).catch((e) => {
-            // this.alert({
-            //   color: 'orange',
-            //   content: e.response.data.error_message
-            // })
-            // this.showErrorsInCreateUserDialog(e.response.data.detailList)
+            console.log('error')
+            this.alert({
+              color: 'orange',
+              content: e.response.data.error_message
+            })
+            this.showErrorsInCreateUserDialog(e.response.data.detailList)
           })
         //  }
         } catch (e) {
@@ -792,6 +799,7 @@ export default {
       // this.reset()
       // this.resetValidation()
       this.createDialog = false
+      this.createUserErrors = null
     /*  if (this.isShowTitleOfEditDialog) {
         this.isShowTitleOfEditDialog = false
       } */
@@ -801,7 +809,7 @@ export default {
       this.offerForm.offerObj = {}
       this.reset()
       this.resetValidation()
-      this.createParamDialog = false
+      this.createUserErrors = null
       /*  if (this.isShowTitleOfEditDialog) {
           this.isShowTitleOfEditDialog = false
         } */

@@ -268,8 +268,19 @@
             {{ $t('buttons.search') }}
           </v-btn>
         </v-col>
-        <v-col cols="10" />
-        <v-col>
+        <v-col cols="9" />
+        <v-col cols="1">
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="refundList(defaultFilter)"
+          >
+            {{ $t('report.refundReport.refundList') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="1">
           <v-btn
             color="warning"
             :loading="downloadLoading"
@@ -309,6 +320,14 @@ const defaultFilter = {
   dateFilter: {
     from: null,
     to: null
+  },
+  paginate: {
+    page: 1,
+    length: 50,
+    sort: {
+      property: 'id',
+      direction: 'desc'
+    }
   }
 }
 export default {
@@ -384,9 +403,23 @@ export default {
         this.loading = false
       })
     },
+    refundList (searchModel) {
+      reportManager.refundStatusList(defaultFilter, this.$axios).then((res) => {
+        this.search()
+      }).catch((error) => {
+        console.log(error)
+        this.alert({
+          color: 'error',
+          content: 'global.failed'
+        })
+      }).finally(() => {
+        this.downloadLoading = false
+      })
+    },
     downloadReports (searchModel) {
+      console.log('download')
       this.downloadLoading = true
-      reportManager.downloadRefundList(searchModel, this.$axios).then((res) => {
+      reportManager.downloadRefundList(defaultFilter, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL
@@ -442,6 +475,7 @@ export default {
         this.filter.refundListFilter.refundToDate = this.convertJalaliDateToTimestamp(this.toDate)
       }
     },
+
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
