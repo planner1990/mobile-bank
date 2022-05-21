@@ -15,7 +15,7 @@ services:
     networks:
       - loan-net
     ports:
-      - 8006:8004
+      - 8006:8003
     environment:
       - EUREKA_SERVER=http://discovery:8761/myeureka/eureka
       - TZ=Asia/Tehran
