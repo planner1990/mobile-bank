@@ -20,12 +20,13 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['vue-json-pretty/lib/styles.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/i18n.js' },
-    { src: '~/plugins/axios', mode: 'client' }
+    { src: '~/plugins/axios', mode: 'client' },
+    {src: '~/plugins/vue-json-pretty'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -78,7 +79,7 @@ export default {
   },
 
   server: {
-    port: 8003,
+    port: 8004,
     host: '0.0.0.0' // for publish
     // host: '127.0.0.1' // for develop
     // https: {
