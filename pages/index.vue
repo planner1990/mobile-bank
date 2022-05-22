@@ -134,8 +134,7 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-          </template>
-          <template #top>
+
             <v-dialog
               v-model="operationDialog"
               width="1200"
