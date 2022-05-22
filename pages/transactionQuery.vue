@@ -140,7 +140,30 @@
                 :loading="loading"
               >
                 <v-card-title class="lightGreen light-green--text font-weight-bold headline">
-                  {{ $t('report.transactionReport.operationSelect') }}
+                  <v-row no-gutters>
+                    <v-col cols="10">
+                      {{ $t('report.transactionReport.operationSelect') }}
+                    </v-col>
+                    <v-col>
+                      <v-btn
+                        color="success"
+                        class="mr-10"
+                        @click="okOperationDialog"
+                      >
+                        {{ $t('buttons.submit') }}
+                      </v-btn>
+                    </v-col>
+                    <v-col />
+                    <v-col>
+                      <v-btn
+                        color="warning"
+                        dark
+                        @click="closeTransactionDetailsDialog"
+                      >
+                        {{ $t('buttons.cancel') }}
+                      </v-btn>
+                    </v-col>
+                  </v-row>
                 </v-card-title>
                 <v-container>
                   <v-form
@@ -211,21 +234,6 @@
                     </v-card>
                   </v-form>
                 </v-container>
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn
-                    color="orange"
-                    @click="okOperationDialog"
-                  >
-                    {{ $t('buttons.submit') }}
-                  </v-btn>
-                  <v-btn
-                    color="orange"
-                    @click="closeTransactionDetailsDialog"
-                  >
-                    {{ $t('buttons.cancel') }}
-                  </v-btn>
-                </v-card-actions>
               </v-card>
             </v-dialog>
           </template>
@@ -259,7 +267,7 @@
 
 <script>
 import momentJalali from 'moment-jalaali'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
 import VueJsonPretty from 'vue-json-pretty'
 import transactionQueryReportFilter from '~/components/transactionQueryReportFilter'
@@ -376,7 +384,9 @@ export default {
 
   },
   methods: {
-
+    ...mapActions({
+      removeAction: 'onlineDepositStore/removeAction'
+    }),
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
@@ -481,6 +491,7 @@ export default {
       console.log(this.filterOperation)
       reportManager.transactionList(this.filterOperation, this.$axios).then((response) => {
         this.items = response.data.itemList
+        this.removeAction()
         console.log(this.items)
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false

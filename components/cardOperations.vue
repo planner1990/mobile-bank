@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
 import reportManager from '~/repository/report_manager'
 
 export default {
@@ -39,6 +39,11 @@ export default {
   },
   mounted: function () {
     this.operation()
+  },
+  computed: {
+    ...mapGetters({
+      cardOperationList: 'onlineDepositStore/cardOperationList'
+    })
   },
   methods: {
     ...mapActions({
@@ -108,11 +113,12 @@ export default {
       totalNumberOfItems: 0,
       items: [],
       select: [],
+      items1: this.cardOperationList,
       operationType: {
         operationType: this.listType
       },
       category: {
-        selected: []
+        selected: this.cardOperationList
       }
     }
   }

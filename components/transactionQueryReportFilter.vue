@@ -70,52 +70,10 @@
               prepend-icon="mdi-clipboard-list"
               dense
               outlined
-              @focus="editItem()"
+              @click="editItem()"
             />
           </v-col>
-          <!-- <v-col>
-            <v-autocomplete
-              v-model="filter.transactionListFilter.operation"
-              :items="items"
-              item-value="url"
-              :return-object="false"
-              item-text="title"
-              dense
-              outlined
-              prepend-icon="mdi-clipboard-list"
-              clearable
-              :label="$t('filters.operation')"
-            >
-              &lt;!&ndash; <v-select
-            v-model="filter.transactionListFilter.operation"
-            :items="items"
-            :return-object="false"
-            item-value="url"
-            item-text="title"
-            :label="$t('filters.operation')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          >&ndash;&gt;
-              <template
-                slot="item"
-                slot-scope="data"
-              >
-                &lt;!&ndash; Divider and Header&ndash;&gt;
-                <template v-if="typeof data.item !== 'object'">
-                  <v-list-tile-content style="font-size: 1.80rem !important; background-color: #70F570 " v-text="data.item" />
-                </template>
-                &lt;!&ndash; Normal item &ndash;&gt;
-                <template v-else>
-                  <v-list-tile-content>
-                    <v-list-tile-title style="font-size: 12px !important;" v-text="data.item.title" />
-                  </v-list-tile-content>
-                </template>
-              </template>
-              &lt;!&ndash;</v-select>&ndash;&gt;
-            </v-autocomplete>
-          </v-col>-->
+
           <v-col>
             <v-select
               v-model="filter.transactionListFilter.responseCode"
