@@ -69,8 +69,21 @@
             prepend-icon="mdi-clipboard-list"
             dense
             outlined
-            @focus="editItem()"
-          />
+            multiple
+            @click="editItem()"
+          >
+            <template>
+              <v-chip v-if=" items1.length === 1">
+                <span>{{ item[0] }}</span>
+              </v-chip>
+              <span
+                v-else
+                class="grey--text text-caption"
+              >
+                (+{{ items1.length - 1 }} others)
+              </span>
+            </template>
+          </v-select>
         </v-col>
         <v-col>
           <v-select
@@ -326,7 +339,7 @@ const defaultFilter = {
   transactionListFilter: {
     // smsId: null,
     phoneNumber: null,
-    operation: [],
+    operation: null,
     sourceNumber: null,
     sourceType: null,
     result: null,
@@ -377,6 +390,7 @@ export default {
       platform: reportManager.platform,
       source: reportManager.source,
       operationName: reportManager.operationName,
+      items1: ['amin', 'majid'],
       items: [],
       errorItems: [],
       operationType: {
