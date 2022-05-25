@@ -75,6 +75,7 @@
         "response": "پاسخ",
         "depositTransaction": " آمار تراکنشهای حساب",
         "cardTransaction": "آمار تراکنشهای کارت",
+        "otherTransaction": "آمار سایر تراکنشها",
         "depositOperation": "حساب",
         "cardOperation": "کارت",
         "publicOperation": "عمومی",
