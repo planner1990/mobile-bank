@@ -236,6 +236,7 @@ export default {
     checkUserAccessReports () {
       // if (this.currentUser.role !== undefined) {
       console.log('currentUser is role')
+
       if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined) {
         console.log('currentUser is role2')
         return this.reports
@@ -281,6 +282,8 @@ export default {
           .filter(e => e.to !== '/transactionQuery').filter(e => e.to !== '/transaction-statistics')
           .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
           .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/')
+      } else {
+        return this.items.filter(e => e.to !== '/offer')
       }
 
       const array1 = this.createUserList.concat(this.userList, this.offerList)
