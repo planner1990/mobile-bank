@@ -158,6 +158,9 @@ export default {
       clipped: true,
       drawer: true,
       mini: true,
+      createUserList: [],
+      offerList: [],
+      userList: [],
       selected: {},
       items: [
         {
@@ -227,24 +230,9 @@ export default {
       currentUser: 'user/me'
     }),
     checkUserAccess: function () {
-      console.log(this.currentUser)
-      // if (this.currentUser.role !== undefined) {
-      console.log('currentUser is role')
-      console.log(this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS'))
-      if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined) {
-        return this.items
-      } else if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined &&
-        this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined &&
-        this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
-        return this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
-      } else if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
-        return this.items.filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
-          .filter(e => e.to !== '/transactionQuery').filter(e => e.to !== '/transaction-statistics')
-          .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
-          .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/')
-      }
-      return this.items
+      return this.checkUserAccess1()
     },
+
     checkUserAccessReports () {
       // if (this.currentUser.role !== undefined) {
       console.log('currentUser is role')
@@ -270,6 +258,38 @@ export default {
     doLogout () {
       this.logout()
       this.$router.push('/login')
+    },
+    checkUserAccess1 () {
+      console.log(this.currentUser)
+      // if (this.currentUser.role !== undefined) {
+      console.log('currentUser is role')
+      console.log(this.currentUser.permissions)
+      console.log(this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS'))
+      if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined) {
+        return this.items
+      } if (this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined) {
+        console.log('currentUser is role1')
+        this.createUserList = this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
+          .filter(e => e.to !== '/transactionQuery').filter(e => e.to !== '/transaction-statistics')
+          .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
+          .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/')
+      } if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined ||
+        this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
+        this.userList = this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
+      } if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
+        this.offerList = this.items.filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
+          .filter(e => e.to !== '/transactionQuery').filter(e => e.to !== '/transaction-statistics')
+          .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
+          .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/')
+      }
+
+      const array1 = this.createUserList.concat(this.userList, this.offerList)
+
+      this.items = array1
+      console.log('array1')
+      console.log(array1)
+      console.log(this.items)
+      return this.items
     }
   }
 }

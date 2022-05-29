@@ -671,7 +671,9 @@ export default {
       if (this.validate()) {
         this.loading = true
         try {
+          console.log(this.offerForm)
           if (this.offerForm.offerObj.id) {
+            formData.append('id', this.offerForm.offerObj.id)
             console.log('update')
             reportManager.updateUploadOffer(formData, this.$axios).then(() => {
               this.alert({
@@ -682,6 +684,8 @@ export default {
               this.closeCreateUserDialog()
               this.search(this.requestObject)
             }).catch((e) => {
+              console.log(e)
+              console.log('error')
               this.loading = false
               this.alert({
                 color: 'orange',

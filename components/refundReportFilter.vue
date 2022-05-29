@@ -404,17 +404,8 @@ export default {
       })
     },
     refundList (searchModel) {
-      reportManager.refundStatusList(defaultFilter, this.$axios).then((res) => {
-        this.search()
-      }).catch((error) => {
-        console.log(error)
-        this.alert({
-          color: 'error',
-          content: 'global.failed'
-        })
-      }).finally(() => {
-        this.downloadLoading = false
-      })
+      console.log('item212112')
+      this.$emit('refund', this.filter)
     },
     downloadReports (searchModel) {
       console.log('download')

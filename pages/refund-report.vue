@@ -7,7 +7,7 @@
       <v-row
         justify="center"
       >
-        <refundReportFilter v-model="searchModel" @search="search" />
+        <refundReportFilter v-model="searchModel" @search="search" @refund="createRefundAcceptDialog()" />
       </v-row>
       <br>
       <br>
@@ -133,7 +133,6 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-
             <v-dialog
               v-model="refundDialog"
               max-width="300"
@@ -249,6 +248,37 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
+
+            <v-dialog
+              v-model="refundAcceptDialog"
+              max-width="300"
+              transition="dialog-bottom-transition"
+            >
+              <v-card
+                :loading="loading"
+              >
+                <v-card-title class="headline">
+                  {{ $t('messages.warning') }}
+                </v-card-title>
+
+                <br>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn
+                    color="orange"
+                    @click="refundList"
+                  >
+                    {{ $t('buttons.submit') }}
+                  </v-btn>
+                  <v-btn
+                    color="orange"
+                    @click="closeTransactionDetailsDialog"
+                  >
+                    {{ $t('buttons.cancel') }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </template>
 
           <template #[`item.transactionTime`]="{ item }">
@@ -313,6 +343,7 @@ export default {
       createDialog: false,
       refundDialog: false,
       refundErrorDialog: false,
+      refundAcceptDialog: false,
       userForm: {
         showPassword: false,
         userObj: {}
@@ -377,6 +408,35 @@ export default {
       this.createDialog = false
       this.refundDialog = false
       this.refundErrorDialog = false
+      this.refundAcceptDialog = false
+    },
+    createRefundAcceptDialog  (searchModel) {
+      console.log('refundList')
+      this.refundAcceptDialog = true
+    },
+    refundList () {
+      console.log('refundList')
+      console.log(this.searchModel)
+      this.refundAcceptDialog = true
+      reportManager.refundStatusList(this.searchModel, this.$axios).then((res) => {
+        this.refundAcceptDialog = false
+        this.search(this.searchModel)
+      }).catch((error) => {
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+        this.loading = false
+      }).finally(() => {
+        this.refundAcceptDialog = false
+      })
     },
     search (searchModel) {
       this.loading = true
