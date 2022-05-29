@@ -268,8 +268,19 @@
             {{ $t('buttons.search') }}
           </v-btn>
         </v-col>
-        <v-col cols="10" />
-        <v-col>
+        <v-col cols="9" />
+        <v-col cols="1">
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="refundList(defaultFilter)"
+          >
+            {{ $t('report.refundReport.refundList') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="1">
           <v-btn
             color="warning"
             :loading="downloadLoading"
@@ -309,6 +320,14 @@ const defaultFilter = {
   dateFilter: {
     from: null,
     to: null
+  },
+  paginate: {
+    page: 1,
+    length: 50,
+    sort: {
+      property: 'id',
+      direction: 'desc'
+    }
   }
 }
 export default {
@@ -384,9 +403,14 @@ export default {
         this.loading = false
       })
     },
+    refundList (searchModel) {
+      console.log('item212112')
+      this.$emit('refund', this.filter)
+    },
     downloadReports (searchModel) {
+      console.log('download')
       this.downloadLoading = true
-      reportManager.downloadRefundList(searchModel, this.$axios).then((res) => {
+      reportManager.downloadRefundList(defaultFilter, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL

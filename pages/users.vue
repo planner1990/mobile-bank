@@ -280,21 +280,13 @@ export default {
       currentUser: 'user/me'
     }),
     computedUserAccessList: function () {
-      console.log('this.userForm.userObj.role')
-
-      /* if (this.userForm.userObj.role === 'ROLE_PANEL_REPORT') {
-        const temp = this.userForm.permissions.filter(e => e.value === 'REPORTER_ACCESS')
+      if (this.userForm.userObj.role !== 'OPERATOR') {
+        return this.userForm.permissions
+      } else {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.userForm.userObj.userAccessList = [temp[0].value]
-        return temp
-      } else if (this.userForm.userObj.role === 'ROLE_PANEL_USER') {
-        const temp = []
-        return temp
-      } else { */
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      // this.userForm.userObj.userAccessList = []
-      return this.userForm.permissions
-      /* } */
+        // this.userForm.userObj.userAccessList = []
+        return this.userForm.permissions
+      }
     },
     computedProvince: function () {
       if (this.userForm.userObj.provinceCode) {
@@ -415,7 +407,10 @@ export default {
         branchCode: item.branchCode,
         role: item.role.role,
         userAccessList: item.userAccess
+
       }
+      console.log('this.userForm.userOb')
+      console.log(this.userForm.userObj)
       this.createDialog = true
       // console.log(this.userForm.userObj)
     },

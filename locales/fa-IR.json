@@ -155,6 +155,11 @@
     },
     "refundReport": {
       "title": "استرداد وجه",
+      "PENDING": "تلاش مجدد برای بازگشت وجه به صورت سیستمی",
+      "REFUND_NOT_REQUIRED": "عدم نیاز به بازگشت وجه",
+      "MANUAL": "بازگشت وجه به صورت دستی",
+      "refundStateTitle": "تعیین وضعیت",
+      "refundList": "بازگشت وجه گروهی",
       "headers": {
         "id": "شناسه",
         "transactionId": "شناسه موبایل بانک",

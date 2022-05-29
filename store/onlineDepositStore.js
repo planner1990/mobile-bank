@@ -48,6 +48,10 @@ export const mutations = {
     console.log(state)
   },
 
+  remove (state, list) {
+    state.cardOperationList = []
+  },
+
   setDepositList (state, list) {
     console.log('setDepositList')
     console.log(list)
@@ -106,6 +110,10 @@ export const actions = {
 
   initialCardOperations (context, cardList) {
     context.commit('setCardList', cardList)
+  },
+
+  removeAction (context, cardList) {
+    context.commit('remove', cardList)
   },
 
   initialDepositOperations (context, list) {

@@ -7,7 +7,7 @@
       <v-row
         justify="center"
       >
-        <refundReportFilter v-model="searchModel" @search="search" />
+        <refundReportFilter v-model="searchModel" @search="search" @refund="createRefundAcceptDialog()" />
       </v-row>
       <br>
       <br>
@@ -31,6 +31,7 @@
           :page.sync="searchModel.paginate.page"
           @update:page="search(searchModel)"
           @update:items-per-page="search(searchModel)"
+          @dblclick:row="handleClick"
         >
           <template #top class="v-data-footer">
             <v-dialog
@@ -132,6 +133,152 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
+            <v-dialog
+              v-model="refundDialog"
+              max-width="300"
+              transition="dialog-bottom-transition"
+            >
+              <v-card
+                :loading="loading"
+              >
+                <v-card-title class="lightGreen light-green--text font-weight-bold headline">
+                  {{ $t('report.refundReport.refundStateTitle') }}
+                </v-card-title>
+                <v-container>
+                  <v-form
+                    ref="form"
+                  >
+                    <v-row justify="center">
+                      <v-card-actions style="align-content: center">
+                        <v-btn
+                          style="width: 250px;"
+                          color="lightGreen"
+                          @click="refund"
+                        >
+                          {{ $t('report.refundReport.PENDING') }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-row>
+                    <v-row justify="center">
+                      <v-card-actions>
+                        <v-btn
+                          style="width: 250px;"
+                          color="lightGreen"
+                          @click="refundNotRequired"
+                        >
+                          {{ $t('report.refundReport.REFUND_NOT_REQUIRED') }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-row>
+                    <v-row justify="center">
+                      <v-card-actions>
+                        <v-btn
+                          style="width: 250px;"
+                          color="lightGreen"
+                          @click="refundManual"
+                        >
+                          {{ $t('report.refundReport.MANUAL') }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-row>
+                  </v-form>
+                </v-container>
+                <br>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn
+                    color="orange"
+                    @click="closeTransactionDetailsDialog"
+                  >
+                    {{ $t('buttons.cancel') }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+
+            <v-dialog
+              v-model="refundErrorDialog"
+              max-width="300"
+              transition="dialog-bottom-transition"
+            >
+              <v-card
+                :loading="loading"
+              >
+                <v-card-title class="lightGreen light-green--text font-weight-bold headline">
+                  {{ $t('report.refundReport.refundStateTitle') }}
+                </v-card-title>
+                <v-container>
+                  <v-form
+                    ref="form"
+                  >
+                    <v-row justify="center">
+                      <v-card-actions style="align-content: center">
+                        <v-btn
+                          style="width: 250px;"
+                          color="lightGreen"
+                          @click="refund"
+                        >
+                          {{ $t('report.refundReport.PENDING') }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-row>
+
+                    <v-row justify="center">
+                      <v-card-actions>
+                        <v-btn
+                          style="width: 250px;"
+                          color="lightGreen"
+                          @click="refundManual"
+                        >
+                          {{ $t('report.refundReport.MANUAL') }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-row>
+                  </v-form>
+                </v-container>
+                <br>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn
+                    color="orange"
+                    @click="closeTransactionDetailsDialog"
+                  >
+                    {{ $t('buttons.cancel') }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+
+            <v-dialog
+              v-model="refundAcceptDialog"
+              max-width="300"
+              transition="dialog-bottom-transition"
+            >
+              <v-card
+                :loading="loading"
+              >
+                <v-card-title class="headline">
+                  {{ $t('messages.warning') }}
+                </v-card-title>
+
+                <br>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn
+                    color="orange"
+                    @click="refundList"
+                  >
+                    {{ $t('buttons.submit') }}
+                  </v-btn>
+                  <v-btn
+                    color="orange"
+                    @click="closeTransactionDetailsDialog"
+                  >
+                    {{ $t('buttons.cancel') }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </template>
 
           <template #[`item.transactionTime`]="{ item }">
@@ -176,6 +323,10 @@ import refundReportFilter from '~/components/refundReportFilter'
 import reportManager from '~/repository/report_manager'
 import 'vue-json-pretty/lib/styles.css'
 const defaultFilterdetails = {
+  refundRequest: {
+    refundStateEnum: null,
+    transactionId: null
+  },
   transactionListFilter: {
     transactionId: null
   }
@@ -190,6 +341,9 @@ export default {
     return {
       downloadLoading: false,
       createDialog: false,
+      refundDialog: false,
+      refundErrorDialog: false,
+      refundAcceptDialog: false,
       userForm: {
         showPassword: false,
         userObj: {}
@@ -252,6 +406,37 @@ export default {
     closeTransactionDetailsDialog () {
       this.itemsTransaction = []
       this.createDialog = false
+      this.refundDialog = false
+      this.refundErrorDialog = false
+      this.refundAcceptDialog = false
+    },
+    createRefundAcceptDialog  (searchModel) {
+      console.log('refundList')
+      this.refundAcceptDialog = true
+    },
+    refundList () {
+      console.log('refundList')
+      console.log(this.searchModel)
+      this.refundAcceptDialog = true
+      reportManager.refundStatusList(this.searchModel, this.$axios).then((res) => {
+        this.refundAcceptDialog = false
+        this.search(this.searchModel)
+      }).catch((error) => {
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+        this.loading = false
+      }).finally(() => {
+        this.refundAcceptDialog = false
+      })
     },
     search (searchModel) {
       this.loading = true
@@ -280,7 +465,69 @@ export default {
           this.loading = false
         })
     },
+    handleClick (event, { item }) {
+      defaultFilterdetails.refundRequest.transactionId = item.id
+      console.log('transactionId')
+      console.log(defaultFilterdetails.refundRequest.transactionId)
+      if (item.state === 4) {
+        this.refundDialog = true
+      }
+      if (item.state === 2) {
+        this.refundErrorDialog = true
+      }
+
+      console.log('item')
+      console.log(item)
+    },
+    refundManual () {
+      defaultFilterdetails.refundRequest.refundStateEnum = 'MANUAL'
+      reportManager.refund(defaultFilterdetails.refundRequest, this.$axios).then((response) => {
+        try {
+          this.search(this.searchModel)
+        } catch (e) {
+        }
+        this.loading = false
+      })
+        .finally(() => {
+          this.loading = false
+          this.refundDialog = false
+          this.refundErrorDialog = false
+        })
+    },
+    refundNotRequired () {
+      defaultFilterdetails.refundRequest.refundStateEnum = 'REFUND_NOT_REQUIRED'
+      reportManager.refund(defaultFilterdetails.refundRequest, this.$axios).then((response) => {
+        try {
+          this.search(this.searchModel)
+        } catch (e) {
+        }
+        this.loading = false
+      })
+        .finally(() => {
+          this.loading = false
+          this.refundDialog = false
+          this.refundErrorDialog = false
+        })
+    },
+    refund () {
+      defaultFilterdetails.refundRequest.refundStateEnum = 'PENDING'
+
+      reportManager.refund(defaultFilterdetails.refundRequest, this.$axios).then((response) => {
+        try {
+          this.search(this.searchModel)
+        } catch (e) {
+        }
+        this.loading = false
+      })
+        .finally(() => {
+          this.loading = false
+          this.refundDialog = false
+          this.refundErrorDialog = false
+        })
+    },
     editItem (item) {
+      this.refundErrorDialog = false
+      this.refundDialog = false
       this.createDialog = true
       console.log('editItem')
       console.log(item)
@@ -314,10 +561,6 @@ export default {
       if (date !== null) {
         return moment(date).format('HH:mm:ss jYYYY/jM/jD')
       }
-    },
-
-    test (platform) {
-      console.log(platform)
     },
     moment (date) {
       return momentJalali(date).format('HH:mm:ss jYYYY/jM/jD')
