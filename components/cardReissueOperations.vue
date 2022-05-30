@@ -1,3 +1,4 @@
+
 <template>
   <v-container fluid>
     <v-layout row wrap>
@@ -5,8 +6,15 @@
         <v-flex xs12 md12 class="greyBorder blue-grey lighten-5">
           <div class="mr-6 ml-6 whiteback userGroupHeight">
             <v-layout row wrap>
-              <v-flex v-for="(category,index) in items" :key="items[index].title" xs3>
-                <v-checkbox v-model="category.selected" light :label="category.title" />
+              <v-flex v-for="(item,index) in items" :key="items[index].title" xs3>
+                <v-checkbox
+                  v-model="category.selected"
+                  light
+                  :label="item.title"
+                  multiple
+                  :value="item.url"
+                  @change="checked()"
+                />
               </v-flex>
             </v-layout>
           </div>
