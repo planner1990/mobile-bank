@@ -67,8 +67,11 @@
             v-model="filter.transactionListFilter.operation"
             :label="$t('filters.operation')"
             prepend-icon="mdi-clipboard-list"
+            item-value="value"
             dense
             outlined
+            required
+            clearable
             multiple
             @click="editItem()"
           >
@@ -339,7 +342,7 @@ const defaultFilter = {
   transactionListFilter: {
     // smsId: null,
     phoneNumber: null,
-    operation: null,
+    operation: [],
     sourceNumber: null,
     sourceType: null,
     result: null,

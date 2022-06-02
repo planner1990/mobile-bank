@@ -286,7 +286,7 @@
     "offerTypeFilter": {
       "1": "url",
       "2": "in app",
-      "null": ""
+      "0": ""
     },
     "dialogTitle": "آپلود پیشنهاد",
     "title": "عنوان",
@@ -503,6 +503,7 @@
     "submit": "ثبت",
     "cancel": "انصراف",
     "search": "جستجو",
+    "delete": "حذف",
     "updateStatusToInProcess": "بررسی درخواست",
     "updateStatusToReadyForProcess": "لغو بررسی درخواست",
     "updateStatusToCardSent": "تغییر وضعیت به کارت صادر شده",

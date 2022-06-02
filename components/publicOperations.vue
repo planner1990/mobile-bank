@@ -11,7 +11,7 @@
                   light
                   :label="item.title"
                   multiple
-                  :value="item.id"
+                  :value="item.url"
                   @change="checked()"
                 />
               </v-flex>

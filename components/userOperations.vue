@@ -11,7 +11,7 @@
                   light
                   :label="item.title"
                   multiple
-                  :value="item.id"
+                  :value="item.url"
                   @change="checked()"
                 />
               </v-flex>
@@ -59,7 +59,7 @@ export default {
       reportManager.operationList(this.operationType, this.$axios).then((response) => {
         console.log(response)
         const operationList = response.data
-        const operationCardList = operationList.cardOperation
+        const operationCardList = operationList.userOperation
         const operationLastList = operationCardList
 
         const array1 = operationLastList

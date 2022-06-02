@@ -280,13 +280,26 @@ export default {
       currentUser: 'user/me'
     }),
     computedUserAccessList: function () {
-      if (this.userForm.userObj.role !== 'OPERATOR') {
-        return this.userForm.permissions
+      console.log(this.userForm.userObj.role)
+      if (this.userForm.userObj.role !== 'ROLE_PANEL_ADMIN') {
+        return this.userForm.permissions.filter(e => e.value !== 'FULL_ACCESS')
       } else {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         // this.userForm.userObj.userAccessList = []
         return this.userForm.permissions
       }
+
+      /* if (this.userForm.userObj.role === 'ROLE_PANEL_REPORT') {
+       const temp = this.userForm.permissions.filter(e => e.value === 'REPORTER_ACCESS')
+       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+       this.userForm.userObj.userAccessList = [temp[0].value]
+       return temp
+     } else if (this.userForm.userObj.role === 'ROLE_PANEL_USER') {
+       const temp = []
+       return temp
+     } else { */
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      // this.userForm.userObj.userAccessList = []
     },
     computedProvince: function () {
       if (this.userForm.userObj.provinceCode) {

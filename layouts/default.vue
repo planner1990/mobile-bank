@@ -236,8 +236,9 @@ export default {
     checkUserAccessReports () {
       // if (this.currentUser.role !== undefined) {
       console.log('currentUser is role')
-      if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined) {
-        console.log('currentUser is role2')
+
+      if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
+      (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
         return this.reports
       } else if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
         return null
@@ -246,7 +247,7 @@ export default {
         this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
         return this.reports.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
       } else {
-        return this.reports.filter(e => e.to !== '/offer').filter(e => e.to !== '/users')
+        return this.reports.filter(e => e.to === '/offer')
       }
     }
   },
@@ -265,7 +266,8 @@ export default {
       console.log('currentUser is role')
       console.log(this.currentUser.permissions)
       console.log(this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS'))
-      if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined) {
+      if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
+      (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
         return this.items
       } if (this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined) {
         console.log('currentUser is role1')
@@ -281,8 +283,13 @@ export default {
           .filter(e => e.to !== '/transactionQuery').filter(e => e.to !== '/transaction-statistics')
           .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
           .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/')
+      } else {
+        console.log('currentUser is role 3')
+        console.log(this.items)
+        this.userList = this.items.filter(e => e.to === '/')
+        console.log(this.userList)
       }
-
+      console.log('currentUser is role 4')
       const array1 = this.createUserList.concat(this.userList, this.offerList)
 
       this.items = array1

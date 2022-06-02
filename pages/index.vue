@@ -547,7 +547,6 @@ export default {
       this.filterOperation.transactionListFilter.operation = this.operationList
       console.log(this.filterOperation)
       reportManager.transactionList(this.filterOperation, this.$axios).then((response) => {
-        this.operationList = []
         this.items = response.data.itemList
         console.log(this.items)
         this.totalNumberOfItems = response.data.filteredItem

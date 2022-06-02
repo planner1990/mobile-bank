@@ -109,8 +109,11 @@ async function uploadOffer (request, axios) {
 async function updateUploadOffer (request, axios) {
   return await axios.post('offer/update-offer', request)
 }
+async function deleteOffer (request, axios) {
+  return await axios.post('offer/delete-offer', request)
+}
 async function addParams (request, axios) {
-  return await axios.post('offer/addParams', request)
+  return await axios.post('offer/add-param', request)
 }
 
 async function listOffer (request, axios) {
@@ -118,7 +121,7 @@ async function listOffer (request, axios) {
   return res
 }
 async function listParam (request, axios) {
-  const res = await axios.post('offer/paramList', request)
+  const res = await axios.post('offer/parameter-list', request)
   return res
 }
 async function downloadRefundList (request, axios) {
@@ -469,6 +472,7 @@ export default {
   downloadSmsReport,
   uploadOffer,
   updateUploadOffer,
+  deleteOffer,
   addParams,
   listOffer,
   listParam,
