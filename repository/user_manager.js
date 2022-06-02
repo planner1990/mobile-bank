@@ -75,6 +75,10 @@ const userPermissions = [
   {
     value: 'OFFER_ACCESS',
     text: 'user.permissions.4'
+  },
+  {
+    value: 'FULL_ACCESS',
+    text: 'user.permissions.0'
   }
 ]
 
