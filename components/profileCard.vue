@@ -7,7 +7,7 @@
       flex-column"
   >
     <v-card-title primary-title class="lightGreen text-h4">
-      {{ $t('profile.title') }}
+      {{ $t('user.profile') }}
     </v-card-title>
     <v-card-text
       class="px-5 py-5"
@@ -16,14 +16,14 @@
         <v-col>
           <show-item
             :icon="'mdi-identifier'"
-            :title="$t('profile.id')"
+            :title="$t('user.id')"
             :content="currentUser.id"
           />
         </v-col>
         <v-col>
           <show-item
             :icon="'mdi-account'"
-            :title="$t('common.username')"
+            :title="$t('user.username')"
             :content="currentUser.username"
           />
         </v-col>
@@ -34,63 +34,34 @@
             :content="$t('user.roles.' + currentUser.role.role)"
           />
         </v-col>
-        <v-col>
-          <show-item
-            :icon="'mdi-account-check'"
-            :title="$t('common.status')"
-            :content="$t('user.status.' + currentUser.status)"
-          />
-        </v-col>
+        <!--        <v-col>-->
+        <!--          <show-item-->
+        <!--            :icon="'mdi-account-check'"-->
+        <!--            :title="$t('common.status')"-->
+        <!--            :content="$t('user.status.' + currentUser.status)"-->
+        <!--          />-->
+        <!--        </v-col>-->
       </v-layout>
       <v-divider />
-      <v-layout justify-space-between align-center class="my-2">
-        <v-col v-if="currentUser.permissions.filter((e)=> e.name === 'CREATE_USER').length > 0">
-          <show-item
-            :icon="'mdi-account-key'"
-            :title="$t('user.permission')"
-            :content="$t('user.permissions.2')"
+      <v-layout v-if="provinceCode || branchCode || cityCode" justify-space-between align-center class="my-2">
+        <v-col>
+          <province-viewer
+            v-model="provinceCode"
+            :condition="'requestReview'"
           />
         </v-col>
-        <v-col v-if="currentUser.permissions.filter((e)=> e.name === 'EXPORT_OPENED_DEPOSIT_FILE').length > 0">
-          <show-item
-            :icon="'mdi-account-key'"
-            :title="$t('user.permission')"
-            :content="$t('user.permissions.1')"
+        <v-col>
+          <city-viewer
+            v-model="cityCode"
+            :province="provinceCode"
+            :condition="'requestReview'"
           />
         </v-col>
-        <v-col v-if="currentUser.permissions.filter((e)=> e.name === 'OPEN_DEPOSIT_PROCESS').length > 0">
-          <show-item
-            :icon="'mdi-account-key'"
-            :title="$t('user.permission')"
-            :content="$t('user.permissions.0')"
-          />
-        </v-col>
-        <v-col v-if="currentUser.permissions.filter((e)=> e.name === 'UNIVERSAL').length > 0">
-          <show-item
-            :icon="'mdi-map-marker-check'"
-            :title="$t('user.locationAccess.title')"
-            :content="$t('user.locationAccess.UNIVERSAL')"
-          />
-        </v-col>
-        <v-col v-if="currentUser.permissions.filter((e)=> e.name === 'PROVINCE').length > 0">
-          <show-item
-            :icon="'mdi-map-marker-check'"
-            :title="$t('user.locationAccess.title')"
-            :content="$t('user.locationAccess.PROVINCE')"
-          />
-        </v-col>
-        <v-col v-if="currentUser.permissions.filter((e)=> e.name === 'BRANCH').length > 0">
-          <show-item
-            :icon="'mdi-map-marker-check'"
-            :title="$t('user.locationAccess.title')"
-            :content="$t('user.locationAccess.BRANCH')"
-          />
-        </v-col>
-        <v-col v-if="currentUser.permissions.filter((e)=> e.name === 'FULL_ACCESS').length > 0">
-          <show-item
-            :icon="'mdi-map-marker-check'"
-            :title="$t('user.locationAccess.title')"
-            :content="$t('user.locationAccess.FULL_ACCESS')"
+        <v-col>
+          <branch-viewer
+            v-model="branchCode"
+            :condition="'requestReview'"
+            :icon="'mdi-bank'"
           />
         </v-col>
       </v-layout>
@@ -191,9 +162,16 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import userManager from '~/repository/user_manager'
-
+import provinceViewer from '~/components/location/provinceViewer'
+import cityViewer from '~/components/location/cityViewer'
+import branchViewer from '~/components/location/branchViewer'
 export default {
   name: 'ProfileCard',
+  components: {
+    provinceViewer,
+    cityViewer,
+    branchViewer
+  },
   data () {
     return {
       loading: false,
@@ -201,7 +179,21 @@ export default {
       showPassword: false,
       showPasswordForRepeat: false,
       newPassword: '',
-      repeatTheNewPassword: ''
+      repeatTheNewPassword: '',
+      provinceCode: null,
+      cityCode: null,
+      branchCode: null
+    }
+  },
+  mounted () {
+    if (this.currentUser.provinceCode) {
+      this.provinceCode = parseInt(this.currentUser.provinceCode)
+    }
+    if (this.currentUser.cityCode) {
+      this.cityCode = parseInt(this.currentUser.cityCode)
+    }
+    if (this.currentUser.branchCode) {
+      this.branchCode = parseInt(this.currentUser.branchCode)
     }
   },
   computed: {
@@ -224,7 +216,7 @@ export default {
       if (this.validate()) {
         this.loading = true
         try {
-          userManager.updateCurrentUser({ password: this.newPassword }, this.$axios).then(() => {
+          userManager.updateUser({ id: this.currentUser.id, password: this.newPassword }, this.currentUser.id, this.$axios).then(() => {
             this.alert({
               color: 'success',
               content: 'messages.successful'
@@ -236,15 +228,15 @@ export default {
           }).catch((e) => {
             this.alert({
               color: 'orange',
-              content: e.response.data.error_message
+              content: 'messages.failed'
             })
-            this.loading = false
           })
         } catch (e) {
           this.alert({
             color: 'orange',
             content: 'messages.failed'
           })
+        } finally {
           this.closeEditUserDialog()
         }
       }

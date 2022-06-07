@@ -3,46 +3,50 @@
     tag="section"
     fluid
   >
-    <v-row>
-      <v-col
-        md="3"
+    <v-col>
+      <v-row
+        justify="center"
       >
-        <user-filter v-model="requestObject" @search="search" />
-      </v-col>
-      <v-col>
+        <user-filter v-model="searchModel" @search="search" />
+      </v-row>
+      <br>
+      <br>
+      <v-row
+        justify="center"
+      >
         <v-data-table
           item-key="username"
           sort-by="username"
           :items="users"
           :headers="headers"
-          class="elevation-5"
+          class="elevation-5 fullScreen"
           :loading="loading"
           dense
-          :footer-props="{
-            'items-per-page-options': [10, 20, 30, 40, 50]
-          }"
-          :items-per-page.sync="requestObject.paginate.length"
-          :page.sync="requestObject.paginate.page"
+          :items-per-page.sync="pagination.rowsPerPage"
+          :page.sync="pagination.page"
           :server-items-length="totalNumberOfItems"
-          @update:page="search (requestObject)"
-          @update:items-per-page="search (requestObject)"
+          :footer-props="{
+            'items-per-page-options': [50, 100, 200, 500, 1000]
+          }"
+          @update:page="paginate"
+          @update:items-per-page="paginate"
         >
           <template #top>
             <v-toolbar
+              class="black--text"
               color="lightGreen"
               flat
               dense
-              dark
             >
               <v-dialog
                 v-model="createDialog"
-                persistent
                 max-width="640"
+                persistent
                 transition="dialog-bottom-transition"
               >
                 <template #activator="{ on, attrs }">
                   <v-btn
-                    color="warning"
+                    color="orange"
                     class="mb-2"
                     small
                     v-bind="attrs"
@@ -54,11 +58,8 @@
                 <v-card
                   :loading="loading"
                 >
-                  <v-card-title v-if="!isShowTitleOfEditDialog" primary-title class="lightGreen font-weight-bold text-h5">
-                    {{ $t('user.createDialog') }}
-                  </v-card-title>
-                  <v-card-title v-if="isShowTitleOfEditDialog" primary-title class="lightGreen font-weight-bold text-h5">
-                    {{ $t('user.editDialog') }}
+                  <v-card-title class="lightGreen black--text font-weight-bold headline">
+                    {{ $t('user.createUserDialog') }}
                   </v-card-title>
                   <v-container>
                     <v-form
@@ -68,7 +69,6 @@
                         <v-col>
                           <v-text-field
                             v-model="userForm.userObj.username"
-                            :disabled="isShowTitleOfEditDialog"
                             prepend-icon="mdi-account"
                             :counter="16"
                             :label="$t('user.username')"
@@ -85,9 +85,9 @@
                           <v-text-field
                             v-if="!userForm.userObj.id"
                             v-model="userForm.userObj.password"
-                            prepend-icon="mdi-form-textbox-password"
-                            :label="$t('user.password')"
+                            prepend-icon="mdi-lock"
                             :counter="16"
+                            :label="$t('user.password')"
                             :rules="[
                               v => !!v || $t('user.validation.required'),
                               v => (v && v.length <= 16 && v.length >= 7) || $t('user.validation.length')
@@ -102,7 +102,7 @@
                           <v-text-field
                             v-if="!!userForm.userObj.id"
                             v-model="userForm.userObj.password"
-                            prepend-icon="mdi-form-textbox-password"
+                            prepend-icon="mdi-lock"
                             :label="$t('user.password')"
                             :type="userForm.showPassword ? 'text' : 'Password'"
                             :append-icon="userForm.showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -113,15 +113,15 @@
                         </v-col>
                       </v-row>
                       <v-row>
-                        <v-col>
+                        <v-col cols="6">
                           <v-select
                             v-model="userForm.userObj.role"
-                            prepend-icon="mdi-account-cog"
-                            :items="userForm.roles"
+                            prepend-icon="mdi-account-lock"
+                            :items="roles"
                             :item-text="(item) => $t(item.text)"
+                            :rules="[ v => !!v || $t('user.validation.required') ]"
                             item-value="value"
                             :label="$t('user.role')"
-                            :rules="[ v => !!v || $t('user.validation.required') ]"
                             outlined
                             dense
                             required
@@ -129,72 +129,19 @@
                             @change="clearAllDataInForm()"
                           />
                         </v-col>
-                        <v-col>
-                          <v-select
-                            v-model="userForm.userObj.locationAccess"
-                            prepend-icon="mdi-home-lock"
-                            :items="computedLocationAccess"
-                            :item-text="(item) => $t(item.text)"
-                            item-value="value"
-                            :disabled="(userForm.userObj.role === 'OPERATOR' || userForm.userObj.role === undefined || userForm.userObj.role === null)"
-                            :readonly="userForm.userObj.role === 'OPERATOR'"
-                            :label="$t('user.locationAccess.title')"
-                            :rules="[ v => !!v || $t('user.validation.required') ]"
-                            outlined
-                            dense
-                            required
-                            clearable
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col>
+                        <v-col cols="6">
                           <v-select
                             v-model="userForm.userObj.userAccessList"
                             prepend-icon="mdi-folder-lock"
                             :items="computedUserAccessList"
                             :item-text="(item) => $t(item.text)"
                             item-value="value"
-                            :disabled="(userForm.userObj.role === 'REPORTER' || userForm.userObj.role === 'OPERATOR' || userForm.userObj.role === undefined || userForm.userObj.role === null)"
-                            :readonly="userForm.userObj.role === 'OPERATOR'"
                             :label="$t('user.permission')"
                             outlined
                             dense
                             required
                             clearable
                             multiple
-                          />
-                        </v-col>
-                        <v-col>
-                          <province-selector
-                            v-model="userForm.userObj.provinceCode"
-                            icon="mdi-map-marker"
-                            :location-access="userForm.userObj.locationAccess"
-                            :is-show-rules="((userForm.userObj.provinceCode === undefined || userForm.userObj.provinceCode === null || userForm.userObj.provinceCode === '') && (userForm.userObj.locationAccess === 'PROVINCE' || userForm.userObj.locationAccess === 'BRANCH'))"
-                            :is-disabled="(userForm.userObj.role === undefined || userForm.userObj.role === null || userForm.userObj.locationAccess === undefined || userForm.userObj.locationAccess === null)"
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col>
-                          <city-selector
-                            v-model="userForm.userObj.cityCode"
-                            :province="computedProvince"
-                            :location-access="userForm.userObj.locationAccess"
-                            :is-disabled="(userForm.userObj.role === undefined || userForm.userObj.role === null || userForm.userObj.role === 'ADMIN'|| userForm.userObj.role === 'REPORTER')"
-                            :is-show-rules="userForm.userObj.role === 'OPERATOR' && (userForm.userObj.cityCode === undefined || userForm.userObj.cityCode === null)"
-                            icon="mdi-map-marker"
-                          />
-                        </v-col>
-                        <v-col>
-                          <branch-selector
-                            v-model="userForm.userObj.branchCode"
-                            icon="mdi-bank"
-                            :city="computedCity"
-                            :province="computedProvince"
-                            :location-access="userForm.userObj.locationAccess"
-                            :is-disabled="(userForm.userObj.role === undefined || userForm.userObj.role === null || userForm.userObj.role === 'ADMIN'|| userForm.userObj.role === 'REPORTER')"
-                            :is-show-rules="userForm.userObj.role === 'OPERATOR' && (userForm.userObj.branchCode === undefined || userForm.userObj.branchCode === null)"
                           />
                         </v-col>
                       </v-row>
@@ -227,8 +174,8 @@
                       {{ $t('buttons.submit') }}
                     </v-btn>
                     <v-btn
-                      color="warning"
-                      @click="closeCreateUserDialog"
+                      color="orange"
+                      @click="cancel"
                     >
                       {{ $t('buttons.cancel') }}
                     </v-btn>
@@ -238,17 +185,12 @@
             </v-toolbar>
           </template>
           <template #[`item.role`]="{ item }">
-            {{ $t('user.roles.'+item.role.role) }}
-          </template>
-          <template #[`item.locationAccess`]="{ item }">
-            {{ $t('user.locationAccess.'+ item.locationAccess) }}
+            {{ $t('user.roles.'+ item.role.role) }}
           </template>
           <template #[`item.provinceCode`]="{ item }">
             <province-viewer v-model="item.provinceCode" icon="" message="" :condition="'table'" />
           </template>
-          <template #[`item.cityCode`]="{ item }">
-            <city-viewer v-model="item.cityCode" :province="item.provinceCode" icon="" message="" :condition="'table'" />
-          </template>
+
           <template #[`item.branchCode`]="{ item }">
             <branch-viewer v-model="item.branchCode" icon="" message="" :condition="'table'" />
           </template>
@@ -268,116 +210,51 @@
             >
               mdi-pencil
             </v-icon>
-            <!--            <v-icon-->
-            <!--              small-->
-            <!--              class="mr-2"-->
-            <!--              :disabled="item.status === 0"-->
-            <!--              @click.stop="del(item)"-->
-            <!--            >-->
-            <!--              mdi-trash-can-->
-            <!--            </v-icon>-->
           </template>
         </v-data-table>
-        <v-dialog
-          v-model="deleteUserDialog"
-          max-width="290"
-        >
-          <v-card
-            dark
-            color="primary"
-          >
-            <v-card-title class="headline">
-              {{ $t('messages.warning') }}
-            </v-card-title>
-            <v-card-actions>
-              <v-spacer />
-              <v-btn
-                class="mb-2"
-                small
-                color="success"
-                @click="deleteItem(item)"
-              >
-                {{ $t('messages.ok') }}
-              </v-btn>
-              <v-btn
-                class="mb-2"
-                small
-                color="error"
-                @click="deleteUserDialog = false"
-              >
-                {{ $t('buttons.cancel') }}
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-col>
-    </v-row>
+      </v-row>
+    </v-col>
   </v-container>
 </template>
 
 <script>
-import { mapMutations, mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import UserFilter from '@/components/User/searchFilter'
 import userManager from '@/repository/user_manager'
-import ProvinceSelector from '@/components/location/provinceSelector.vue'
-import CitySelector from '@/components/location/citySelector'
-import BranchSelector from '@/components/location/branchSelector'
+// import ProvinceSelector from '@/components/location/provinceSelector.vue'
 import provinceViewer from '@/components/location/provinceViewer'
-import cityViewer from '@/components/location/cityViewer'
 import branchViewer from '@/components/location/branchViewer'
+// import CitySelector from '@/components/location/citySelector'
+// import BranchSelector from '@/components/location/branchSelector'
 
 export default {
   components: {
     'user-filter': UserFilter,
-    ProvinceSelector,
-    CitySelector,
-    BranchSelector,
-    cityViewer,
+    // ProvinceSelector,
+    // CitySelector,
+    // BranchSelector,
+    // cityViewer,
     provinceViewer,
     branchViewer
   },
   data: function () {
     return {
-      isShowTitleOfEditDialog: false,
-      // paginate: {
-      //   page: 1,
-      //   length: 20,
-      //   sort: {
-      //     property: 'status',
-      //     direction: 'desc'
-      //   }
-      // },
+      roles: userManager.userRoles,
+
+      pagination: {
+        rowsPerPage: 10,
+        page: 1,
+        totalItems: 0
+      },
       totalNumberOfItems: 0,
-      guids: [
-        {
-          icon: 'mdi-pencil',
-          description: 'user.editGuide'
-        },
-        {
-          icon: 'mdi-trash-can',
-          description: 'user.deleteGuide'
-        },
-        {
-          icon: 'mdi-broom',
-          description: 'user.clearButton'
-        }
-      ],
-      requestObject: {
-        paginate: {
-          page: 1,
-          length: 20,
-          sort: {
-            property: 'status',
-            direction: 'desc'
-          }
-        }
+      searchModel: {
+        page: 1,
+        length: 10
       },
       loading: false,
       userForm: {
-        showPassword: false,
-        roles: userManager.userRoles,
         permissions: userManager.userPermissions,
-        locationAccess: userManager.locationAccess,
+        showPassword: false,
         userObj: {
           userAccessList: []
         }
@@ -385,59 +262,93 @@ export default {
       createDialog: false,
       deleteUserDialog: false,
       headers: [
-        { text: this.$t('user.username'), value: 'username' },
-        { text: this.$t('user.role'), value: 'role' },
-        { text: this.$t('user.locationAccess.title'), value: 'locationAccess' },
-        { text: this.$t('user.province'), value: 'provinceCode' },
-        { text: this.$t('user.city'), value: 'cityCode' },
-        { text: this.$t('user.branch'), value: 'branchCode' },
-        { text: this.$t('headers.status'), value: 'status' },
-        { text: '', value: 'actions', sortable: false }
+        { text: this.$t('user.username'), value: 'username', sortable: false },
+        { text: this.$t('user.role'), value: 'role', sortable: false },
+        { text: this.$t('user.permission'), value: 'locationAccess' }, /*
+        { text: this.$t('user.province'), value: 'provinceCode', sortable: false },
+        // { text: this.$t('user.city'), value: 'cityCode' },
+        { text: this.$t('user.branch'), value: 'branchCode', sortable: false }, */
+        { text: this.$t('user.statusHeader'), value: 'status', sortable: false },
+        { text: this.$t('user.edit'), value: 'actions', sortable: false }
       ],
-      users: [],
-      createUserErrors: []
+      users: []
+
     }
   },
   computed: {
     ...mapGetters({
-      loggedInUser: 'user/me'
+      currentUser: 'user/me'
     }),
-    computedProvince: function () {
-      if (this.userForm.userObj.provinceCode) {
-        return this.userForm.userObj.provinceCode
-      } else {
-        return this.loggedInUser.provinceCode
-      }
-    },
-    computedCity: function () {
-      if (this.userForm.userObj.cityCode) {
-        return this.userForm.userObj.cityCode
-      } else {
-        return this.loggedInUser.cityCode
-      }
-    },
-    computedLocationAccess: function () {
-      if (this.userForm.userObj.role === 'ADMIN' || this.userForm.userObj.role === 'REPORTER') {
-        return this.userForm.locationAccess.filter(e => e.value === 'UNIVERSAL' || e.value === 'PROVINCE')
-      } else if (this.userForm.userObj.role === 'OPERATOR') {
-        const tmp = this.userForm.locationAccess.filter(e => e.value === 'BRANCH')
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.userForm.userObj.locationAccess = tmp[0].value
-        return tmp
-      }
-      return []
-    },
     computedUserAccessList: function () {
-      if (this.userForm.userObj.role === 'OPERATOR') {
-        const temp = this.userForm.permissions.filter(e => e.value === 'EXPORT_OPENED_DEPOSIT_FILE')
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.userForm.userObj.userAccessList = [temp[0].value]
-        return temp
+      console.log(this.userForm.userObj.role)
+      if (this.userForm.userObj.role !== 'ROLE_PANEL_ADMIN') {
+        return this.userForm.permissions.filter(e => e.value !== 'FULL_ACCESS')
       } else {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         // this.userForm.userObj.userAccessList = []
         return this.userForm.permissions
       }
+
+      /* if (this.userForm.userObj.role === 'ROLE_PANEL_REPORT') {
+       const temp = this.userForm.permissions.filter(e => e.value === 'REPORTER_ACCESS')
+       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+       this.userForm.userObj.userAccessList = [temp[0].value]
+       return temp
+     } else if (this.userForm.userObj.role === 'ROLE_PANEL_USER') {
+       const temp = []
+       return temp
+     } else { */
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      // this.userForm.userObj.userAccessList = []
+    },
+    computedProvince: function () {
+      if (this.userForm.userObj.provinceCode) {
+        return this.userForm.userObj.provinceCode
+      } else {
+        return this.currentUser.provinceCode
+      }
+    },
+
+    computedCity: function () {
+      if (this.userForm.userObj.cityCode) {
+        return this.userForm.userObj.cityCode
+      } else {
+        return this.currentUser.cityCode
+      }
+    }/*
+    roles: function () {
+      // console.log(this.currentUser)
+      // return []
+      if (this.currentUser.role === 'ADMIN') {
+        return [userManager.userRoles[1]]
+      } else {
+        return userManager.userRoles
+      }
+    } */
+  },
+  methods: {
+    ...mapMutations({
+      alert: 'snacks/showMessage'
+    }),
+    clearAllDataInForm () {
+      delete this.userForm.userObj.userAccessList
+      this.resetValidation()
+    },
+    paginate () {
+      this.search(this.searchModel)
+    },
+    search (searchModel) {
+      searchModel.page = this.pagination.page
+      searchModel.length = this.pagination.rowsPerPage
+      this.loading = true
+      userManager.getUserList(searchModel, this.$axios).then((response) => {
+        console.log('search')
+        console.log(response.data.itemList)
+        this.users = response.data.itemList
+        this.totalNumberOfItems = response.data.filteredItem
+      }).finally(() => {
+        this.loading = false
+      })
     },
     computedErrorsInCreateDialog: function () {
       if (this.createUserErrors.length !== 0) {
@@ -448,112 +359,58 @@ export default {
       } else {
         return []
       }
-    }
-    //   if (this.userForm.userObj.role === 'ADMIN' || this.userForm.userObj.role === 'REPORTER') {
-    //     return this.userForm.locationAccess.filter(e => e.value === 'UNIVERSAL' || e.value === 'PROVINCE')
-    //   } else
-    //     return this.userForm.locationAccess.filter(e => e.value === 'BRANCH')
-    //   }
-    //   return []
-    // }
-  },
-  methods: {
-    ...mapMutations({
-      alert: 'snacks/showMessage'
-    }),
-    // async pagination () {
-    //   await this.search(this.requestObject)
-    // },
-    clearAllDataInForm () {
-      delete this.userForm.userObj.locationAccess
-      delete this.userForm.userObj.userAccessList
-      delete this.userForm.userObj.provinceCode
-      delete this.userForm.userObj.cityCode
-      delete this.userForm.userObj.branchCode
-      this.resetValidation()
     },
-    async search (searchModel) {
-      // searchModel.page = this.pagination.page
-      // searchModel.length = this.pagination.rowsPerPage
-      this.loading = true
-      try {
-        const response = await userManager.getUserList(searchModel, this.$axios)
-        this.users = response.data.itemList
-        this.totalNumberOfItems = response.data.filteredItem
-      } catch (e) {
-        this.alert({
-          color: 'orange',
-          content: 'messages.failed'
-        })
-      } finally {
-        this.loading = false
+    save () {
+      if (this.validate()) {
+        console.log('validate')
+        this.loading = true
+        try {
+          if (this.userForm.userObj.id) {
+            console.log('update')
+            console.log(this.userForm.userObj)
+            userManager.updateUser(this.userForm.userObj, this.userForm.userObj.id, this.$axios).then(() => {
+              this.alert({
+                color: 'success',
+                content: 'messages.successful'
+              })
+              this.search(this.searchModel)
+            }).catch((e) => {
+              this.alert({
+                color: 'error',
+                content: 'messages.failed'
+              })
+              // this.showErrorsInCreateUserDialog(e.response.data.detailList)
+            })
+          } else {
+            console.log('create')
+            userManager.createUser(this.userForm.userObj, this.$axios).then(() => {
+              this.alert({
+                color: 'success',
+                content: 'messages.successful'
+              })
+              this.search(this.searchModel)
+            }).catch((e) => {
+              this.alert({
+                color: 'error',
+                content: 'messages.failed'
+              })
+              // this.showErrorsInCreateUserDialog(e.response.data.detailList)
+            })
+          }
+        } catch (e) {
+          console.log('exception')
+          this.showErrorsInCreateUserDialog(e.response.data.detailList)
+        } finally {
+          this.cancel()
+        }
       }
     },
     showErrorsInCreateUserDialog (errors) {
       this.loading = false
       this.createUserErrors = errors
     },
-    save () {
-      if (this.loggedInUser.provinceCode) {
-        this.userForm.userObj.provinceCode = this.loggedInUser.provinceCode
-      }
-      if (this.loggedInUser.cityCode) {
-        this.userForm.userObj.cityCode = this.loggedInUser.cityCode
-      }
-      if (this.loggedInUser.branchCode) {
-        this.userForm.userObj.branchCode = this.loggedInUser.branchCode
-      }
-      if (this.validate()) {
-        this.loading = true
-        try {
-          if (this.userForm.userObj.id) {
-            userManager.updateUser(this.userForm.userObj, this.userForm.userObj.id, this.$axios).then(() => {
-              this.alert({
-                color: 'success',
-                content: 'messages.successful'
-              })
-              this.closeCreateUserDialog()
-              this.search(this.requestObject)
-            }).catch((e) => {
-              // this.alert({
-              //   color: 'orange',
-              //   content: e.response.data.error_message
-              // })
-              this.showErrorsInCreateUserDialog(e.response.data.detailList)
-            })
-          } else {
-            if (this.userForm.userObj.role === 'OPERATOR' &&
-              (this.userForm.userObj.cityCode === undefined || this.userForm.userObj.cityCode === null ||
-                this.userForm.userObj.branchCode === undefined || this.userForm.userObj.branchCode === null ||
-                this.userForm.userObj.provinceCode === undefined || this.userForm.userObj.provinceCode === null
-              )
-            ) {
-              return ''
-            }
-            userManager.createUser(this.userForm.userObj, this.$axios).then(() => {
-              this.alert({
-                color: 'success',
-                content: 'messages.successful'
-              })
-              this.closeCreateUserDialog()
-              this.search(this.requestObject)
-            }).catch((e) => {
-              // this.alert({
-              //   color: 'orange',
-              //   content: e.response.data.error_message
-              // })
-              this.showErrorsInCreateUserDialog(e.response.data.detailList)
-            })
-          }
-        } catch (e) {
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-      }
-    },
     editItem (item) {
+      console.log(this.userForm.userObj)
       this.userForm.userObj = {
         id: item.id,
         username: item.username,
@@ -562,49 +419,25 @@ export default {
         cityCode: item.cityCode,
         branchCode: item.branchCode,
         role: item.role.role,
-        locationAccess: item.locationAccess,
         userAccessList: item.userAccess
+
       }
+      console.log('this.userForm.userOb')
+      console.log(this.userForm.userObj)
       this.createDialog = true
-      this.isShowTitleOfEditDialog = true
+      // console.log(this.userForm.userObj)
     },
     del (item) {
       this.deleteUserDialog = true
       this.item = item
     },
-    async deleteItem (item) {
-      try {
-        const res = await userManager.deleteUser(item.id, this.$axios)
-        if (res.status === 204) {
-          this.alert({
-            color: 'success',
-            content: 'messages.successful'
-          })
-        } else {
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-      } catch (error) {
-        this.alert({
-          color: 'orange',
-          content: 'messages.failed'
-        })
-      } finally {
-        this.deleteUserDialog = false
-      }
-    },
-    closeCreateUserDialog () {
-      this.createUserErrors = []
+    cancel () {
       this.loading = false
       this.userForm.userObj = {}
+      this.userForm.userObj.id = null
       this.reset()
       this.resetValidation()
       this.createDialog = false
-      if (this.isShowTitleOfEditDialog) {
-        this.isShowTitleOfEditDialog = false
-      }
     },
     validate () {
       return this.$refs.form.validate()
@@ -618,3 +451,8 @@ export default {
   }
 }
 </script>
+<style>
+  .fullScreen {
+    width: 100%;
+  }
+</style>

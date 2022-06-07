@@ -2,7 +2,6 @@
   <v-card
     elevation="10"
     class="fullScreen"
-    color="#f6f6f6"
   >
     <v-toolbar
       class="black--text"
@@ -14,17 +13,10 @@
     >
       {{ $t('titles.filters') }}
       <v-spacer />
-      <v-btn
-        color="success"
-        small
-        @click="search"
-      >
-        {{ $t('buttons.search') }}
-      </v-btn>
     </v-toolbar>
     <v-container fluid>
       <v-row>
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="my-custom-input"
             v-model="fromDate"
@@ -46,10 +38,7 @@
             @close="checkIsNull()"
           />
         </v-col>
-        <v-col
-          cols="1"
-        />
-        <v-col>
+        <v-col cols="2">
           <v-text-field
             id="custom-input"
             v-model="toDate"
@@ -71,29 +60,12 @@
             @close="checkIsNull()"
           />
         </v-col>
-        <v-col />
-        <v-col />
-
-        <!--      <province-selector-->
-        <!--        v-model="filter.locationFilter.provinceCode"-->
-        <!--      />-->
-        <!--      <city-selector-->
-        <!--        v-model="filter.locationFilter.cityCode"-->
-        <!--        :province="computedProvince"-->
-        <!--      />-->
-        <!--      <branch-selector-->
-        <!--        v-model="filter.locationFilter.branchCode"-->
-        <!--        :province="computedProvince"-->
-        <!--        :city="computedCity"-->
-        <!--      />-->
-      </v-row>
-      <v-row>
-        <v-col>
+        <v-col cols="2">
           <v-select
-            v-model="filter.reportFilter.operation"
-            :items="status"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
+            v-model="filter.errorReportListFilter.operation"
+            :items="items"
+            item-text="title"
+            item-value="url"
             :return-object="false"
             :label="$t('filters.operation')"
             prepend-icon="mdi-clipboard-list"
@@ -102,15 +74,12 @@
             outlined
           />
         </v-col>
-        <v-col
-          cols="1"
-        />
-        <v-col>
+        <v-col cols="2">
           <v-select
-            v-model="filter.reportFilter.errorCode"
-            :items="errorCode"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
+            v-model="filter.errorReportListFilter.responseCode"
+            :items="errorItems"
+            item-text="title"
+            item-value=""
             :return-object="false"
             :label="$t('filters.errorCode')"
             prepend-icon="mdi-clipboard-list"
@@ -119,8 +88,30 @@
             outlined
           />
         </v-col>
-        <v-col />
-        <v-col />
+      </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <v-btn
+            color="success"
+            small
+            class="mr-10"
+            @click="search"
+          >
+            {{ $t('buttons.search') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="10" />
+        <v-col>
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="downloadReports(defaultFilter)"
+          >
+            {{ $t('report.download') }}
+          </v-btn>
+        </v-col>
       </v-row>
     </v-container>
   </v-card>
@@ -129,99 +120,184 @@
 <script>
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
-// import ProvinceSelector from '@/components/location/provinceSelector.vue'
-// import CitySelector from '@/components/location/citySelector'
-// import BranchSelector from '~/components/location/branchSelector'
 import reportManager from '~/repository/report_manager'
 const defaultFilter = {
-  reportFilter: {
-    status: null,
-    operatorUserName: null,
-    operationName: null,
-    customer: null,
-    source: null,
+  errorReportListFilter: {
     operation: null,
-    result: null,
-    platform: null,
-    errorCode: null,
-    osName: null,
-    transactionId: null,
-    amount: null,
-    smsTransactionId: null
+    responseCode: null
   },
   dateFilter: {
     from: null,
     to: null
+  },
+  paginate: {
+    page: 1,
+    length: 50,
+    sort: {
+      property: 'errorCode',
+      direction: 'desc'
+    }
   }
 }
 export default {
-  name: 'OperatorReportFilter',
+  name: 'ErrorReportFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
-    // ProvinceSelector
-    // CitySelector,
-    // BranchSelector
+
+  },
+  mounted: function () {
+    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    this.filter = Object.assign(this.value, defaultFilter)
+    this.operation()
+    this.errorList()
   },
   props: {
-    value: Object({})
+    value: Object(defaultFilter)
   },
   data () {
     return {
-      fromDate: null,
-      toDate: null,
+      fromDate: this.currentDayFrom(),
+      toDate: this.currentDayTo(),
       filter: defaultFilter,
       status: reportManager.status,
-      errorCode: reportManager.errorCode
+      responseCodes: reportManager.responseCode,
+      operationType: {
+        operationType: 'ALL'
+      },
+      items: [],
+      errorItems: []
     }
   },
-  // computed: {
-  //   ...mapGetters({
-  //     me: 'user/me'
-  //   }),
-  //   computedProvince: function () {
-  //     if (this.me.provinceCode) {
-  //       return this.me.provinceCode
-  //     } else {
-  //       return this.filter.locationFilter.provinceCode
-  //     }
-  //   },
-  //   computedCity: function () {
-  //     if (this.me.cityCode) {
-  //       return this.me.cityCode
-  //     } else {
-  //       return this.filter.locationFilter.cityCode
-  //     }
-  //   }
-  // },
-  // mounted: function () {
-  //   if (this.me.provinceCode) {
-  //     defaultFilter.locationFilter.provinceCode = this.me.provinceCode
-  //   }
-  //   if (this.me.cityCode) {
-  //     defaultFilter.locationFilter.cityCode = this.me.cityCode
-  //   }
-  //   if (this.me.branchCode) {
-  //     defaultFilter.locationFilter.branchCode = this.me.branchCode
-  //   }
-  //   this.filter = Object.assign(this.value, defaultFilter)
-  // },
+
   methods: {
     search () {
       this.$emit('search', this.filter)
+    },
+    operation () {
+      this.loading = true
+      reportManager.operationList(this.operationType, this.$axios).then((response) => {
+        console.log(response)
+        const operationList = response.data
+        const operationCardList = operationList.cardOperation
+        operationCardList.push({ divider: true })
+        const operationDepositList = operationList.depositOperation
+        operationDepositList.push({ divider: true })
+        const operationUserList = operationList.userOperation
+        operationUserList.push({ divider: true })
+        const operationSettingList = operationList.settingOperation
+        operationSettingList.push({ divider: true })
+        const operationPublicList = operationList.publicOperation
+        operationSettingList.push({ divider: true })
+        const operationLastList = operationDepositList
+        operationCardList.unshift({ divider: true })
+        operationCardList.unshift({ header: 'عملیات کارت' })
+        operationDepositList.unshift({ divider: true })
+        operationDepositList.unshift({ header: 'عملیات حساب' })
+        operationDepositList.unshift({ divider: true })
+        operationUserList.unshift({ divider: true })
+        operationUserList.unshift({ header: 'عملیات کاربری' })
+        operationSettingList.unshift({ divider: true })
+        operationSettingList.unshift({ header: 'عملیات تنظیمات' })
+        operationPublicList.unshift({ divider: true })
+        operationPublicList.unshift({ header: 'عملیات عمومی' })
+        const array1 = operationLastList.concat(operationCardList, operationUserList, operationSettingList, operationPublicList)
+        this.items = array1
+      }).catch((error) => {
+        if (error.response) {
+          console.log(error.response)
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          console.log('error.response is null')
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+        this.loading = false
+      })
+    },
+    errorList () {
+      this.loading = true
+      reportManager.errorCodeList(this.$axios).then((response) => {
+        console.log(response)
+        const errorList = response.data
+        this.errorItems = errorList
+        console.log(errorList)
+      }).catch((error) => {
+        if (error.response) {
+          console.log(error.response)
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          console.log('error.response is null')
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+        this.loading = false
+      })
+    },
+    downloadReports (searchModel) {
+      this.downloadLoading = true
+      delete searchModel.paginate
+      reportManager.downloadErrorReport(searchModel, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'operator-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        console.log(error)
+        this.alert({
+          color: 'error',
+          content: 'global.failed'
+        })
+      }).finally(() => {
+        this.downloadLoading = false
+      })
     },
     checkIsNull () {
       if (this.fromDate != null) {
         this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
       }
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, 23, 59, 59)
+        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
       }
     },
     convertJalaliDateToTimestamp (date) {
       const year = moment(date, 'jYYYY/jM/jD').format('YYYY')
       const month = moment(date, 'jYYYY/jM/jD').format('MM')
       const day = moment(date, 'jYYYY/jM/jD').format('DD')
-      return new Date(Date.UTC(year, month - 1, day)).getTime()
+      const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
+      const d = new Date(gmtDate)
+      console.log('convertJalaliDateToTimestamp')
+      console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
+      return d.getTime() + (d.getTimezoneOffset() * 60000)
+    },
+    currentDayFrom: function () {
+      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
+      console.log('convertJalaliDateToTimestamp1')
+      console.log(year + '/' + month + '/' + day)
+      return year + '/' + month + '/' + day
+    },
+    currentDayTo: function () {
+      const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+      const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
+      console.log('convertJalaliDateToTimestamp2')
+      console.log(year + '/' + month + '/' + day)
+      return year + '/' + month + '/' + day
     }
   }
 }

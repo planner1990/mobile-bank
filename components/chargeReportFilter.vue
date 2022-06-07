@@ -7,10 +7,11 @@
       class="black--text"
       color="lightGreen"
       flat
-      dense
       dark
+      dense
+      elevation="1"
     >
-      {{ $t("customer.title") }}
+      {{ $t('titles.filters') }}
       <v-spacer />
     </v-toolbar>
     <v-container fluid>
@@ -37,6 +38,7 @@
             @close="checkIsNullFromDate()"
           />
         </v-col>
+
         <v-col cols="2">
           <v-text-field
             id="createToDate"
@@ -60,48 +62,101 @@
           />
         </v-col>
         <v-col cols="2">
+          <v-text-field
+            v-model="filter.chargeListFilter.phoneNumber"
+            dense
+            outlined
+            :label="$t('customer.phoneNumber')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col cols="2">
           <v-select
-            v-model="request.customerListFilter.customerType"
-            :items="customerType"
+            v-model="filter.chargeListFilter.operator"
+            :items="operator"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
-            :label="$t('customer.customerType')"
+            :label="$t('filters.operator')"
             prepend-icon="mdi-clipboard-list"
             dense
             clearable
             outlined
           />
         </v-col>
-
         <v-col cols="2">
-          <v-text-field
-            v-model="request.customerListFilter.phoneNumber"
-            :label="$t('customer.phoneNumber')"
+          <v-select
+            v-model="filter.chargeListFilter.sourceType"
+            :items="source"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('filters.source')"
+            prepend-icon="mdi-clipboard-list"
             dense
+            clearable
             outlined
-            prepend-icon="mdi-account"
           />
         </v-col>
         <v-col cols="2">
           <v-text-field
-            v-model="request.customerListFilter.cif"
-            :label="$t('customer.cif')"
+            v-model="filter.chargeListFilter.source"
             dense
             outlined
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-text-field
-            v-model="request.customerListFilter.fullName"
-            :label="$t('customer.name')"
-            dense
-            outlined
+            :label="$t('report.transactionReport.transaction.sourceNumber')"
             prepend-icon="mdi-account"
           />
         </v-col>
       </v-row>
+      <v-row>
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.chargeListFilter.requestId"
+            dense
+            outlined
+            :label="$t('filters.trackerId')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-select
+            v-model="filter.chargeListFilter.amount"
+            :items="chargeAmount"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('filters.chargeAmount')"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-select
+            v-model="filter.chargeListFilter.result"
+            :items="resultId"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('filters.result')"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.chargeListFilter.transactionId"
+            dense
+            outlined
+            :label="$t('filters.transactionId')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+      </v-row>
+      <v-row />
       <v-row no-gutters>
         <v-col>
           <v-btn
@@ -133,15 +188,20 @@
 <script>
 import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
-import userManager from '@/repository/user_manager'
 import reportManager from '~/repository/report_manager'
-
-const defaultSearchModel = {
-  customerListFilter: {
-    cif: null,
+const defaultFilter = {
+  chargeListFilter: {
     phoneNumber: null,
-    customerType: null,
-    fullName: null
+    operator: null,
+    sourceNumber: null,
+    sourceType: null,
+    result: null,
+    platform: null,
+    amount: null,
+    os: null,
+    transactionId: null,
+    requestId: null,
+    responseCode: null
   },
   dateFilter: {
     from: null,
@@ -155,48 +215,80 @@ const defaultSearchModel = {
       direction: 'desc'
     }
   }
-
 }
-
 export default {
-  name: 'LoanFilter',
+  name: 'ChargeReportFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
+    // OperationSelector
   },
   props: {
-    value: Object(defaultSearchModel)
+    value: Object({})
   },
   data () {
     return {
       fromDate: this.currentDayFrom(),
       toDate: this.currentDayTo(),
-      roles: userManager.userRoles,
-      customerType: userManager.customerType,
-      status: userManager.userStatus,
-      loading: false,
-      request: defaultSearchModel
+      time: null,
+      menu2: false,
+      modal2: false,
+      filter: defaultFilter,
+      resultId: reportManager.resultId,
+      osName: reportManager.osName,
+      platform: reportManager.platform,
+      source: reportManager.source,
+      chargeAmount: reportManager.chargeAmount,
+      operator: reportManager.operatorType,
+      chargeType: reportManager.chargeType,
+      items: []
     }
   },
+  // computed: {
+  //   computedOperation: function () {
+  //     return this.filter.transactionListFilter.operation
+  //   }
+  // },
   mounted: function () {
-    defaultSearchModel.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-    defaultSearchModel.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
-    this.filter = Object.assign(this.value, defaultSearchModel)
+    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    this.filter = Object.assign(this.value, defaultFilter)
+    this.operation()
   },
   methods: {
     search () {
-      this.loading = true
-      this.request = Object.assign(this.value, defaultSearchModel)
-      this.$emit('search', this.request)
-      this.loading = false
+      this.$emit('search', this.filter)
     },
-
+    operation () {
+      this.loading = true
+      reportManager.operationList(this.$axios).then((response) => {
+        console.log(response)
+        const operationList = response.data
+        this.items = operationList
+        console.log(operationList)
+      }).catch((error) => {
+        if (error.response) {
+          console.log(error.response)
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          console.log('error.response is null')
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+        this.loading = false
+      })
+    },
     downloadReports (searchModel) {
       this.downloadLoading = true
-      reportManager.downloadCustomer(defaultSearchModel, this.$axios).then((res) => {
+      reportManager.downloadChargeList(defaultFilter, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL
-        fileLink.setAttribute('download', 'customer-reports.xlsx')
+        fileLink.setAttribute('download', 'charge-reports.xlsx')
         document.body.appendChild(fileLink)
         fileLink.click()
         // ------------
@@ -249,9 +341,10 @@ export default {
       const minute = moment(date, 'HH:mm jYYYY/jMM/jDD').format('mm')
       const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
       const d = new Date(gmtDate)
+      console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
       return d.getTime() + (d.getTimezoneOffset() * 60000)
     }
+
   }
 }
-
 </script>

@@ -9,6 +9,13 @@ async function getUser (userName, axios) {
 async function getUserList (searchModel, axios) {
   return await axios.post('user/list', searchModel)
 }
+async function getCustomerList (searchModel, axios) {
+  return await axios.post('customer/list', searchModel)
+}
+
+async function getCustomerStatisticsReport (searchModel, axios) {
+  return await axios.post('customer-statistics/report', searchModel)
+}
 
 async function updateUser (form, id, axios) {
   return await axios.post('user/' + id, form)
@@ -27,31 +34,51 @@ async function deleteUser (form, axios) {
 
 const userRoles = [
   {
-    value: 'ADMIN',
-    text: 'user.roles.ADMIN'
+    value: 'ROLE_PANEL_ADMIN',
+    text: 'user.roles.ROLE_PANEL_ADMIN'
   },
   {
-    value: 'OPERATOR',
-    text: 'user.roles.USER'
+    value: 'ROLE_PANEL_USER',
+    text: 'user.roles.ROLE_PANEL_USER'
   },
   {
-    value: 'REPORTER',
-    text: 'user.roles.REPORTER'
+    value: 'ROLE_PANEL_REPORT',
+    text: 'user.roles.ROLE_PANEL_REPORT'
+  }
+]
+
+const customerType = [
+  {
+    value: 'REGISTERED',
+    text: 'customer.customerStatistics.customerTypeTitle.REGISTERED'
+  },
+  {
+    value: 'GUEST',
+    text: 'customer.customerStatistics.customerTypeTitle.GUEST'
   }
 ]
 
 const userPermissions = [
+
   {
-    value: 'OPEN_DEPOSIT_PROCESS',
-    text: 'user.permissions.0'
+    value: 'REPORTER_ACCESS',
+    text: 'user.permissions.1'
   },
   {
-    value: 'EXPORT_OPENED_DEPOSIT_FILE',
-    text: 'user.permissions.1'
+    value: 'ACCOUNTING_ACCESS',
+    text: 'user.permissions.3'
   },
   {
     value: 'CREATE_USER',
     text: 'user.permissions.2'
+  },
+  {
+    value: 'OFFER_ACCESS',
+    text: 'user.permissions.4'
+  },
+  {
+    value: 'FULL_ACCESS',
+    text: 'user.permissions.0'
   }
 ]
 
@@ -92,7 +119,10 @@ export default {
   createUser,
   deleteUser,
   updateUser,
+  getCustomerList,
+  getCustomerStatisticsReport,
   userRoles,
+  customerType,
   userPermissions,
   locationAccess,
   userStatus,

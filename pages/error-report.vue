@@ -16,12 +16,14 @@
       >
         <v-data-table
           dense
+          item-key="cardOwnerId"
+          sort-by="cardOwnerId"
           :items="items"
           :headers="headers"
           class="elevation-5 fullScreen"
           :loading="loading"
           :footer-props="{
-            'items-per-page-options': [10, 20, 30, 40, 50]
+            'items-per-page-options': [50, 100, 300, 500, 1000]
           }"
           :items-per-page.sync="searchModel.paginate.length"
           :page.sync="searchModel.paginate.page"
@@ -29,28 +31,7 @@
           @update:page="search(searchModel)"
           @update:items-per-page="search(searchModel)"
         >
-          <template #top>
-            <v-toolbar
-              class="black--text"
-              color="lightGreen"
-              flat
-              dark
-              dense
-            >
-              <v-btn
-                color="warning"
-                :loading="downloadLoading"
-                dark
-                small
-                @click="downloadReports(searchModel)"
-              >
-                {{ $t('report.download') }}
-              </v-btn>
-            </v-toolbar>
-          </template>
-          <template #[`item.status`]="{ item }">
-            {{ $t('report.operatorReport.status.' + item.status) }}
-          </template>
+          <template #top />
         </v-data-table>
       </v-row>
     </v-col>
@@ -64,40 +45,36 @@ import reportManager from '~/repository/report_manager'
 import errorReportFilter from '~/components/errorReportFilter'
 
 export default {
-  name: 'ErrorReportFilter',
+  name: 'ErrorReport',
   components: {
     errorReportFilter
   },
   data () {
     return {
-      downloadLoading: false,
       searchModel: {
         paginate: {
           page: 1,
           length: 20,
           sort: {
-            property: 'operationDate',
+            property: 'url',
             direction: 'desc'
           }
         }
       },
+      downloadLoading: false,
       totalNumberOfItems: 0,
       loading: false,
       headers: [
-        { text: this.$t('report.errorReport.headers.url'), value: 'url', sortable: false },
-        { text: this.$t('report.errorReport.headers.operationName'), value: 'operationName', sortable: false },
+        { text: this.$t('report.errorReport.headers.operationName'), value: 'operation', sortable: false },
         { text: this.$t('report.errorReport.headers.count'), value: 'count', sortable: false },
+        { text: this.$t('report.errorReport.headers.errorTextPersian'), value: 'errorTextPersian', sortable: false },
         { text: this.$t('report.errorReport.headers.errorName'), value: 'errorName', sortable: false },
-        { text: this.$t('report.errorReport.headers.errorCode'), value: 'errorCode', sortable: false },
         { text: this.$t('report.errorReport.headers.errorType'), value: 'errorType', sortable: false },
-        { text: this.$t('report.errorReport.headers.errorTextPersian'), value: 'errorTextPersian', sortable: false }
+        { text: this.$t('report.errorReport.headers.errorCode'), value: 'responseCode', sortable: false }
 
       ],
       items: []
     }
-  },
-  mounted () {
-    this.search(this.searchModel)
   },
   methods: {
     ...mapMutations({
@@ -105,7 +82,8 @@ export default {
     }),
     search (searchModel) {
       this.loading = true
-      reportManager.operatorActivity(searchModel, this.$axios).then((response) => {
+      console.log('searchModel')
+      reportManager.errorList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
@@ -123,27 +101,9 @@ export default {
         }
         this.loading = false
       })
-    },
-    downloadReports (searchModel) {
-      this.downloadLoading = true
-      delete searchModel.paginate
-      reportManager.downloadOperatorActivity(searchModel, this.$axios).then((res) => {
-        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
-        const fileLink = document.createElement('a')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', 'operator-reports.xlsx')
-        document.body.appendChild(fileLink)
-        fileLink.click()
-        // ------------
-      }).catch((error) => {
-        console.log(error)
-        this.alert({
-          color: 'error',
-          content: 'global.failed'
+        .finally(() => {
+          this.loading = false
         })
-      }).finally(() => {
-        this.downloadLoading = false
-      })
     },
     moment (date) {
       return momentJalali(date).format('hh:mm:ss jYYYY/jM/jD')

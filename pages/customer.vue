@@ -23,7 +23,7 @@
           :loading="loading"
           dense
           :footer-props="{
-            'items-per-page-options': [10, 20, 30, 40, 50]
+            'items-per-page-options': [50, 100, 300, 500, 1000]
           }"
           :items-per-page.sync="requestObject.paginate.length"
           :page.sync="requestObject.paginate.page"
@@ -31,53 +31,20 @@
           @update:page="search (requestObject)"
           @update:items-per-page="search (requestObject)"
         >
-          <template #top>
-            <v-toolbar
-              color="lightGreen"
-              flat
-              dense
-              dark
-            />
+          <template #top />
+
+          <template #[`item.registerDate`]="{ item }">
+            {{ convertToJalali(item.registerDate) }}
           </template>
-          <template #[`item.role`]="{ item }">
-            {{ $t('user.roles.'+item.role.role) }}
+          <template #[`item.customerType`]="{ item }">
+            {{ $t('customer.customerStatistics.customerTypeTitle.' + item.customerType) }}
           </template>
-          <template #[`item.locationAccess`]="{ item }">
-            {{ $t('user.locationAccess.'+ item.locationAccess) }}
-          </template>
-          <template #[`item.provinceCode`]="{ item }">
-            <province-viewer v-model="item.provinceCode" icon="" message="" :condition="'table'" />
-          </template>
-          <template #[`item.cityCode`]="{ item }">
-            <city-viewer v-model="item.cityCode" :province="item.provinceCode" icon="" message="" :condition="'table'" />
-          </template>
-          <template #[`item.branchCode`]="{ item }">
-            <branch-viewer v-model="item.branchCode" icon="" message="" :condition="'table'" />
-          </template>
-          <template #[`item.status`]="{ item }">
-            <span v-if="item.status === 1">
-              {{ $t('user.active') }}
-            </span>
-            <span v-else-if="item.status === 0">
-              {{ $t('user.inactive') }}
-            </span>
-          </template>
-          <template #[`item.actions`]="{ item }">
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(item)"
-            >
-              mdi-pencil
-            </v-icon>
-            <!--            <v-icon-->
-            <!--              small-->
-            <!--              class="mr-2"-->
-            <!--              :disabled="item.status === 0"-->
-            <!--              @click.stop="del(item)"-->
-            <!--            >-->
-            <!--              mdi-trash-can-->
-            <!--            </v-icon>-->
+          <template #[`item.cardOrDeposit`]="{ item }">
+            <v-row v-for="cord in item.cardOrDeposit" :key="cord" class="my-1 " style="direction: ltr" align-content="center">
+              <v-col class="mx-0 my-0 px-0 py-0" style="direction: ltr">
+                {{ cord }}
+              </v-col>
+            </v-row>
           </template>
         </v-data-table>
         <v-dialog
@@ -119,36 +86,16 @@
 
 <script>
 import { mapMutations } from 'vuex'
+import moment from 'moment-jalaali'
 import CustomerFilter from '@/components/customerFilter'
 import userManager from '@/repository/user_manager'
-// import ProvinceSelector from '@/components/location/provinceSelector.vue'
-// import CitySelector from '@/components/location/citySelector'
-// import BranchSelector from '@/components/location/branchSelector'
-import provinceViewer from '@/components/location/provinceViewer'
-import cityViewer from '@/components/location/cityViewer'
-import branchViewer from '@/components/location/branchViewer'
-
 export default {
   components: {
-    'customer-filter': CustomerFilter,
-    // ProvinceSelector,
-    // CitySelector,
-    // BranchSelector,
-    cityViewer,
-    provinceViewer,
-    branchViewer
+    'customer-filter': CustomerFilter
   },
   data: function () {
     return {
       isShowTitleOfEditDialog: false,
-      // paginate: {
-      //   page: 1,
-      //   length: 20,
-      //   sort: {
-      //     property: 'status',
-      //     direction: 'desc'
-      //   }
-      // },
       totalNumberOfItems: 0,
       guids: [
         {
@@ -167,9 +114,9 @@ export default {
       requestObject: {
         paginate: {
           page: 1,
-          length: 20,
+          length: 50,
           sort: {
-            property: 'status',
+            property: 'id',
             direction: 'desc'
           }
         }
@@ -191,8 +138,8 @@ export default {
         { text: this.$t('customer.customerType'), value: 'customerType' },
         { text: this.$t('customer.phoneNumber'), value: 'phoneNumber' },
         { text: this.$t('customer.cif'), value: 'cif' },
-        { text: this.$t('customer.name'), value: 'name' },
-        { text: this.$t('customer.headers.depositOrCard'), value: 'depositOrCard' },
+        { text: this.$t('customer.name'), value: 'fullName' },
+        { text: this.$t('customer.headers.depositOrCard'), value: 'cardOrDeposit' },
         { text: this.$t('customer.headers.registerDate'), value: 'registerDate' },
         { text: '', value: 'actions', sortable: false }
 
@@ -202,46 +149,7 @@ export default {
     }
   },
   computed: {
-    // ...mapGetters({
-    //   loggedInUser: 'user/me'
-    // }),
-    // computedProvince: function () {
-    //   if (this.userForm.userObj.provinceCode) {
-    //     return this.userForm.userObj.provinceCode
-    //   } else {
-    //     return this.loggedInUser.provinceCode
-    //   }
-    // },
-    // computedCity: function () {
-    //   if (this.userForm.userObj.cityCode) {
-    //     return this.userForm.userObj.cityCode
-    //   } else {
-    //     return this.loggedInUser.cityCode
-    //   }
-    // },
-    // computedLocationAccess: function () {
-    //   if (this.userForm.userObj.role === 'ADMIN' || this.userForm.userObj.role === 'REPORTER') {
-    //     return this.userForm.locationAccess.filter(e => e.value === 'UNIVERSAL' || e.value === 'PROVINCE')
-    //   } else if (this.userForm.userObj.role === 'OPERATOR') {
-    //     const tmp = this.userForm.locationAccess.filter(e => e.value === 'BRANCH')
-    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //     this.userForm.userObj.locationAccess = tmp[0].value
-    //     return tmp
-    //   }
-    //   return []
-    // },
-    // computedUserAccessList: function () {
-    //   if (this.userForm.userObj.role === 'OPERATOR') {
-    //     const temp = this.userForm.permissions.filter(e => e.value === 'EXPORT_OPENED_DEPOSIT_FILE')
-    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //     this.userForm.userObj.userAccessList = [temp[0].value]
-    //     return temp
-    //   } else {
-    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //     // this.userForm.userObj.userAccessList = []
-    //     return this.userForm.permissions
-    //   }
-    // },
+
     computedErrorsInCreateDialog: function () {
       if (this.createUserErrors.length !== 0) {
         this.createUserErrors.forEach((e) => {
@@ -252,21 +160,12 @@ export default {
         return []
       }
     }
-    //   if (this.userForm.userObj.role === 'ADMIN' || this.userForm.userObj.role === 'REPORTER') {
-    //     return this.userForm.locationAccess.filter(e => e.value === 'UNIVERSAL' || e.value === 'PROVINCE')
-    //   } else
-    //     return this.userForm.locationAccess.filter(e => e.value === 'BRANCH')
-    //   }
-    //   return []
-    // }
+
   },
   methods: {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
-    // async pagination () {
-    //   await this.search(this.requestObject)
-    // },
     clearAllDataInForm () {
       delete this.userForm.userObj.locationAccess
       delete this.userForm.userObj.userAccessList
@@ -276,13 +175,12 @@ export default {
       this.resetValidation()
     },
     async search (searchModel) {
-      // searchModel.page = this.pagination.page
-      // searchModel.length = this.pagination.rowsPerPage
       this.loading = true
       try {
-        const response = await userManager.getUserList(searchModel, this.$axios)
+        const response = await userManager.getCustomerList(searchModel, this.$axios)
         this.users = response.data.itemList
         this.totalNumberOfItems = response.data.filteredItem
+        this.loading = false
       } catch (e) {
         this.alert({
           color: 'orange',
@@ -292,6 +190,10 @@ export default {
         this.loading = false
       }
     },
+    convertToJalali (date) {
+      return moment(date).format('hh:mm:ss jYYYY/jM/jD')
+    },
+
     showErrorsInCreateUserDialog (errors) {
       this.loading = false
       this.createUserErrors = errors

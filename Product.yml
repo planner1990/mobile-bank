@@ -1,8 +1,9 @@
 version: "3.8"
 services:
-  online-deposit-panel:
-    image: betamb.qmb.ir/docker/$CONTAINER_NAME:Product
-    hostname: online-deposit-panel
+  mobile-bank-panel-client:
+    image: betamb.qmb.ir/docker/mehr/mobilebank/$CONTAINER_NAME:Product
+    container_name: $STACK_NAME
+    hostname: $STACK_NAME
     labels:
       - "collect_logs_with_filebeat=true"
       - "decode_log_event_to_json_object=true"
