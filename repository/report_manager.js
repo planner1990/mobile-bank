@@ -400,6 +400,10 @@ const refundType = [
   {
     value: 6,
     text: 'report.refundReport.refundType.refund_not_required'
+  },
+  {
+    value: 7,
+    text: 'report.refundReport.refundType.confirmation_required'
   }
 ]
 const transactionTimeType = [
