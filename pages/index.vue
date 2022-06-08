@@ -253,6 +253,17 @@
           <template #[`item.amount`]="{ item }">
             {{ priceFormat(item.amount) }}
           </template>
+          <template #item.responseCode="{ item }">
+            <template v-if="item.responseCode !== null">
+              <v-chip
+                :color="getColor(item.responseCode)"
+
+                class="short"
+              >
+                {{ item.responseCode }}
+              </v-chip>
+            </template>
+          </template>
           <!--     <template #item.responseCode="{ item }">
             <template v-if="item.responseCode !== null">
               <v-chip
@@ -435,9 +446,9 @@ export default {
 
     getColor (status) {
       if (status === 200) {
-        return '#E4E8E3'
-      } else {
-        return '#0c0c0d'
+        return 'success'
+      } else if (status !== null) {
+        return 'danger'
       }
     },
     priceFormat (amount) {
@@ -609,5 +620,15 @@ export default {
   html {
     font-size: 12px !important;
     text-rendering: optimizeLegibility;
+  }
+  .short{
+    width:50px;
+
+  }
+  .short span{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
   }
 </style>

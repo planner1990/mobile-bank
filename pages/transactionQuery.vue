@@ -256,6 +256,17 @@
               mdi-eye
             </v-icon>
           </template>
+          <template #item.responseCode="{ item }">
+            <template v-if="item.responseCode !== null">
+              <v-chip
+                :color="getColor(item.responseCode)"
+
+                class="short"
+              >
+                {{ item.responseCode }}
+              </v-chip>
+            </template>
+          </template>
         </v-data-table>
       </v-row>
     </v-col>
@@ -387,6 +398,13 @@ export default {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+    getColor (status) {
+      if (status === 200) {
+        return 'success'
+      } else if (status !== null) {
+        return 'danger'
+      }
+    },
     priceFormat (amount) {
       if (amount) {
         return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -543,5 +561,16 @@ export default {
 <style>
   .fullScreen {
     width: 100%;
+  }
+
+  .short{
+    width:50px;
+
+  }
+  .short span{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
   }
 </style>

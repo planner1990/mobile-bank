@@ -44,6 +44,17 @@
           <template #[`item.operator`]="{ item }">
             {{ $t('report.chargeReport.operatorType.' + item.operator) }}
           </template>
+          <template #item.errorCode="{ item }">
+            <template v-if="item.errorCode !== null">
+              <v-chip
+                :color="getColor(item.errorCode)"
+
+                class="short"
+              >
+                {{ item.errorCode }}
+              </v-chip>
+            </template>
+          </template>
           <template #[`item.detail`]="{ item }">
             <v-icon
               small
@@ -117,6 +128,13 @@ export default {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+    getColor (status) {
+      if (status === 200) {
+        return 'success'
+      } else if (status !== null) {
+        return 'danger'
+      }
+    },
     priceFormat (amount) {
       if (amount) {
         return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
