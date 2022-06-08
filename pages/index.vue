@@ -636,6 +636,7 @@ export default {
     height: 20px;
     width: 60px;
     color: white;
+    padding: 0 22px;
   }
 
   .theme--light.v-chip {
