@@ -257,8 +257,9 @@
             <template v-if="item.responseCode !== null">
               <v-chip
                 :color="getColor(item.responseCode)"
+                class="short;v-chip.v-size--default"
 
-                class="short"
+                label
               >
                 {{ item.responseCode }}
               </v-chip>
@@ -448,7 +449,7 @@ export default {
       if (status === 200) {
         return 'success'
       } else if (status !== null) {
-        return 'danger'
+        return '#FF3B30'
       }
     },
     priceFormat (amount) {
@@ -621,14 +622,18 @@ export default {
     font-size: 12px !important;
     text-rendering: optimizeLegibility;
   }
-  .short{
-    width:50px;
 
-  }
   .short span{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width:30px;
 
+  }
+  .v-chip.v-size--default {
+    border-radius: 16px;
+    font-size: 11px;
+    height: 20px;
+    width: 60px;
   }
 </style>
