@@ -635,5 +635,10 @@ export default {
     font-size: 11px;
     height: 20px;
     width: 60px;
+    color: white;
+  }
+
+  .theme--light.v-chip {
+    color: white;
   }
 </style>
