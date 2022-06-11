@@ -258,7 +258,6 @@
               <v-chip
                 :color="getColor(item.responseCode)"
                 class="short;v-chip.v-size--default"
-
                 label
               >
                 {{ item.responseCode }}
@@ -449,7 +448,7 @@ export default {
       if (status === 200) {
         return 'success'
       } else if (status !== null) {
-        return '#FF3B30'
+        return 'red'
       }
     },
     priceFormat (amount) {
@@ -632,14 +631,11 @@ export default {
   }
   .v-chip.v-size--default {
     border-radius: 16px;
-    font-size: 11px;
+    font-size: 10px;
     height: 20px;
     width: 60px;
     color: white;
     padding: 0 22px;
   }
 
-  .theme--light.v-chip {
-    color: white;
-  }
 </style>

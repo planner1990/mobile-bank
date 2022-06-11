@@ -260,8 +260,8 @@
             <template v-if="item.responseCode !== null">
               <v-chip
                 :color="getColor(item.responseCode)"
-
-                class="short"
+                label
+                class="v-chip.v-size--default"
               >
                 {{ item.responseCode }}
               </v-chip>
@@ -402,7 +402,7 @@ export default {
       if (status === 200) {
         return 'success'
       } else if (status !== null) {
-        return 'danger'
+        return 'red'
       }
     },
     priceFormat (amount) {
@@ -563,14 +563,12 @@ export default {
     width: 100%;
   }
 
-  .short{
-    width:50px;
-
-  }
-  .short span{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
+  .v-chip.v-size--default {
+    border-radius: 16px;
+    font-size: 10px;
+    height: 20px;
+    width: 60px;
+    color: white;
+    padding: 0 22px;
   }
 </style>
