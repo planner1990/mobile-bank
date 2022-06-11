@@ -438,9 +438,10 @@
     "reports": "گزارشات",
     "createFile": "ایجاد فایل",
     "fromDate": "از تاریخ",
+
     "toDate": "تا تاریخ",
-    "fromHour": "از ساعت",
-    "toHour": "تا ساعت",
+    "fromTime": "از ساعت",
+    "toTime": "تا ساعت",
     "tagId": "tagId",
     "cardTemplateId": "cardTemplateId",
     "cardOwnerId": "cardOwnerId",
