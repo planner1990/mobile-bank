@@ -94,14 +94,14 @@
           />
           <p-date-picker
             v-model="toDate"
-            type="datetime"
+            type="date"
             element="createToDate"
             color="dimgray"
             dense
             outlined
             popove
             auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
+            format="jYYYY/jMM/jDD"
             @close="checkIsNullToDate()"
           />
         </v-col>
