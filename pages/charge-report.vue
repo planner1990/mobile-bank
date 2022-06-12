@@ -48,8 +48,8 @@
             <template v-if="item.errorCode !== null">
               <v-chip
                 :color="getColor(item.errorCode)"
-
-                class="short"
+                class="v-chip.v-size--default"
+                label
               >
                 {{ item.errorCode }}
               </v-chip>
@@ -108,7 +108,7 @@ export default {
       loading: false,
       headers: [
         { text: this.$t('report.transactionReport.headers.transactionId'), value: 'id', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false },
         { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'source', sortable: false },
@@ -132,7 +132,7 @@ export default {
       if (status === 200) {
         return 'success'
       } else if (status !== null) {
-        return 'danger'
+        return 'red'
       }
     },
     priceFormat (amount) {
@@ -195,5 +195,13 @@ export default {
 <style>
   .fullScreen {
     width: 100%;
+  }
+  .v-chip.v-size--default {
+    border-radius: 16px;
+    font-size: 10px;
+    height: 20px;
+    width: 60px;
+    color: white;
+    padding: 0 22px;
   }
 </style>

@@ -17,48 +17,91 @@
     <v-container fluid>
       <br>
       <v-row>
-        <v-col>
+        <v-col cols="1">
+          <v-text-field
+            id="createFromTime"
+            v-model="fromTime"
+            class="v-input1"
+            prepend-icon="mdi-calendar-month"
+            outlined
+            dense
+            :placeholder="$t('filters.fromTime')"
+          />
+          <p-date-picker
+            v-model="fromTime"
+            type="time"
+            element="createFromTime"
+            color="dimgray"
+            dense
+            outlined
+            popove
+            auto-submit
+            format="HH:mm"
+            @close="checkIsNullFromTime()"
+          />
+        </v-col>
+        <v-col cols="1">
           <v-text-field
             id="createFromDate"
             v-model="fromDate"
-            prepend-icon="mdi-calendar-month"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
           />
           <p-date-picker
             v-model="fromDate"
-            type="datetime"
+            type="date"
             element="createFromDate"
             color="dimgray"
             dense
             outlined
             popove
             auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
+            format="jYYYY/jMM/jDD"
             @close="checkIsNullFromDate()"
           />
         </v-col>
-
-        <v-col>
+        <v-col cols="1">
+          <v-text-field
+            id="createToTime"
+            v-model="toTime"
+            class="v-input1"
+            prepend-icon="mdi-calendar-month"
+            outlined
+            dense
+            :placeholder="$t('filters.toTime')"
+          />
+          <p-date-picker
+            v-model="toTime"
+            type="time"
+            element="createToTime"
+            color="dimgray"
+            dense
+            outlined
+            popove
+            auto-submit
+            format="HH:mm"
+            @close="checkIsNullToTime()"
+          />
+        </v-col>
+        <v-col cols="1">
           <v-text-field
             id="createToDate"
             v-model="toDate"
-            prepend-icon="mdi-calendar-month"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
           />
           <p-date-picker
             v-model="toDate"
-            type="datetime"
+            type="date"
             element="createToDate"
             color="dimgray"
             dense
             outlined
             popove
             auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
+            format="jYYYY/jMM/jDD"
             @close="checkIsNullToDate()"
           />
         </v-col>
@@ -357,7 +400,9 @@ const defaultFilter = {
   },
   dateFilter: {
     from: null,
-    to: null
+    to: null,
+    fromTime: null,
+    toTime: null
   },
   paginate: {
     page: 1,
@@ -383,6 +428,8 @@ export default {
     return {
       createDialog: false,
       fromDate: this.currentDayFrom(),
+      fromTime: this.currentTimeFrom(),
+      toTime: this.currentTimeTo(),
       toDate: this.currentDayTo(),
       time: null,
       menu2: false,
@@ -402,8 +449,8 @@ export default {
     }
   },
   mounted: function () {
-    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate, this.fromTime)
+    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, this.toTime)
     defaultFilter.transactionListFilter.typeList = 'LIST'
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
@@ -511,13 +558,30 @@ export default {
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+        console.log('this.fromTime')
+        console.log(this.fromTime)
+        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate, this.fromTime)
+      }
+    },
+    checkIsNullFromTime () {
+      if (this.fromDate != null) {
+        console.log('this.fromTime')
+        console.log(this.fromTime)
+        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate, this.fromTime)
       }
     },
     checkIsNullToDate () {
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, this.toTime)
       }
+    },
+    checkIsNullToTime () {
+      if (this.toDate != null) {
+        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, this.toTime)
+      }
+    },
+    currentTimeFrom: function () {
+      return '00:00'
     },
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
@@ -527,7 +591,10 @@ export default {
       // const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
       // const d = new Date(gmtDate)
       // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
-      return '00:00 ' + year + '/' + month + '/' + day
+      return year + '/' + month + '/' + day
+    },
+    currentTimeTo: function () {
+      return '23:59'
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
@@ -538,14 +605,14 @@ export default {
       // const d = new Date(gmtDate)
       // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
 
-      return '23:59 ' + year + '/' + month + '/' + day
+      return year + '/' + month + '/' + day
     },
-    convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'HH:mm jYYYY/jMM/jDD').format('YYYY')
-      const month = moment(date, 'HH:mm jYYYY/jMM/jDD').format('MM')
-      const day = moment(date, 'HH:mm jYYYY/jMM/jDD').format('DD')
-      const hour = moment(date, 'HH:mm jYYYY/jMM/jDD').format('HH')
-      const minute = moment(date, 'HH:mm jYYYY/jMM/jDD').format('mm')
+    convertJalaliDateToTimestamp (date, time) {
+      const year = moment(date, 'jYYYY/jMM/jDD').format('YYYY')
+      const month = moment(date, 'jYYYY/jMM/jDD').format('MM')
+      const day = moment(date, 'jYYYY/jMM/jDD').format('DD')
+      const hour = moment(time, 'HH:mm').format('HH')
+      const minute = moment(time, 'HH:mm').format('mm')
       const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
       const d = new Date(gmtDate)
       console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
@@ -566,5 +633,9 @@ export default {
     font-weight: 400;
     padding: 0 16px 0 16px;
   }
-
+  .v-input1 {
+    font-size: 11px !important;
+    letter-spacing: normal;
+    text-align: left;
+  }
 </style>
