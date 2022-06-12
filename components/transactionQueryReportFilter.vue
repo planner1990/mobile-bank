@@ -451,7 +451,7 @@ export default {
   mounted: function () {
     defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate, this.fromTime)
     defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, this.toTime)
-    defaultFilter.transactionListFilter.typeList = 'LIST'
+    defaultFilter.transactionListFilter.typeList = 'QUERY_LIST'
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
     this.errorList()
