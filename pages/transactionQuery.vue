@@ -261,7 +261,7 @@
               <v-chip
                 :color="getColor(item.responseCode)"
                 label
-                class="v-chip.v-size--default"
+                class="v-chip.v-size--default justify-center"
               >
                 {{ item.responseCode }}
               </v-chip>
@@ -569,6 +569,6 @@ export default {
     height: 20px;
     width: 60px;
     color: white;
-    padding: 0 22px;
+    padding: 0 5px;
   }
 </style>

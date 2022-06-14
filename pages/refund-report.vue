@@ -334,12 +334,24 @@
               <v-chip
                 :color="getColor(item.errorCode)"
                 label
-                class="v-chip.v-size--default"
+                class="v-chip.v-size--default justify-center"
               >
                 {{ item.errorCode }}
               </v-chip>
             </template>
           </template>
+          <template #item.state="{ item }" class="justify-center">
+            <template v-if="item.state !== null" class="justify-center">
+              <v-chip
+                :color="getColorState(item.state)"
+                label
+                class="v-chip1 justify-center"
+              >
+                {{ $t('report.refundReport.refundTypeNum.' + item.state) }}
+              </v-chip>
+            </template>
+          </template>
+
           <template #[`item.detail`]="{ item }">
             <v-icon
               small
@@ -442,6 +454,23 @@ export default {
       if (status === 200) {
         return 'success'
       } else if (status !== null) {
+        return 'red'
+      }
+    },
+    getColorState (state) {
+      if (state === 0) {
+        return '#ffff00'
+      } else if (state === 1) {
+        return 'success'
+      } else if (state === 4) {
+        return '#EEE8AA'
+      } else if (state === 5) {
+        return '#66CDAA'
+      } else if (state === 3) {
+        return '#ff9933'
+      } else if (state === 6) {
+        return '#5b90bf'
+      } else if (state === 2) {
         return 'red'
       }
     },
@@ -638,6 +667,14 @@ export default {
     height: 20px;
     width: 60px;
     color: white;
-    padding: 0 22px;
+    padding: 0 5px;
+  }
+  .v-chip1 {
+    border-radius: 16px;
+    font-size: 8px!important;
+    height: 20px;
+    width: 100px !important;
+    color: black !important;
+    padding: 0 0px !important;
   }
 </style>
