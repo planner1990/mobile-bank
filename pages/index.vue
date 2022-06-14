@@ -257,7 +257,7 @@
             <template v-if="item.responseCode !== null">
               <v-chip
                 :color="getColor(item.responseCode)"
-                class="short;v-chip.v-size--default"
+                class="v-chip.v-size--default justify-center"
                 label
               >
                 {{ item.responseCode }}
@@ -635,7 +635,7 @@ export default {
     height: 20px;
     width: 60px;
     color: white;
-    padding: 0 22px;
+    padding: 0 5px;
   }
 
 </style>

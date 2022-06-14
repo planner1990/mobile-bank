@@ -48,7 +48,7 @@
             <template v-if="item.errorCode !== null">
               <v-chip
                 :color="getColor(item.errorCode)"
-                class="v-chip.v-size--default"
+                class="v-chip.v-size--default justify-center"
                 label
               >
                 {{ item.errorCode }}
@@ -202,6 +202,6 @@ export default {
     height: 20px;
     width: 60px;
     color: white;
-    padding: 0 22px;
+    padding: 0 5px;
   }
 </style>
