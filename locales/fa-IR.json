@@ -83,7 +83,8 @@
         "cardReissueOperation": "صدور کارت",
         "loanRequestOperation": "درخواست وام",
         "loanPanelOperation": "پنل وام",
-        "onlineDepositOperation": "افتتاح حساب"
+        "onlineDepositOperation": "افتتاح حساب",
+        "pichackOperation": "پیچک"
       },
       "status": {
         "successful": "موفق",

@@ -233,6 +233,13 @@
                             <br>
                             <online-deposit-operations :list-type="listType" />
                           </v-tab-item>
+                          <v-tab href="#pichackOperations" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.pichackOperation') }}
+                          </v-tab>
+                          <v-tab-item value="pichackOperations">
+                            <br>
+                            <pichack-operations :list-type="listType" />
+                          </v-tab-item>
                         </v-tabs>
                       </v-row>
                     </v-card>
@@ -302,6 +309,7 @@ import depositOperations from '~/components/depositOperations'
 import cardOperations from '~/components/cardOperations'
 import loanOperations from '~/components/loanRequestOperations'
 import onlineDepositOperations from '~/components/onlineDepositeOperations'
+import pichackOperations from '~/components/pichackOperations'
 import cardReissueOperations from '~/components/cardReissueOperations'
 import publicOperations from '~/components/publicOperations'
 import userOperations from '~/components/userOperations'
@@ -350,6 +358,7 @@ export default {
     loanOperations,
     cardReissueOperations,
     onlineDepositOperations,
+    pichackOperations,
     userOperations,
     publicOperations,
     VueJsonPretty
