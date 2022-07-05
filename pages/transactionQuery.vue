@@ -7,7 +7,7 @@
       <v-row
         justify="center"
       >
-        <transactionQueryReportFilter v-model="searchModel" @search="search" />
+        <transactionQueryReportFilter v-model="searchModel" @search="search" @edit="editItem2()" />
       </v-row>
       <br>
       <br>
@@ -128,6 +128,111 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
+            <v-dialog
+              v-model="operationDialog"
+              width="1200"
+              transition="dialog-bottom-transition"
+            >
+              <v-card
+                :loading="loading"
+              >
+                <v-card-title class="lightGreen light-green--text font-weight-bold headline">
+                  <v-row no-gutters>
+                    <v-col cols="10">
+                      {{ $t('report.transactionReport.operationSelect') }}
+                    </v-col>
+                    <v-col>
+                      <v-btn
+                        color="success"
+                        class="mr-10"
+                        @click="okOperationDialog"
+                      >
+                        {{ $t('buttons.submit') }}
+                      </v-btn>
+                    </v-col>
+                    <v-col />
+                    <v-col>
+                      <v-btn
+                        color="warning"
+                        dark
+                        @click="closeTransactionDetailsDialog"
+                      >
+                        {{ $t('buttons.cancel') }}
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-card-title>
+                <v-container>
+                  <v-form
+                    ref="form"
+                  >
+                    <v-card height="400px" color="">
+                      <v-row>
+                        <v-tabs
+                          v-model="tabsModel"
+                          align-with-title
+                          color="success"
+                        >
+                          <v-tab href="#depositOperation" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.depositOperation') }}
+                          </v-tab>
+                          <v-tab-item value="depositOperation">
+                            <br>
+                            <deposit-operations :list-type="listType" />
+                          </v-tab-item>
+
+                          <v-tab href="#cardOperation" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.cardOperation') }}
+                          </v-tab>
+                          <v-tab-item value="cardOperation">
+                            <br>
+                            <card-operations :list-type="listType" />
+                          </v-tab-item>
+
+                          <v-tab href="#userOperation" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.userOperation') }}
+                          </v-tab>
+                          <v-tab-item value="userOperation">
+                            <br>
+                            <user-operations :list-type="listType" />
+                          </v-tab-item>
+
+                          <v-tab href="#publicOperation" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.publicOperation') }}
+                          </v-tab>
+                          <v-tab-item value="publicOperation">
+                            <br>
+                            <public-operations :list-type="listType" />
+                          </v-tab-item>
+
+                          <v-tab href="#cardReissueOperation" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.cardReissueOperation') }}
+                          </v-tab>
+                          <v-tab-item value="cardReissueOperation">
+                            <br>
+                            <card-reissue-operations :list-type="listType" />
+                          </v-tab-item>
+                          <v-tab href="#loanRequestOperation" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.loanRequestOperation') }}
+                          </v-tab>
+                          <v-tab-item value="loanRequestOperation">
+                            <br>
+                            <loan-operations :list-type="listType" />
+                          </v-tab-item>
+                          <v-tab href="#onlineDepositOperation" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.onlineDepositOperation') }}
+                          </v-tab>
+                          <v-tab-item value="onlineDepositOperation">
+                            <br>
+                            <online-deposit-operations :list-type="listType" />
+                          </v-tab-item>
+                        </v-tabs>
+                      </v-row>
+                    </v-card>
+                  </v-form>
+                </v-container>
+              </v-card>
+            </v-dialog>
           </template>
 
           <template #[`item.requestTime`]="{ item }">
@@ -159,12 +264,19 @@
 
 <script>
 import momentJalali from 'moment-jalaali'
-import { mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
 import VueJsonPretty from 'vue-json-pretty'
 import transactionQueryReportFilter from '~/components/transactionQueryReportFilter'
 import reportManager from '~/repository/report_manager'
 import 'vue-json-pretty/lib/styles.css'
+import depositOperations from '~/components/depositOperations'
+import cardOperations from '~/components/cardOperations'
+import loanOperations from '~/components/loanRequestOperations'
+import onlineDepositOperations from '~/components/onlineDepositeOperations'
+import cardReissueOperations from '~/components/cardReissueOperations'
+import publicOperations from '~/components/publicOperations'
+import userOperations from '~/components/userOperations'
 
 const defaultFilterdetails = {
   transactionListFilter: {
@@ -175,12 +287,20 @@ export default {
   name: 'TransactionReport',
   components: {
     transactionQueryReportFilter,
+    depositOperations,
+    cardOperations,
+    loanOperations,
+    cardReissueOperations,
+    onlineDepositOperations,
+    userOperations,
+    publicOperations,
     VueJsonPretty
   },
   data () {
     return {
       downloadLoading: false,
       createDialog: false,
+      operationDialog: false,
       searchModel: {
         paginate: {
           page: 1,
@@ -230,13 +350,40 @@ export default {
       itemsTransaction: [],
       itemsTransactionData: [],
       requestJson: null,
-      responseJson: null
+      responseJson: null,
+      cardList: [],
+      depositList: [],
+      cardReissueList: [],
+      loanList: [],
+      loanPanelList: [],
+      depositList1: [],
+      onlineDepositList: [],
+      otherList: [],
+      operationList: [],
+      listType: 'query'
     }
   },
   // mounted () {
   //   this.search(this.searchModel)
   // },
+  computed: {
+    ...mapGetters({
+      cardOperationList: 'onlineDepositStore/cardOperationList',
+      depositOperationList: 'onlineDepositStore/depositOperationList',
+      publicOperationList: 'onlineDepositStore/publicOperationList',
+      userOperationList: 'onlineDepositStore/userOperationList',
+      inquiryOperationList: 'onlineDepositStore/inquiryOperationList',
+      onlineDepositOperationList: 'onlineDepositStore/onlineDepositOperationList',
+      loanRequestOperationList: 'onlineDepositStore/loanRequestOperationList',
+      cardReissueOperationList: 'onlineDepositStore/cardReissueOperationList'
+
+    })
+
+  },
   methods: {
+    ...mapActions({
+      removeAction: 'onlineDepositStore/removeAction'
+    }),
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
@@ -253,6 +400,10 @@ export default {
       } else {
         return url + '\n' + url
       }
+    },
+    editItem2 () {
+      console.log('item')
+      this.operationDialog = true
     },
     editItem (item) {
       this.createDialog = true
@@ -307,11 +458,37 @@ export default {
       this.itemsTransaction = []
       this.createDialog = false
       this.itemsTransaction.splice(0, 1)
+      this.operationDialog = false
+    },
+    okOperationDialog () {
+      console.log('this.cardOperations')
+      this.cardList = this.cardOperationList
+      console.log(this.depositOperationList)
+      console.log(this.cardReissueOperationList)
+      console.log(this.loanRequestOperationList)
+      console.log(this.onlineDepositOperationList)
+      console.log(this.inquiryOperationList)
+      console.log(this.publicOperationList)
+      console.log(this.userOperationList)
+      const operationDepositList = this.cardOperationList
+      console.log('this.userOperationList1')
+      console.log(operationDepositList)
+      this.operationList = this.depositOperationList.concat(this.cardReissueOperationList, this.cardOperationList, this.loanRequestOperationList,
+        this.onlineDepositOperationList, this.publicOperationList, this.userOperationList)
+      console.log('this.userOperationList')
+      console.log(this.operationList)
+      this.operationDialog = false
+      console.log('operationDialog = false')
     },
     search (searchModel) {
       this.loading = true
-      reportManager.transactionList(searchModel, this.$axios).then((response) => {
+      this.filterOperation = searchModel
+      console.log(this.filterOperation)
+      this.filterOperation.transactionListFilter.operation = this.operationList
+      console.log(this.filterOperation)
+      reportManager.transactionList(this.filterOperation, this.$axios).then((response) => {
         this.items = response.data.itemList
+        this.removeAction()
         console.log(this.items)
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false

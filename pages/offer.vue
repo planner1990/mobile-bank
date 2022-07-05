@@ -99,7 +99,7 @@
                         </v-col>
                         <v-col cols="3">
                           <v-select
-                            v-model="offerForm.offerObj.type"
+                            v-model="offerForm.offerObj.recommendationType"
                             :items="offerTypDisplayItem"
                             item-value="value"
                             :item-text="(item)=>(item.text)"
@@ -166,7 +166,7 @@
                         </v-col>
                         <v-col cols="3">
                           <v-select
-                            v-model="offerForm.offerObj.to"
+                            v-model="offerForm.offerObj.os"
                             :items="offerToTypeItem"
                             item-value="value"
                             :item-text="(item)=>$t(item.text)"
@@ -191,7 +191,7 @@
                         </v-col>
                         <v-col cols="3">
                           <v-select
-                            v-model="offerForm.offerObj.offerType"
+                            v-model="offerForm.offerObj.type"
                             :items="offerType"
                             item-value="value"
                             :item-text="(item)=>$t(item.text)"
@@ -208,11 +208,11 @@
                             v-model="offerForm.offerObj.file"
                             show-size
                             outlined
-                            dense
                             :rules="[
                               v => !!v || $t('user.validation.required')
 
                             ]"
+                            dense
                             validate-on-blur
                             label="File input"
                           />
@@ -221,7 +221,7 @@
                       <v-row>
                         <v-col cols="3">
                           <v-textarea
-                            v-model="offerForm.offerObj.description"
+                            v-model="offerForm.offerObj.explanation"
                             :label="$t('offer.description')"
                             prepend-icon="mdi-account"
                             outlined
@@ -260,6 +260,233 @@
                   </v-container>
                   <v-card-actions>
                     <v-spacer />
+                    <v-btn
+                      color="success"
+                      @click="save"
+                    >
+                      {{ $t('buttons.submit') }}
+                    </v-btn>
+                    <v-btn
+                      color="warning"
+                      @click="closeCreateOfferDialog"
+                    >
+                      {{ $t('buttons.cancel') }}
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+              <v-dialog
+                v-model="createUpdateDialog"
+                max-width="1000"
+                transition="dialog-bottom-transition"
+              >
+                <v-card
+                  :loading="loading"
+                >
+                  <v-card-title v-if="!isShowTitleOfEditDialog" primary-title class="lightGreen font-weight-bold text-h5">
+                    {{ $t('offer.dialogTitle') }}
+                  </v-card-title>
+                  <v-container>
+                    <v-form
+                      ref="form"
+                    >
+                      <v-row>
+                        <v-col cols="3">
+                          <v-text-field
+                            v-model="offerForm.offerObj.title"
+                            prepend-icon="mdi-account"
+                            :counter="16"
+                            :label="$t('offer.title')"
+                            outlined
+                            dense
+                            required
+                          />
+                        </v-col>
+                        <v-col cols="3">
+                          <v-text-field
+                            v-model="offerForm.offerObj.widgetTitle"
+                            :label="$t('offer.widgetTitle')"
+                            :counter="16"
+                            prepend-icon="mdi-account"
+                            required
+                            dense
+                            outlined
+                          />
+                        </v-col>
+                        <v-col cols="3">
+                          <v-text-field
+                            v-model="offerForm.offerObj.url"
+                            :label="$t('offer.url')"
+                            prepend-icon="mdi-account"
+                            outlined
+                            dense
+                          />
+                        </v-col>
+                        <v-col cols="3">
+                          <v-select
+                            v-model="offerForm.offerObj.recommendationType"
+                            :items="offerTypDisplayItem"
+                            item-value="value"
+                            :item-text="(item)=>(item.text)"
+                            :return-object="false"
+                            :label="$t('offer.type')"
+                            prepend-icon="mdi-clipboard-list"
+                            dense
+                            clearable
+                            outlined
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col cols="3">
+                          <v-text-field
+                            id="createFromDate"
+                            v-model="from"
+                            prepend-icon="mdi-calendar-month"
+                            outlined
+                            dense
+                            :placeholder="$t('filters.fromDate')"
+                          />
+                          <p-date-picker
+                            v-model="from"
+                            type="datetime"
+                            element="createFromDate"
+                            color="dimgray"
+                            dense
+                            outlined
+                            popove
+                            format="HH:mm jYYYY/jMM/jDD"
+                            @close="checkIsNullFromDate()"
+                          />
+                        </v-col>
+                        <v-col cols="3">
+                          <v-text-field
+                            id="createToDate"
+                            v-model="to"
+                            prepend-icon="mdi-calendar-month"
+                            outlined
+                            dense
+                            :placeholder="$t('filters.toDate')"
+                          />
+                          <p-date-picker
+                            v-model="to"
+                            type="datetime"
+                            element="createToDate"
+                            color="dimgray"
+                            dense
+                            outlined
+                            popove
+                            format="HH:mm jYYYY/jMM/jDD"
+                            @close="checkIsNullToDate()"
+                          />
+                        </v-col>
+                        <v-col cols="3">
+                          <v-text-field
+                            v-model="offerForm.offerObj.alternativeUrl"
+                            :label="$t('offer.alternativeUrl')"
+                            prepend-icon="mdi-account"
+                            outlined
+                            dense
+                          />
+                        </v-col>
+                        <v-col cols="3">
+                          <v-select
+                            v-model="offerForm.offerObj.os"
+                            :items="offerToTypeItem"
+                            item-value="value"
+                            :item-text="(item)=>$t(item.text)"
+                            :return-object="false"
+                            :label="$t('offer.to')"
+                            prepend-icon="mdi-clipboard-list"
+                            dense
+                            clearable
+                            outlined
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col cols="3">
+                          <v-text-field
+                            v-model="offerForm.offerObj.uri"
+                            :label="$t('offer.uri')"
+                            prepend-icon="mdi-account"
+                            outlined
+                            dense
+                          />
+                        </v-col>
+                        <v-col cols="3">
+                          <v-select
+                            v-model="offerForm.offerObj.type"
+                            :items="offerType"
+                            item-value="value"
+                            :item-text="(item)=>$t(item.text)"
+                            :return-object="false"
+                            :label="$t('offer.offerType')"
+                            prepend-icon="mdi-clipboard-list"
+                            dense
+                            clearable
+                            outlined
+                          />
+                        </v-col>
+                        <v-col cols="6">
+                          <v-file-input
+                            v-model="offerForm.offerObj.file"
+                            show-size
+                            outlined
+                            dense
+                            validate-on-blur
+                            label="File input"
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col cols="3">
+                          <v-textarea
+                            v-model="offerForm.offerObj.explanation"
+                            :label="$t('offer.description')"
+                            prepend-icon="mdi-account"
+                            outlined
+                            full-width
+                            height="80"
+                            dense
+                          />
+                        </v-col>
+                        <v-col cols="1">
+                          <v-checkbox
+                            v-model="offerForm.offerObj.status"
+                            dense
+                            :label="`  غعال`"
+                          />
+                        </v-col>
+                      </v-row>
+                    </v-form>
+                    <v-row
+                      v-for="(error, index) in computedErrorsInCreateDialog"
+                      :key="index"
+                    >
+                      <v-col>
+                        <v-alert
+                          v-model="createUserErrors[index].isShow"
+                          dismissible
+                          dense
+                          type="error"
+                          elevation="2"
+                          icon="mdi-alert-decagram-outline"
+                          @click:close="createUserErrors[index].isShow = false"
+                        >
+                          {{ error.type }}
+                        </v-alert>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <v-card-actions>
+                    <v-spacer />
+                    <v-btn
+                      color="success"
+                      @click="removeAll"
+                    >
+                      {{ $t('buttons.delete') }}
+                    </v-btn>
                     <v-btn
                       color="success"
                       @click="save"
@@ -381,8 +608,8 @@
           <template #[`item.status`]="{ item }">
             {{ $t('offer.offerStatusFilter.' + item.status) }}
           </template>
-          <template #[`item.type`]="{ item }">
-            {{ $t('offer.offerTypeFilter.' + item.type) }}
+          <template #[`item.recommendationType`]="{ item }">
+            {{ $t('offer.offerTypeFilter.' + item.recommendationType) }}
           </template>
         </v-data-table>
         <v-dialog
@@ -437,7 +664,7 @@ export default {
   data: function () {
     return {
       isShowTitleOfEditDialog: false,
-      file: '',
+      file: null,
       checkbox1: true,
       from: this.currentDayFrom(),
       to: this.currentDayTo(),
@@ -502,6 +729,7 @@ export default {
         }
       },
       createDialog: false,
+      createUpdateDialog: false,
       createParamDialog: false,
       deleteUserDialog: false,
       headers: [
@@ -512,7 +740,7 @@ export default {
         { text: this.$t('offer.url'), value: 'url' },
         { text: this.$t('offer.alternativeUrl'), value: 'alternativeUrl' },
         { text: this.$t('offer.uri'), value: 'uri' },
-        { text: this.$t('offer.type'), value: 'type' },
+        { text: this.$t('offer.type'), value: 'recommendationType' },
         { text: this.$t('offer.to'), value: 'os' },
         { text: this.$t('offer.dateFrom'), value: 'dateFrom' },
         { text: this.$t('offer.dateTo'), value: 'dateTo' },
@@ -529,17 +757,15 @@ export default {
     }
   },
   mounted: function () {
-    console.log('mount')
     this.offerForm.offerObj.dateFrom = this.convertJalaliDateToTimestamp(this.from)
     this.offerForm.offerObj.dateTo = this.convertJalaliDateToTimestamp(this.to)
-    console.log(this.offerForm)
   },
   computed: {
     ...mapGetters({
       loggedInUser: 'user/me'
     }),
     computedErrorsInCreateDialog: function () {
-      if (this.createUserErrors !== undefined && this.createUserErrors !== null && this.createUserErrors.length !== 0) {
+      if (this.createUserErrors.length !== 0) {
         this.createUserErrors.forEach((e) => {
           e.isShow = true
         })
@@ -611,23 +837,38 @@ export default {
       this.createParamDialog = true
     },
     editItem (item) {
+      console.log('item')
       console.log(item)
+      let status = true
+      let recommendationType = '0'
+      if (item.status === 'N') {
+        status = false
+      }
+      if (item.recommendationType === 1) {
+        recommendationType = '1'
+      } else if (item.recommendationType === 2) {
+        recommendationType = '2'
+      }
+
       this.offerForm.offerObj = {
         id: item.id,
         title: item.title,
         widgetTitle: item.widgetTitle,
         url: item.url,
+        recommendationType: recommendationType,
         alternativeUrl: item.alternativeUrl,
         dateFrom: item.dateFrom,
         dateTo: item.dateTo,
         uri: item.uri,
         type: item.type,
-        offerType: item.type,
         description: item.description,
-        to: item.to,
-        file: item.file
+        os: item.os,
+        file: item.file,
+        explanation: item.content,
+        status: status
       }
-      this.createDialog = true
+      console.log(this.offerForm.offerObj)
+      this.createUpdateDialog = true
       this.isShowTitleOfEditDialog = true
     },
     checkIsNullFromDate () {
@@ -651,8 +892,31 @@ export default {
       this.loading = false
       this.createUserErrors = errors
     },
+    removeAll () {
+      reportManager.deleteOffer(this.offerForm.offerObj, this.$axios).then(() => {
+        this.alert({
+          color: 'success',
+          content: 'messages.successful'
+        })
+        this.loading = false
+        this.closeCreateUserDialog()
+        this.search(this.requestObject)
+      }).catch((e) => {
+        console.log(e)
+        console.log('error')
+        this.loading = false
+        // this.alert({
+        //   color: 'orange',
+        //   content: e.response.data.error_message
+        // })
+        this.showErrorsInCreateUserDialog(e.response.data.detailList)
+      }).finally(() => {
+        this.loading = false
+      })
+    },
     save () {
       const formData = new FormData()
+
       console.log('formData')
       console.log(this.offerForm.offerObj)
       formData.append('file', this.offerForm.offerObj.file)
@@ -660,20 +924,31 @@ export default {
       formData.append('description', this.offerForm.offerObj.description)
       formData.append('url', this.offerForm.offerObj.url)
       formData.append('alternativeUrl', this.offerForm.offerObj.alternativeUrl)
-      formData.append('uri', this.offerForm.offerObj.uri)
+      formData.append('uri', this.offerForm.offerObj.uri)/*
       formData.append('dateFromStr', this.offerForm.offerObj.dateFrom)
-      formData.append('dateToStr', this.offerForm.offerObj.dateTo)
+      formData.append('dateToStr', this.offerForm.offerObj.dateTo) */
       formData.append('type', this.offerForm.offerObj.type)
+      formData.append('recommendationType', this.offerForm.offerObj.recommendationType)
       formData.append('offerType', this.offerForm.offerObj.offerType)
       formData.append('widgetTitle', this.offerForm.offerObj.widgetTitle)
       formData.append('status', this.checkbox1)
+      formData.append('os', this.offerForm.offerObj.os)
+      formData.append('explanation', this.offerForm.offerObj.explanation)
+      console.log('this.offerForm.offerObj')
+      console.log(this.offerForm.offerObj)
+      this.checkIsNullToDate()
+      this.checkIsNullFromDate()
+
+      formData.append('dateFromStr', this.offerForm.offerObj.dateFrom)
+      formData.append('dateToStr', this.offerForm.offerObj.dateTo)
 
       if (this.validate()) {
         this.loading = true
         try {
+          console.log(this.offerForm)
           if (this.offerForm.offerObj.id) {
             console.log('update')
-            reportManager.updateUploadOffer(formData, this.$axios).then(() => {
+            reportManager.updateUploadOffer(this.offerForm.offerObj, this.$axios).then(() => {
               this.alert({
                 color: 'success',
                 content: 'messages.successful'
@@ -682,31 +957,31 @@ export default {
               this.closeCreateUserDialog()
               this.search(this.requestObject)
             }).catch((e) => {
+              console.log(e)
+              console.log('error')
               this.loading = false
-              this.alert({
-                color: 'orange',
-                content: e.response.data.error_message
-              })
+              // this.alert({
+              //   color: 'orange',
+              //   content: e.response.data.error_message
+              // })
               this.showErrorsInCreateUserDialog(e.response.data.detailList)
             })
           } else {
             reportManager.uploadOffer(formData, this.$axios).then(() => {
-              /*     this.alert({
+              this.alert({
                 color: 'success',
                 content: 'messages.successful'
-              }) */
+              })
               this.loading = false
               this.closeCreateUserDialog()
               this.search(this.requestObject)
-              console.log('error')
             }).catch((e) => {
-              console.log('error1')
               this.loading = false
-              /*      this.alert({
-                color: 'orange',
-                content: e.response.data.error_message
-              }) */
-              this.showErrorsInCreateUserDialog(e.response.data.detailList)
+              // this.alert({
+              //   color: 'orange',
+              //   content: e.response.data.error_message
+              // })
+              //   this.showErrorsInCreateUserDialog(e.response.data.detailList)
             })
           }
         } catch (e) {
@@ -738,14 +1013,12 @@ export default {
             this.closeCreateParamDialog()
             this.paramObject.id = this.offerForm.paramObj.id
             this.searchParams(this.paramObject)
-            console.log('error1')
           }).catch((e) => {
-            console.log('error')
-            this.alert({
-              color: 'orange',
-              content: e.response.data.error_message
-            })
-            this.showErrorsInCreateUserDialog(e.response.data.detailList)
+            // this.alert({
+            //   color: 'orange',
+            //   content: e.response.data.error_message
+            // })
+            // this.showErrorsInCreateUserDialog(e.response.data.detailList)
           })
         //  }
         } catch (e) {
@@ -761,7 +1034,11 @@ export default {
       this.offerForm.offerObj = {}
       this.reset()
       this.resetValidation() */
+
+      this.offerForm.offerObj = {}
+      this.resetValidation()
       this.createDialog = false
+      this.createUpdateDialog = false
       /* if (this.isShowTitleOfEditDialog) {
         this.isShowTitleOfEditDialog = false
       } */
@@ -799,7 +1076,7 @@ export default {
       // this.reset()
       // this.resetValidation()
       this.createDialog = false
-      this.createUserErrors = null
+      this.createUpdateDialog = false
     /*  if (this.isShowTitleOfEditDialog) {
         this.isShowTitleOfEditDialog = false
       } */
@@ -809,7 +1086,7 @@ export default {
       this.offerForm.offerObj = {}
       this.reset()
       this.resetValidation()
-      this.createUserErrors = null
+      this.createParamDialog = false
       /*  if (this.isShowTitleOfEditDialog) {
           this.isShowTitleOfEditDialog = false
         } */
@@ -825,6 +1102,7 @@ export default {
       this.$refs.form.resetValidation()
     },
     currentDayFrom: function () {
+      console.log('currentDayFrom')
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
@@ -832,9 +1110,11 @@ export default {
       // const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
       // const d = new Date(gmtDate)
       // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
+      console.log('00:00 ' + year + '/' + month + '/' + day)
       return '00:00 ' + year + '/' + month + '/' + day
     },
     currentDayTo: function () {
+      console.log('currentDayTo')
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')

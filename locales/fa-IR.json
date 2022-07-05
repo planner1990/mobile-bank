@@ -45,6 +45,7 @@
     },
     "transactionReport": {
       "title": "آمار تراکنش ها",
+      "operationSelect": "عملیات",
       "headers": {
         "source": "نوع مبدا",
         "operation": "عملیات",
@@ -74,7 +75,15 @@
         "response": "پاسخ",
         "depositTransaction": " آمار تراکنشهای حساب",
         "cardTransaction": "آمار تراکنشهای کارت",
-        "otherTransaction": "آمار سایر تراکنشها"
+        "otherTransaction": "آمار سایر تراکنشها",
+        "depositOperation": "حساب",
+        "cardOperation": "کارت",
+        "publicOperation": "عمومی",
+        "userOperation": "کاربری",
+        "cardReissueOperation": "صدور کارت",
+        "loanRequestOperation": "درخواست وام",
+        "loanPanelOperation": "پنل وام",
+        "onlineDepositOperation": "افتتاح حساب"
       },
       "status": {
         "successful": "موفق",
@@ -277,7 +286,7 @@
     "offerTypeFilter": {
       "1": "url",
       "2": "in app",
-      "null": ""
+      "0": ""
     },
     "dialogTitle": "آپلود پیشنهاد",
     "title": "عنوان",
@@ -357,17 +366,11 @@
       "1": "فعال"
     },
     "permissions": {
-      "0": "افتتاح حساب",
-      "1": "گرفتن خروجی صدور کارت",
-      "2": "ساخت کاربر"
-    },
-    "locationAccess": {
-      "title": "دسترسی منطقه ای",
-      "FULL_ACCESS": "دسترسی کامل",
-      "UNIVERSAL": "کشوری",
-      "PROVINCE": "استانی",
-      "CITY": "شهر",
-      "BRANCH": "شعبه"
+      "0": "دسترسی کامل",
+      "3": "دسترسی حسابداری",
+      "1": "دسترسی گزارش",
+      "2": "ایجاد کاربر",
+      "4": "ایجاد پیشنهاد روز"
     },
     "province": "استان",
     "city": "شهر",
@@ -500,6 +503,7 @@
     "submit": "ثبت",
     "cancel": "انصراف",
     "search": "جستجو",
+    "delete": "حذف",
     "updateStatusToInProcess": "بررسی درخواست",
     "updateStatusToReadyForProcess": "لغو بررسی درخواست",
     "updateStatusToCardSent": "تغییر وضعیت به کارت صادر شده",
