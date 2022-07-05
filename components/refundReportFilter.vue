@@ -268,7 +268,7 @@
             {{ $t('buttons.search') }}
           </v-btn>
         </v-col>
-        <v-col cols="9" />
+        <v-col cols="5" />
         <v-col cols="1">
           <v-btn
             color="warning"
@@ -278,6 +278,17 @@
             @click="refundList(defaultFilter)"
           >
             {{ $t('report.refundReport.refundList') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="1">
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="refundConfirmList(defaultFilter)"
+          >
+            {{ $t('report.refundReport.refundConfirmList') }}
           </v-btn>
         </v-col>
         <v-col cols="1">
@@ -315,7 +326,8 @@ const defaultFilter = {
     transactionFromDate: null,
     transactionToDate: null,
     refundFromDate: null,
-    refundToDate: null
+    refundToDate: null,
+    refundType: null
   },
   dateFilter: {
     from: null,
@@ -407,6 +419,10 @@ export default {
       console.log('item212112')
       this.$emit('refund', this.filter)
     },
+    refundConfirmList (searchModel) {
+      console.log('confirmRefund')
+      this.$emit('confirmRefund', this.filter)
+    },
     downloadReports (searchModel) {
       console.log('download')
       this.downloadLoading = true
@@ -466,6 +482,7 @@ export default {
         this.filter.refundListFilter.refundToDate = this.convertJalaliDateToTimestamp(this.toDate)
       }
     },
+
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')

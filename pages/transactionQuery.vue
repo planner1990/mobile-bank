@@ -226,6 +226,13 @@
                             <br>
                             <online-deposit-operations :list-type="listType" />
                           </v-tab-item>
+                          <v-tab href="#pichackOperations" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.pichackOperation') }}
+                          </v-tab>
+                          <v-tab-item value="pichackOperations">
+                            <br>
+                            <pichack-operations :list-type="listType" />
+                          </v-tab-item>
                         </v-tabs>
                       </v-row>
                     </v-card>
@@ -256,6 +263,17 @@
               mdi-eye
             </v-icon>
           </template>
+          <template #item.responseCode="{ item }">
+            <template v-if="item.responseCode !== null">
+              <v-chip
+                :color="getColor(item.responseCode)"
+                label
+                class="v-chip.v-size--default justify-center"
+              >
+                {{ item.responseCode }}
+              </v-chip>
+            </template>
+          </template>
         </v-data-table>
       </v-row>
     </v-col>
@@ -277,6 +295,7 @@ import onlineDepositOperations from '~/components/onlineDepositeOperations'
 import cardReissueOperations from '~/components/cardReissueOperations'
 import publicOperations from '~/components/publicOperations'
 import userOperations from '~/components/userOperations'
+import pichackOperations from '~/components/pichackOperations'
 
 const defaultFilterdetails = {
   transactionListFilter: {
@@ -292,6 +311,7 @@ export default {
     loanOperations,
     cardReissueOperations,
     onlineDepositOperations,
+    pichackOperations,
     userOperations,
     publicOperations,
     VueJsonPretty
@@ -387,6 +407,13 @@ export default {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+    getColor (status) {
+      if (status === 200) {
+        return 'success'
+      } else if (status !== null) {
+        return 'red'
+      }
+    },
     priceFormat (amount) {
       if (amount) {
         return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -543,5 +570,14 @@ export default {
 <style>
   .fullScreen {
     width: 100%;
+  }
+
+  .v-chip.v-size--default {
+    border-radius: 16px;
+    font-size: 10px;
+    height: 20px;
+    width: 60px;
+    color: white;
+    padding: 0 5px;
   }
 </style>

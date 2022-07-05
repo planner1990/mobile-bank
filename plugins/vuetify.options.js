@@ -26,7 +26,10 @@ export default function ({ store, app }) {
     alertGreen: '#CDEC84',
     lightGreen: '#eefad1',
     lightBlue: '#CCE3FF',
-    lightRed: '#ff6666'
+    lightRed: '#ff6666',
+    red:'#FF3B30',
+    yellowRefund: '#ffff00',
+    blueRefund: '#5b90bf',
   }
 
   return {

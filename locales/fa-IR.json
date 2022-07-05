@@ -83,7 +83,8 @@
         "cardReissueOperation": "صدور کارت",
         "loanRequestOperation": "درخواست وام",
         "loanPanelOperation": "پنل وام",
-        "onlineDepositOperation": "افتتاح حساب"
+        "onlineDepositOperation": "افتتاح حساب",
+        "pichackOperation": "پیچک"
       },
       "status": {
         "successful": "موفق",
@@ -157,9 +158,11 @@
       "title": "استرداد وجه",
       "PENDING": "تلاش مجدد برای بازگشت وجه به صورت سیستمی",
       "REFUND_NOT_REQUIRED": "عدم نیاز به بازگشت وجه",
+      "CONFIRMATION_REQUIRED": "نیاز به تایید",
       "MANUAL": "بازگشت وجه به صورت دستی",
       "refundStateTitle": "تعیین وضعیت",
-      "refundList": "بازگشت وجه گروهی",
+      "refundList": "تایید بازگشت وجه گروهی",
+      "refundConfirmList": "بازگشت وجه گروهی",
       "headers": {
         "id": "شناسه",
         "transactionId": "شناسه موبایل بانک",
@@ -184,7 +187,8 @@
         "wait": "درحال پردازش",
         "need_Follow": "نیازمند بررسی",
         "manual": "بازگشت وجه به صورت دستی",
-        "refund_not_required": "عدم نیاز به بازگشت وجه"
+        "refund_not_required": "عدم نیاز به بازگشت وجه",
+        "confirmation_required": "نیاز به تایید"
       },
       "refundTypeNum": {
         "0": "در انتظار",
@@ -193,7 +197,8 @@
         "3": "درحال پردازش",
         "4": "نیازمند بررسی",
         "5": "بازگشت وجه به صورت دستی",
-        "6": "عدم نیاز به بازگشت وجه"
+        "6": "عدم نیاز به بازگشت وجه",
+        "7": "نیاز به تایید"
       },
       "refundUrlType": {
         "/rest/card/topup": "شارژ از کارت",
@@ -434,9 +439,10 @@
     "reports": "گزارشات",
     "createFile": "ایجاد فایل",
     "fromDate": "از تاریخ",
+
     "toDate": "تا تاریخ",
-    "fromHour": "از ساعت",
-    "toHour": "تا ساعت",
+    "fromTime": "از ساعت",
+    "toTime": "تا ساعت",
     "tagId": "tagId",
     "cardTemplateId": "cardTemplateId",
     "cardOwnerId": "cardOwnerId",

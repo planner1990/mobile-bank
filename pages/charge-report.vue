@@ -44,6 +44,17 @@
           <template #[`item.operator`]="{ item }">
             {{ $t('report.chargeReport.operatorType.' + item.operator) }}
           </template>
+          <template #item.errorCode="{ item }">
+            <template v-if="item.errorCode !== null">
+              <v-chip
+                :color="getColor(item.errorCode)"
+                class="v-chip.v-size--default justify-center"
+                label
+              >
+                {{ item.errorCode }}
+              </v-chip>
+            </template>
+          </template>
           <template #[`item.detail`]="{ item }">
             <v-icon
               small
@@ -97,7 +108,7 @@ export default {
       loading: false,
       headers: [
         { text: this.$t('report.transactionReport.headers.transactionId'), value: 'id', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false },
         { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'source', sortable: false },
@@ -117,6 +128,13 @@ export default {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+    getColor (status) {
+      if (status === 200) {
+        return 'success'
+      } else if (status !== null) {
+        return 'red'
+      }
+    },
     priceFormat (amount) {
       if (amount) {
         return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -177,5 +195,13 @@ export default {
 <style>
   .fullScreen {
     width: 100%;
+  }
+  .v-chip.v-size--default {
+    border-radius: 16px;
+    font-size: 10px;
+    height: 20px;
+    width: 60px;
+    color: white;
+    padding: 0 5px;
   }
 </style>

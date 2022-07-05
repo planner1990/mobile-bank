@@ -765,7 +765,7 @@ export default {
       loggedInUser: 'user/me'
     }),
     computedErrorsInCreateDialog: function () {
-      if (this.createUserErrors.length !== 0) {
+      if (this.createUserErrors !== undefined && this.createUserErrors !== null && this.createUserErrors.length !== 0) {
         this.createUserErrors.forEach((e) => {
           e.isShow = true
         })
@@ -960,10 +960,10 @@ export default {
               console.log(e)
               console.log('error')
               this.loading = false
-              // this.alert({
-              //   color: 'orange',
-              //   content: e.response.data.error_message
-              // })
+              this.alert({
+                color: 'orange',
+                content: e.response.data.error_message
+              })
               this.showErrorsInCreateUserDialog(e.response.data.detailList)
             })
           } else {
@@ -1014,11 +1014,12 @@ export default {
             this.paramObject.id = this.offerForm.paramObj.id
             this.searchParams(this.paramObject)
           }).catch((e) => {
-            // this.alert({
-            //   color: 'orange',
-            //   content: e.response.data.error_message
-            // })
-            // this.showErrorsInCreateUserDialog(e.response.data.detailList)
+            console.log('error')
+            this.alert({
+              color: 'orange',
+              content: e.response.data.error_message
+            })
+            this.showErrorsInCreateUserDialog(e.response.data.detailList)
           })
         //  }
         } catch (e) {
@@ -1076,6 +1077,7 @@ export default {
       // this.reset()
       // this.resetValidation()
       this.createDialog = false
+      this.createUserErrors = null
       this.createUpdateDialog = false
     /*  if (this.isShowTitleOfEditDialog) {
         this.isShowTitleOfEditDialog = false
@@ -1086,7 +1088,7 @@ export default {
       this.offerForm.offerObj = {}
       this.reset()
       this.resetValidation()
-      this.createParamDialog = false
+      this.createUserErrors = null
       /*  if (this.isShowTitleOfEditDialog) {
           this.isShowTitleOfEditDialog = false
         } */
@@ -1102,7 +1104,6 @@ export default {
       this.$refs.form.resetValidation()
     },
     currentDayFrom: function () {
-      console.log('currentDayFrom')
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
@@ -1110,11 +1111,9 @@ export default {
       // const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
       // const d = new Date(gmtDate)
       // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
-      console.log('00:00 ' + year + '/' + month + '/' + day)
       return '00:00 ' + year + '/' + month + '/' + day
     },
     currentDayTo: function () {
-      console.log('currentDayTo')
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')

@@ -233,6 +233,13 @@
                             <br>
                             <online-deposit-operations :list-type="listType" />
                           </v-tab-item>
+                          <v-tab href="#pichackOperations" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.pichackOperation') }}
+                          </v-tab>
+                          <v-tab-item value="pichackOperations">
+                            <br>
+                            <pichack-operations :list-type="listType" />
+                          </v-tab-item>
                         </v-tabs>
                       </v-row>
                     </v-card>
@@ -252,6 +259,17 @@
           </template>
           <template #[`item.amount`]="{ item }">
             {{ priceFormat(item.amount) }}
+          </template>
+          <template #item.responseCode="{ item }">
+            <template v-if="item.responseCode !== null">
+              <v-chip
+                :color="getColor(item.responseCode)"
+                class="v-chip.v-size--default justify-center"
+                label
+              >
+                {{ item.responseCode }}
+              </v-chip>
+            </template>
           </template>
           <!--     <template #item.responseCode="{ item }">
             <template v-if="item.responseCode !== null">
@@ -291,6 +309,7 @@ import depositOperations from '~/components/depositOperations'
 import cardOperations from '~/components/cardOperations'
 import loanOperations from '~/components/loanRequestOperations'
 import onlineDepositOperations from '~/components/onlineDepositeOperations'
+import pichackOperations from '~/components/pichackOperations'
 import cardReissueOperations from '~/components/cardReissueOperations'
 import publicOperations from '~/components/publicOperations'
 import userOperations from '~/components/userOperations'
@@ -339,6 +358,7 @@ export default {
     loanOperations,
     cardReissueOperations,
     onlineDepositOperations,
+    pichackOperations,
     userOperations,
     publicOperations,
     VueJsonPretty
@@ -435,9 +455,9 @@ export default {
 
     getColor (status) {
       if (status === 200) {
-        return '#E4E8E3'
-      } else {
-        return '#0c0c0d'
+        return 'success'
+      } else if (status !== null) {
+        return 'red'
       }
     },
     priceFormat (amount) {
@@ -610,4 +630,21 @@ export default {
     font-size: 12px !important;
     text-rendering: optimizeLegibility;
   }
+
+  .short span{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width:30px;
+
+  }
+  .v-chip.v-size--default {
+    border-radius: 16px;
+    font-size: 10px;
+    height: 20px;
+    width: 60px;
+    color: white;
+    padding: 0 5px;
+  }
+
 </style>

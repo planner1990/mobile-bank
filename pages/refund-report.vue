@@ -7,7 +7,7 @@
       <v-row
         justify="center"
       >
-        <refundReportFilter v-model="searchModel" @search="search" @refund="createRefundAcceptDialog()" />
+        <refundReportFilter v-model="searchModel" @search="search" @refund="createRefundAcceptDialog()" @confirmRefund="createRefundConfirmDialog()" />
       </v-row>
       <br>
       <br>
@@ -266,7 +266,37 @@
                   <v-spacer />
                   <v-btn
                     color="orange"
-                    @click="refundList"
+                    @click="refundList('accept')"
+                  >
+                    {{ $t('buttons.submit') }}
+                  </v-btn>
+                  <v-btn
+                    color="orange"
+                    @click="closeTransactionDetailsDialog"
+                  >
+                    {{ $t('buttons.cancel') }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+            <v-dialog
+              v-model="refundConfirmationDialog"
+              max-width="300"
+              transition="dialog-bottom-transition"
+            >
+              <v-card
+                :loading="loading"
+              >
+                <v-card-title class="headline">
+                  {{ $t('messages.warning') }}
+                </v-card-title>
+
+                <br>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn
+                    color="orange"
+                    @click="refundList('confirm')"
                   >
                     {{ $t('buttons.submit') }}
                   </v-btn>
@@ -299,6 +329,29 @@
           <template #[`item.amount`]="{ item }">
             {{ priceFormat(item.amount) }}
           </template>
+          <template #item.errorCode="{ item }">
+            <template v-if="item.errorCode !== null">
+              <v-chip
+                :color="getColor(item.errorCode)"
+                label
+                class="v-chip.v-size--default justify-center"
+              >
+                {{ item.errorCode }}
+              </v-chip>
+            </template>
+          </template>
+          <template #item.state="{ item }" class="justify-center">
+            <template v-if="item.state !== null" class="justify-center">
+              <v-chip
+                :color="getColorState(item.state)"
+                label
+                class="v-chip1 justify-center"
+              >
+                {{ $t('report.refundReport.refundTypeNum.' + item.state) }}
+              </v-chip>
+            </template>
+          </template>
+
           <template #[`item.detail`]="{ item }">
             <v-icon
               small
@@ -344,6 +397,7 @@ export default {
       refundDialog: false,
       refundErrorDialog: false,
       refundAcceptDialog: false,
+      refundConfirmationDialog: false,
       userForm: {
         showPassword: false,
         userObj: {}
@@ -396,6 +450,30 @@ export default {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+    getColor (status) {
+      if (status === 200) {
+        return 'success'
+      } else if (status !== null) {
+        return 'red'
+      }
+    },
+    getColorState (state) {
+      if (state === 0) {
+        return '#ffff00'
+      } else if (state === 1) {
+        return 'success'
+      } else if (state === 4) {
+        return '#EEE8AA'
+      } else if (state === 5) {
+        return '#66CDAA'
+      } else if (state === 3) {
+        return '#ff9933'
+      } else if (state === 6) {
+        return '#5b90bf'
+      } else if (state === 2) {
+        return 'red'
+      }
+    },
     priceFormat (amount) {
       if (amount) {
         return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -409,17 +487,23 @@ export default {
       this.refundDialog = false
       this.refundErrorDialog = false
       this.refundAcceptDialog = false
+      this.refundConfirmationDialog = false
     },
     createRefundAcceptDialog  (searchModel) {
       console.log('refundList')
       this.refundAcceptDialog = true
     },
-    refundList () {
+    createRefundConfirmDialog  (searchModel) {
+      console.log('refundList')
+      this.refundConfirmationDialog = true
+    },
+    refundList (type) {
       console.log('refundList')
       console.log(this.searchModel)
-      this.refundAcceptDialog = true
+      this.searchModel.refundListFilter.refundType = type
       reportManager.refundStatusList(this.searchModel, this.$axios).then((res) => {
         this.refundAcceptDialog = false
+        this.refundConfirmationDialog = false
         this.search(this.searchModel)
       }).catch((error) => {
         if (error.response) {
@@ -436,12 +520,14 @@ export default {
         this.loading = false
       }).finally(() => {
         this.refundAcceptDialog = false
+        this.refundConfirmationDialog = false
       })
     },
     search (searchModel) {
       this.loading = true
       searchModel.paginate.sort.property = searchModel.refundListFilter.orderField
       searchModel.paginate.sort.direction = searchModel.refundListFilter.orderType
+
       reportManager.refundList(searchModel, this.$axios).then((response) => {
         this.items = response.data.pageRefundList.itemList
         this.sumAmount = response.data.sumAmount
@@ -574,5 +660,21 @@ export default {
   }
   .v-data-footer {
     font-size: 1.05rem !important;
+  }
+  .v-chip.v-size--default {
+    border-radius: 16px;
+    font-size: 10px;
+    height: 20px;
+    width: 60px;
+    color: white;
+    padding: 0 5px;
+  }
+  .v-chip1 {
+    border-radius: 16px;
+    font-size: 8px!important;
+    height: 20px;
+    width: 100px !important;
+    color: black !important;
+    padding: 0 0px !important;
   }
 </style>
