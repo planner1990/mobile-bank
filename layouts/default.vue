@@ -200,6 +200,11 @@ export default {
         },
         {
           icon: 'mdi-account-supervisor-circle-outline',
+          title: 'menu.refundStatistics',
+          to: '/refund-statistics'
+        },
+        {
+          icon: 'mdi-account-supervisor-circle-outline',
           title: 'menu.offer',
           to: '/offer'
         },
