@@ -226,6 +226,13 @@
                             <br>
                             <online-deposit-operations :list-type="listType" />
                           </v-tab-item>
+                          <v-tab href="#pichackOperations" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.pichackOperation') }}
+                          </v-tab>
+                          <v-tab-item value="pichackOperations">
+                            <br>
+                            <pichack-operations :list-type="listType" />
+                          </v-tab-item>
                         </v-tabs>
                       </v-row>
                     </v-card>
@@ -288,6 +295,7 @@ import onlineDepositOperations from '~/components/onlineDepositeOperations'
 import cardReissueOperations from '~/components/cardReissueOperations'
 import publicOperations from '~/components/publicOperations'
 import userOperations from '~/components/userOperations'
+import pichackOperations from '~/components/pichackOperations'
 
 const defaultFilterdetails = {
   transactionListFilter: {
@@ -303,6 +311,7 @@ export default {
     loanOperations,
     cardReissueOperations,
     onlineDepositOperations,
+    pichackOperations,
     userOperations,
     publicOperations,
     VueJsonPretty

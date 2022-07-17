@@ -200,6 +200,11 @@ export default {
         },
         {
           icon: 'mdi-account-supervisor-circle-outline',
+          title: 'menu.refundStatistics',
+          to: '/refund-statistics'
+        },
+        {
+          icon: 'mdi-account-supervisor-circle-outline',
           title: 'menu.offer',
           to: '/offer'
         },
@@ -270,24 +275,25 @@ export default {
       (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
         return this.items
       } if (this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined) {
-        console.log('currentUser is role1')
+        console.log('currentUser is CREATE_USER')
         this.createUserList = this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
-          .filter(e => e.to !== '/transactionQuery').filter(e => e.to !== '/transaction-statistics')
+          .filter(e => e.to !== '/transaction-statistics')
           .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
-          .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/')
+          .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/').filter(e => e.to !== '/offer')
       } if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined ||
         this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
-        this.userList = this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
+        console.log('currentUser is REPORTER_ACCESS')
+        this.userList = this.items.filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
+          .filter(e => e.to !== '/transaction-statistics')
+          .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
+          .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/offer')
+        console.log(this.userList)
       } if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
+        console.log('currentUser is OFFER_ACCESS')
         this.offerList = this.items.filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
-          .filter(e => e.to !== '/transactionQuery').filter(e => e.to !== '/transaction-statistics')
+          .filter(e => e.to !== '/transaction-statistics')
           .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
           .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/')
-      } else {
-        console.log('currentUser is role 3')
-        console.log(this.items)
-        this.userList = this.items.filter(e => e.to === '/')
-        console.log(this.userList)
       }
       console.log('currentUser is role 4')
       const array1 = this.createUserList.concat(this.userList, this.offerList)
