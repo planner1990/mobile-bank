@@ -432,7 +432,8 @@
     "customerStatistics": "آمار کاربران",
     "offer": "پیشنهاد روز",
     "income": "گزارش درآمد",
-    "users": "مدیریت کاربران"
+    "users": "مدیریت کاربران",
+    "refundStatistics": "آمار استرداد وجه"
   },
   "createExcel": {
     "download": "دانلود فایل",
@@ -519,7 +520,8 @@
     "changeStatus": "تغییر وضعیت به چاپ شده",
     "printAddress": "فرمت اول",
     "printAddressV2": "فرمت دوم",
-    "removeOnlineDeposit": "حذف درخواست"
+    "removeOnlineDeposit": "حذف درخواست",
+    "confirmRefundStatistics": "استعلام و تایید استرداد های بازه زمانی انتخاب شده"
   },
   "titles": {
     "filters": "فیلترها",
@@ -631,6 +633,12 @@
     "Username":  "نام کاربری",
     "UserAccess": "سطح دسترسی",
     "DocConfirm": "تایید مدارک"
+  },
+  "refundStatistics": {
+    "date": "تاریخ",
+    "state": "وضعیت",
+    "number": "تعداد",
+    "sum": "مجموع مبالغ"
   }
 }
 
