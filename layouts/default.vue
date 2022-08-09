@@ -212,6 +212,11 @@ export default {
           icon: 'mdi-account-supervisor-circle-outline',
           title: 'menu.users',
           to: '/users'
+        },
+        {
+          icon: 'mdi-account-supervisor-circle-outline',
+          title: 'menu.bill',
+          to: '/bill-report'
         }
       ],
       reports: [

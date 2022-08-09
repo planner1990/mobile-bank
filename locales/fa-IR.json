@@ -107,6 +107,13 @@
         "SHETAB": "شتاب",
         "null": "نامشخص"
       },
+      "billType": {
+        "electricity": "برق",
+        "mci": "همراه اول",
+        "tci": "رایتل",
+        "gas": "گاز",
+        "water": "آب"
+      },
       "transaction": {
         "source": "نوع مبدا",
         "sourceNumber": "شماره مبدا",
@@ -124,6 +131,22 @@
       "errorCode": {
         "ok": "200",
         "BAD_REQUEST": "400"
+      }
+    },
+    "billReport": {
+      "title": "استعلام قبض",
+      "headers": {
+        "type": "نوع قبض",
+        "status": "وضعیت",
+        "billId": "شناسه قبض",
+        "createDate": "تاریخ استعلام"
+      },
+      "billType": {
+        "electricity": "برق",
+        "mci": "همراه اول",
+        "tci": "رایتل",
+        "gas": "گاز",
+        "water": "آب"
       }
     },
     "chargeReport": {
@@ -433,6 +456,7 @@
     "offer": "پیشنهاد روز",
     "income": "گزارش درآمد",
     "users": "مدیریت کاربران",
+    "bill": "استعلام قبض",
     "refundStatistics": "آمار استرداد وجه"
   },
   "createExcel": {
@@ -579,7 +603,9 @@
     "refund": "استرداد وجه",
     "trackerIdBank": "کد پیگیری عملیات",
     "errorCode": "کد پاسخ تراکنش",
-    "sourceNumber": "شماره مبدا"
+    "sourceNumber": "شماره مبدا",
+    "billId": "شناسه قبض",
+    "billType": "نوع قبض"
   },
   "messages": {
     "successful": "عملیات شما با موفقیت انجام شد",
