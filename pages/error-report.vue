@@ -82,7 +82,6 @@ export default {
     }),
     search (searchModel) {
       this.loading = true
-      console.log('searchModel')
       reportManager.errorList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.totalNumberOfItems = response.data.filteredItem

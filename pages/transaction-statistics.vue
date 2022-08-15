@@ -126,26 +126,19 @@ export default {
       })
     },
     getDeposit: function () {
-      console.log('inja omad')
       if (this.items.length > 0) {
-        console.log('inja  1')
-        console.log(this.items.filter(object => object.operationType === 'DEPOSIT'))
         return this.items.filter(object => object.operationType === 'DEPOSIT')
       }
       return null
     },
     getCard: function () {
-      console.log('inja omad')
       if (this.items.length > 0) {
         return this.items.filter(object => object.operationType === 'CARD')
       }
       return null
     },
     getOther: function () {
-      console.log('inja omad')
       if (this.items.length > 0) {
-        console.log('majid inja omad')
-        console.log(this.items.filter(object => object.operationType === 'PUBLIC'))
         return this.items.filter(object => object.operationType === 'PUBLIC')
       }
       return null

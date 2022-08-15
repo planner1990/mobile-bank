@@ -215,8 +215,6 @@ export default {
       this.createDialog = true
       reportManager.transactionList(this.searchModel, this.$axios).then((response) => {
         this.items1 = response.data.itemList
-        console.log(this.items1)
-        /*  this.totalNumberOfItems = response.data.filteredItem */
         this.loading = false
       }).catch((error) => {
         if (error.response) {
@@ -237,7 +235,6 @@ export default {
       this.loading = true
       reportManager.transactionList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
-        console.log(this.items)
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
       }).catch((error) => {
@@ -278,7 +275,6 @@ export default {
         fileLink.click()
         // ------------
       }).catch((error) => {
-        console.log(error)
         this.alert({
           color: 'error',
           content: 'global.failed'
@@ -288,7 +284,6 @@ export default {
       })
     },
     test (platform) {
-      console.log(platform)
     },
     moment (date) {
       return momentJalali(date).format('hh:mm:ss jYYYY/jM/jD')

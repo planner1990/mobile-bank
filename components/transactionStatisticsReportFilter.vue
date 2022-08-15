@@ -171,7 +171,6 @@ export default {
         fileLink.click()
         // ------------
       }).catch((error) => {
-        console.log(error)
         this.alert({
           color: 'error',
           content: 'global.failed'
