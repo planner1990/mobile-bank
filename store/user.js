@@ -111,8 +111,6 @@ export const getters = {
   //   return JSON.parse(sessionStorage.getItem(userKey))
   // },
   isLogin: (state) => {
-     console.log('state user : ' + state.user)
-     console.log('state token : ' + state.token)
     return state && state.user
   }
 }

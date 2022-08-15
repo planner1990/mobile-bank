@@ -221,19 +221,13 @@
 import { mapGetters, mapMutations } from 'vuex'
 import UserFilter from '@/components/User/searchFilter'
 import userManager from '@/repository/user_manager'
-// import ProvinceSelector from '@/components/location/provinceSelector.vue'
 import provinceViewer from '@/components/location/provinceViewer'
 import branchViewer from '@/components/location/branchViewer'
-// import CitySelector from '@/components/location/citySelector'
-// import BranchSelector from '@/components/location/branchSelector'
+
 
 export default {
   components: {
     'user-filter': UserFilter,
-    // ProvinceSelector,
-    // CitySelector,
-    // BranchSelector,
-    // cityViewer,
     provinceViewer,
     branchViewer
   },
@@ -264,10 +258,7 @@ export default {
       headers: [
         { text: this.$t('user.username'), value: 'username', sortable: false },
         { text: this.$t('user.role'), value: 'role', sortable: false },
-        { text: this.$t('user.permission'), value: 'locationAccess' }, /*
-        { text: this.$t('user.province'), value: 'provinceCode', sortable: false },
-        // { text: this.$t('user.city'), value: 'cityCode' },
-        { text: this.$t('user.branch'), value: 'branchCode', sortable: false }, */
+        { text: this.$t('user.permission'), value: 'locationAccess' },
         { text: this.$t('user.statusHeader'), value: 'status', sortable: false },
         { text: this.$t('user.edit'), value: 'actions', sortable: false }
       ],
@@ -280,7 +271,6 @@ export default {
       currentUser: 'user/me'
     }),
     computedUserAccessList: function () {
-      console.log(this.userForm.userObj.role)
       if (this.userForm.userObj.role !== 'ROLE_PANEL_ADMIN') {
         return this.userForm.permissions.filter(e => e.value !== 'FULL_ACCESS')
       } else {
@@ -288,18 +278,6 @@ export default {
         // this.userForm.userObj.userAccessList = []
         return this.userForm.permissions
       }
-
-      /* if (this.userForm.userObj.role === 'ROLE_PANEL_REPORT') {
-       const temp = this.userForm.permissions.filter(e => e.value === 'REPORTER_ACCESS')
-       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-       this.userForm.userObj.userAccessList = [temp[0].value]
-       return temp
-     } else if (this.userForm.userObj.role === 'ROLE_PANEL_USER') {
-       const temp = []
-       return temp
-     } else { */
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      // this.userForm.userObj.userAccessList = []
     },
     computedProvince: function () {
       if (this.userForm.userObj.provinceCode) {
@@ -315,16 +293,7 @@ export default {
       } else {
         return this.currentUser.cityCode
       }
-    }/*
-    roles: function () {
-      // console.log(this.currentUser)
-      // return []
-      if (this.currentUser.role === 'ADMIN') {
-        return [userManager.userRoles[1]]
-      } else {
-        return userManager.userRoles
-      }
-    } */
+    }
   },
   methods: {
     ...mapMutations({
@@ -342,8 +311,6 @@ export default {
       searchModel.length = this.pagination.rowsPerPage
       this.loading = true
       userManager.getUserList(searchModel, this.$axios).then((response) => {
-        console.log('search')
-        console.log(response.data.itemList)
         this.users = response.data.itemList
         this.totalNumberOfItems = response.data.filteredItem
       }).finally(() => {
@@ -362,12 +329,9 @@ export default {
     },
     save () {
       if (this.validate()) {
-        console.log('validate')
         this.loading = true
         try {
           if (this.userForm.userObj.id) {
-            console.log('update')
-            console.log(this.userForm.userObj)
             userManager.updateUser(this.userForm.userObj, this.userForm.userObj.id, this.$axios).then(() => {
               this.alert({
                 color: 'success',
@@ -382,7 +346,6 @@ export default {
               // this.showErrorsInCreateUserDialog(e.response.data.detailList)
             })
           } else {
-            console.log('create')
             userManager.createUser(this.userForm.userObj, this.$axios).then(() => {
               this.alert({
                 color: 'success',
@@ -398,7 +361,6 @@ export default {
             })
           }
         } catch (e) {
-          console.log('exception')
           this.showErrorsInCreateUserDialog(e.response.data.detailList)
         } finally {
           this.cancel()
@@ -410,7 +372,6 @@ export default {
       this.createUserErrors = errors
     },
     editItem (item) {
-      console.log(this.userForm.userObj)
       this.userForm.userObj = {
         id: item.id,
         username: item.username,
@@ -422,10 +383,7 @@ export default {
         userAccessList: item.userAccess
 
       }
-      console.log('this.userForm.userOb')
-      console.log(this.userForm.userObj)
       this.createDialog = true
-      // console.log(this.userForm.userObj)
     },
     del (item) {
       this.deleteUserDialog = true
