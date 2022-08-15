@@ -14,7 +14,7 @@ variables:
 build-image-Development:
   stage: build-image
   tags:
-    - finland
+    - flutter-build
   script:
     - echo $VUE_APP_BASE_ROUTE
     - docker login -u $user_repository -p $pass_repository https://$repository
