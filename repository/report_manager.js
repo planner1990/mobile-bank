@@ -19,6 +19,12 @@ async function chargeList (request, axios) {
   console.log(rest)
   return rest
 }
+async function billList (request, axios) {
+  console.log('billList us call')
+  const rest = await axios.post('bill-report/list', request)
+  console.log(rest)
+  return rest
+}
 
 async function refund (request, axios) {
   console.log('refund us call')
@@ -433,6 +439,30 @@ const orderType = [
   }
 
 ]
+
+const billType = [
+  {
+    value: 'electricity',
+    text: 'report.billReport.billType.electricity'
+  },
+  {
+    value: 'mci',
+    text: 'report.billReport.billType.mci'
+  },
+  {
+    value: 'electricity',
+    text: 'report.billReport.billType.tci'
+  },
+  {
+    value: 'gas',
+    text: 'report.billReport.billType.gas'
+  },
+  {
+    value: 'water',
+    text: 'report.billReport.billType.water'
+  }
+
+]
 const operationName = [
   { header: 'حساب ' },
   {
@@ -462,6 +492,7 @@ export default {
   operatorActivity,
   transactionList,
   chargeList,
+  billList,
   refundList,
   refund,
   refundStatusList,
@@ -481,6 +512,7 @@ export default {
   listOffer,
   listParam,
   offerStatus,
+  billType,
   offerTypDisplay,
   offerType,
   offerToType,
