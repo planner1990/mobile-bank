@@ -153,7 +153,7 @@ export default {
     return {
       userManager: userManager,
       colors,
-      // loggedInUser: JSON.parse(sessionStorage.getItem('userInfo')),
+      // loggedInUser: JSON.parse(sessionStorage.getItem('mob-userInfo')),
       // barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
       clipped: true,
       drawer: true,

@@ -1,5 +1,5 @@
-const provinceKey = 'provinceCache'
-const cityPreKey = 'citiesOf_'
+const provinceKey = 'mob-provinceCache'
+const cityPreKey = 'mob-citiesOf_'
 
 async function getProvince (pid, axios) {
   const res = await getProvinces(axios)
