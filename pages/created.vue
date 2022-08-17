@@ -159,16 +159,16 @@ export default {
       })
     },
     download (fileId) {
-      return process.env.VUE_APP_Host + '/opened-deposit-file/download/' + fileId + '?authorization=' + sessionStorage.getItem('jwtKey').toString()
+      return process.env.VUE_APP_Host + '/opened-deposit-file/download/' + fileId + '?authorization=' + sessionStorage.getItem('mob-jwtKey').toString()
     },
     async changeStatus (fileId) {
       await openDepositFileManager.update(fileId, this.$axios)
     },
     printAddress (fileId) {
-      return process.env.VUE_APP_Host + '/opened-deposit-file/print-address/' + fileId + '?authorization=' + sessionStorage.getItem('jwtKey').toString()
+      return process.env.VUE_APP_Host + '/opened-deposit-file/print-address/' + fileId + '?authorization=' + sessionStorage.getItem('mob-jwtKey').toString()
     },
     printAddressV2 (fileId) {
-      return process.env.VUE_APP_Host + '/opened-deposit-file/print-address-v2/' + fileId + '?authorization=' + sessionStorage.getItem('jwtKey').toString()
+      return process.env.VUE_APP_Host + '/opened-deposit-file/print-address-v2/' + fileId + '?authorization=' + sessionStorage.getItem('mob-jwtKey').toString()
     },
     moment (date) {
       if (date) {
