@@ -127,7 +127,7 @@
       <nuxt />
     </v-main>
     <v-footer :fixed="true" app>
-      <span>
+      <span class="copyrightLtr">
         &copy; {{ new Date().getFullYear() }} {{ $t('company') }}
         <v-icon small>mdi-account-group</v-icon>
       </span>
@@ -303,3 +303,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.copyrightLtr {
+  direction: ltr;
+}
+</style>
