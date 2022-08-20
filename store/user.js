@@ -1,8 +1,8 @@
 import jwtDecode from 'jwt-decode'
 import jwttoken from '@/repository/jwt_token'
 
-const RefreshKey = 'jwtRefreshKey'
-const tokenKey = 'jwtKey'
+const RefreshKey = 'mob-jwtRefreshKey'
+const tokenKey = 'mob-jwtKey'
 // const userKey = 'userInfo'
 
 export const state = () => ({

@@ -127,7 +127,7 @@
       <nuxt />
     </v-main>
     <v-footer :fixed="true" app>
-      <span>
+      <span class="copyrightLtr">
         &copy; {{ new Date().getFullYear() }} {{ $t('company') }}
         <v-icon small>mdi-account-group</v-icon>
       </span>
@@ -153,7 +153,7 @@ export default {
     return {
       userManager: userManager,
       colors,
-      // loggedInUser: JSON.parse(sessionStorage.getItem('userInfo')),
+      // loggedInUser: JSON.parse(sessionStorage.getItem('mob-userInfo')),
       // barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
       clipped: true,
       drawer: true,
@@ -303,3 +303,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.copyrightLtr {
+  direction: ltr;
+}
+</style>
