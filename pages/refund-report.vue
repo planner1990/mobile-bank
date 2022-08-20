@@ -490,16 +490,12 @@ export default {
       this.refundConfirmationDialog = false
     },
     createRefundAcceptDialog  (searchModel) {
-      console.log('refundList')
       this.refundAcceptDialog = true
     },
     createRefundConfirmDialog  (searchModel) {
-      console.log('refundList')
       this.refundConfirmationDialog = true
     },
     refundList (type) {
-      console.log('refundList')
-      console.log(this.searchModel)
       this.searchModel.refundListFilter.refundType = type
       reportManager.refundStatusList(this.searchModel, this.$axios).then((res) => {
         this.refundAcceptDialog = false
@@ -553,17 +549,12 @@ export default {
     },
     handleClick (event, { item }) {
       defaultFilterdetails.refundRequest.transactionId = item.id
-      console.log('transactionId')
-      console.log(defaultFilterdetails.refundRequest.transactionId)
       if (item.state === 4) {
         this.refundDialog = true
       }
       if (item.state === 2) {
         this.refundErrorDialog = true
       }
-
-      console.log('item')
-      console.log(item)
     },
     refundManual () {
       defaultFilterdetails.refundRequest.refundStateEnum = 'MANUAL'
@@ -615,8 +606,6 @@ export default {
       this.refundErrorDialog = false
       this.refundDialog = false
       this.createDialog = true
-      console.log('editItem')
-      console.log(item)
       this.itemsTransaction.splice(0, 1)
       this.itemsTransaction.push({
         transactionId: item.transactionId,
@@ -629,12 +618,8 @@ export default {
       defaultFilterdetails.transactionListFilter.transactionId = item.transactionId
       reportManager.transactionDetails(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
         try {
-          console.log('editItem11')
-          console.log(response.data)
           this.requestJson = JSON.parse(response.data.requestJson)
           this.responseJson = JSON.parse(response.data.responseJson)
-          console.log(JSON.parse(response.data.requestJson))
-          console.log(this.responseJson)
         } catch (e) {
         }
         this.loading = false
