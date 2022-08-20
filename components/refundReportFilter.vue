@@ -390,23 +390,17 @@ export default {
       this.$emit('search', this.filter)
     },
     operation () {
-      console.log('majid')
       this.loading = true
       reportManager.operationList(this.$axios).then((response) => {
-        console.log(response)
         const operationList = response.data
         this.items = operationList
-        console.log(operationList)
       }).catch((error) => {
-        console.log('majid11')
         if (error.response) {
-          console.log(error.response)
           this.alert({
             color: 'orange',
             content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
           })
         } else {
-          console.log('error.response is null')
           this.alert({
             color: 'orange',
             content: 'messages.failed'
@@ -416,15 +410,12 @@ export default {
       })
     },
     refundList (searchModel) {
-      console.log('item212112')
       this.$emit('refund', this.filter)
     },
     refundConfirmList (searchModel) {
-      console.log('confirmRefund')
       this.$emit('confirmRefund', this.filter)
     },
     downloadReports (searchModel) {
-      console.log('download')
       this.downloadLoading = true
       reportManager.downloadRefundList(defaultFilter, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
@@ -435,7 +426,6 @@ export default {
         fileLink.click()
         // ------------
       }).catch((error) => {
-        console.log(error)
         this.alert({
           color: 'error',
           content: 'global.failed'
@@ -451,10 +441,7 @@ export default {
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
-        console.log('fromDate')
-        console.log(this.fromDate)
         this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-        console.log(this.filter.dateFilter.from)
       }
     },
     checkIsNullToDate () {
@@ -512,7 +499,6 @@ export default {
       const minute = moment(date, 'HH:mm jYYYY/jMM/jDD').format('mm')
       const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
       const d = new Date(gmtDate)
-      console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
       return d.getTime() + (d.getTimezoneOffset() * 60000)
     }
 

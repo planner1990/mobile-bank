@@ -67,7 +67,6 @@
 
 <script>
 import { mapMutations } from 'vuex'
-import onlineDepositManager from '~/repository/online_deposit_manager'
 
 export default {
   name: 'SaveUsernameDialog',

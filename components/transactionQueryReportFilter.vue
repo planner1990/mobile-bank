@@ -461,7 +461,6 @@ export default {
       this.$emit('search', this.filter)
     },
     editItem () {
-      console.log('item212112')
       this.$emit('edit', this.filter)
 
       this.createDialog = true
@@ -469,7 +468,6 @@ export default {
     operation () {
       this.loading = true
       reportManager.operationList(this.operationType, this.$axios).then((response) => {
-        console.log(response)
         const operationList = response.data
         const operationCardList = operationList.cardOperation
         operationCardList.push({ divider: true })
@@ -497,13 +495,11 @@ export default {
         this.items = array1
       }).catch((error) => {
         if (error.response) {
-          console.log(error.response)
           this.alert({
             color: 'orange',
             content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
           })
         } else {
-          console.log('error.response is null')
           this.alert({
             color: 'orange',
             content: 'messages.failed'
@@ -523,7 +519,6 @@ export default {
         fileLink.click()
         // ------------
       }).catch((error) => {
-        console.log(error)
         this.alert({
           color: 'error',
           content: 'global.failed'
@@ -535,19 +530,15 @@ export default {
     errorList () {
       this.loading = true
       reportManager.errorCodeList(this.$axios).then((response) => {
-        console.log(response)
         const errorList = response.data
         this.errorItems = errorList
-        console.log(errorList)
       }).catch((error) => {
         if (error.response) {
-          console.log(error.response)
           this.alert({
             color: 'orange',
             content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
           })
         } else {
-          console.log('error.response is null')
           this.alert({
             color: 'orange',
             content: 'messages.failed'
@@ -558,15 +549,11 @@ export default {
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
-        console.log('this.fromTime')
-        console.log(this.fromTime)
         this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate, this.fromTime)
       }
     },
     checkIsNullFromTime () {
       if (this.fromDate != null) {
-        console.log('this.fromTime')
-        console.log(this.fromTime)
         this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate, this.fromTime)
       }
     },
@@ -615,7 +602,6 @@ export default {
       const minute = moment(time, 'HH:mm').format('mm')
       const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
       const d = new Date(gmtDate)
-      console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
       return d.getTime() + (d.getTimezoneOffset() * 60000)
     }
 

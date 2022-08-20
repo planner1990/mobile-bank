@@ -429,7 +429,6 @@ export default {
       }
     },
     editItem2 () {
-      console.log('item')
       this.operationDialog = true
     },
     editItem (item) {
@@ -456,7 +455,6 @@ export default {
         try {
           this.requestJson = JSON.parse(response.data.requestJson)
         } catch (e) {
-          console.log('catch json Exception')
           this.requestJson = response.data.requestJson
         }
         try {
@@ -488,35 +486,19 @@ export default {
       this.operationDialog = false
     },
     okOperationDialog () {
-      console.log('this.cardOperations')
       this.cardList = this.cardOperationList
-      console.log(this.depositOperationList)
-      console.log(this.cardReissueOperationList)
-      console.log(this.loanRequestOperationList)
-      console.log(this.onlineDepositOperationList)
-      console.log(this.inquiryOperationList)
-      console.log(this.publicOperationList)
-      console.log(this.userOperationList)
       const operationDepositList = this.cardOperationList
-      console.log('this.userOperationList1')
-      console.log(operationDepositList)
       this.operationList = this.depositOperationList.concat(this.cardReissueOperationList, this.cardOperationList, this.loanRequestOperationList,
         this.onlineDepositOperationList, this.publicOperationList, this.userOperationList)
-      console.log('this.userOperationList')
-      console.log(this.operationList)
       this.operationDialog = false
-      console.log('operationDialog = false')
     },
     search (searchModel) {
       this.loading = true
       this.filterOperation = searchModel
-      console.log(this.filterOperation)
       this.filterOperation.transactionListFilter.operation = this.operationList
-      console.log(this.filterOperation)
       reportManager.transactionList(this.filterOperation, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.removeAction()
-        console.log(this.items)
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
       }).catch((error) => {
