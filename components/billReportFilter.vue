@@ -34,7 +34,7 @@
             outlined
             popove
             auto-submit
-            format="jYYYY/jMM/jDD"
+            format="HH:mm jYYYY/jMM/jDD"
             @close="checkIsNullFromDate()"
           />
         </v-col>
@@ -57,7 +57,7 @@
             outlined
             popove
             auto-submit
-            format="jYYYY/jMM/jDD"
+            format="HH:mm jYYYY/jMM/jDD"
             @close="checkIsNullToDate()"
           />
         </v-col>
