@@ -138,6 +138,10 @@ async function downloadChargeList (request, axios) {
   return await axios.post('export/charge-report', request, { responseType: 'blob' })
 }
 
+async function downloadBillList (request, axios) {
+  return await axios.post('export/bill-report', request, { responseType: 'blob' })
+}
+
 async function downloadTransactionList (request, axios) {
   return await axios.post('export/transaction', request, { responseType: 'blob' })
 }
@@ -535,6 +539,7 @@ export default {
   downloadOnlineDepositReport,
   downloadRefundList,
   downloadChargeList,
+  downloadBillList,
   downloadTransactionList,
   downloadTransactionStatistics,
   downloadCustomer,
