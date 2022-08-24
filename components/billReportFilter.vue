@@ -197,7 +197,7 @@ export default {
     },
     downloadReports (searchModel) {
       this.downloadLoading = true
-      reportManager.downloadChargeList(defaultFilter, this.$axios).then((res) => {
+      reportManager.downloadBillList(defaultFilter, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL
