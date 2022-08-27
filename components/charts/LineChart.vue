@@ -31,15 +31,22 @@ export default {
       }],
       chartOptions: {
         chart: {
-          height: 350,
-          type: 'line'
+          height: 500,
+          type: 'line',
+          toolbar: {
+            show: false
+          }
         },
         dataLabels: {
           enabled: true
         },
         stroke: {
-          curve: 'straight'
+          curve: 'smooth'
         },
+        markers: {
+          size: 5
+        },
+        colors: ['#FF1654'],
         title: {
           text: this.title,
           align: 'center'
@@ -50,8 +57,39 @@ export default {
             opacity: 0.5
           }
         },
+        plotOptions: {
+          bar: {
+            lineWidth: '20%'
+          }
+        },
         xaxis: {
           categories: this.getLabelsProps
+        },
+        yaxis: [
+          {
+            axisTicks: {
+              show: true
+            },
+            axisBorder: {
+              show: true,
+              color: '#aaaaaa'
+            },
+            labels: {
+              style: {
+                colors: '#444444'
+              }
+            },
+            title: {
+              text: 'count',
+              style: {
+                color: '#FF1654'
+              }
+            }
+          }
+        ],
+        legend: {
+          horizontalAlign: 'right',
+          offsetX: 40
         }
       }
     }

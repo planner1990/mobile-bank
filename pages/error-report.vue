@@ -15,19 +15,22 @@
         justify="center"
       >
         <LineChart
-          title="نمودار میله ای1"
+          style="width: 30%"
+          title="نمودار نسبت هر خطا به تعداد کل خطاها"
           :get-labels-props="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']"
           :get-series-props="[20, 41, 35, 51, 49, 85, 69, 91, 85]"
         />
 
         <LineChart
-          title="نمودار میله ای2"
+          style="width: 30%"
+          title="نمودار نسبت هر خطا به تعداد کل به ازای هر عملیات"
           :get-labels-props="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']"
           :get-series-props="[10, 90, 35, 51, 250, 62, 250, 91, 148]"
         />
 
         <LineChart
-          title="نمودار میله ای3"
+          style="width: 30%"
+          title="نمودار نسبت هر خطا به تعداد کل به ازای هر کد خطا"
           :get-labels-props="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']"
           :get-series-props="[10, 41, 125, 51, 49, 62, 69, 131, 148]"
         />
