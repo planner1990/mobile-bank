@@ -15,6 +15,7 @@
     "@nuxtjs/auth-next": "5.0.0-1622918202.e815752",
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/composition-api": "0.22.4",
+    "apexcharts": "^3.35.5",
     "chart.js": "latest",
     "core-js": "^3.9.1",
     "jwt-decode": "^3.1.2",
@@ -22,6 +23,7 @@
     "moment-jalaali": "^0.9.2",
     "nuxt": "^2.15.3",
     "nuxt-i18n": "latest",
+    "vue-apexcharts": "^1.6.2",
     "vue-json-pretty": "^1.8.2",
     "vue-persian-datetime-picker": "^2.6.0",
     "vuex": "^3.6.2"

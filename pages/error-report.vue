@@ -14,6 +14,24 @@
       <v-row
         justify="center"
       >
+        <LineChart
+          title="نمودار میله ای1"
+          :get-labels-props="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']"
+          :get-series-props="[20, 41, 35, 51, 49, 85, 69, 91, 85]"
+        />
+
+        <LineChart
+          title="نمودار میله ای2"
+          :get-labels-props="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']"
+          :get-series-props="[10, 90, 35, 51, 250, 62, 250, 91, 148]"
+        />
+
+        <LineChart
+          title="نمودار میله ای3"
+          :get-labels-props="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']"
+          :get-series-props="[10, 41, 125, 51, 49, 62, 69, 131, 148]"
+        />
+
         <v-data-table
           dense
           item-key="cardOwnerId"
@@ -43,11 +61,13 @@ import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
 import reportManager from '~/repository/report_manager'
 import errorReportFilter from '~/components/errorReportFilter'
+import LineChart from '~/components/charts/LineChart'
 
 export default {
   name: 'ErrorReport',
   components: {
-    errorReportFilter
+    errorReportFilter,
+    LineChart
   },
   data () {
     return {
