@@ -29,6 +29,7 @@
             />
           </v-list-item-title>
         </v-list-item>
+
         <v-list-item
           v-for="(item, i) in checkUserAccess"
           :key="i"
@@ -45,8 +46,9 @@
             <v-list-item-title v-text="$t(item.title)" />
           </v-list-item-content>
         </v-list-item>
+
         <v-list-group
-          prepend-icon="mdi-home-analytics"
+          prepend-icon="mdi-chart-box-plus-outline"
           no-action
         >
           <template #activator>
@@ -54,7 +56,6 @@
               <v-list-item-title>{{ $t('menu.reports') }}</v-list-item-title>
             </v-list-item-content>
           </template>
-
           <v-list-item
             v-for="(item, i) in checkUserAccessReports"
             :key="i"
@@ -63,7 +64,9 @@
             exact
           >
             <v-list-item-action>
-              <v-icon>{{ item.icon }}</v-icon>
+              <v-icon color="white">
+                {{ item.icon }}
+              </v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title v-text="$t(item.title)" />
@@ -164,69 +167,69 @@ export default {
       selected: {},
       items: [
         {
-          icon: 'mdi-apps',
+          icon: 'mdi-apps-box',
           title: 'menu.transaction',
           to: '/'
         },
         {
-          icon: 'mdi-apps',
-          title: 'menu.transactionQuery',
-          to: '/transactionQuery'
-        },
-        {
-          icon: 'mdi-apps',
+          icon: 'mdi-chart-box',
           title: 'menu.transactionStatistics',
           to: '/transaction-statistics'
         },
         {
-          icon: 'mdi-account-supervisor-circle-outline',
-          title: 'menu.customerStatistics',
-          to: '/customer-statistics'
+          icon: 'mdi-code-less-than-or-equal',
+          title: 'menu.transactionQuery',
+          to: '/transactionQuery'
         },
         {
-          icon: 'mdi-account-supervisor-circle-outline',
+          icon: 'mdi-account-arrow-left-outline',
           title: 'menu.customer',
           to: '/customer'
         },
         {
-          icon: 'mdi-account-supervisor-circle-outline',
+          icon: 'mdi-table-account',
+          title: 'menu.customerStatistics',
+          to: '/customer-statistics'
+        },
+        {
+          icon: 'mdi-ev-station',
           title: 'menu.charge',
           to: '/charge-report'
         },
         {
-          icon: 'mdi-account-supervisor-circle-outline',
+          icon: 'mdi-cash-refund',
           title: 'menu.refund',
           to: '/refund-report'
         },
         {
-          icon: 'mdi-account-supervisor-circle-outline',
+          icon: 'mdi-chart-box-plus-outline',
           title: 'menu.refundStatistics',
           to: '/refund-statistics'
         },
         {
-          icon: 'mdi-account-supervisor-circle-outline',
+          icon: 'mdi-lightbulb-outline',
           title: 'menu.offer',
           to: '/offer'
         },
         {
-          icon: 'mdi-account-supervisor-circle-outline',
-          title: 'menu.users',
-          to: '/users'
-        },
-        {
-          icon: 'mdi-account-supervisor-circle-outline',
+          icon: 'mdi-table-arrow-down',
           title: 'menu.bill',
           to: '/bill-report'
+        },
+        {
+          icon: 'mdi-account-tie',
+          title: 'menu.users',
+          to: '/users'
         }
       ],
       reports: [
         {
-          icon: 'mdi-chart-bell-curve',
+          icon: 'mdi-chart-timeline-variant-shimmer',
           title: 'menu.error',
           to: '/error-report'
         },
         {
-          icon: 'mdi-chart-bell-curve',
+          icon: 'mdi-finance',
           title: 'menu.income',
           to: '/incomeReport'
         }
@@ -281,23 +284,18 @@ export default {
           .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/').filter(e => e.to !== '/offer')
       } if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined ||
         this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
-
         this.userList = this.items.filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
           .filter(e => e.to !== '/transaction-statistics')
           .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
           .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/offer')
-
       } if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
-
         this.offerList = this.items.filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
           .filter(e => e.to !== '/transaction-statistics')
           .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
           .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/')
       }
 
-      const array1 = this.createUserList.concat(this.userList, this.offerList)
-
-      this.items = array1
+      this.items = this.createUserList.concat(this.userList, this.offerList)
       return this.items
     }
   }

@@ -381,6 +381,7 @@
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
 import reportManager from '~/repository/report_manager'
+
 const defaultFilter = {
   transactionListFilter: {
     // smsId: null,
@@ -491,8 +492,7 @@ export default {
         operationSettingList.unshift({ header: 'عملیات تنظیمات' })
         operationPublicList.unshift({ divider: true })
         operationPublicList.unshift({ header: 'عملیات عمومی' })
-        const array1 = operationLastList.concat(operationCardList, operationUserList, operationSettingList, operationPublicList)
-        this.items = array1
+        this.items = operationLastList.concat(operationCardList, operationUserList, operationSettingList, operationPublicList)
       }).catch((error) => {
         if (error.response) {
           this.alert({
