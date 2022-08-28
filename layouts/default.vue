@@ -229,6 +229,11 @@ export default {
           icon: 'mdi-chart-bell-curve',
           title: 'menu.income',
           to: '/incomeReport'
+        },
+        {
+          icon: 'mdi-chart-bell-curve',
+          title: 'menu.transactionStatus',
+          to: '/transaction-status'
         }
       ]
     }
@@ -281,14 +286,11 @@ export default {
           .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/').filter(e => e.to !== '/offer')
       } if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined ||
         this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
-
         this.userList = this.items.filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
           .filter(e => e.to !== '/transaction-statistics')
           .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
           .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/offer')
-
       } if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
-
         this.offerList = this.items.filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
           .filter(e => e.to !== '/transaction-statistics')
           .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')

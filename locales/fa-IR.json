@@ -48,6 +48,13 @@
         "chartTitleCodesError": "نمودار نسبت هر خطا به تعداد کل به ازای هر کد خطا"
       }
     },
+    "transactionStatus": {
+      "title": "گزارش وضعیت پرداخت ها",
+      "chart": {
+        "chartSuccess": "نمودار تراکنش های موفق",
+        "chartFail": "نمودار تراکنش های به خطا خورده"
+      }
+    },
     "transactionReport": {
       "title": "آمار تراکنش ها",
       "operationSelect": "عملیات",
@@ -462,7 +469,9 @@
     "income": "گزارش درآمد",
     "users": "مدیریت کاربران",
     "bill": "استعلام قبض",
-    "refundStatistics": "آمار استرداد وجه"
+    "refundStatistics": "آمار استرداد وجه",
+    "transactionStatus": "وضعیت تراکنش ها"
+
   },
   "createExcel": {
     "download": "دانلود فایل",
@@ -567,6 +576,7 @@
     "createFile": "ایجاد فایل"
   },
   "filters": {
+    "duration": "بازه زمانی",
     "month": "انتخاب ماه",
     "fromDate": "از تاریخ",
     "toDate": "تا تاریخ",
