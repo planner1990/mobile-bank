@@ -518,7 +518,7 @@ export default {
         document.body.appendChild(fileLink)
         fileLink.click()
         // ------------
-      }).catch((error) => {
+      }).catch(() => {
         this.alert({
           color: 'error',
           content: 'global.failed'
