@@ -121,6 +121,7 @@
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
 import reportManager from '~/repository/report_manager'
+
 const defaultFilter = {
   errorReportListFilter: {
     operation: null,
@@ -132,7 +133,7 @@ const defaultFilter = {
   },
   paginate: {
     page: 1,
-    length: 50,
+    length: 25,
     sort: {
       property: 'errorCode',
       direction: 'desc'
@@ -144,13 +145,6 @@ export default {
   components: {
     PDatePicker: VuePersianDatetimePicker
 
-  },
-  mounted: function () {
-    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
-    this.filter = Object.assign(this.value, defaultFilter)
-    this.operation()
-    this.errorList()
   },
   props: {
     value: Object(defaultFilter)
@@ -166,10 +160,17 @@ export default {
         operationType: 'ALL'
       },
       items: [],
-      errorItems: []
+      errorItems: [],
+      downloadLoading: false
     }
   },
-
+  mounted: function () {
+    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    this.filter = Object.assign(this.value, defaultFilter)
+    this.operation()
+    this.errorList()
+  },
   methods: {
     search () {
       this.$emit('search', this.filter)
@@ -177,7 +178,6 @@ export default {
     operation () {
       this.loading = true
       reportManager.operationList(this.operationType, this.$axios).then((response) => {
-        console.log(response)
         const operationList = response.data
         const operationCardList = operationList.cardOperation
         operationCardList.push({ divider: true })
@@ -205,13 +205,11 @@ export default {
         this.items = array1
       }).catch((error) => {
         if (error.response) {
-          console.log(error.response)
           this.alert({
             color: 'orange',
             content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
           })
         } else {
-          console.log('error.response is null')
           this.alert({
             color: 'orange',
             content: 'messages.failed'
@@ -223,19 +221,15 @@ export default {
     errorList () {
       this.loading = true
       reportManager.errorCodeList(this.$axios).then((response) => {
-        console.log(response)
         const errorList = response.data
         this.errorItems = errorList
-        console.log(errorList)
       }).catch((error) => {
         if (error.response) {
-          console.log(error.response)
           this.alert({
             color: 'orange',
             content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
           })
         } else {
-          console.log('error.response is null')
           this.alert({
             color: 'orange',
             content: 'messages.failed'
@@ -255,8 +249,7 @@ export default {
         document.body.appendChild(fileLink)
         fileLink.click()
         // ------------
-      }).catch((error) => {
-        console.log(error)
+      }).catch(() => {
         this.alert({
           color: 'error',
           content: 'global.failed'
@@ -279,24 +272,18 @@ export default {
       const day = moment(date, 'jYYYY/jM/jD').format('DD')
       const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
       const d = new Date(gmtDate)
-      console.log('convertJalaliDateToTimestamp')
-      console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
       return d.getTime() + (d.getTimezoneOffset() * 60000)
     },
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      console.log('convertJalaliDateToTimestamp1')
-      console.log(year + '/' + month + '/' + day)
       return year + '/' + month + '/' + day
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      console.log('convertJalaliDateToTimestamp2')
-      console.log(year + '/' + month + '/' + day)
       return year + '/' + month + '/' + day
     }
   }

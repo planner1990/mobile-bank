@@ -1,5 +1,5 @@
 <template>
-  <apexcharts type="line" height="500" :options="chartOptions" :series="series" style="width: 95%" />
+  <apexcharts type="line" height="400" :options="chartOptions" :series="series" style="width: 95%" />
 </template>
 <script>
 import VueApexCharts from 'vue-apexcharts'
@@ -11,7 +11,7 @@ export default {
   },
   props: {
     title: {
-      type: Text,
+      type: String,
       required: true
     },
     getLabelsProps: {
@@ -20,6 +20,10 @@ export default {
     },
     getSeriesProps: {
       type: Array,
+      required: true
+    },
+    change: {
+      type: Number,
       required: true
     }
   },
@@ -35,16 +39,41 @@ export default {
           type: 'line',
           toolbar: {
             show: false
+          },
+          fontFamily: 'B Yekan'
+        },
+        theme: {
+          monochrome: {
+            enabled: true,
+            color: '#800000',
+            shadeTo: 'light',
+            shadeIntensity: 0.65
           }
         },
+        lineOptions: {
+          hideDots: true,
+          regionFill: true
+        },
         dataLabels: {
-          enabled: true
+          enabled: true,
+          textAnchor: 'middle',
+          formatter: function (value, { seriesIndex, dataPointIndex, w }) {
+            return value
+          },
+          background: {
+            enabled: true,
+            foreColor: '#fff',
+            padding: 15,
+            borderRadius: 10,
+            borderColor: '#fff',
+            opacity: 0.9
+          }
         },
         stroke: {
           curve: 'smooth'
         },
         markers: {
-          size: 5
+          size: 3
         },
         colors: ['#FF1654'],
         title: {
@@ -54,7 +83,7 @@ export default {
         grid: {
           row: {
             colors: ['#f3f3f3', 'transparent'],
-            opacity: 0.5
+            opacity: 0.4
           }
         },
         plotOptions: {
@@ -63,6 +92,9 @@ export default {
           }
         },
         xaxis: {
+          labels: {
+            rotate: 90
+          },
           categories: this.getLabelsProps
         },
         yaxis: [
@@ -71,16 +103,23 @@ export default {
               show: true
             },
             axisBorder: {
-              show: true,
+              show: false,
               color: '#aaaaaa'
             },
             labels: {
+              offsetX: 0,
+              offsetY: 0,
               style: {
                 colors: '#444444'
+              },
+              formatter: (val) => {
+                return val
               }
             },
             title: {
               text: 'count',
+              offsetX: 0,
+              offsetY: 0,
               style: {
                 color: '#FF1654'
               }
@@ -96,7 +135,7 @@ export default {
   },
   watch: {
     // trigger change props or base data
-    getSeriesProps: {
+    change: {
       handler: function () {
         this.updateChart()
       },
@@ -106,7 +145,24 @@ export default {
   methods: {
     updateChart () {
       this.series[0].data = this.getSeriesProps
-      this.chartOptions.xaxis.categories = this.getLabelsProps
+      this.chartOptions = {
+        chart: this.chartOptions.chart,
+        theme: this.chartOptions.theme,
+        lineOptions: this.chartOptions.lineOptions,
+        dataLabels: this.chartOptions.dataLabels,
+        stroke: this.chartOptions.stroke,
+        markers: this.chartOptions.markers,
+        colors: this.chartOptions.colors,
+        title: this.chartOptions.title,
+        grid: this.chartOptions.grid,
+        plotOptions: this.chartOptions.plotOptions,
+        xaxis: {
+          labels: this.chartOptions.xaxis.labels,
+          categories: this.getLabelsProps
+        },
+        yaxis: this.chartOptions.yaxis,
+        legend: this.chartOptions.legend
+      }
     }
   }
 }

@@ -24,8 +24,13 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    // Plugins
     { src: '~/plugins/i18n.js' },
-    { src: '~/plugins/axios', mode: 'client' }
+    { src: '~/plugins/axios', mode: 'client' },
+
+    // filters
+    { src: '~/filters/filterMomentJalali' },
+    { src: '~/filters/filterNumberSeparator' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -15,24 +15,11 @@
         justify="center"
       >
         <LineChart
-          style="width: 30%"
-          title="نمودار نسبت هر خطا به تعداد کل خطاها"
-          :get-labels-props="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']"
-          :get-series-props="[20, 41, 35, 51, 49, 85, 69, 91, 85]"
-        />
-
-        <LineChart
-          style="width: 30%"
-          title="نمودار نسبت هر خطا به تعداد کل به ازای هر عملیات"
-          :get-labels-props="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']"
-          :get-series-props="[10, 90, 35, 51, 250, 62, 250, 91, 148]"
-        />
-
-        <LineChart
-          style="width: 30%"
-          title="نمودار نسبت هر خطا به تعداد کل به ازای هر کد خطا"
-          :get-labels-props="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']"
-          :get-series-props="[10, 41, 125, 51, 49, 62, 69, 131, 148]"
+          v-show="chart.reportAll.show"
+          :title="$t('report.errorReport.chart.chartTitleAll')"
+          :get-labels-props="chart.reportAll.labels"
+          :get-series-props="chart.reportAll.series"
+          :change="chart.reportAll.change"
         />
 
         <v-data-table
@@ -44,13 +31,13 @@
           class="elevation-5 fullScreen"
           :loading="loading"
           :footer-props="{
-            'items-per-page-options': [50, 100, 300, 500, 1000]
+            'items-per-page-options': [25, 50, 100, 200, 400]
           }"
           :items-per-page.sync="searchModel.paginate.length"
           :page.sync="searchModel.paginate.page"
           :server-items-length="totalNumberOfItems"
-          @update:page="search(searchModel)"
-          @update:items-per-page="search(searchModel)"
+          @update:page="search(searchModel, 'paginate')"
+          @update:items-per-page="search(searchModel, 'paginate')"
         >
           <template #top />
         </v-data-table>
@@ -84,7 +71,6 @@ export default {
           }
         }
       },
-      downloadLoading: false,
       totalNumberOfItems: 0,
       loading: false,
       headers: [
@@ -96,19 +82,31 @@ export default {
         { text: this.$t('report.errorReport.headers.errorCode'), value: 'responseCode', sortable: false }
 
       ],
-      items: []
+      items: [],
+      chart: {
+        reportAll: {
+          show: false,
+          change: 0,
+          labels: [],
+          series: []
+        }
+      }
     }
   },
   methods: {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
-    search (searchModel) {
+    search (searchModel, callGateway = 'searchButtonFilter') {
+      if (callGateway === 'searchButtonFilter') {
+        this.searchModel.paginate.page = 1
+      }
       this.loading = true
       reportManager.errorList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
+        this.chartMake(response.data.itemList)
       }).catch((error) => {
         if (error.response) {
           this.alert({
@@ -126,6 +124,22 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    chartMake: function (data) {
+      this.chart.reportAll.show = false
+      this.chart.reportAll.change = Math.random()
+      this.chart.reportAll.labels = []
+      this.chart.reportAll.series = []
+      // --------------------------------------------------------------
+      this.chart.reportAll.labels = data.map((item, index) => {
+        return (item.operation + '-' + item.responseCode).toString()
+      })
+      this.chart.reportAll.series = data.map((item, index) => {
+        return item.count
+      })
+      if (this.chart.reportAll.series.length > 0) {
+        this.chart.reportAll.show = true
+      }
     },
     moment (date) {
       return momentJalali(date).format('hh:mm:ss jYYYY/jM/jD')
