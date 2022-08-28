@@ -88,6 +88,20 @@
             outlined
           />
         </v-col>
+        <v-col cols="2">
+          <v-select
+            v-model="filter.errorReportListFilter.errorType"
+            :items="errorTypeItems"
+            :item-value="(item) => item.value"
+            :item-text="(item) => $t(item.title)"
+            :return-object="false"
+            :label="$t('filters.errorType')"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
+        </v-col>
       </v-row>
       <v-row no-gutters>
         <v-col>
@@ -125,7 +139,8 @@ import reportManager from '~/repository/report_manager'
 const defaultFilter = {
   errorReportListFilter: {
     operation: null,
-    responseCode: null
+    responseCode: null,
+    errorType: null
   },
   dateFilter: {
     from: null,
@@ -144,7 +159,6 @@ export default {
   name: 'ErrorReportFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
-
   },
   props: {
     value: Object(defaultFilter)
@@ -160,7 +174,8 @@ export default {
         operationType: 'ALL'
       },
       items: [],
-      errorItems: [],
+      error: [],
+      errorTypeItems: reportManager.errorType,
       downloadLoading: false
     }
   },
