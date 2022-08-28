@@ -66,8 +66,7 @@ export default {
         const operationLastList = operationOnlineDepositList.concat(operationOnlineDepositPanelList)
         console.log('operationOnlineDepositPanelList concat operationOnlineDepositList')
         console.log(operationLastList)
-        const array1 = operationLastList
-        this.items = array1
+        this.items = operationLastList
       }).catch((error) => {
         if (error.response) {
           console.log(error.response)

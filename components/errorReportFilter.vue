@@ -175,7 +175,7 @@ export default {
     search () {
       this.$emit('search', this.filter)
     },
-    operation () {
+    operation: function () {
       this.loading = true
       reportManager.operationList(this.operationType, this.$axios).then((response) => {
         const operationList = response.data
@@ -201,8 +201,7 @@ export default {
         operationSettingList.unshift({ header: 'عملیات تنظیمات' })
         operationPublicList.unshift({ divider: true })
         operationPublicList.unshift({ header: 'عملیات عمومی' })
-        const array1 = operationLastList.concat(operationCardList, operationUserList, operationSettingList, operationPublicList)
-        this.items = array1
+        this.items = operationLastList.concat(operationCardList, operationUserList, operationSettingList, operationPublicList)
       }).catch((error) => {
         if (error.response) {
           this.alert({
@@ -221,8 +220,7 @@ export default {
     errorList () {
       this.loading = true
       reportManager.errorCodeList(this.$axios).then((response) => {
-        const errorList = response.data
-        this.errorItems = errorList
+        this.errorItems = response.data
       }).catch((error) => {
         if (error.response) {
           this.alert({

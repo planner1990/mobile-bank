@@ -64,8 +64,7 @@ export default {
         const pichackList = operationList.pichakOperation
         console.log('operationOnlineDepositPanelList concat operationOnlineDepositList')
         console.log(pichackList)
-        const array1 = pichackList
-        this.items = array1
+        this.items = pichackList
       }).catch((error) => {
         if (error.response) {
           console.log(error.response)

@@ -62,8 +62,7 @@ export default {
         const operationCardList = operationList.userOperation
         const operationLastList = operationCardList
 
-        const array1 = operationLastList
-        this.items = array1
+        this.items = operationLastList
       }).catch((error) => {
         if (error.response) {
           console.log(error.response)
