@@ -471,8 +471,8 @@ const billType = [
     value: 'water',
     text: 'report.billReport.billType.water'
   }
-
 ]
+
 const operationName = [
   { header: 'حساب ' },
   {
@@ -523,6 +523,17 @@ const operationName2 = [
     value: 'Card_Issue',
     text: 'صدور کارت',
     url: '/card-reissue/delivery'
+  }
+]
+
+const errorType = [
+  {
+    value: 'c',
+    title: 'report.errorReport.errorType.c'
+  },
+  {
+    value: 's',
+    title: 'report.errorReport.errorType.s'
   }
 ]
 
@@ -579,9 +590,8 @@ export default {
   downloadTransactionList,
   downloadTransactionStatistics,
   downloadCustomer,
-
+  errorType,
   downloadCustomerStatistics,
   downloadErrorReport,
   transactionStatus
-
 }

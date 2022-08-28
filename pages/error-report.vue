@@ -80,7 +80,6 @@ export default {
         { text: this.$t('report.errorReport.headers.errorName'), value: 'errorName', sortable: false },
         { text: this.$t('report.errorReport.headers.errorType'), value: 'errorType', sortable: false },
         { text: this.$t('report.errorReport.headers.errorCode'), value: 'responseCode', sortable: false }
-
       ],
       items: [],
       chart: {
@@ -137,8 +136,10 @@ export default {
       this.chart.reportAll.series = data.map((item, index) => {
         return item.count
       })
-      if (this.chart.reportAll.series.length > 0) {
-        this.chart.reportAll.show = true
+      if (this.searchModel.errorReportListFilter.operation !== null || this.searchModel.errorReportListFilter.responseCode !== null) {
+        if (this.chart.reportAll.series.length > 0) {
+          this.chart.reportAll.show = true
+        }
       }
     },
     moment (date) {

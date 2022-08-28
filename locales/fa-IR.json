@@ -34,7 +34,7 @@
         "count": "تعداد رخداد",
         "errorName": "نام",
         "errorCode": "کد پاسخ",
-        "errorType": "نوع حطا",
+        "errorType": "نوع خطا",
         "errorTextPersian": "شرح خطا"
       },
       "errorType": {
@@ -470,7 +470,7 @@
     "users": "مدیریت کاربران",
     "bill": "استعلام قبض",
     "refundStatistics": "آمار استرداد وجه",
-    "transactionStatus": "وضعیت تراکنش ها"
+    "transactionStatus": "آمار تراکنش ها"
 
   },
   "createExcel": {
@@ -599,7 +599,7 @@
     "operation": "عملیات",
     "result": "نتیجه",
     "platform": "بستر",
-    "errorCode": "کد پاسخ ",
+    "errorType": "نوع خطا ",
     "requestId": "",
     "customerType": "",
     "smsTransactionId": "شناسه پیامکی",
@@ -614,7 +614,6 @@
     "refundTime": "بازگشت وجه از",
     "orderField": "مرتب سازی براساس",
     "transactionBank": "شناسه موبایل بانک",
-    "trackerIdBank": "کد پیگیری بانک",
     "refund": "استرداد وجه",
     "trackerIdBank": "کد پیگیری عملیات",
     "errorCode": "کد پاسخ تراکنش",
