@@ -148,7 +148,7 @@ const defaultFilter = {
   },
   paginate: {
     page: 1,
-    length: 25,
+    length: 75,
     sort: {
       property: 'errorCode',
       direction: 'desc'
@@ -174,7 +174,7 @@ export default {
         operationType: 'ALL'
       },
       items: [],
-      error: [],
+      errorItems: [],
       errorTypeItems: reportManager.errorType,
       downloadLoading: false
     }

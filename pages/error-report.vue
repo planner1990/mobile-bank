@@ -31,7 +31,7 @@
           class="elevation-5 fullScreen"
           :loading="loading"
           :footer-props="{
-            'items-per-page-options': [25, 50, 100, 200, 400]
+            'items-per-page-options': [50, 75, 150, 300, 600, 1000]
           }"
           :items-per-page.sync="searchModel.paginate.length"
           :page.sync="searchModel.paginate.page"
@@ -64,7 +64,7 @@ export default {
       searchModel: {
         paginate: {
           page: 1,
-          length: 20,
+          length: 75,
           sort: {
             property: 'url',
             direction: 'desc'
@@ -101,12 +101,14 @@ export default {
         this.searchModel.paginate.page = 1
       }
       this.loading = true
+      const self = this
       reportManager.errorList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
-        this.chartMake(response.data.itemList)
+        this.chartMake(response.data.itemList, self)
       }).catch((error) => {
+        console.warn(error)
         if (error.response) {
           this.alert({
             color: 'orange',
@@ -124,21 +126,20 @@ export default {
           this.loading = false
         })
     },
-    chartMake: function (data) {
-      this.chart.reportAll.show = false
-      this.chart.reportAll.change = Math.random()
-      this.chart.reportAll.labels = []
-      this.chart.reportAll.series = []
-      // --------------------------------------------------------------
-      this.chart.reportAll.labels = data.map((item, index) => {
-        return (item.operation + '-' + item.responseCode).toString()
-      })
-      this.chart.reportAll.series = data.map((item, index) => {
-        return item.count
-      })
-      if (this.searchModel.errorReportListFilter.operation !== null || this.searchModel.errorReportListFilter.responseCode !== null) {
-        if (this.chart.reportAll.series.length > 0) {
-          this.chart.reportAll.show = true
+    chartMake (data, self) {
+      self.chart.reportAll.show = false
+      self.chart.reportAll.change = Math.random()
+      self.chart.reportAll.labels = []
+      self.chart.reportAll.series = []
+      if (self.searchModel.errorReportListFilter.operation !== null || self.searchModel.errorReportListFilter.responseCode !== null) {
+        self.chart.reportAll.labels = data.map((item, index) => {
+          return (item.operation + '-' + item.responseCode).toString()
+        })
+        self.chart.reportAll.series = data.map((item, index) => {
+          return item.count
+        })
+        if (self.chart.reportAll.series.length > 0) {
+          self.chart.reportAll.show = true
         }
       }
     },
