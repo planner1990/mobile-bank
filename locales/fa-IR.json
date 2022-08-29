@@ -34,13 +34,25 @@
         "count": "تعداد رخداد",
         "errorName": "نام",
         "errorCode": "کد پاسخ",
-        "errorType": "نوع حطا",
+        "errorType": "نوع خطا",
         "errorTextPersian": "شرح خطا"
       },
       "errorType": {
         "c": "کاربری",
         "s": "سیستمی",
         "": "تعیین نشده"
+      },
+      "chart": {
+        "chartTitleAll": "نمودار نسبت هر خطا به تعداد کل خطاها",
+        "chartTitleActions": "نمودار نسبت هر خطا به تعداد کل به ازای هر عملیات",
+        "chartTitleCodesError": "نمودار نسبت هر خطا به تعداد کل به ازای هر کد خطا"
+      }
+    },
+    "transactionStatus": {
+      "title": "گزارش وضعیت پرداخت ها",
+      "chart": {
+        "chartSuccess": "نمودار تراکنش های موفق",
+        "chartFail": "نمودار تراکنش های به خطا خورده"
       }
     },
     "transactionReport": {
@@ -466,7 +478,9 @@
     "income": "گزارش درآمد",
     "users": "مدیریت کاربران",
     "bill": "استعلام قبض",
-    "refundStatistics": "آمار استرداد وجه"
+    "refundStatistics": "آمار استرداد وجه",
+    "transactionStatus": "آمار تراکنش ها"
+
   },
   "createExcel": {
     "download": "دانلود فایل",
@@ -571,6 +585,7 @@
     "createFile": "ایجاد فایل"
   },
   "filters": {
+    "duration": "بازه زمانی",
     "month": "انتخاب ماه",
     "fromDate": "از تاریخ",
     "toDate": "تا تاریخ",
@@ -593,7 +608,7 @@
     "operation": "عملیات",
     "result": "نتیجه",
     "platform": "بستر",
-    "errorCode": "کد پاسخ ",
+    "errorType": "نوع خطا ",
     "requestId": "",
     "customerType": "",
     "smsTransactionId": "شناسه پیامکی",
@@ -608,7 +623,6 @@
     "refundTime": "بازگشت وجه از",
     "orderField": "مرتب سازی براساس",
     "transactionBank": "شناسه موبایل بانک",
-    "trackerIdBank": "کد پیگیری بانک",
     "refund": "استرداد وجه",
     "trackerIdBank": "کد پیگیری عملیات",
     "errorCode": "کد پاسخ تراکنش",

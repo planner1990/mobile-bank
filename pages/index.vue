@@ -532,7 +532,6 @@ export default {
     },
     okOperationDialog () {
       this.cardList = this.cardOperationList
-      const operationDepositList = this.cardOperationList
       this.operationList = this.depositOperationList.concat(this.cardReissueOperationList, this.cardOperationList, this.loanRequestOperationList,
         this.onlineDepositOperationList, this.publicOperationList, this.userOperationList)
       this.operationDialog = false
@@ -580,7 +579,7 @@ export default {
         document.body.appendChild(fileLink)
         fileLink.click()
         // ------------
-      }).catch((error) => {
+      }).catch(() => {
         this.alert({
           color: 'error',
           content: 'global.failed'

@@ -138,9 +138,6 @@ export default {
       this.loading = true
       reportManager.billList(searchModel, this.$axios).then((response) => {
         this.items = response.data.data.data
-        console.log('this.items')
-        console.log(this.items)
-
         this.totalNumberOfItems = response.data.data.total
       }).catch((error) => {
         if (error.response) {

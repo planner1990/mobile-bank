@@ -73,6 +73,12 @@ async function transactionDetailsQuery (request, axios) {
   console.log(rest)
   return rest
 }
+async function transactionStatus (request, axios) {
+  console.log('transactionStatus us call')
+  const rest = await axios.post('transaction/chart-transaction-count', request)
+  console.log(rest)
+  return rest
+}
 async function operationList (request, axios) {
   console.log('transactionLisu us call')
   const rest = await axios.post('operation/groupList', request)
@@ -465,8 +471,8 @@ const billType = [
     value: 'water',
     text: 'report.billReport.billType.water'
   }
-
 ]
+
 const operationName = [
   { header: 'حساب ' },
   {
@@ -488,6 +494,46 @@ const operationName = [
     value: 'Deposit_Statement',
     text: 'صورتحساب',
     url: '/rest/deposit/statement'
+  }
+]
+
+const operationName2 = [
+  { header: 'حساب ' },
+  // {
+  //   value: 'Deposit_Pay_Bill',
+  //   text: 'پرداخت قبض از حساب',
+  //   url: '/rest/deposit/pay-bill'
+  // },
+  {
+    value: 'Deposit_Pay_Loan',
+    text: 'پرداخت تسهیلات',
+    url: '/loan-request/accept-contract'
+  },
+  {
+    value: 'Open_Deposit',
+    text: 'افتتاح حساب',
+    url: '/deposit-panel-backend/open-deposit-process/open-deposit'
+  },
+  // {
+  //   value: 'Deposit_Statement',
+  //   text: 'صورتحساب',
+  //   url: '/rest/deposit/statement'
+  // }
+  {
+    value: 'Card_Issue',
+    text: 'صدور کارت',
+    url: '/card-reissue/delivery'
+  }
+]
+
+const errorType = [
+  {
+    value: 'c',
+    title: 'report.errorReport.errorType.c'
+  },
+  {
+    value: 's',
+    title: 'report.errorReport.errorType.s'
   }
 ]
 
@@ -528,6 +574,7 @@ export default {
   platform,
   groupBy,
   operationName,
+  operationName2,
   source,
   chargeAmount,
   customerType,
@@ -543,8 +590,8 @@ export default {
   downloadTransactionList,
   downloadTransactionStatistics,
   downloadCustomer,
-
+  errorType,
   downloadCustomerStatistics,
-  downloadErrorReport
-
+  downloadErrorReport,
+  transactionStatus
 }

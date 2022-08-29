@@ -62,8 +62,7 @@ export default {
         const operationPublicList = operationList.publicOperation
         const operationLastList = operationPublicList
 
-        const array1 = operationLastList
-        this.items = array1
+        this.items = operationLastList
       }).catch((error) => {
         if (error.response) {
           console.log(error.response)
