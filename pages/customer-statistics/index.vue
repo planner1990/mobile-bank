@@ -62,8 +62,8 @@
 
 <script>
 import { mapMutations } from 'vuex'
-import CustomerStatisticsFilter from '@/components/customerStatisticsFilter'
-import userManager from '@/repository/user_manager'
+import CustomerStatisticsFilter from '~/components/customerStatisticsFilter'
+import userManager from '~/repository/user_manager'
 
 // import ProvinceSelector from '@/components/location/provinceSelector.vue'
 // import CitySelector from '@/components/location/citySelector'

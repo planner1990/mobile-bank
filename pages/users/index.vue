@@ -219,11 +219,10 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import UserFilter from '@/components/User/searchFilter'
-import userManager from '@/repository/user_manager'
-import provinceViewer from '@/components/location/provinceViewer'
-import branchViewer from '@/components/location/branchViewer'
-
+import UserFilter from '~/components/User/searchFilter'
+import userManager from '~/repository/user_manager'
+import provinceViewer from '~/components/location/provinceViewer'
+import branchViewer from '~/components/location/branchViewer'
 
 export default {
   components: {
