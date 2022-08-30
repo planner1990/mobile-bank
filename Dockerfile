@@ -2,6 +2,7 @@ FROM artifactory.asredanesh.com/docker/node:current-buster-slim
 # Install node packages
 WORKDIR /usr/src/app
 COPY package.json ./
+COPY package-lock.json ./
 RUN yarn install
 # Copy application source
 WORKDIR /usr/src

@@ -8,7 +8,7 @@
               <v-img
                 :aspect-ratio="16/9"
                 contain
-                :src="require('@/static/mehr-bank.png')"
+                :src="require('~/static/mehr-bank.png')"
               />
             </v-card>
           </div>

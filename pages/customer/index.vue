@@ -87,8 +87,8 @@
 <script>
 import { mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
-import CustomerFilter from '@/components/customerFilter'
-import userManager from '@/repository/user_manager'
+import CustomerFilter from '~/components/customerFilter'
+import userManager from '~/repository/user_manager'
 export default {
   components: {
     'customer-filter': CustomerFilter
