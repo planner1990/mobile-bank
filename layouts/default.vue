@@ -217,7 +217,7 @@ export default {
           to: '/bill-report'
         },
         {
-          icon: 'mdi-account-tie',
+          icon: 'mdi-calendar-account-outline',
           title: 'menu.users',
           to: '/users'
         }
