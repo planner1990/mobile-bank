@@ -125,7 +125,7 @@
       "billType": {
         "electricity": "برق",
         "mci": "همراه اول",
-        "tci": "رایتل",
+        "tci": "تلفن",
         "gas": "گاز",
         "water": "آب"
       },
@@ -159,9 +159,18 @@
       "billType": {
         "electricity": "برق",
         "mci": "همراه اول",
-        "tci": "رایتل",
+        "tci": "تلفن",
         "gas": "گاز",
         "water": "آب"
+      },
+      "billStatus": {
+        "successAmount": "موفق",
+        "successAmountNull": "موفق",
+        "successAmountUnder1000": "موفق",
+        "Error": "ناموفق",
+        "400": "ناموفق",
+        "502": "ناموفق",
+        "start": "ناموفق"
       }
     },
     "chargeReport": {

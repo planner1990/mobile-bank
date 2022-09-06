@@ -460,7 +460,7 @@ const billType = [
     text: 'report.billReport.billType.mci'
   },
   {
-    value: 'electricity',
+    value: 'tci',
     text: 'report.billReport.billType.tci'
   },
   {

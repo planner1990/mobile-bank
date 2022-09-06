@@ -38,6 +38,9 @@
           <template #[`item.type`]="{ item }">
             {{ $t('report.billReport.billType.' + item.type) }}
           </template>
+          <template #[`item.status`]="{ item }">
+            {{ $t('report.billReport.billStatus.' + item.status) }}
+          </template>
 
           <template #item.errorCode="{ item }">
             <template v-if="item.errorCode !== null">
@@ -102,9 +105,9 @@ export default {
       loading: false,
       headers: [
         { text: this.$t('report.billReport.headers.type'), value: 'type', sortable: false },
-        { text: this.$t('report.billReport.headers.status'), value: 'status', sortable: false },
         { text: this.$t('report.billReport.headers.billId'), value: 'inq_search', sortable: false },
-        { text: this.$t('report.billReport.headers.createDate'), value: 'created_at', sortable: false }],
+        { text: this.$t('report.billReport.headers.createDate'), value: 'created_at', sortable: false },
+        { text: this.$t('report.billReport.headers.status'), value: 'status', sortable: false }],
 
       items: []
     }
