@@ -10,8 +10,7 @@ const instance = axios.create({
 })
 
 async function refreshToken (refresh) {
-  const res = await instance.post('/sso/token', { token: refresh })
-  return res
+  return await instance.post('/sso/token', { token: refresh })
 }
 
 async function login (username, password, axios) {
