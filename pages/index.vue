@@ -1,6 +1,7 @@
 <template>
   <small @click="redirect()">RUNNING ...</small>
 </template>
+
 <script>
 export default {
   // this page only redirect to custom root page
