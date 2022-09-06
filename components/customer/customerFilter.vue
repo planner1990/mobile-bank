@@ -7,11 +7,10 @@
       class="black--text"
       color="lightGreen"
       flat
-      dark
       dense
-      elevation="1"
+      dark
     >
-      {{ $t('titles.filters') }}
+      {{ $t("customer.title") }}
       <v-spacer />
     </v-toolbar>
     <v-container fluid>
@@ -19,14 +18,14 @@
         <v-col cols="2">
           <v-text-field
             id="createFromDate"
-            v-model="from"
+            v-model="fromDate"
             prepend-icon="mdi-calendar-month"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
           />
           <p-date-picker
-            v-model="from"
+            v-model="fromDate"
             type="datetime"
             element="createFromDate"
             color="dimgray"
@@ -38,18 +37,17 @@
             @close="checkIsNullFromDate()"
           />
         </v-col>
-
         <v-col cols="2">
           <v-text-field
             id="createToDate"
-            v-model="to"
+            v-model="toDate"
             prepend-icon="mdi-calendar-month"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
           />
           <p-date-picker
-            v-model="to"
+            v-model="toDate"
             type="datetime"
             element="createToDate"
             color="dimgray"
@@ -63,24 +61,43 @@
         </v-col>
         <v-col cols="2">
           <v-select
-            v-model="filter.status"
-            :items="status"
+            v-model="request.customerListFilter.customerType"
+            :items="customerType"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
-            :label="$t('offer.status')"
+            :label="$t('customer.customerType')"
             prepend-icon="mdi-clipboard-list"
             dense
             clearable
             outlined
           />
         </v-col>
+
         <v-col cols="2">
           <v-text-field
-            v-model="filter.title"
+            v-model="request.customerListFilter.phoneNumber"
+            :label="$t('customer.phoneNumber')"
             dense
             outlined
-            :label="$t('offer.title')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="request.customerListFilter.cif"
+            :label="$t('customer.cif')"
+            dense
+            outlined
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="request.customerListFilter.fullName"
+            :label="$t('customer.name')"
+            dense
+            outlined
             prepend-icon="mdi-account"
           />
         </v-col>
@@ -114,109 +131,92 @@
 </template>
 
 <script>
-import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
+import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
+import userManager from '~/repository/user_manager'
 import reportManager from '~/repository/report_manager'
-const defaultFilter = {
-  status: null,
-  title: null,
-  dateFrom: null,
-  dateTo: null
+
+const defaultSearchModel = {
+  customerListFilter: {
+    cif: null,
+    phoneNumber: null,
+    customerType: null,
+    fullName: null
+  },
+  dateFilter: {
+    from: null,
+    to: null
+  },
+  paginate: {
+    page: 1,
+    length: 50,
+    sort: {
+      property: 'id',
+      direction: 'desc'
+    }
+  }
 
 }
+
 export default {
-  name: 'OfferFilter',
+  name: 'LoanFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
-    // OperationSelector
   },
   props: {
-    value: Object({})
+    value: Object(defaultSearchModel)
   },
   data () {
     return {
-      from: this.currentDayFrom(),
-      to: this.currentDayTo(),
-      time: null,
-      menu2: false,
-      modal2: false,
-      filter: defaultFilter,
-      osName: reportManager.osName,
-      platform: reportManager.platform,
-      source: reportManager.source,
-      operationName: reportManager.operationName,
-      status: reportManager.offerStatus,
-      items: [],
-      errorItems: []
+      fromDate: this.currentDayFrom(),
+      toDate: this.currentDayTo(),
+      roles: userManager.userRoles,
+      customerType: userManager.customerType,
+      status: userManager.userStatus,
+      loading: false,
+      request: defaultSearchModel
     }
   },
   mounted: function () {
-    defaultFilter.dateFrom = this.convertJalaliDateToTimestamp(this.from)
-    defaultFilter.dateTo = this.convertJalaliDateToTimestamp(this.to)
-    this.filter = Object.assign(this.value, defaultFilter)
-    this.operation()
-    this.errorList()
+    defaultSearchModel.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+    defaultSearchModel.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    this.filter = Object.assign(this.value, defaultSearchModel)
   },
   methods: {
     search () {
-      this.$emit('search', this.filter)
-    },
-    operation () {
       this.loading = true
-      reportManager.operationList(this.$axios).then((response) => {
-        console.log(response)
-        const operationList = response.data
-        this.items = operationList
-        console.log(operationList)
-      }).catch((error) => {
-        if (error.response) {
-          console.log(error.response)
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          console.log('error.response is null')
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-        this.loading = false
-      })
+      this.request = Object.assign(this.value, defaultSearchModel)
+      this.$emit('search', this.request)
+      this.loading = false
     },
-    errorList () {
-      this.loading = true
-      reportManager.errorList(this.$axios).then((response) => {
-        console.log(response)
-        const errorList = response.data
-        this.errorItems = errorList
-        console.log(errorList)
-      }).catch((error) => {
-        if (error.response) {
-          console.log(error.response)
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          console.log('error.response is null')
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-        this.loading = false
+
+    downloadReports (searchModel) {
+      this.downloadLoading = true
+      reportManager.downloadCustomer(defaultSearchModel, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'customer-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch(() => {
+        this.alert({
+          color: 'error',
+          content: 'global.failed'
+        })
+      }).finally(() => {
+        this.downloadLoading = false
       })
     },
     checkIsNullFromDate () {
-      if (this.from != null) {
-        this.filter.dateFrom = this.convertJalaliDateToTimestamp(this.from)
+      if (this.fromDate != null) {
+        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
       }
     },
     checkIsNullToDate () {
-      if (this.to != null) {
-        this.filter.dateTo = this.convertJalaliDateToTimestamp(this.to)
+      if (this.toDate != null) {
+        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
       }
     },
     currentDayFrom: function () {
@@ -248,14 +248,9 @@ export default {
       const minute = moment(date, 'HH:mm jYYYY/jMM/jDD').format('mm')
       const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
       const d = new Date(gmtDate)
-      console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
       return d.getTime() + (d.getTimezoneOffset() * 60000)
     }
-
   }
 }
+
 </script>
-
-<style scoped>
-
-</style>

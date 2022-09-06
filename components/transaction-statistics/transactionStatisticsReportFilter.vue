@@ -107,6 +107,7 @@
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
 import reportManager from '~/repository/report_manager'
+
 const defaultFilter = {
   operatingSystem: null,
   dateFilter: {
@@ -170,7 +171,7 @@ export default {
         document.body.appendChild(fileLink)
         fileLink.click()
         // ------------
-      }).catch((error) => {
+      }).catch(() => {
         this.alert({
           color: 'error',
           content: 'global.failed'

@@ -94,6 +94,7 @@
 <script>
 import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
+
 const defaultFilter = {
   dateFilter: {
     from: null,

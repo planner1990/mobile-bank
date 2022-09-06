@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import profileCard from '~/components/profileCard'
+import profileCard from '~/components/profile/profileCard'
 export default {
   name: 'Profile',
   components: {

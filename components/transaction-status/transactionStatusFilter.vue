@@ -119,6 +119,7 @@
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
 import reportManager from '~/repository/report_manager'
+
 const defaultFilter = {
   transactionChartDto: {
     duration: 'daily',

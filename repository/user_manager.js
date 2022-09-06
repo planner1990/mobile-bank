@@ -59,7 +59,6 @@ const customerType = [
 ]
 
 const userPermissions = [
-
   {
     value: 'REPORTER_ACCESS',
     text: 'user.permissions.1'

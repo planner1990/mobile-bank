@@ -69,10 +69,9 @@
 </template>
 
 <script>
-import momentJalali from 'moment-jalaali'
-import { mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
-import billReportFilter from '~/components/billReportFilter'
+import { mapMutations } from 'vuex'
+import billReportFilter from '~/components/bill-report/billReportFilter'
 import reportManager from '~/repository/report_manager'
 
 export default {
@@ -174,7 +173,7 @@ export default {
       console.log(platform)
     },
     moment (date) {
-      return momentJalali(date).format('HH:mm:ss jYYYY/jM/jD')
+      return moment(date).format('HH:mm:ss jYYYY/jM/jD')
     }
   }
 }

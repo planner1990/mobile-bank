@@ -58,8 +58,7 @@
 <script>
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
-
-import refundStatisticsFilter from '~/components/refundStatisticsFilter'
+import refundStatisticsFilter from '~/components/refund-statistics/refundStatisticsFilter'
 import refundStatisticsManager from '~/repository/refundStatistics_manager'
 
 export default {

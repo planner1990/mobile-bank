@@ -10,7 +10,7 @@
       dense
       dark
     >
-      {{ $t("customer.title") }}
+      {{ $t("income.title") }}
       <v-spacer />
     </v-toolbar>
     <v-container fluid>
@@ -91,11 +91,13 @@
 <script>
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
-import userManager from '@/repository/user_manager'
+import userManager from '~/repository/user_manager'
 import reportManager from '~/repository/report_manager'
 
 const defaultSearchModel = {
   persianDate: null,
+  month: null,
+  year: null,
   paginate: {
     page: 1,
     length: 50,
@@ -107,7 +109,7 @@ const defaultSearchModel = {
 }
 
 export default {
-  name: 'LoanFilter',
+  name: 'IncomeReportFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },
@@ -115,6 +117,8 @@ export default {
     // defaultSearchModel.persianDate = this.convertJalaliDateToTimestamp(this.fromMonth, this.fromYear)
     console.log(this.currentYear() + this.currentMonth())
     defaultSearchModel.persianDate = this.currentYear() + '/' + this.currentMonth()
+    defaultSearchModel.month = this.currentMonth()
+    defaultSearchModel.year = this.currentYear()
     this.filter = Object.assign(this.value, defaultSearchModel)
   },
   props: {
@@ -139,11 +143,12 @@ export default {
     },
     downloadReports (searchModel) {
       this.downloadLoading = true
-      reportManager.downloadCustomerStatistics(defaultSearchModel, this.$axios).then((res) => {
+      delete searchModel.paginate
+      reportManager.downloadTransactionStatistics(defaultSearchModel, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL
-        fileLink.setAttribute('download', 'customer-reports.xlsx')
+        fileLink.setAttribute('download', 'operator-reports.xlsx')
         document.body.appendChild(fileLink)
         fileLink.click()
         // ------------
@@ -159,12 +164,9 @@ export default {
     },
     checkIsNull () {
       if (this.fromYear != null) {
-        console.log('sddsdsd')
-        console.log(this.convertJalaliDateToTimestamp(this.fromYear))
-        console.log(this.convertJalaliDateToTimestamp(this.fromMonth))
-
         defaultSearchModel.persianDate = this.convertJalaliDateToTimestamp(this.fromMonth, this.fromYear)
-        console.log(defaultSearchModel.persianDate)
+        defaultSearchModel.year = this.fromYear
+        defaultSearchModel.month = this.fromMonth
       }
     },
     convertJalaliDateToTimestamp (month, year) {

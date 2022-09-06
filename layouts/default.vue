@@ -118,6 +118,7 @@
       <v-btn
         v-if="isLogin"
         color="orange"
+        style="background-color: #3e3629 !important;border-color: #3e3629 !important;color: white;"
         @click="doLogout"
       >
         {{ $t('login.logout') }}
@@ -130,10 +131,15 @@
       <nuxt />
     </v-main>
     <v-footer :fixed="true" app>
-      <span class="copyrightLtr">
-        &copy; {{ new Date().getFullYear() }} {{ $t('company') }}
-        <v-icon small>mdi-account-group</v-icon>
-      </span>
+      <div class="copyrightLtr" style="width: 100%;">
+        <span style="float: right;">
+          {{ $t('projectName') }} - {{ $t('company') }}
+          <v-icon small>mdi-copyright</v-icon>
+        </span>
+        <span style="float: left;">
+          {{ $t('version') }}
+        </span>
+      </div>
     </v-footer>
     <snackbar />
   </v-app>
@@ -169,7 +175,7 @@ export default {
         {
           icon: 'mdi-apps-box',
           title: 'menu.transaction',
-          to: '/'
+          to: '/transactionReport'
         },
         {
           icon: 'mdi-chart-box',
@@ -248,14 +254,11 @@ export default {
       currentUser: 'user/me'
     }),
     checkUserAccess: function () {
-      return this.checkUserAccess1()
+      return this.checkUserAccessMethod()
     },
-
     checkUserAccessReports () {
-      // if (this.currentUser.role !== undefined) {
-
       if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
-      (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
+        (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
         return this.reports
       } else if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
         return null
@@ -277,8 +280,7 @@ export default {
       this.logout()
       this.$router.push('/login')
     },
-    checkUserAccess1 () {
-      // if (this.currentUser.role !== undefined) {
+    checkUserAccessMethod () {
       if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
       (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
         return this.items

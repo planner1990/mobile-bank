@@ -117,6 +117,7 @@
 import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import reportManager from '~/repository/report_manager'
+
 const defaultFilter = {
   billListFilter: {
     billId: null,

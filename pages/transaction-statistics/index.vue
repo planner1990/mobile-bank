@@ -54,10 +54,10 @@
 <script>
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
-import transactionStatisticsReportFilter from '~/components/transactionStatisticsReportFilter'
-import cardStatistics from '~/components/cardStatistics'
-import depositStatistics from '~/components/depositStatistics'
-import otherStatistics from '~/components/otherStatistics'
+import transactionStatisticsReportFilter from '~/components/transaction-statistics/transactionStatisticsReportFilter'
+import cardStatistics from '~/components/transaction-statistics/cardStatistics'
+import depositStatistics from '~/components/transaction-statistics/depositStatistics'
+import otherStatistics from '~/components/transaction-statistics/otherStatistics'
 import reportManager from '~/repository/report_manager'
 
 export default {

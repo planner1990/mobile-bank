@@ -7,7 +7,7 @@
       <v-row
         justify="center"
       >
-        <transactionQueryReportFilter v-model="searchModel" @search="search" @edit="editItem2()" />
+        <transactionReportFilter v-model="searchModel" @search="search" @edit="editItem2()" />
       </v-row>
       <br>
       <br>
@@ -83,6 +83,9 @@
                           <v-card-text dir="ltr" class="text-center">
                             <div align="justify" style="width:450px;overflow:auto">
                               <vue-json-pretty :data="requestJson" />
+                            <!-- <pre>   //{{ item.responseJson }}
+
+                            </pre>-->
                             </div>
                           </v-card-text>
                         </v-card>
@@ -109,6 +112,9 @@
                             <v-card-text dir="ltr">
                               <div align="justify" style="width:450px;overflow:auto">
                                 <vue-json-pretty :data="responseJson" />
+                                <!-- <pre>   //{{ item.responseJson }}
+
+                            </pre>-->
                               </div>
                             </v-card-text>
                           </v-card>
@@ -128,6 +134,7 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
+
             <v-dialog
               v-model="operationDialog"
               width="1200"
@@ -241,7 +248,6 @@
               </v-card>
             </v-dialog>
           </template>
-
           <template #[`item.requestTime`]="{ item }">
             {{ convertToJalali(item.requestTime) }}
           </template>
@@ -254,6 +260,28 @@
           <template #[`item.amount`]="{ item }">
             {{ priceFormat(item.amount) }}
           </template>
+          <template #item.responseCode="{ item }">
+            <template v-if="item.responseCode !== null">
+              <v-chip
+                :color="getColor(item.responseCode)"
+                class="v-chip.v-size--default justify-center"
+                label
+              >
+                {{ item.responseCode }}
+              </v-chip>
+            </template>
+          </template>
+          <!--     <template #item.responseCode="{ item }">
+            <template v-if="item.responseCode !== null">
+              <v-chip
+                label="false"
+                class="width:100px;"
+                :color="getColor(item.responseCode)"
+              >
+                {{ item.responseCode }}
+              </v-chip>
+            </template>
+          </template>-->
           <template #[`item.detail`]="{ item }">
             <v-icon
               small
@@ -262,17 +290,6 @@
             >
               mdi-eye
             </v-icon>
-          </template>
-          <template #item.responseCode="{ item }">
-            <template v-if="item.responseCode !== null">
-              <v-chip
-                :color="getColor(item.responseCode)"
-                label
-                class="v-chip.v-size--default justify-center"
-              >
-                {{ item.responseCode }}
-              </v-chip>
-            </template>
           </template>
         </v-data-table>
       </v-row>
@@ -283,28 +300,58 @@
 <script>
 import 'vue-json-pretty/lib/styles.css'
 import moment from 'moment-jalaali'
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import VueJsonPretty from 'vue-json-pretty'
-import transactionQueryReportFilter from '~/components/transactionQuery/transactionQueryReportFilter'
+import transactionReportFilter from '~/components/transactionReport/transactionReportFilter'
 import reportManager from '~/repository/report_manager'
 import depositOperations from '~/components/transactionQuery/depositOperations'
 import cardOperations from '~/components/transactionQuery/cardOperations'
 import loanOperations from '~/components/transactionQuery/loanRequestOperations'
 import onlineDepositOperations from '~/components/transactionQuery/onlineDepositeOperations'
+import pichackOperations from '~/components/transactionQuery/pichackOperations'
 import cardReissueOperations from '~/components/transactionQuery/cardReissueOperations'
 import publicOperations from '~/components/transactionQuery/publicOperations'
 import userOperations from '~/components/transactionQuery/userOperations'
-import pichackOperations from '~/components/transactionQuery/pichackOperations'
 
 const defaultFilterdetails = {
   transactionListFilter: {
     transactionId: null
   }
 }
+const defaultFilterOperation = {
+  transactionListFilter: {
+    // smsId: null,
+    phoneNumber: null,
+    operation: [],
+    sourceNumber: null,
+    sourceType: null,
+    result: null,
+    platform: null,
+    requestId: null,
+    os: null,
+    transactionId: null,
+    amount: null,
+    cif: null,
+    responseCode: null,
+    typeList: null
+  },
+  dateFilter: {
+    from: null,
+    to: null
+  },
+  paginate: {
+    page: 1,
+    length: 50,
+    sort: {
+      property: 'id',
+      direction: 'desc'
+    }
+  }
+}
 export default {
   name: 'TransactionReport',
   components: {
-    transactionQueryReportFilter,
+    transactionReportFilter,
     depositOperations,
     cardOperations,
     loanOperations,
@@ -331,8 +378,9 @@ export default {
         }
       },
       operationType: {
-        operationType: 'QUERY'
+        operationType: 'LIST'
       },
+      filterOperation: defaultFilterOperation,
       filterDetails: defaultFilterdetails,
       totalNumberOfItems: 0,
       loading: false,
@@ -347,7 +395,6 @@ export default {
         { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false },
         { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
         { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
-
       ],
       headersTransaction: [
         { text: this.$t('report.transactionReport.headers.responseTime'), value: 'responseLongTime', sortable: false },
@@ -379,12 +426,10 @@ export default {
       onlineDepositList: [],
       otherList: [],
       operationList: [],
-      listType: 'query'
+      listType: 'LIST'
     }
   },
-  // mounted () {
-  //   this.search(this.searchModel)
-  // },
+
   computed: {
     ...mapGetters({
       cardOperationList: 'onlineDepositStore/cardOperationList',
@@ -399,13 +444,14 @@ export default {
     })
 
   },
+  // mounted () {
+  //   this.search(this.searchModel)
+  // },
   methods: {
-    ...mapActions({
-      removeAction: 'onlineDepositStore/removeAction'
-    }),
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+
     getColor (status) {
       if (status === 200) {
         return 'success'
@@ -447,8 +493,9 @@ export default {
         ip: item.ip
 
       })
+
       defaultFilterdetails.transactionListFilter.transactionId = item.id
-      reportManager.transactionDetailsQuery(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
+      reportManager.transactionDetails(defaultFilterdetails.transactionListFilter, this.$axios).then((response) => {
         this.itemsTransaction.splice(0, 1)
         // this.itemsTransaction.push(response.data)
         try {
@@ -459,7 +506,6 @@ export default {
         try {
           this.responseJson = JSON.parse(response.data.responseJson)
         } catch (e) {
-          console.log('catch json Exception')
           this.responseJson = response.data.responseJson
         }
         this.itemsTransaction.push({
@@ -467,7 +513,7 @@ export default {
           osVersion: response.data.osVersion,
           osName: response.data.osName,
           responseLongTime: response.data.responseLongTime,
-          requestId: response.data.requestId,
+          requestId: response.data.trackerId,
           ip: response.data.ipAddress,
           traceId: response.data.traceId
         })
@@ -481,7 +527,6 @@ export default {
     closeTransactionDetailsDialog () {
       this.itemsTransaction = []
       this.createDialog = false
-      this.itemsTransaction.splice(0, 1)
       this.operationDialog = false
     },
     okOperationDialog () {
@@ -492,11 +537,11 @@ export default {
     },
     search (searchModel) {
       this.loading = true
+
       this.filterOperation = searchModel
       this.filterOperation.transactionListFilter.operation = this.operationList
       reportManager.transactionList(this.filterOperation, this.$axios).then((response) => {
         this.items = response.data.itemList
-        this.removeAction()
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
       }).catch((error) => {
@@ -517,9 +562,11 @@ export default {
           this.loading = false
         })
     },
-
     convertToJalali (date) {
       return moment(date).format('HH:mm:ss jYYYY/jM/jD')
+    },
+    downloadReports1 () {
+
     },
     downloadReports (searchModel) {
       this.downloadLoading = true
@@ -531,8 +578,7 @@ export default {
         document.body.appendChild(fileLink)
         fileLink.click()
         // ------------
-      }).catch((error) => {
-        console.log(error)
+      }).catch(() => {
         this.alert({
           color: 'error',
           content: 'global.failed'
@@ -547,11 +593,23 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
   .fullScreen {
     width: 100%;
   }
 
+  html {
+    font-size: 12px !important;
+    text-rendering: optimizeLegibility;
+  }
+
+  .short span{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width:30px;
+
+  }
   .v-chip.v-size--default {
     border-radius: 16px;
     font-size: 10px;
@@ -560,4 +618,5 @@ export default {
     color: white;
     padding: 0 5px;
   }
+
 </style>

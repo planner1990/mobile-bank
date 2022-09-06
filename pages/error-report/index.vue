@@ -50,7 +50,7 @@
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
 import reportManager from '~/repository/report_manager'
-import errorReportFilter from '~/components/errorReportFilter'
+import errorReportFilter from '~/components/error-report/errorReportFilter'
 import LineChart from '~/components/charts/LineChart'
 
 export default {

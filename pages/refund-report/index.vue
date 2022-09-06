@@ -368,13 +368,13 @@
 </template>
 
 <script>
-import momentJalali from 'moment-jalaali'
-import { mapMutations } from 'vuex'
-import moment from 'moment-jalaali'
-import VueJsonPretty from 'vue-json-pretty'
-import refundReportFilter from '~/components/refundReportFilter'
-import reportManager from '~/repository/report_manager'
 import 'vue-json-pretty/lib/styles.css'
+import moment from 'moment-jalaali'
+import { mapMutations } from 'vuex'
+import VueJsonPretty from 'vue-json-pretty'
+import refundReportFilter from '~/components/refund-report/refundReportFilter'
+import reportManager from '~/repository/report_manager'
+
 const defaultFilterdetails = {
   refundRequest: {
     refundStateEnum: null,
@@ -634,7 +634,7 @@ export default {
       }
     },
     moment (date) {
-      return momentJalali(date).format('HH:mm:ss jYYYY/jM/jD')
+      return moment(date).format('HH:mm:ss jYYYY/jM/jD')
     }
   }
 }

@@ -24,6 +24,7 @@
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
+            :label="$t('filters.createTime')"
           />
           <p-date-picker
             v-model="fromDate"
@@ -47,6 +48,7 @@
             outlined
             dense
             :placeholder="$t('filters.toDate')"
+            :label="$t('filters.to')"
           />
           <p-date-picker
             v-model="toDate"
@@ -62,48 +64,48 @@
           />
         </v-col>
         <v-col cols="2">
+          <v-select
+            v-model="filter.refundListFilter.orderType"
+            :items="orderType"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-select
+            v-model="filter.refundListFilter.orderField"
+            :items="transactionTimeType"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('filters.orderField')"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
+        </v-col>
+
+        <v-col cols="2">
           <v-text-field
-            v-model="filter.chargeListFilter.phoneNumber"
+            v-model="filter.refundListFilter.source"
             dense
             outlined
-            :label="$t('customer.phoneNumber')"
+            :label="$t('filters.sourceNumber')"
             prepend-icon="mdi-account"
           />
         </v-col>
         <v-col cols="2">
-          <v-select
-            v-model="filter.chargeListFilter.operator"
-            :items="operator"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.operator')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-select
-            v-model="filter.chargeListFilter.sourceType"
-            :items="source"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.source')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col cols="2">
           <v-text-field
-            v-model="filter.chargeListFilter.source"
+            v-model="filter.refundListFilter.phoneNumber"
             dense
             outlined
-            :label="$t('report.transactionReport.transaction.sourceNumber')"
+            :label="$t('filters.phoneNumber')"
             prepend-icon="mdi-account"
           />
         </v-col>
@@ -111,35 +113,58 @@
       <v-row>
         <v-col cols="2">
           <v-text-field
-            v-model="filter.chargeListFilter.requestId"
+            id="transactionFromDate"
+            v-model="transactionFromDate"
+            prepend-icon="mdi-calendar-month"
+            outlined
+            dense
+            :placeholder="$t('filters.fromDate')"
+            :label="$t('filters.transactionTime')"
+          />
+          <p-date-picker
+            v-model="transactionFromDate"
+            type="datetime"
+            element="transactionFromDate"
+            color="dimgray"
             dense
             outlined
-            :label="$t('filters.trackerId')"
-            prepend-icon="mdi-account"
+            popove
+            auto-submit
+            format="HH:mm jYYYY/jMM/jDD"
+            @close="checkIsNullTransactionFromDate()"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            id="transactionToDate"
+            v-model="transactionToDate"
+            prepend-icon="mdi-calendar-month"
+            outlined
+            dense
+            :placeholder="$t('filters.toDate')"
+            :label="$t('filters.to')"
+          />
+          <p-date-picker
+            v-model="transactionToDate"
+            type="datetime"
+            element="transactionToDate"
+            color="dimgray"
+            dense
+            outlined
+            popove
+            auto-submit
+            format="HH:mm jYYYY/jMM/jDD"
+            @close="checkIsNullTransactionToDate()"
           />
         </v-col>
         <v-col cols="2">
           <v-select
-            v-model="filter.chargeListFilter.amount"
-            :items="chargeAmount"
+            v-model="filter.refundListFilter.state"
+            :items="refundType"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
-            :label="$t('filters.chargeAmount')"
-            prepend-icon="mdi-clipboard-list"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-select
-            v-model="filter.chargeListFilter.result"
-            :items="resultId"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.result')"
+            :label="$t('filters.refund')"
             prepend-icon="mdi-clipboard-list"
             dense
             clearable
@@ -148,17 +173,92 @@
         </v-col>
         <v-col cols="2">
           <v-text-field
-            v-model="filter.chargeListFilter.transactionId"
+            v-model="filter.refundListFilter.requestId"
             dense
             outlined
-            :label="$t('filters.transactionId')"
+            :label="$t('filters.trackerIdBank')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.refundListFilter.amount"
+            dense
+            outlined
+            :label="$t('filters.amount')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.refundListFilter.transactionId"
+            dense
+            outlined
+            :label="$t('filters.transactionBank')"
             prepend-icon="mdi-account"
           />
         </v-col>
       </v-row>
-      <v-row />
+      <v-row>
+        <v-col cols="2">
+          <v-text-field
+            id="refundFromDate"
+            v-model="refundFromDate"
+            prepend-icon="mdi-calendar-month"
+            outlined
+            dense
+            :placeholder="$t('filters.fromDate')"
+            :label="$t('filters.refundTime')"
+          />
+          <p-date-picker
+            v-model="refundFromDate"
+            type="datetime"
+            element="refundFromDate"
+            color="dimgray"
+            dense
+            outlined
+            popove
+            auto-submit
+            format="HH:mm jYYYY/jMM/jDD"
+            @close="checkIsNullRefundFromDate()"
+          />
+        </v-col>
+
+        <v-col cols="2">
+          <v-text-field
+            id="refundToDate"
+            v-model="refundToDate"
+            prepend-icon="mdi-calendar-month"
+            outlined
+            dense
+            :placeholder="$t('filters.toDate')"
+            :label="$t('filters.to')"
+          />
+          <p-date-picker
+            v-model="refundToDate"
+            type="datetime"
+            element="refundToDate"
+            color="dimgray"
+            dense
+            outlined
+            popove
+            auto-submit
+            format="HH:mm jYYYY/jMM/jDD"
+            @close="checkIsNullRefundToDate()"
+          />
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="filter.refundListFilter.transactionResponseCode"
+            dense
+            outlined
+            :label="$t('filters.errorCode')"
+            prepend-icon="mdi-account"
+          />
+        </v-col>
+      </v-row>
       <v-row no-gutters>
-        <v-col>
+        <v-col cols="3">
           <v-btn
             color="success"
             small
@@ -168,8 +268,31 @@
             {{ $t('buttons.search') }}
           </v-btn>
         </v-col>
-        <v-col cols="10" />
-        <v-col>
+        <v-col cols="4" />
+        <v-col cols="2">
+          <v-btn
+            style="float: left"
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="refundList(defaultFilter)"
+          >
+            {{ $t('report.refundReport.refundList') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="2">
+          <v-btn
+            color="warning"
+            :loading="downloadLoading"
+            dark
+            small
+            @click="refundConfirmList(defaultFilter)"
+          >
+            {{ $t('report.refundReport.refundConfirmList') }}
+          </v-btn>
+        </v-col>
+        <v-col cols="1">
           <v-btn
             color="warning"
             :loading="downloadLoading"
@@ -186,22 +309,27 @@
 </template>
 
 <script>
-import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
+import moment from 'moment-jalaali'
 import reportManager from '~/repository/report_manager'
+
 const defaultFilter = {
-  chargeListFilter: {
+  refundListFilter: {
     phoneNumber: null,
-    operator: null,
-    sourceNumber: null,
-    sourceType: null,
-    result: null,
-    platform: null,
-    amount: null,
-    os: null,
-    transactionId: null,
+    source: null,
     requestId: null,
-    responseCode: null
+    state: null,
+    transactionId: null,
+    amount: null,
+    transactionResponseCode: null,
+    orderType: 'DESC',
+    orderField: 'requestTime',
+    errorCode: null,
+    transactionFromDate: null,
+    transactionToDate: null,
+    refundFromDate: null,
+    refundToDate: null,
+    refundType: null
   },
   dateFilter: {
     from: null,
@@ -217,7 +345,7 @@ const defaultFilter = {
   }
 }
 export default {
-  name: 'ChargeReportFilter',
+  name: 'RefundReportFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
     // OperationSelector
@@ -227,19 +355,20 @@ export default {
   },
   data () {
     return {
-      fromDate: this.currentDayFrom(),
-      toDate: this.currentDayTo(),
-      time: null,
+      fromDate: null,
+      toDate: null,
+      transactionFromDate: null,
+      transactionToDate: null,
+      refundFromDate: null,
+      refundToDate: null,
       menu2: false,
       modal2: false,
       filter: defaultFilter,
-      resultId: reportManager.resultId,
-      osName: reportManager.osName,
-      platform: reportManager.platform,
+      status: reportManager.status,
       source: reportManager.source,
-      chargeAmount: reportManager.chargeAmount,
-      operator: reportManager.operatorType,
-      chargeType: reportManager.chargeType,
+      refundType: reportManager.refundType,
+      orderType: reportManager.orderType,
+      transactionTimeType: reportManager.transactionTimeType,
       items: []
     }
   },
@@ -251,6 +380,10 @@ export default {
   mounted: function () {
     defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
     defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    defaultFilter.refundListFilter.transactionFromDate = this.convertJalaliDateToTimestamp(this.transactionFromDate)
+    defaultFilter.refundListFilter.transactionToDate = this.convertJalaliDateToTimestamp(this.transactionToDate)
+    defaultFilter.refundListFilter.refundFromDate = this.convertJalaliDateToTimestamp(this.refundFromDate)
+    defaultFilter.refundListFilter.refundToDate = this.convertJalaliDateToTimestamp(this.refundToDate)
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
   },
@@ -261,19 +394,15 @@ export default {
     operation () {
       this.loading = true
       reportManager.operationList(this.$axios).then((response) => {
-        console.log(response)
         const operationList = response.data
         this.items = operationList
-        console.log(operationList)
       }).catch((error) => {
         if (error.response) {
-          console.log(error.response)
           this.alert({
             color: 'orange',
             content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
           })
         } else {
-          console.log('error.response is null')
           this.alert({
             color: 'orange',
             content: 'messages.failed'
@@ -282,18 +411,23 @@ export default {
         this.loading = false
       })
     },
+    refundList (searchModel) {
+      this.$emit('refund', this.filter)
+    },
+    refundConfirmList (searchModel) {
+      this.$emit('confirmRefund', this.filter)
+    },
     downloadReports (searchModel) {
       this.downloadLoading = true
-      reportManager.downloadChargeList(defaultFilter, this.$axios).then((res) => {
+      reportManager.downloadRefundList(defaultFilter, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL
-        fileLink.setAttribute('download', 'charge-reports.xlsx')
+        fileLink.setAttribute('download', 'refund-reports.xlsx')
         document.body.appendChild(fileLink)
         fileLink.click()
         // ------------
-      }).catch((error) => {
-        console.log(error)
+      }).catch(() => {
         this.alert({
           color: 'error',
           content: 'global.failed'
@@ -301,6 +435,11 @@ export default {
       }).finally(() => {
         this.downloadLoading = false
       })
+    },
+    convertToJalali (date) {
+      if (date !== null) {
+        return moment(date).format('HH:mm:ss jYYYY/jM/jD')
+      }
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
@@ -312,6 +451,27 @@ export default {
         this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
       }
     },
+    checkIsNullTransactionFromDate () {
+      if (this.fromDate != null) {
+        this.filter.refundListFilter.transactionFromDate = this.convertJalaliDateToTimestamp(this.fromDate)
+      }
+    },
+    checkIsNullTransactionToDate () {
+      if (this.toDate != null) {
+        this.filter.refundListFilter.transactionToDate = this.convertJalaliDateToTimestamp(this.toDate)
+      }
+    },
+    checkIsNullRefundFromDate () {
+      if (this.fromDate != null) {
+        this.filter.refundListFilter.refundFromDate = this.convertJalaliDateToTimestamp(this.fromDate)
+      }
+    },
+    checkIsNullRefundToDate () {
+      if (this.toDate != null) {
+        this.filter.refundListFilter.refundToDate = this.convertJalaliDateToTimestamp(this.toDate)
+      }
+    },
+
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
@@ -341,10 +501,13 @@ export default {
       const minute = moment(date, 'HH:mm jYYYY/jMM/jDD').format('mm')
       const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
       const d = new Date(gmtDate)
-      console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
       return d.getTime() + (d.getTimezoneOffset() * 60000)
     }
 
   }
 }
 </script>
+
+<style scoped>
+
+</style>

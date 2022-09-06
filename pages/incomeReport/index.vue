@@ -51,10 +51,10 @@
 <script>
 import momentJalali from 'moment-jalaali'
 import { mapMutations } from 'vuex'
-import incomeReportFilter from '~/components/incomeReportFilter'
-import transferIncome from '~/components/transferIncome'
-import chargeIncome from '~/components/chargeIncome'
-import refundIncome from '~/components/refundIncome'
+import incomeReportFilter from '~/components/incomeReport/incomeReportFilter'
+import transferIncome from '~/components/incomeReport/transferIncome'
+import chargeIncome from '~/components/incomeReport/chargeIncome'
+import refundIncome from '~/components/incomeReport/refundIncome'
 import reportManager from '~/repository/report_manager'
 
 export default {
