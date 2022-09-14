@@ -1,8 +1,10 @@
 export default function ({ route, redirect }) {
   const token = sessionStorage.getItem('mob-jwtKey')
+
   if (route.fullPath !== '/login' && !token) {
     return redirect('/login')
   } else if (route.fullPath === '/login' && !!token) {
+    // if user before login and again go to /login
     return redirect('/')
   }
 }

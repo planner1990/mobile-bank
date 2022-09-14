@@ -1,7 +1,6 @@
 <template>
-  <small @click="redirect()">RUNNING ...</small>
+  <small @click="redirect()">REDIRECT (click)</small>
 </template>
-
 <script>
 export default {
   // this page only redirect to custom root page
@@ -9,9 +8,12 @@ export default {
   created () {
     this.redirect()
   },
+  mounted () {
+    this.redirect()
+  },
   methods: {
     redirect () {
-      this.$router.push('/transactionReport')
+      this.$router.back()
     }
   }
 }
