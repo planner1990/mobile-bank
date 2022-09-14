@@ -13,7 +13,11 @@ export default {
   },
   methods: {
     redirect () {
-      this.$router.back()
+      if (window.history.length > 2) {
+        this.$router.back()
+      }
+
+      this.$router.push('/transactionReport')
     }
   }
 }
