@@ -32,8 +32,10 @@ export const mutations = {
     state.user = JSON.parse(user.usr)
   },
   logout (state) {
-    localStorage.clear()
-    sessionStorage.clear()
+    localStorage.removeItem(RefreshKey)
+    localStorage.removeItem(tokenKey)
+    sessionStorage.removeItem(RefreshKey)
+    sessionStorage.removeItem(tokenKey)
     state.token = null
     state.user = null
     state.refresh = null
