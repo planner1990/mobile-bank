@@ -89,10 +89,12 @@ export const actions = {
           context.commit('setToken', 'bearer ' + data.token)
           context.commit('setRefresh', data.refresh)
         } else if (status >= 400) {
+          sessionStorage.removeItem('mob-login')
           context.commit('logout')
         }
         return status
       } catch (err) {
+        sessionStorage.removeItem('mob-login')
         context.commit('logout')
       }
     }
