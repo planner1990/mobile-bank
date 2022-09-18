@@ -17,7 +17,7 @@ services:
           - node.labels.stage == product
           - node.labels.zone == dmz
     env_file:
-      - .env
+      - .env_product
     environment:
       - TZ=Asia/Tehran
     networks:

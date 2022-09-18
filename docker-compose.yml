@@ -20,7 +20,7 @@ services:
       - EUREKA_SERVER=http://discovery:8761/myeureka/eureka
       - TZ=Asia/Tehran
     env_file:
-      - .env
+      - .env_development
 
 networks:
   loan-net:
