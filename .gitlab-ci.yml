@@ -23,7 +23,7 @@ build-image-Development:
       --build-arg VUE_APP_I18N_LOCALE=$VUE_APP_I18N_LOCALE
       --build-arg VUE_APP_I18N_FALLBACK_LOCALE=$VUE_APP_I18N_FALLBACK_LOCALE
       --build-arg VUE_APP_Host=$VUE_APP_Host_Dev
-      -t $CONTAINER_NAME .
+      -t $CONTAINER_NAME -f Dockerfile .
     - docker tag $CONTAINER_NAME  $repository/docker/mehr/mobilebank/$CONTAINER_NAME:TestStage
     - docker push $repository/docker/mehr/mobilebank/$CONTAINER_NAME:TestStage
     - docker logout
@@ -44,7 +44,7 @@ build-image-PreProduct:
       --build-arg VUE_APP_I18N_LOCALE=$VUE_APP_I18N_LOCALE
       --build-arg VUE_APP_I18N_FALLBACK_LOCALE=$VUE_APP_I18N_FALLBACK_LOCALE
       --build-arg VUE_APP_Host=$VUE_APP_Host_Pre
-      -t $CONTAINER_NAME .
+      -t $CONTAINER_NAME -f Dockerfile_PreProduct .
     - docker tag $CONTAINER_NAME  $repository/docker/mehr/mobilebank/$CONTAINER_NAME:PreProduct
     - docker push $repository/docker/mehr/mobilebank/$CONTAINER_NAME:PreProduct
   only:
@@ -67,7 +67,7 @@ build-image-Product:
       --build-arg VUE_APP_I18N_LOCALE=$VUE_APP_I18N_LOCALE
       --build-arg VUE_APP_I18N_FALLBACK_LOCALE=$VUE_APP_I18N_FALLBACK_LOCALE
       --build-arg VUE_APP_Host=$VUE_APP_Host_Pro
-      -t $CONTAINER_NAME .
+      -t $CONTAINER_NAME -f Dockerfile_Product .
       #$VUE_APP_Host_pro should be define
     - docker tag $CONTAINER_NAME  $repository/docker/mehr/mobilebank/$CONTAINER_NAME:Product
     - docker push $repository/docker/mehr/mobilebank/$CONTAINER_NAME:Product

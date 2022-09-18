@@ -20,7 +20,7 @@ services:
       - preproduct
       - proxy
     env_file:
-      - .env
+      - .env_preproduct
     environment:
       - EUREKA_SERVER=http://pre-discovery:8761/myeureka/eureka
       - TZ=Asia/Tehran
