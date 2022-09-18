@@ -35,6 +35,7 @@
           <template #[`item.state`]="{ item }">
             <template v-if="item.state !== null" class="justify-center">
               <v-chip
+                style="font-size: 13px !important;"
                 :color="getColorState(item.state)"
                 label
                 class="v-chip1 justify-center"
@@ -176,7 +177,7 @@ export default {
       } else if (state === 2) {
         return 'red'
       } else if (state === 7) {
-        return '#ff33f6'
+        return 'rgba(255,51,246,0.74)'
       }
     }
   }
