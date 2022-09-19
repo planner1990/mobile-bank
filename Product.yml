@@ -23,6 +23,8 @@ services:
     networks:
       - product
       - proxy
+    ports:
+      - "8084:8003"
 
 networks:
   product:
