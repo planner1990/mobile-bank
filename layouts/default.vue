@@ -178,14 +178,14 @@ export default {
           to: '/transactionReport'
         },
         {
-          icon: 'mdi-chart-box',
-          title: 'menu.transactionStatistics',
-          to: '/transaction-statistics'
-        },
-        {
           icon: 'mdi-code-less-than-or-equal',
           title: 'menu.transactionQuery',
           to: '/transactionQuery'
+        },
+        {
+          icon: 'mdi-chart-box',
+          title: 'menu.transactionStatistics',
+          to: '/transaction-statistics'
         },
         {
           icon: 'mdi-account-arrow-left-outline',

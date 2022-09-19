@@ -1,20 +1,47 @@
-# mobile-bank-panel
+# mobile-bank
+## Details Project
+Panel Client Web For mobile-bank
+And code base on Nuxt.js And Vue.js
 
-## Build Setup
+Before build project please install
+- Nodejs
+- NPM
+
+### Build Setup
 
 ```bash
+
+# -----------------------------
 # install dependencies
+# -----------------------------
+$ cp .env_localhost .env
 $ npm install
 
-# serve with hot reload at localhost:3000
+# -----------------------------
+# develop local
+# serve with hot reload at localhost:8003
+# -----------------------------
 $ npm run dev
 
+# -----------------------------
+# production
 # build for production and launch server
+# -----------------------------
 $ npm run build
 $ npm run start
 
+# -----------------------------
+# static
 # generate static project
+# -----------------------------
 $ npm run generate
-```
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+# -----------------------------
+# .env_custom
+# run dev by custom env
+# -----------------------------
+$ nuxt --dotenv .env_development
+$ nuxt --dotenv .env_preproduct
+$ nuxt --dotenv .env_product
+
+```
