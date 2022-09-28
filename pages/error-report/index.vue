@@ -132,12 +132,23 @@ export default {
       self.chart.reportAll.labels = []
       self.chart.reportAll.series = []
       if (self.searchModel.errorReportListFilter.operation !== null || self.searchModel.errorReportListFilter.responseCode !== null) {
-        self.chart.reportAll.labels = data.map((item, index) => {
-          return (item.operation + '-' + item.responseCode).toString()
+        /* labels chart */
+        self.chart.reportAll.labels = data.map((item) => {
+          return (item.operation + '- کد ' + item.responseCode).toString()
         })
-        self.chart.reportAll.series = data.map((item, index) => {
-          return item.count
+
+        /* sum total chart */
+        let sumCount = 0
+        for (let i = 0; i < data.length; i++) {
+          sumCount += data[i].count
+        }
+
+        /* series chart */
+        self.chart.reportAll.series = data.map((item) => {
+          return Math.round((item.count * 100) / sumCount)
         })
+
+        /* show chart */
         if (self.chart.reportAll.series.length > 0) {
           self.chart.reportAll.show = true
         }

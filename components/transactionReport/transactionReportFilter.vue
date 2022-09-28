@@ -119,7 +119,7 @@
             @click="editItem()"
           >
             <template>
-              <v-chip v-if=" items1.length === 1">
+              <v-chip v-if="items1.length === 1">
                 <span>{{ item[0] }}</span>
               </v-chip>
               <span
