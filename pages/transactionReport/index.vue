@@ -173,7 +173,7 @@
                   <v-form
                     ref="form"
                   >
-                    <v-card height="400px" color="">
+                    <v-card height="600px" color="">
                       <v-row>
                         <v-tabs
                           v-model="tabsModel"
@@ -219,6 +219,7 @@
                             <br>
                             <card-reissue-operations :list-type="listType" />
                           </v-tab-item>
+
                           <v-tab href="#loanRequestOperation" class="font-weight-black">
                             {{ $t('report.transactionReport.headers.loanRequestOperation') }}
                           </v-tab>
@@ -226,6 +227,7 @@
                             <br>
                             <loan-operations :list-type="listType" />
                           </v-tab-item>
+
                           <v-tab href="#onlineDepositOperation" class="font-weight-black">
                             {{ $t('report.transactionReport.headers.onlineDepositOperation') }}
                           </v-tab>
@@ -233,6 +235,7 @@
                             <br>
                             <online-deposit-operations :list-type="listType" />
                           </v-tab-item>
+
                           <v-tab href="#pichackOperations" class="font-weight-black">
                             {{ $t('report.transactionReport.headers.pichackOperation') }}
                           </v-tab>
@@ -248,6 +251,7 @@
               </v-card>
             </v-dialog>
           </template>
+
           <template #[`item.requestTime`]="{ item }">
             {{ convertToJalali(item.requestTime) }}
           </template>
@@ -491,7 +495,6 @@ export default {
         requestId: item.requestId,
         traceId: item.traceId,
         ip: item.ip
-
       })
 
       defaultFilterdetails.transactionListFilter.transactionId = item.id
@@ -531,8 +534,14 @@ export default {
     },
     okOperationDialog () {
       this.cardList = this.cardOperationList
-      this.operationList = this.depositOperationList.concat(this.cardReissueOperationList, this.cardOperationList, this.loanRequestOperationList,
-        this.onlineDepositOperationList, this.publicOperationList, this.userOperationList)
+      this.operationList = this.depositOperationList.concat(
+        this.cardReissueOperationList,
+        this.cardOperationList,
+        this.loanRequestOperationList,
+        this.onlineDepositOperationList,
+        this.publicOperationList,
+        this.userOperationList
+      )
       this.operationDialog = false
     },
     search (searchModel) {

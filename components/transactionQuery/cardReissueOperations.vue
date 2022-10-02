@@ -6,14 +6,28 @@
         <v-flex xs12 md12 class="greyBorder blue-grey lighten-5">
           <div class="mr-6 ml-6 whiteback userGroupHeight">
             <v-layout row wrap>
+              <v-btn
+                class="mt-4 pa-3"
+                color="blue-grey lighten-3"
+                elevation="1"
+                rounded
+                small
+                @click="clearAllCheckBox()"
+              >
+                <v-icon left>
+                  mdi-delete
+                </v-icon>
+                {{ $t('clearText') }}
+              </v-btn>
+              <v-divider />
               <v-flex v-for="(item,index) in items" :key="items[index].title" xs3>
                 <v-checkbox
                   v-model="category.selected"
                   light
-                  :label="item.title"
+                  :label="checkValueBeforeShow(item.title, item)"
                   multiple
                   :value="item.url"
-                  @change="checked()"
+                  @change="checked(item)"
                 />
               </v-flex>
             </v-layout>
@@ -38,16 +52,38 @@ export default {
       default: 'LIST'
     }
   },
+  data () {
+    return {
+      downloadLoading: false,
+      totalNumberOfItems: 0,
+      items: [],
+      operationType: {
+        operationType: this.listType
+      },
+      category: {
+        selected: []
+      }
+
+    }
+  },
   mounted: function () {
     this.operation()
   },
   methods: {
     ...mapActions({
-      initialCardOperations: 'onlineDepositStore/initialCardReissueOperations'
+      initialCardReissueOperations: 'onlineDepositStore/initialCardReissueOperations'
     }),
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+    checkValueBeforeShow: function (value, itemObject) {
+      console.log(value)
+      if (value === '' || value === ' ' || value === undefined || value === null) {
+        return itemObject.url
+      }
+
+      return value
+    },
     priceFormat (amount) {
       if (amount) {
         return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -87,25 +123,19 @@ export default {
       }
     },
     checked (input) {
+      /* clear ALL OLD checked And set only -> input.url */
+      this.category.selected = []
+      this.category.selected = [input.url]
+
+      console.log(this.listType)
       this.initialCardReissueOperations(this.category.selected)
       console.log('initialCardReissueOperations')
       console.log(input)
       console.log(this.category.selected)
-    }
-  },
-
-  data () {
-    return {
-      downloadLoading: false,
-      totalNumberOfItems: 0,
-      items: [],
-      operationType: {
-        operationType: this.listType
-      },
-      category: {
-        selected: []
-      }
-
+    },
+    clearAllCheckBox: function () {
+      this.category.selected = []
+      this.initialCardReissueOperations(this.category.selected)
     }
   }
 }

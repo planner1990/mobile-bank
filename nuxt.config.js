@@ -11,8 +11,21 @@ export default {
     },
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { hid: 'description', name: 'description', content: 'پیشخوان موبایل بانک :: بانک قرض الحسنه مهر ایران' },
+      { hid: 'keywords', name: 'keywords', content: 'پیشخوان, موبایل بانک, بانک قرض الحسنه مهر ایران, بانک قرض الحسنه, مهرایران' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' },
+      { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge,chrome=1' },
+      { name: 'robots', content: 'index, follow' },
+      { name: 'subject', content: 'پیشخوان موبایل بانک :: بانک قرض الحسنه مهر ایران' },
+      { name: 'copyright', content: '2015 - 2025' },
+      { name: 'language', content: 'fa' },
+      { name: 'document-type', content: 'Public' },
+      { name: 'document-rating', content: 'General' },
+      { name: 'content-language', content: 'document' },
+      { 'http-equiv': 'content-language', content: 'fa' },
+      { 'http-equiv': 'Content-Type', content: 'text/html; charset=utf-8' },
+      { hid: 'MetaGenerator', name: 'GENERATOR', content: 'DotNetNuke' },
+      { name: 'mobile-web-app-capable', content: 'yes' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: process.env.VUE_APP_BASE_ROUTE + 'favicon.ico' }
