@@ -98,6 +98,12 @@ async function errorList (request, axios) {
   return rest
 }
 
+async function chartErrorCount (request, axios) {
+  const rest = await axios.post('error-report/chart-error-count', request)
+  console.log(rest)
+  return rest
+}
+
 async function operatorActivity (request, axios) {
   return await axios.post('report-statistic/operator-activity', request)
 }
@@ -552,6 +558,7 @@ export default {
   transactionDetailsQuery,
   operationList,
   errorList,
+  chartErrorCount,
   errorCodeList,
   smsReport,
   downloadSmsReport,
