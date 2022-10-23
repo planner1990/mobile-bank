@@ -98,6 +98,12 @@ async function errorList (request, axios) {
   return rest
 }
 
+async function chartErrorCount (request, axios) {
+  const rest = await axios.post('error-report/chart-error-count', request)
+  console.log(rest)
+  return rest
+}
+
 async function operatorActivity (request, axios) {
   return await axios.post('report-statistic/operator-activity', request)
 }
@@ -473,6 +479,22 @@ const billType = [
   }
 ]
 
+const gatewayType = [
+  {
+    value: 'Caspian',
+    text: 'report.billReport.gatewayType.caspian'
+  },
+  {
+    value: 'BOOM',
+    text: 'report.billReport.gatewayType.boom'
+  },
+  {
+    value: 'TAVANIR',
+    text: 'report.billReport.gatewayType.tavanir'
+  }
+
+]
+
 const operationName = [
   { header: 'حساب ' },
   {
@@ -552,6 +574,7 @@ export default {
   transactionDetailsQuery,
   operationList,
   errorList,
+  chartErrorCount,
   errorCodeList,
   smsReport,
   downloadSmsReport,
@@ -563,6 +586,7 @@ export default {
   listParam,
   offerStatus,
   billType,
+  gatewayType,
   offerTypDisplay,
   offerType,
   offerToType,

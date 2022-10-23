@@ -84,6 +84,20 @@
             outlined
           />
         </v-col>
+        <v-col cols="2">
+          <v-select
+            v-model="filter.billListFilter.gatewayApi"
+            :items="gatewayType"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('filters.gatewayType')"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
+        </v-col>
       </v-row>
       <v-row no-gutters>
         <v-col>
@@ -121,7 +135,8 @@ import reportManager from '~/repository/report_manager'
 const defaultFilter = {
   billListFilter: {
     billId: null,
-    billType: null
+    billType: null,
+    gatewayApi: null
   },
   dateFilter: {
     from: null,
@@ -154,6 +169,7 @@ export default {
       modal2: false,
       filter: defaultFilter,
       billType: reportManager.billType,
+      gatewayType: reportManager.gatewayType,
       items: []
     }
   },
