@@ -479,6 +479,22 @@ const billType = [
   }
 ]
 
+const gatewayType = [
+  {
+    value: 'Caspian',
+    text: 'report.billReport.gatewayType.caspian'
+  },
+  {
+    value: 'BOOM',
+    text: 'report.billReport.gatewayType.boom'
+  },
+  {
+    value: 'TAVANIR',
+    text: 'report.billReport.gatewayType.tavanir'
+  }
+
+]
+
 const operationName = [
   { header: 'حساب ' },
   {
@@ -570,6 +586,7 @@ export default {
   listParam,
   offerStatus,
   billType,
+  gatewayType,
   offerTypDisplay,
   offerType,
   offerToType,

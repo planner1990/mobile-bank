@@ -172,6 +172,12 @@
         "400": "ناموفق",
         "502": "ناموفق",
         "start": "ناموفق"
+      },
+      "gatewayType": {
+        "caspian": "کاسپین",
+        "tavanir": "توانیر",
+        "boom": "بوم"
+
       }
     },
     "chargeReport": {
@@ -631,7 +637,8 @@
     "errorCode": "کد پاسخ تراکنش",
     "sourceNumber": "شماره مبدا",
     "billId": "شناسه قبض",
-    "billType": "نوع قبض"
+    "billType": "نوع قبض",
+    "gatewayType": "نوع سرویس دهنده"
   },
   "messages": {
     "successful": "عملیات شما با موفقیت انجام شد",
