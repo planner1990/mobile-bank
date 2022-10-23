@@ -100,13 +100,52 @@ export default {
       if (callGateway === 'searchButtonFilter') {
         this.searchModel.paginate.page = 1
       }
+
       this.loading = true
       const self = this
+
+      self.getChartErrorCount(searchModel)
+
       reportManager.errorList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
-        this.chartMake(response.data.itemList, self)
+      }).catch((error) => {
+        console.warn(error)
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+        this.loading = false
+      })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+    getChartErrorCount (searchModel) {
+      this.loading = true
+      const self = this
+      const searchModelChart = {
+        transactionChartDto: {
+          operation: searchModel.errorReportListFilter.operation,
+          responseCode: searchModel.errorReportListFilter.responseCode,
+          errorType: searchModel.errorReportListFilter.errorType
+        },
+        dateFilter: {
+          from: searchModel.dateFilter.from,
+          to: searchModel.dateFilter.to
+        }
+      }
+      reportManager.chartErrorCount(searchModelChart, this.$axios).then((response) => {
+        this.loading = false
+        this.chartMake(response.data, self)
       }).catch((error) => {
         console.warn(error)
         if (error.response) {
@@ -131,27 +170,20 @@ export default {
       self.chart.reportAll.change = Math.random()
       self.chart.reportAll.labels = []
       self.chart.reportAll.series = []
-      if (self.searchModel.errorReportListFilter.operation !== null || self.searchModel.errorReportListFilter.responseCode !== null) {
-        /* labels chart */
-        self.chart.reportAll.labels = data.map((item) => {
-          return (item.operation + '- کد ' + item.responseCode).toString()
-        })
 
-        /* sum total chart */
-        let sumCount = 0
-        for (let i = 0; i < data.length; i++) {
-          sumCount += data[i].count
-        }
+      /* labels chart */
+      self.chart.reportAll.labels = data.dateList.map((item) => {
+        return (item).toString()
+      })
 
-        /* series chart */
-        self.chart.reportAll.series = data.map((item) => {
-          return Math.round((item.count * 100) / sumCount)
-        })
+      /* series chart */
+      self.chart.reportAll.series = data.failedChartDataList.map((item) => {
+        return Math.round(item)
+      })
 
-        /* show chart */
-        if (self.chart.reportAll.series.length > 0) {
-          self.chart.reportAll.show = true
-        }
+      /* show chart */
+      if (self.chart.reportAll.series.length > 0) {
+        self.chart.reportAll.show = true
       }
     },
     moment (date) {
