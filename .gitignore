@@ -93,9 +93,11 @@ sw.*
 #package.json
 
 ### Infrastructure ###
-docker-compose.yml
-.gitlab-ci.yml
 .gitignore
+.gitlab-ci.yml
 Dockerfile
 PreProduct.yml
 Product.yml
+docker-compose.yml
+docker-compose-master.yml
+karafarin.yml
