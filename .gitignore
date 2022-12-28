@@ -91,3 +91,13 @@ sw.*
 
 #package-lock.json
 #package.json
+
+### Infrastructure ###
+.gitignore
+.gitlab-ci.yml
+Dockerfile
+PreProduct.yml
+Product.yml
+docker-compose.yml
+docker-compose-master.yml
+karafarin.yml
