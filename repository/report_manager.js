@@ -492,7 +492,17 @@ const gatewayType = [
     value: 'TAVANIR',
     text: 'report.billReport.gatewayType.tavanir'
   }
+]
 
+const statusType = [
+  {
+    value: 0,
+    text: 'report.billReport.statusType.0'
+  },
+  {
+    value: 1,
+    text: 'report.billReport.statusType.1'
+  }
 ]
 
 const operationName = [
@@ -587,6 +597,7 @@ export default {
   offerStatus,
   billType,
   gatewayType,
+  statusType,
   offerTypDisplay,
   offerType,
   offerToType,

@@ -1,6 +1,6 @@
 {
   "projectName": "پنل موبایل بانک",
-  "version": "نسخه 14010725",
+  "version": "نسخه 14011016",
   "company": "عصر دانش‌ افزار",
   "clearText": "پاک کن",
   "error": {
@@ -177,7 +177,10 @@
         "caspian": "کاسپین",
         "tavanir": "توانیر",
         "boom": "بوم"
-
+      },
+      "statusType": {
+        "1": "موفق",
+        "0": "ناموفق"
       }
     },
     "chargeReport": {
@@ -463,6 +466,7 @@
     "PasswordMustMatch": "کلمه عبور و تکرار آن باید یکسان باشند."
   },
   "login": {
+    "title": "داشبورد موبایل بانک",
     "login": "ورود",
     "logout": "خروج",
     "user_name": "نام کاربری",
@@ -638,7 +642,8 @@
     "sourceNumber": "شماره مبدا",
     "billId": "شناسه قبض",
     "billType": "نوع قبض",
-    "gatewayType": "نوع سرویس دهنده"
+    "gatewayType": "نوع سرویس دهنده",
+    "statusBill": "وضعیت استعلام"
   },
   "messages": {
     "successful": "عملیات شما با موفقیت انجام شد",
