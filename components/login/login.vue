@@ -94,7 +94,8 @@ export default {
               })
             }
           },
-          function (data) {}
+          function (data) {
+          }
         )
     }
   }
@@ -105,15 +106,19 @@ export default {
 .btn-login {
   width: 200px;
 }
-.logo{
-  padding:30px 50px 5px 50px
+
+.logo {
+  padding: 30px 50px 5px 50px
 }
+
 .title {
-  padding:0 22% 0 25%
+  padding: 0 22% 0 25%
 }
+
 .text-input {
-  padding:0 30px 10px 30px
+  padding: 0 30px 10px 30px
 }
+
 .btn-action {
   text-align: center;
   display: block;
