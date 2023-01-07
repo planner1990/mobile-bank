@@ -98,6 +98,20 @@
             outlined
           />
         </v-col>
+        <v-col cols="2">
+          <v-select
+            v-model="filter.billListFilter.status"
+            :items="statusType"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('filters.statusBill')"
+            prepend-icon="mdi-clipboard-list"
+            dense
+            clearable
+            outlined
+          />
+        </v-col>
       </v-row>
       <v-row no-gutters>
         <v-col>
@@ -170,6 +184,7 @@ export default {
       filter: defaultFilter,
       billType: reportManager.billType,
       gatewayType: reportManager.gatewayType,
+      statusType: reportManager.statusType,
       items: []
     }
   },

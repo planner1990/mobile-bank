@@ -2,16 +2,7 @@
   <div class="bg">
     <v-container>
       <v-layout column justify-center align-center>
-        <v-flex xs12 sm8 md6>
-          <div class="text-center">
-            <v-card>
-              <v-img
-                :aspect-ratio="16/9"
-                contain
-                :src="require('~/static/mehr-bank.png')"
-              />
-            </v-card>
-          </div>
+        <v-flex xs12 sm8 md2>
           <div class="text-center">
             <login />
           </div>
@@ -30,10 +21,13 @@ export default {
   }
 }
 </script>
-<style scoped>
-.bg{
-  background-image: linear-gradient( 135deg, #70F570 5%, #49C628 100%);
+
+<style scoped>.bg{
+  background-color: rgb(93 111 124);
   height: 100%;
   width: 100%;
+}
+.mb_40 {
+  margin-bottom: -40px
 }
 </style>
