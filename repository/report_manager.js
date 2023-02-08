@@ -318,8 +318,8 @@ const osName = [
     text: 'report.transactionReport.osName.iOS'
   },
   {
-    value: 'WEB',
-    text: 'report.transactionReport.osName.WEB'
+    value: 'mobileweb',
+    text: 'report.transactionReport.osName.MOBILEWEB'
   }
 ]
 
