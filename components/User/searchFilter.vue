@@ -44,7 +44,7 @@
             :label="$t('user.role')"
             dense
             outlined
-            prepend-icon="mdi-account-lock"
+            prepend-icon="mdi-arrange-bring-to-front"
           />
         </v-col>
         <v-col cols="2">
@@ -56,7 +56,7 @@
             :label="$t('user.status.title')"
             dense
             outlined
-            prepend-icon="mdi-account-lock"
+            prepend-icon="mdi-pencil"
           />
         </v-col>
       <!--  <v-col cols="2">

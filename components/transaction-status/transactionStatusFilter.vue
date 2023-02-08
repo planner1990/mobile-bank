@@ -17,7 +17,7 @@
           <v-text-field
             id="my-custom-input"
             v-model="fromDate"
-            prepend-icon="mdi-calendar-month"
+            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
@@ -39,7 +39,7 @@
           <v-text-field
             id="custom-input"
             v-model="toDate"
-            prepend-icon="mdi-calendar-month"
+            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
@@ -65,7 +65,7 @@
             :item-text="(item) => $t(item.text)"
             :return-object="false"
             :label="$t('filters.operationName')"
-            prepend-icon="mdi-clipboard-list"
+            prepend-icon="mdi-server-security"
             dense
             clearable
             outlined
@@ -74,10 +74,10 @@
         </v-col>
         <v-col cols="3">
           <!-- <select v-model="selected">
-  <option v-for="option in options" v-bind:value="option.value">
-    {{ option.text }}
-  </option>
-</select> -->
+                <option v-for="option in options" v-bind:value="option.value">
+                  {{ option.text }}
+                </option>
+              </select> -->
           <v-select
             v-model="duration"
             :items="options"
@@ -85,7 +85,7 @@
             :item-text="(item) => $t(item.text)"
             :return-object="false"
             :label="$t('filters.duration')"
-            prepend-icon="mdi-calendar-month"
+            prepend-icon="mdi-calendar-multiple-check"
             dense
             outlined
             @change="checkIsNull()"

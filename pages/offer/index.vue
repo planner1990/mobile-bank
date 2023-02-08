@@ -117,7 +117,7 @@
                           <v-text-field
                             id="createFromDate"
                             v-model="from"
-                            prepend-icon="mdi-calendar-month"
+                            prepend-icon="mdi-calendar"
                             outlined
                             dense
                             :placeholder="$t('filters.fromDate')"
@@ -138,7 +138,7 @@
                           <v-text-field
                             id="createToDate"
                             v-model="to"
-                            prepend-icon="mdi-calendar-month"
+                            prepend-icon="mdi-calendar"
                             outlined
                             dense
                             :placeholder="$t('filters.toDate')"
@@ -342,7 +342,7 @@
                           <v-text-field
                             id="createFromDate"
                             v-model="from"
-                            prepend-icon="mdi-calendar-month"
+                            prepend-icon="mdi-calendar"
                             outlined
                             dense
                             :placeholder="$t('filters.fromDate')"
@@ -363,7 +363,7 @@
                           <v-text-field
                             id="createToDate"
                             v-model="to"
-                            prepend-icon="mdi-calendar-month"
+                            prepend-icon="mdi-calendar"
                             outlined
                             dense
                             :placeholder="$t('filters.toDate')"

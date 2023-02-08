@@ -109,7 +109,7 @@
       "osName": {
         "ANDROID": "android",
         "iOS": "ios",
-        "MOBILEWEB": "mobileweb",
+        "WEB": "web (غیرفعال)",
         "null": "نامشخص"
       },
       "platform": {

@@ -20,7 +20,7 @@
           <v-text-field
             id="createFromDate"
             v-model="fromDate"
-            prepend-icon="mdi-calendar-month"
+            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
@@ -43,7 +43,7 @@
           <v-text-field
             id="createToDate"
             v-model="toDate"
-            prepend-icon="mdi-calendar-month"
+            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
@@ -67,7 +67,7 @@
             dense
             outlined
             :label="$t('filters.billId')"
-            prepend-icon="mdi-account"
+            prepend-icon="mdi-water"
           />
         </v-col>
         <v-col cols="2">
@@ -78,7 +78,7 @@
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
             :label="$t('filters.billType')"
-            prepend-icon="mdi-clipboard-list"
+            prepend-icon="mdi-vector-square"
             dense
             clearable
             outlined
@@ -92,7 +92,7 @@
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
             :label="$t('filters.gatewayType')"
-            prepend-icon="mdi-clipboard-list"
+            prepend-icon="mdi-inbox"
             dense
             clearable
             outlined
@@ -106,7 +106,7 @@
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
             :label="$t('filters.statusBill')"
-            prepend-icon="mdi-clipboard-list"
+            prepend-icon="mdi-qrcode"
             dense
             clearable
             outlined
