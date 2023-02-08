@@ -147,6 +147,7 @@ Product:
   tags:
     - bank-preproduct
   script:
+    - if [ "$GITLAB_USER_ID" == "68" -o $GITLAB_USER_ID == "42" -o $GITLAB_USER_ID == "26" -o $GITLAB_USER_ID == "63" ]; then echo "Permission Accepted"; else exit; fi
     - docker stack deploy -c Product.yml $STACK_NAME
   when : manual
   only:
@@ -181,6 +182,7 @@ Product-restart:
   tags:
     -  bank-preproduct
   script:
+    - if [ "$GITLAB_USER_ID" == "68" -o $GITLAB_USER_ID == "42" -o $GITLAB_USER_ID == "26" -o $GITLAB_USER_ID == "63" ]; then echo "Permission Accepted"; else exit; fi
     - docker stack rm $STACK_NAME
     - docker stack deploy -c Product.yml $STACK_NAME
   only:

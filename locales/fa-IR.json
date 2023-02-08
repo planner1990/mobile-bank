@@ -1,6 +1,6 @@
 {
   "projectName": "پنل موبایل بانک",
-  "version": "نسخه 14011016",
+  "version": "نسخه 14011119",
   "company": "عصر دانش‌ افزار",
   "clearText": "پاک کن",
   "error": {
@@ -109,7 +109,7 @@
       "osName": {
         "ANDROID": "android",
         "iOS": "ios",
-        "WEB": "web",
+        "MOBILEWEB": "mobileweb",
         "null": "نامشخص"
       },
       "platform": {
