@@ -31,7 +31,7 @@
       <v-text-field
         id="my-custom-input"
         v-model="fromDate"
-        prepend-icon="mdi-calendar-month"
+        prepend-icon="mdi-calendar"
         outlined
         dense
         :placeholder="$t('filters.fromDate')"
@@ -51,7 +51,7 @@
       <v-text-field
         id="custom-input"
         v-model="toDate"
-        prepend-icon="mdi-calendar-month"
+        prepend-icon="mdi-calendar"
         outlined
         dense
         :placeholder="$t('filters.toDate')"

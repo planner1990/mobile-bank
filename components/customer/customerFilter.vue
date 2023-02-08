@@ -19,7 +19,7 @@
           <v-text-field
             id="createFromDate"
             v-model="fromDate"
-            prepend-icon="mdi-calendar-month"
+            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
@@ -41,7 +41,7 @@
           <v-text-field
             id="createToDate"
             v-model="toDate"
-            prepend-icon="mdi-calendar-month"
+            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
@@ -67,7 +67,7 @@
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
             :label="$t('customer.customerType')"
-            prepend-icon="mdi-clipboard-list"
+            prepend-icon="mdi-nature-people"
             dense
             clearable
             outlined
@@ -80,7 +80,7 @@
             :label="$t('customer.phoneNumber')"
             dense
             outlined
-            prepend-icon="mdi-account"
+            prepend-icon="mdi-phone-in-talk"
           />
         </v-col>
         <v-col cols="2">
@@ -98,7 +98,7 @@
             :label="$t('customer.name')"
             dense
             outlined
-            prepend-icon="mdi-account"
+            prepend-icon="mdi-library"
           />
         </v-col>
       </v-row>
