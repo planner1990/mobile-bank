@@ -20,7 +20,7 @@
           <v-text-field
             id="createFromDate"
             v-model="fromDate"
-            prepend-icon="mdi-calendar-month"
+            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
@@ -44,7 +44,7 @@
           <v-text-field
             id="createToDate"
             v-model="toDate"
-            prepend-icon="mdi-calendar-month"
+            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
@@ -70,7 +70,7 @@
             item-value="value"
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
-            prepend-icon="mdi-clipboard-list"
+            prepend-icon="mdi-flip-to-front"
             dense
             clearable
             outlined
@@ -84,7 +84,7 @@
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
             :label="$t('filters.orderField')"
-            prepend-icon="mdi-clipboard-list"
+            prepend-icon="mdi-flip-to-back"
             dense
             clearable
             outlined
@@ -97,7 +97,7 @@
             dense
             outlined
             :label="$t('filters.sourceNumber')"
-            prepend-icon="mdi-account"
+            prepend-icon="mdi-select"
           />
         </v-col>
         <v-col cols="2">
@@ -106,7 +106,7 @@
             dense
             outlined
             :label="$t('filters.phoneNumber')"
-            prepend-icon="mdi-account"
+            prepend-icon="mdi-phone-in-talk"
           />
         </v-col>
       </v-row>
@@ -115,7 +115,7 @@
           <v-text-field
             id="transactionFromDate"
             v-model="transactionFromDate"
-            prepend-icon="mdi-calendar-month"
+            prepend-icon="mdi-calendar-check"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
@@ -138,7 +138,7 @@
           <v-text-field
             id="transactionToDate"
             v-model="transactionToDate"
-            prepend-icon="mdi-calendar-month"
+            prepend-icon="mdi-calendar-check"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
@@ -165,7 +165,7 @@
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
             :label="$t('filters.refund')"
-            prepend-icon="mdi-clipboard-list"
+            prepend-icon="mdi-swap-vertical"
             dense
             clearable
             outlined
@@ -177,7 +177,7 @@
             dense
             outlined
             :label="$t('filters.trackerIdBank')"
-            prepend-icon="mdi-account"
+            prepend-icon="mdi-repeat-once"
           />
         </v-col>
         <v-col cols="2">
@@ -186,7 +186,7 @@
             dense
             outlined
             :label="$t('filters.amount')"
-            prepend-icon="mdi-account"
+            prepend-icon="mdi-numeric"
           />
         </v-col>
         <v-col cols="2">
@@ -195,7 +195,7 @@
             dense
             outlined
             :label="$t('filters.transactionBank')"
-            prepend-icon="mdi-account"
+            prepend-icon="mdi-nfc-tap"
           />
         </v-col>
       </v-row>
@@ -204,7 +204,7 @@
           <v-text-field
             id="refundFromDate"
             v-model="refundFromDate"
-            prepend-icon="mdi-calendar-month"
+            prepend-icon="mdi-calendar-clock"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
@@ -228,7 +228,7 @@
           <v-text-field
             id="refundToDate"
             v-model="refundToDate"
-            prepend-icon="mdi-calendar-month"
+            prepend-icon="mdi-calendar-clock"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
@@ -253,7 +253,7 @@
             dense
             outlined
             :label="$t('filters.errorCode')"
-            prepend-icon="mdi-account"
+            prepend-icon="mdi-shape-plus"
           />
         </v-col>
       </v-row>

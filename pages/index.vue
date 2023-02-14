@@ -32,15 +32,16 @@ export default {
   },
   methods: {
     showLabelForwardToBaseRouteTimeout: function () {
-      setTimeout(function (scope) { scope.showLabelForwardToBaseRoute = true }, 2500, this)
+      setTimeout(function (scope) { scope.showLabelForwardToBaseRoute = true }, 4000, this)
     },
     forwardToBaseRoute: function () {
-      sessionStorage.setItem('mob-login', 'backIsTrue')
+      sessionStorage.setItem('mob-login', 'backIsFalse')
       return this.$router.push('/transactionReport')
     },
     redirect () {
+      console.log('pages/index.vue redirect ***', window.history.state)
       setTimeout(() => {
-        if (window.history.length > 2 && sessionStorage.getItem('mob-login') === 'backIsTrue') {
+        if (window.history.state !== null && window.history.length > 2 && sessionStorage.getItem('mob-login') === 'backIsTrue') {
           // important :: 2 action for back
           this.$router.back()
           this.$router.back()
