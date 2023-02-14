@@ -255,15 +255,19 @@
           <template #[`item.requestTime`]="{ item }">
             {{ convertToJalali(item.requestTime) }}
           </template>
+
           <template #[`item.platform`]="{ item }">
             {{ $t('report.transactionReport.platform.' + item.platform) }}
           </template>
+
           <template #[`item.sourceType`]="{ item }">
             {{ $t('report.transactionReport.source.' + item.sourceType) }}
           </template>
+
           <template #[`item.amount`]="{ item }">
             {{ priceFormat(item.amount) }}
           </template>
+
           <template #item.responseCode="{ item }">
             <template v-if="item.responseCode !== null">
               <v-chip
@@ -275,17 +279,7 @@
               </v-chip>
             </template>
           </template>
-          <!--     <template #item.responseCode="{ item }">
-            <template v-if="item.responseCode !== null">
-              <v-chip
-                label="false"
-                class="width:100px;"
-                :color="getColor(item.responseCode)"
-              >
-                {{ item.responseCode }}
-              </v-chip>
-            </template>
-          </template>-->
+
           <template #[`item.detail`]="{ item }">
             <v-icon
               small
@@ -455,9 +449,8 @@ export default {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
-
     getColor (status) {
-      if (status === 200) {
+      if (status >= 200 && status <= 299) {
         return 'success'
       } else if (status !== null) {
         return 'red'

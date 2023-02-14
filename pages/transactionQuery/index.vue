@@ -408,7 +408,7 @@ export default {
       alert: 'snacks/showMessage'
     }),
     getColor (status) {
-      if (status === 200) {
+      if (status >= 200 && status <= 299) {
         return 'success'
       } else if (status !== null) {
         return 'red'

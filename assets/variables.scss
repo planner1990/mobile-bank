@@ -213,3 +213,22 @@ tbody tr td {
 }
 
 @import '../node_modules/vuetify/src/styles/styles.sass';
+
+#nuxt-loading>div, #nuxt-loading>div:after {
+  border-radius: 50% !important;
+  width: 4rem !important;
+  height: 4rem !important;
+}
+#nuxt-loading>div {
+  font-size: 10px !important;
+  position: relative !important;
+  text-indent: -9999em !important;
+  border: 0.3rem solid #f4efef !important;
+  border-left: 0.3rem solid #959857 !important;
+  -webkit-transform: translateZ(0) !important;
+  -ms-transform: translateZ(0) !important;
+  transform: translateZ(0) !important;
+  -webkit-animation: nuxtLoading 1.7s infinite linear !important;
+  animation: nuxtLoading 1.7s infinite linear !important;
+}
+
