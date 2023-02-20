@@ -15,6 +15,7 @@
         justify="center"
       >
         <LineChart
+          v-if="showChart"
           v-show="chart.reportAll.show"
           :title="$t('report.errorReport.chart.chartTitleAll')"
           :get-labels-props="chart.reportAll.labels"
@@ -61,6 +62,7 @@ export default {
   },
   data () {
     return {
+      showChart: true,
       searchModel: {
         paginate: {
           page: 1,
@@ -97,6 +99,17 @@ export default {
       alert: 'snacks/showMessage'
     }),
     search (searchModel, callGateway = 'searchButtonFilter') {
+      // condition for show chart in one day
+      if (this.searchModel.dateFilter.from === this.searchModel.dateFilter.to) {
+        if (this.searchModel.errorReportListFilter.operation && this.searchModel.errorReportListFilter.responseCode) {
+          this.showChart = false
+          this.alert({
+            color: 'green',
+            content: 'نمودار با این شرایط انتخابی نمایش داده نمی شود'
+          })
+        }
+      }
+
       if (callGateway === 'searchButtonFilter') {
         this.searchModel.paginate.page = 1
       }
