@@ -15,6 +15,7 @@
         justify="center"
       >
         <LineChart
+          v-if="showChart"
           v-show="chart.reportAll.show"
           :title="$t('report.errorReport.chart.chartTitleAll')"
           :get-labels-props="chart.reportAll.labels"
@@ -61,6 +62,7 @@ export default {
   },
   data () {
     return {
+      showChart: true,
       searchModel: {
         paginate: {
           page: 1,
@@ -74,12 +76,12 @@ export default {
       totalNumberOfItems: 0,
       loading: false,
       headers: [
-        { text: this.$t('report.errorReport.headers.operationName'), value: 'operation', sortable: false },
-        { text: this.$t('report.errorReport.headers.count'), value: 'count', sortable: false },
-        { text: this.$t('report.errorReport.headers.errorTextPersian'), value: 'errorTextPersian', sortable: false },
-        { text: this.$t('report.errorReport.headers.errorName'), value: 'errorName', sortable: false },
-        { text: this.$t('report.errorReport.headers.errorType'), value: 'errorType', sortable: false },
-        { text: this.$t('report.errorReport.headers.errorCode'), value: 'responseCode', sortable: false }
+        { text: this.$t('report.errorReport.headers.operationName'), value: 'operation', sortable: false, align: 'center' },
+        { text: this.$t('report.errorReport.headers.count'), value: 'count', sortable: false, align: 'center' },
+        { text: this.$t('report.errorReport.headers.errorTextPersian'), value: 'errorTextPersian', sortable: false, align: 'center', width: '40%' },
+        { text: this.$t('report.errorReport.headers.errorName'), value: 'errorName', sortable: false, align: 'center' },
+        { text: this.$t('report.errorReport.headers.errorType'), value: 'errorType', sortable: false, align: 'center' },
+        { text: this.$t('report.errorReport.headers.errorCode'), value: 'responseCode', sortable: false, align: 'center' }
       ],
       items: [],
       chart: {
@@ -97,6 +99,17 @@ export default {
       alert: 'snacks/showMessage'
     }),
     search (searchModel, callGateway = 'searchButtonFilter') {
+      // condition for show chart in one day
+      if (this.searchModel.dateFilter.from === this.searchModel.dateFilter.to) {
+        if (this.searchModel.errorReportListFilter.operation && this.searchModel.errorReportListFilter.responseCode) {
+          this.showChart = false
+          this.alert({
+            color: 'green',
+            content: 'نمودار با این شرایط انتخابی نمایش داده نمی شود'
+          })
+        }
+      }
+
       if (callGateway === 'searchButtonFilter') {
         this.searchModel.paginate.page = 1
       }

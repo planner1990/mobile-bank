@@ -235,7 +235,7 @@ export default {
     errorList () {
       this.loading = true
       reportManager.errorCodeList(this.$axios).then((response) => {
-        this.errorItems = response.data
+        this.errorItems = response.data.reverse()
       }).catch((error) => {
         if (error.response) {
           this.alert({
