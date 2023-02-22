@@ -11,7 +11,7 @@
       dense
       elevation="1"
     >
-      {{ $t('titles.filters') }}
+      درخواست ها (فیلترها)
       <v-spacer />
     </v-toolbar>
     <v-container fluid>
@@ -147,20 +147,6 @@
         </v-col>
         <v-col>
           <v-select
-            v-model="filter.transactionListFilter.sourceType"
-            :items="source"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.source')"
-            prepend-icon="mdi-hexagon-outline"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col>
-          <v-select
             v-model="filter.transactionListFilter.result"
             :items="status"
             item-value="value"
@@ -173,31 +159,22 @@
             outlined
           />
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-text-field
-            v-model="filter.transactionListFilter.transactionId"
-            dense
-            outlined
-            :label="$t('filters.transactionId')"
-            prepend-icon="mdi-script"
-          />
-        </v-col>
         <v-col>
           <v-select
-            v-model="filter.transactionListFilter.os"
-            :items="osName"
+            v-model="filter.transactionListFilter.sourceType"
+            :items="source"
             item-value="value"
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
-            :label="$t('filters.osName')"
-            prepend-icon="mdi-lightbulb-outline"
+            :label="$t('filters.source')"
+            prepend-icon="mdi-hexagon-outline"
             dense
             clearable
             outlined
           />
         </v-col>
+      </v-row>
+      <v-row>
         <v-col>
           <v-text-field
             v-model="filter.transactionListFilter.phoneNumber"
@@ -241,6 +218,29 @@
             outlined
             :label="$t('filters.trackerId')"
             prepend-icon="mdi-leaf"
+          />
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model="filter.transactionListFilter.transactionId"
+            dense
+            outlined
+            :label="$t('filters.transactionId')"
+            prepend-icon="mdi-script"
+          />
+        </v-col>
+        <v-col>
+          <v-select
+            v-model="filter.transactionListFilter.os"
+            :items="osName"
+            item-value="value"
+            :item-text="(item)=>$t(item.text)"
+            :return-object="false"
+            :label="$t('filters.osName')"
+            prepend-icon="mdi-lightbulb-outline"
+            dense
+            clearable
+            outlined
           />
         </v-col>
       </v-row>

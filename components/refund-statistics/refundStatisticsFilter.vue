@@ -11,7 +11,7 @@
       dense
       elevation="1"
     >
-      {{ $t('titles.filters') }}
+      آمار استرداد وجه (فیلترها)
       <v-spacer />
     </v-toolbar>
     <v-container fluid>
