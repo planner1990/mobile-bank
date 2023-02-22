@@ -10,7 +10,7 @@
       dense
       dark
     >
-      {{ $t("income.title") }}
+      گزارش درآمد (فیلترها)
       <v-spacer />
     </v-toolbar>
     <v-container fluid>

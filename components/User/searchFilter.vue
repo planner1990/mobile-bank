@@ -10,7 +10,7 @@
       dense
       dark
     >
-      {{ $t("user.title") }}
+      کاربران پنل (فیلترها)
       <v-spacer />
 
       <!--      <v-btn-->
@@ -125,7 +125,7 @@ const defaultSearchModel = {
 }
 
 export default {
-  name: 'LoanFilter',
+  name: 'SearchFilter',
   components: {
     /*   ProvinceSelector,
     CitySelector,

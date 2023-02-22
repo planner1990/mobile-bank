@@ -10,7 +10,7 @@
       dense
       dark
     >
-      {{ $t("customer.title") }}
+      کاربران (فیلترها)
       <v-spacer />
     </v-toolbar>
     <v-container fluid>

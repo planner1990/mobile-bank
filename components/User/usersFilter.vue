@@ -155,7 +155,7 @@ const defaultSearchModel = {
 }
 
 export default {
-  name: 'LoanFilter',
+  name: 'UsersFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
     // ProvinceSelector,
