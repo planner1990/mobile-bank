@@ -10,7 +10,7 @@
       dense
       dark
     >
-      {{ $t("customer.title") }}
+      آمار کاربران (فیلترها)
       <v-spacer />
     </v-toolbar>
     <v-container fluid>
@@ -107,7 +107,7 @@ const defaultSearchModel = {
 }
 
 export default {
-  name: 'LoanFilter',
+  name: 'CustomerStatisticsFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },

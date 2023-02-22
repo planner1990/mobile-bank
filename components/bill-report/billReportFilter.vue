@@ -11,7 +11,7 @@
       dense
       elevation="1"
     >
-      {{ $t('titles.filters') }}
+      استعلام قبض (فیلترها)
       <v-spacer />
     </v-toolbar>
     <v-container fluid>
@@ -166,7 +166,7 @@ const defaultFilter = {
   }
 }
 export default {
-  name: 'ChargeReportFilter',
+  name: 'BillReportFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
     // OperationSelector

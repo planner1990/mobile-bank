@@ -8,7 +8,7 @@
       dense
       elevation="1"
     >
-      {{ $t('titles.filters') }}
+      آمار تراکنش ها (فیلترها)
       <v-spacer />
     </v-toolbar>
     <v-container fluid>
@@ -134,7 +134,7 @@ const defaultFilter = {
 }
 
 export default {
-  name: 'OperatorReportFilter',
+  name: 'TransactionStatusFilter',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },
