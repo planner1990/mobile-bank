@@ -115,7 +115,7 @@ export default {
         { text: this.$t('report.transactionReport.headers.operator'), value: 'operator', sortable: false },
         { text: this.$t('report.chargeReport.headers.amount'), value: 'amount', sortable: false },
         { text: this.$t('report.transactionReport.headers.sellTime'), value: 'requestTime', sortable: false },
-        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'errorCode', sortable: false }],
+        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'errorCode', sortable: false, align: 'center' }],
 
       items: []
     }

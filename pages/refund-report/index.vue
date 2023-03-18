@@ -428,17 +428,14 @@ export default {
         { text: this.$t('report.refundReport.headers.requestId'), value: 'requestId', sortable: false },
         { text: this.$t('report.refundReport.headers.refundOrFailTime'), value: 'refundOrFailTime', sortable: false },
         { text: this.$t('report.refundReport.headers.errorCode'), value: 'errorCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
-
+        { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false, align: 'center' }
       ],
-
       headersTransaction: [
         { text: this.$t('report.refundReport.headers.transactionId'), value: 'transactionId', sortable: false },
         { text: this.$t('report.refundReport.headers.url'), value: 'url', sortable: false },
         { text: this.$t('report.refundReport.headers.ip'), value: 'ip', sortable: false },
-        { text: this.$t('report.refundReport.headers.switchResponseRrn'), value: 'switchResponseRrn', sortable: false }
+        { text: this.$t('report.refundReport.headers.switchResponseRrn'), value: 'switchResponseRrn', sortable: false, align: 'center' }
       ],
-
       items: [],
       itemsTransaction: [],
       requestJson: null,

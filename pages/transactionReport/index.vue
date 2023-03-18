@@ -392,7 +392,7 @@ export default {
         { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
         { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false },
         { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false }
+        { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false, align: 'center' }
       ],
       headersTransaction: [
         { text: this.$t('report.transactionReport.headers.responseTime'), value: 'responseLongTime', sortable: false },
@@ -401,14 +401,14 @@ export default {
         { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false },
         { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
         { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false }
+        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false, align: 'center' }
       ],
       headersTransactionRequest: [
         { text: this.$t('report.transactionReport.headers.requestJson'), value: 'requestJson', sortable: false },
-        { text: this.$t('report.transactionReport.headers.responseJson'), value: 'responseJson', sortable: false }
+        { text: this.$t('report.transactionReport.headers.responseJson'), value: 'responseJson', sortable: false, align: 'center' }
       ],
       headersTransactionLog: [
-        { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false }
+        { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false, align: 'center' }
       ],
       items: [],
       itemsTransaction: [],
@@ -427,7 +427,6 @@ export default {
       listType: 'LIST'
     }
   },
-
   computed: {
     ...mapGetters({
       cardOperationList: 'onlineDepositStore/cardOperationList',
