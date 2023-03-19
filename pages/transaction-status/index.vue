@@ -65,7 +65,7 @@ export default {
         { text: this.$t('report.errorReport.headers.errorTextPersian'), value: 'errorTextPersian', sortable: false },
         { text: this.$t('report.errorReport.headers.errorName'), value: 'errorName', sortable: false },
         { text: this.$t('report.errorReport.headers.errorType'), value: 'errorType', sortable: false },
-        { text: this.$t('report.errorReport.headers.errorCode'), value: 'responseCode', sortable: false }
+        { text: this.$t('report.errorReport.headers.errorCode'), value: 'responseCode', sortable: false, align: 'center' }
 
       ],
       items: [],

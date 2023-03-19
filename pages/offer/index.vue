@@ -746,11 +746,11 @@ export default {
         { text: this.$t('offer.dateFrom'), value: 'dateFrom' },
         { text: this.$t('offer.dateTo'), value: 'dateTo' },
         { text: this.$t('offer.addParams'), value: 'addParams', sortable: false },
-        { text: '', value: 'actions', sortable: false }
+        { text: '', value: 'actions', sortable: false, align: 'center' }
       ],
       headersParam: [
         { text: this.$t('offer.key'), value: 'key' },
-        { text: this.$t('offer.value'), value: 'value' }
+        { text: this.$t('offer.value'), value: 'value', align: 'center' }
       ],
       offers: [],
       params: [],
@@ -906,10 +906,6 @@ export default {
         console.log(e)
         console.log('error')
         this.loading = false
-        // this.alert({
-        //   color: 'orange',
-        //   content: e.response.data.error_message
-        // })
         this.showErrorsInCreateUserDialog(e.response.data.detailList)
       }).finally(() => {
         this.loading = false

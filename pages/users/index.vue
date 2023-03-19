@@ -259,7 +259,7 @@ export default {
         { text: this.$t('user.role'), value: 'role', sortable: false },
         { text: this.$t('user.permission'), value: 'locationAccess' },
         { text: this.$t('user.statusHeader'), value: 'status', sortable: false },
-        { text: this.$t('user.edit'), value: 'actions', sortable: false }
+        { text: this.$t('user.edit'), value: 'actions', sortable: false, align: 'center' }
       ],
       users: []
 
