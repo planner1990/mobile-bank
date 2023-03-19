@@ -81,7 +81,7 @@ export default {
         { text: this.$t('refundStatistics.date'), value: 'date', sortable: false },
         { text: this.$t('refundStatistics.state'), value: 'state', sortable: false },
         { text: this.$t('refundStatistics.number'), value: 'number', sortable: false },
-        { text: this.$t('refundStatistics.sum'), value: 'sum', sortable: false }],
+        { text: this.$t('refundStatistics.sum'), value: 'sum', sortable: false, align: 'center' }],
 
       items: []
     }

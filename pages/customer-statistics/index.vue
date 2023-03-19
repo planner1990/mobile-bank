@@ -127,7 +127,7 @@ export default {
       headers: [
         { text: this.$t('customer.customerStatistics.headers.customerType'), value: 'customerType' },
         { text: this.$t('customer.customerStatistics.headers.countNew'), value: 'countNew' },
-        { text: this.$t('customer.customerStatistics.headers.countActive'), value: 'countActive' }
+        { text: this.$t('customer.customerStatistics.headers.countActive'), value: 'countActive', align: 'center' }
 
       ],
       users: []

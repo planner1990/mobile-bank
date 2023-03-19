@@ -142,7 +142,7 @@ export default {
         { text: this.$t('customer.name'), value: 'fullName' },
         { text: this.$t('customer.headers.depositOrCard'), value: 'cardOrDeposit' },
         { text: this.$t('customer.headers.registerDate'), value: 'registerDate' },
-        { text: '', value: 'actions', sortable: false }
+        { text: '', value: 'actions', sortable: false, align: 'center' }
 
       ],
       users: [],
@@ -221,10 +221,6 @@ export default {
               this.closeCreateUserDialog()
               this.search(this.requestObject)
             }).catch((e) => {
-              // this.alert({
-              //   color: 'orange',
-              //   content: e.response.data.error_message
-              // })
               this.showErrorsInCreateUserDialog(e.response.data.detailList)
             })
           } else {
@@ -244,10 +240,6 @@ export default {
               this.closeCreateUserDialog()
               this.search(this.requestObject)
             }).catch((e) => {
-              // this.alert({
-              //   color: 'orange',
-              //   content: e.response.data.error_message
-              // })
               this.showErrorsInCreateUserDialog(e.response.data.detailList)
             })
           }
