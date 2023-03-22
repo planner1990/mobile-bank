@@ -23,7 +23,7 @@ services:
       - .env_preproduct
     environment:
       - EUREKA_SERVER=http://pre-discovery:8761/myeureka/eureka
-      - TZ=Asia/Tehran
+      - TZ=UTC-3:30
     extra_hosts:
       - "hamrahbank.qmb.ir:10.82.3.22"
 
