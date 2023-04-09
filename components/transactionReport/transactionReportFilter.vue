@@ -40,7 +40,7 @@
             @close="checkIsNullFromTime()"
           />
         </v-col>
-        <v-col cols="1">
+        <v-col cols="1" style="padding-right: 0;">
           <v-text-field
             id="createFromDate"
             v-model="fromDate"
@@ -84,7 +84,7 @@
             @close="checkIsNullToTime()"
           />
         </v-col>
-        <v-col cols="1">
+        <v-col cols="1" style="padding-right: 0;">
           <v-text-field
             id="createToDate"
             v-model="toDate"

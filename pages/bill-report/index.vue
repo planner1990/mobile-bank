@@ -42,6 +42,10 @@
             {{ $t('report.billReport.billStatus.' + item.status) }}
           </template>
 
+          <template #[`item.mobile`]="{ item }">
+            {{ item.mobile || 'تعیین نشده' }}
+          </template>
+
           <template #item.errorCode="{ item }">
             <template v-if="item.errorCode !== null">
               <v-chip
@@ -107,7 +111,8 @@ export default {
         { text: this.$t('report.billReport.headers.type'), value: 'type', sortable: false },
         { text: this.$t('report.billReport.headers.billId'), value: 'inq_search', sortable: false },
         { text: this.$t('report.billReport.headers.createDate'), value: 'created_at', sortable: false },
-        { text: this.$t('report.billReport.headers.status'), value: 'status', sortable: false, align: 'center' }
+        { text: this.$t('report.billReport.headers.status'), value: 'status', sortable: false, align: 'center' },
+        { text: this.$t('report.billReport.headers.mobile'), value: 'mobile', sortable: false, align: 'center' }
       ],
       items: []
     }

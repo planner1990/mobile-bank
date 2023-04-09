@@ -99,6 +99,10 @@ export default {
       alert: 'snacks/showMessage'
     }),
     search (searchModel, callGateway = 'searchButtonFilter') {
+      console.log('search', JSON.stringify(this.searchModel))
+      this.showChart = true
+
+      // condition 1
       // condition for show chart in one day
       if (this.searchModel.dateFilter.from === this.searchModel.dateFilter.to) {
         if (this.searchModel.errorReportListFilter.operation && this.searchModel.errorReportListFilter.responseCode) {
@@ -108,6 +112,11 @@ export default {
             content: 'نمودار با این شرایط انتخابی نمایش داده نمی شود'
           })
         }
+      }
+      // condition 2
+      // condition for show chart in one day
+      if (this.searchModel.errorReportListFilter.operation === null && this.searchModel.errorReportListFilter.responseCode === null) {
+        this.showChart = false
       }
 
       if (callGateway === 'searchButtonFilter') {

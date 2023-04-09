@@ -31,6 +31,9 @@
           @update:page="paginate"
           @update:items-per-page="paginate"
         >
+          <!-- دیالوگ ایجاد کاربر جدید یا ویرایش یک کاربر -->
+          <!-- دیالوگ ایجاد کاربر جدید یا ویرایش یک کاربر -->
+          <!-- دیالوگ ایجاد کاربر جدید یا ویرایش یک کاربر -->
           <template #top>
             <v-toolbar
               class="black--text"
@@ -184,9 +187,28 @@
               </v-dialog>
             </v-toolbar>
           </template>
+
+          <!-- سایر تغییرات برای ستون های جدول -->
+          <!-- سایر تغییرات برای ستون های جدول -->
+          <!-- سایر تغییرات برای ستون های جدول -->
+
           <template #[`item.role`]="{ item }">
-            {{ $t('user.roles.'+ item.role.role) }}
+            <v-chip>{{ $t('user.roles.'+ item.role.role) }}</v-chip>
           </template>
+
+          <template #[`item.permissions`]="{ item }">
+            <span v-if="item.permissions.length > 0">
+              <span
+                v-for="(data, index) in item.permissions"
+                :key="index"
+              >
+                {{ $t('user.permissions.'+ data.name) }}
+                <br>
+              </span>
+            </span>
+            <span v-else />
+          </template>
+
           <template #[`item.provinceCode`]="{ item }">
             <province-viewer v-model="item.provinceCode" icon="" message="" :condition="'table'" />
           </template>
@@ -194,6 +216,7 @@
           <template #[`item.branchCode`]="{ item }">
             <branch-viewer v-model="item.branchCode" icon="" message="" :condition="'table'" />
           </template>
+
           <template #[`item.status`]="{ item }">
             <span v-if="item.status === 1">
               {{ $t('user.active') }}
@@ -202,6 +225,7 @@
               {{ $t('user.inactive') }}
             </span>
           </template>
+
           <template #[`item.actions`]="{ item }">
             <v-icon
               small
@@ -257,7 +281,7 @@ export default {
       headers: [
         { text: this.$t('user.username'), value: 'username', sortable: false },
         { text: this.$t('user.role'), value: 'role', sortable: false },
-        { text: this.$t('user.permission'), value: 'locationAccess' },
+        { text: this.$t('user.permission'), value: 'permissions' },
         { text: this.$t('user.statusHeader'), value: 'status', sortable: false },
         { text: this.$t('user.edit'), value: 'actions', sortable: false, align: 'center' }
       ],
@@ -371,6 +395,12 @@ export default {
       this.createUserErrors = errors
     },
     editItem (item) {
+      console.log('editItem -> ', JSON.stringify(item))
+      const userAccessList = []
+      item.permissions.forEach((item) => {
+        userAccessList.push(item.name)
+      })
+
       this.userForm.userObj = {
         id: item.id,
         username: item.username,
@@ -379,8 +409,7 @@ export default {
         cityCode: item.cityCode,
         branchCode: item.branchCode,
         role: item.role.role,
-        userAccessList: item.userAccess
-
+        userAccessList: userAccessList
       }
       this.createDialog = true
     },
