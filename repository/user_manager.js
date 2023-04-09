@@ -34,16 +34,16 @@ async function deleteUser (form, axios) {
 
 const userRoles = [
   {
-    value: 'ROLE_PANEL_ADMIN',
-    text: 'user.roles.ROLE_PANEL_ADMIN'
+    value: 'ROLE_LOAN_ADMIN',
+    text: 'user.roles.ROLE_LOAN_ADMIN'
   },
   {
-    value: 'ROLE_PANEL_USER',
-    text: 'user.roles.ROLE_PANEL_USER'
+    value: 'ROLE_LOAN_USER',
+    text: 'user.roles.ROLE_LOAN_USER'
   },
   {
-    value: 'ROLE_PANEL_REPORT',
-    text: 'user.roles.ROLE_PANEL_REPORT'
+    value: 'ROLE_LOAN_REPORT',
+    text: 'user.roles.ROLE_LOAN_REPORT'
   }
 ]
 
@@ -61,23 +61,55 @@ const customerType = [
 const userPermissions = [
   {
     value: 'REPORTER_ACCESS',
-    text: 'user.permissions.1'
-  },
-  {
-    value: 'ACCOUNTING_ACCESS',
-    text: 'user.permissions.3'
-  },
-  {
-    value: 'CREATE_USER',
-    text: 'user.permissions.2'
+    text: 'user.permissions.REPORTER_ACCESS'
   },
   {
     value: 'OFFER_ACCESS',
-    text: 'user.permissions.4'
+    text: 'user.permissions.OFFER_ACCESS'
+  },
+  {
+    value: 'ACCOUNTING_ACCESS',
+    text: 'user.permissions.ACCOUNTING_ACCESS'
+  },
+  {
+    value: 'CREATE_USER',
+    text: 'user.permissions.CREATE_USER'
   },
   {
     value: 'FULL_ACCESS',
-    text: 'user.permissions.0'
+    text: 'user.permissions.FULL_ACCESS'
+  },
+  {
+    value: 'CONFIRM_REFUND',
+    text: 'user.permissions.CONFIRM_REFUND'
+  },
+  {
+    value: 'CREDIT_CHECK_ACCESS',
+    text: 'user.permissions.CREDIT_CHECK_ACCESS'
+  },
+  {
+    value: 'OPEN_DEPOSIT_PROCESS',
+    text: 'user.permissions.OPEN_DEPOSIT_PROCESS'
+  },
+  {
+    value: 'title',
+    text: 'user.permissions.title'
+  },
+  {
+    value: 'UNIVERSAL',
+    text: 'user.permissions.UNIVERSAL'
+  },
+  {
+    value: 'PROVINCE',
+    text: 'user.permissions.PROVINCE'
+  },
+  {
+    value: 'CITY',
+    text: 'user.permissions.CITY'
+  },
+  {
+    value: 'BRANCH',
+    text: 'user.permissions.BRANCH'
   }
 ]
 

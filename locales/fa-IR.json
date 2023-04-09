@@ -1,6 +1,6 @@
 {
   "projectName": "پنل موبایل بانک",
-  "version": "نسخه 14011228",
+  "version": "نسخه 14020120",
   "company": "عصر دانش‌ افزار",
   "clearText": "پاک کن",
   "error": {
@@ -155,7 +155,8 @@
         "type": "نوع قبض",
         "status": "وضعیت",
         "billId": "شناسه قبض",
-        "createDate": "تاریخ استعلام"
+        "createDate": "تاریخ استعلام",
+        "mobile": "شماره موبایل"
       },
       "billType": {
         "electricity": "برق",
@@ -174,9 +175,9 @@
         "start": "ناموفق"
       },
       "gatewayType": {
-        "caspian": "کاسپین",
+        "caspian": "پی بوم (ک)",
         "tavanir": "توانیر",
-        "boom": "بوم"
+        "boom": "پی بوم"
       },
       "statusType": {
         "1": "موفق",
@@ -417,7 +418,7 @@
     "phoneNumber": "موبایل",
     "lastname": "نام خانوادگی",
     "role": "نقش",
-    "permission": "دسترسی",
+    "permission": "دسترسی ها",
     "cif": "شماره مشتری",
     "statusHeader": "وضعیت",
     "edit": "عملیات",
@@ -427,12 +428,27 @@
       "0": "غیرفعال",
       "1": "فعال"
     },
+    "roles": {
+      "ROLE_LOAN_ADMIN": "مدیر",
+      "ADMIN": "مدیر ADMIN",
+      "ROLE_LOAN_USER": "کارگزار",
+      "ROLE_LOAN_REPORT": "گزارشگیر",
+      "REPORTER": "گزارشگیر REPORTER"
+    },
     "permissions": {
-      "0": "دسترسی کامل",
-      "3": "دسترسی حسابداری",
-      "1": "دسترسی گزارش",
-      "2": "ایجاد کاربر",
-      "4": "ایجاد پیشنهاد روز"
+      "FULL_ACCESS": "دسترسی کامل",
+      "CONFIRM_REFUND": "تایید استرداد وجه",
+      "REPORTER_ACCESS": "دسترسی گزارش",
+      "OFFER_ACCESS": "ایجاد پیشنهاد روز",
+      "ACCOUNTING_ACCESS": "دسترسی حسابداری",
+      "CREATE_USER": "ایجاد کاربر",
+      "CREDIT_CHECK_ACCESS": "CREDIT_CHECK_ACCESS",
+      "OPEN_DEPOSIT_PROCESS": "OPEN_DEPOSIT_PROCESS",
+      "title": "دسترسی منطقه ای",
+      "UNIVERSAL": "دسترسی کشوری",
+      "PROVINCE": "دسترسی استانی",
+      "CITY": "دسترسی شهر",
+      "BRANCH": "دسترسی شعبه"
     },
     "province": "استان",
     "city": "شهر",
@@ -443,11 +459,6 @@
     "editDialog": "ویرایش کاربر",
     "active": "فعال",
     "inactive": "غیر فعال",
-    "roles": {
-      "ROLE_PANEL_ADMIN": "مدیر",
-      "ROLE_PANEL_USER": "کارگزار",
-      "ROLE_PANEL_REPORT": "گزارشگیر"
-    },
     "validation": {
       "required": "این فیلد اجباری است.",
       "length": "طول داده‌ی ورودی معتبر نیست."
