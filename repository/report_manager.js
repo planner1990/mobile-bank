@@ -482,10 +482,6 @@ const billType = [
 const gatewayType = [
   {
     value: 'Caspian',
-    text: 'report.billReport.gatewayType.caspian'
-  },
-  {
-    value: 'BOOM',
     text: 'report.billReport.gatewayType.boom'
   },
   {

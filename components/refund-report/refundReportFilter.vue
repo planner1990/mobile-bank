@@ -355,8 +355,8 @@ export default {
   },
   data () {
     return {
-      fromDate: null,
-      toDate: null,
+      fromDate: this.currentDayFrom(),
+      toDate: this.currentDayTo(),
       transactionFromDate: null,
       transactionToDate: null,
       refundFromDate: null,

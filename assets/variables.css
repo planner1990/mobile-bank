@@ -138,6 +138,10 @@ tbody tr td {
   text-align: center !important;
 }
 
+tbody tr {
+  height: 45px;
+}
+
 .v-btn {
   border-radius: 8px;
   font-size: 14px !important;

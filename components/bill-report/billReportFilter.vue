@@ -16,7 +16,7 @@
     </v-toolbar>
     <v-container fluid>
       <v-row>
-        <v-col cols="2">
+        <v-col cols="3">
           <v-text-field
             id="createFromDate"
             v-model="fromDate"
@@ -39,7 +39,7 @@
           />
         </v-col>
 
-        <v-col cols="2">
+        <v-col cols="3">
           <v-text-field
             id="createToDate"
             v-model="toDate"
@@ -61,7 +61,8 @@
             @close="checkIsNullToDate()"
           />
         </v-col>
-        <v-col cols="2">
+
+        <v-col cols="3">
           <v-text-field
             v-model="filter.billListFilter.billId"
             dense
@@ -70,7 +71,8 @@
             prepend-icon="mdi-water"
           />
         </v-col>
-        <v-col cols="2">
+
+        <v-col cols="3">
           <v-select
             v-model="filter.billListFilter.billType"
             :items="billType"
@@ -84,7 +86,8 @@
             outlined
           />
         </v-col>
-        <v-col cols="2">
+
+        <v-col cols="3">
           <v-select
             v-model="filter.billListFilter.gatewayApi"
             :items="gatewayType"
@@ -98,7 +101,8 @@
             outlined
           />
         </v-col>
-        <v-col cols="2">
+
+        <v-col cols="3">
           <v-select
             v-model="filter.billListFilter.status"
             :items="statusType"
@@ -110,6 +114,16 @@
             dense
             clearable
             outlined
+          />
+        </v-col>
+
+        <v-col cols="3">
+          <v-text-field
+            v-model="filter.billListFilter.mobile"
+            label="شماره موبایل"
+            dense
+            outlined
+            prepend-icon="mdi-phone-in-talk"
           />
         </v-col>
       </v-row>
@@ -150,7 +164,8 @@ const defaultFilter = {
   billListFilter: {
     billId: null,
     billType: null,
-    gatewayApi: null
+    gatewayApi: null,
+    mobile: null
   },
   dateFilter: {
     from: null,
