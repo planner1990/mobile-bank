@@ -33,6 +33,7 @@
             dense
             outlined
             prepend-icon="mdi-account"
+            clearable
           />
         </v-col>
         <v-col cols="2">
@@ -45,6 +46,7 @@
             dense
             outlined
             prepend-icon="mdi-arrange-bring-to-front"
+            clearable
           />
         </v-col>
         <v-col cols="2">
@@ -57,6 +59,7 @@
             dense
             outlined
             prepend-icon="mdi-pencil"
+            clearable
           />
         </v-col>
       <!--  <v-col cols="2">

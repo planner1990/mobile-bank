@@ -1,6 +1,6 @@
 {
   "projectName": "پنل موبایل بانک",
-  "version": "نسخه 14020120",
+  "version": "نسخه 14020121",
   "company": "عصر دانش‌ افزار",
   "clearText": "پاک کن",
   "error": {
@@ -429,21 +429,30 @@
       "1": "فعال"
     },
     "roles": {
+      "ROLE_PANEL_ADMIN": "مدیر",
+      "ROLE_PANEL_USER": "کارگزار",
+      "ROLE_PANEL_REPORT": "گزارشگیر",
+
       "ROLE_LOAN_ADMIN": "مدیر",
       "ADMIN": "مدیر ADMIN",
+      "ROLE_ADMIN": "مدیر ROLE_ADMIN",
       "ROLE_LOAN_USER": "کارگزار",
+      "ROLE_ACCOUNTANTS": "کارگزار",
+      "ROLE_USER": "کارگزار ROLE_USER",
       "ROLE_LOAN_REPORT": "گزارشگیر",
       "REPORTER": "گزارشگیر REPORTER"
     },
     "permissions": {
       "FULL_ACCESS": "دسترسی کامل",
-      "CONFIRM_REFUND": "تایید استرداد وجه",
       "REPORTER_ACCESS": "دسترسی گزارش",
       "OFFER_ACCESS": "ایجاد پیشنهاد روز",
+      "ADMIN_ACCESS": "دسترسی مدیر",
       "ACCOUNTING_ACCESS": "دسترسی حسابداری",
       "CREATE_USER": "ایجاد کاربر",
-      "CREDIT_CHECK_ACCESS": "CREDIT_CHECK_ACCESS",
-      "OPEN_DEPOSIT_PROCESS": "OPEN_DEPOSIT_PROCESS",
+      "CONFIRM_REFUND": "تایید استرداد وجه",
+
+      "CREDIT_CHECK_ACCESS": "دسترسی به چک اعتباری",
+      "OPEN_DEPOSIT_PROCESS": "فرآیند سپرده باز",
       "title": "دسترسی منطقه ای",
       "UNIVERSAL": "دسترسی کشوری",
       "PROVINCE": "دسترسی استانی",
