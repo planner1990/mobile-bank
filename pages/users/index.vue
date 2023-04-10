@@ -193,7 +193,7 @@
           <!-- سایر تغییرات برای ستون های جدول -->
 
           <template #[`item.role`]="{ item }">
-            <v-chip>{{ $t('user.roles.'+ item.role.role) }}</v-chip>
+            <span style="padding: 5px;color: #fff;background-color: #444;width: 50px;border-radius: 10px;">{{ $t('user.roles.'+ item.role.role) }}</span>
           </template>
 
           <template #[`item.permissions`]="{ item }">
@@ -440,5 +440,35 @@ export default {
 <style>
   .fullScreen {
     width: 100%;
+  }
+
+  /deep/ .theme--light.v-chip:not(.v-chip--active) {
+    background: #e0e0e0;
+  }
+  /deep/ .v-chip.v-size--default {
+    border-radius: 16px;
+    font-size: 14px;
+    height: 32px;
+  }
+  /deep/ .theme--light.v-chip {
+    border-color: rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 0.87);
+  }
+  /deep/ .v-chip {
+    align-items: center;
+    cursor: default;
+    display: inline-flex;
+    line-height: 20px;
+    max-width: 100%;
+    outline: none;
+    overflow: hidden;
+    padding: 0 12px;
+    position: relative;
+    text-decoration: none;
+    transition-duration: 0.28s;
+    transition-property: box-shadow, opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    vertical-align: middle;
+    white-space: nowrap;
   }
 </style>

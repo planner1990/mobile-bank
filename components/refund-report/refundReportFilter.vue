@@ -270,7 +270,11 @@
         </v-col>
         <v-col cols="4" />
         <v-col cols="2">
+          <!-- تایید بازگشت وجه گروهی btn -->
+          <!-- تایید بازگشت وجه گروهی btn -->
+          <!-- تایید بازگشت وجه گروهی btn -->
           <v-btn
+            v-if="checkUserPermissionForShowBtn()"
             style="float: left"
             color="warning"
             :loading="downloadLoading"
@@ -282,7 +286,11 @@
           </v-btn>
         </v-col>
         <v-col cols="2">
+          <!-- btn بازگشت وجه گروهی -->
+          <!-- btn بازگشت وجه گروهی -->
+          <!-- btn بازگشت وجه گروهی -->
           <v-btn
+            v-if="checkUserPermissionForShowBtn()"
             color="warning"
             :loading="downloadLoading"
             dark
@@ -292,6 +300,7 @@
             {{ $t('report.refundReport.refundConfirmList') }}
           </v-btn>
         </v-col>
+
         <v-col cols="1">
           <v-btn
             color="warning"
@@ -311,6 +320,7 @@
 <script>
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
+import { mapGetters } from 'vuex'
 import reportManager from '~/repository/report_manager'
 
 const defaultFilter = {
@@ -372,11 +382,11 @@ export default {
       items: []
     }
   },
-  // computed: {
-  //   computedOperation: function () {
-  //     return this.filter.transactionListFilter.operation
-  //   }
-  // },
+  computed: {
+    ...mapGetters({
+      currentUser: 'user/me'
+    })
+  },
   mounted: function () {
     defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
     defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
@@ -388,6 +398,27 @@ export default {
     this.operation()
   },
   methods: {
+    checkUserPermissionForShowBtn () {
+      console.log('*** checkUserPermissionForShowBtn 1 ***',
+        this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS'),
+        this.currentUser.permissions.find(e => e.name === 'CONFIRM_REFUND'),
+        this.currentUser.permissions.length === 0,
+        this.currentUser.role.role === 'ROLE_PANEL_ADMIN',
+        (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')
+      )
+
+      if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
+        this.currentUser.permissions.find(e => e.name === 'CONFIRM_REFUND') !== undefined ||
+        (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')
+      ) {
+        // نمایش داده شود
+        console.log('*** checkUserPermissionForShowBtn 2 ***', 'true')
+        return true
+      } else {
+        console.log('*** checkUserPermissionForShowBtn 3 ***', 'false')
+        return false
+      }
+    },
     search () {
       this.$emit('search', this.filter)
     },
