@@ -149,10 +149,17 @@ export default {
         // ------------
       }).catch((error) => {
         console.log(error)
-        this.alert({
-          color: 'error',
-          content: 'global.failed'
-        })
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
       }).finally(() => {
         this.downloadLoading = false
       })
