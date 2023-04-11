@@ -48,7 +48,7 @@
         </v-list-item>
 
         <v-list-group
-          prepend-icon="mdi-chart-box-plus-outline"
+          prepend-icon="mdi-chart-arc"
           no-action
         >
           <template #activator>
@@ -253,20 +253,30 @@ export default {
       rtl: 'rtl',
       currentUser: 'user/me'
     }),
+    // برای سایر منو ها بجز گزارشات
     checkUserAccess: function () {
       return this.checkUserAccessMethod()
     },
+    // برای منوی گزارشات
     checkUserAccessReports () {
       if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
         (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
+        // همه
         return this.reports
       } else if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
+        // هیچ
         return null
       } else if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined &&
         this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined &&
         this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
-        return this.reports.filter(e => e.to !== '/offer').filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
+        // همه بجز اینها
+        return this.reports
+          .filter(e => e.to !== '/offer')
+          .filter(e => e.to !== '/users')
+          .filter(e => e.to !== '/charge-report')
+          .filter(e => e.to !== '/refund-report')
       } else {
+        // همه بجز اینها
         return this.reports.filter(e => e.to === '/offer')
       }
     }
@@ -281,25 +291,43 @@ export default {
       this.$router.push('/login')
     },
     checkUserAccessMethod () {
+      console.log('checkUserAccessMethod Permission', JSON.stringify(this.currentUser), JSON.stringify(this.items))
+
       if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
       (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
+        // همه
         return this.items
       } if (this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined) {
-        this.createUserList = this.items.filter(e => e.to !== '/offer').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
+        // همه بجز اینها
+        this.createUserList = this.items
+          .filter(e => e.to !== '/offer')
+          .filter(e => e.to !== '/charge-report')
           .filter(e => e.to !== '/transaction-statistics')
-          .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
-          .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/').filter(e => e.to !== '/offer')
+          .filter(e => e.to !== '/customer-statistics')
+          .filter(e => e.to !== '/customer')
+          .filter(e => e.to !== '/refund-report')
+          .filter(e => e.to !== '/')
+          .filter(e => e.to !== '/offer')
       } if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined ||
         this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
-        this.userList = this.items.filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
+        // همه بجز اینها
+        this.userList = this.items
+          .filter(e => e.to !== '/users')
+          .filter(e => e.to !== '/charge-report')
           .filter(e => e.to !== '/transaction-statistics')
-          .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
-          .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/offer')
+          .filter(e => e.to !== '/customer-statistics')
+          .filter(e => e.to !== '/customer')
+          .filter(e => e.to !== '/offer')
       } if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
-        this.offerList = this.items.filter(e => e.to !== '/users').filter(e => e.to !== '/charge-report').filter(e => e.to !== '/refund-report')
+        // همه بجز اینها
+        this.offerList = this.items
+          .filter(e => e.to !== '/users')
+          .filter(e => e.to !== '/charge-report')
+          .filter(e => e.to !== '/refund-report')
           .filter(e => e.to !== '/transaction-statistics')
-          .filter(e => e.to !== '/customer-statistics').filter(e => e.to !== '/customer')
-          .filter(e => e.to !== '/refund-report').filter(e => e.to !== '/')
+          .filter(e => e.to !== '/customer-statistics')
+          .filter(e => e.to !== '/customer')
+          .filter(e => e.to !== '/')
       }
 
       this.items = this.createUserList.concat(this.userList, this.offerList)

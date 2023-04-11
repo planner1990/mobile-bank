@@ -33,7 +33,9 @@
           @update:items-per-page="search(searchModel)"
           @dblclick:row="handleClick"
         >
+          <!-- 5 dialog -->
           <template #top class="v-data-footer">
+            <!-- dialog -->
             <v-dialog
               v-model="createDialog"
               max-width="1000"
@@ -133,6 +135,7 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
+            <!-- dialog -->
             <v-dialog
               v-model="refundDialog"
               max-width="300"
@@ -195,7 +198,7 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-
+            <!-- dialog -->
             <v-dialog
               v-model="refundErrorDialog"
               max-width="300"
@@ -248,7 +251,7 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-
+            <!-- dialog -->
             <v-dialog
               v-model="refundAcceptDialog"
               max-width="300"
@@ -279,6 +282,7 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
+            <!-- dialog -->
             <v-dialog
               v-model="refundConfirmationDialog"
               max-width="300"
@@ -311,24 +315,31 @@
             </v-dialog>
           </template>
 
+          <!-- table column -->
           <template #[`item.transactionTime`]="{ item }">
             {{ convertToJalali(item.transactionTime) }}
           </template>
+          <!-- table column -->
           <template #[`item.createdTime`]="{ item }">
             {{ convertToJalali(item.createdTime) }}
           </template>
+          <!-- table column -->
           <template #[`item.refundOrFailTime`]="{ item }">
             {{ convertToJalali(item.refundOrFailTime) }}
           </template>
+          <!-- table column -->
           <template #[`item.state`]="{ item }">
             {{ $t('report.refundReport.refundTypeNum.' + item.state) }}
           </template>
+          <!-- table column -->
           <template #[`item.url`]="{ item }">
             {{ $t('report.refundReport.refundUrlType.' + item.url) }}
           </template>
+          <!-- table column -->
           <template #[`item.amount`]="{ item }">
             {{ priceFormat(item.amount) }}
           </template>
+          <!-- table column -->
           <template #item.errorCode="{ item }">
             <template v-if="item.errorCode !== null">
               <v-chip
@@ -340,6 +351,7 @@
               </v-chip>
             </template>
           </template>
+          <!-- table column -->
           <template #item.state="{ item }" class="justify-center">
             <template v-if="item.state !== null" class="justify-center">
               <v-chip
@@ -351,7 +363,7 @@
               </v-chip>
             </template>
           </template>
-
+          <!-- table column -->
           <template #[`item.detail`]="{ item }">
             <v-icon
               small
