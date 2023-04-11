@@ -318,6 +318,7 @@ export default {
           .filter(e => e.to !== '/customer-statistics')
           .filter(e => e.to !== '/customer')
           .filter(e => e.to !== '/offer')
+          .filter(e => e.to !== '/refund-statistics')
       } if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
         // همه بجز اینها
         this.offerList = this.items
