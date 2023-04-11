@@ -361,11 +361,18 @@ export default {
                 content: 'messages.successful'
               })
               this.search(this.searchModel)
-            }).catch((e) => {
-              this.alert({
-                color: 'error',
-                content: 'messages.failed'
-              })
+            }).catch((error) => {
+              if (error.response) {
+                this.alert({
+                  content: error.response.data.details.length !== 0 ? error.response.data.details[0].type : error.response.data.errorMessage,
+                  color: 'error'
+                })
+              } else {
+                this.alert({
+                  color: 'error',
+                  content: 'messages.failed'
+                })
+              }
               // this.showErrorsInCreateUserDialog(e.response.data.detailList)
             })
           } else {
@@ -375,11 +382,18 @@ export default {
                 content: 'messages.successful'
               })
               this.search(this.searchModel)
-            }).catch((e) => {
-              this.alert({
-                color: 'error',
-                content: 'messages.failed'
-              })
+            }).catch((error) => {
+              if (error.response) {
+                this.alert({
+                  color: 'orange',
+                  content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+                })
+              } else {
+                this.alert({
+                  color: 'orange',
+                  content: 'messages.failed'
+                })
+              }
               // this.showErrorsInCreateUserDialog(e.response.data.detailList)
             })
           }

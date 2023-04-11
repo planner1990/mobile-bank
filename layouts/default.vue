@@ -1,8 +1,10 @@
 <template>
   <v-app>
+    <!--    // menu on the right side-->
     <v-navigation-drawer
       v-if="isLogin"
       id="core-navigation-drawer"
+      :key="forceLoadThisComponentMenu"
       v-model="drawer"
       dark
       :expand-on-hover="true"
@@ -75,6 +77,8 @@
         </v-list-group>
       </v-list>
     </v-navigation-drawer>
+
+    <!--    // header at the top side-->
     <v-app-bar
       v-if="isLogin"
       id="app-bar"
@@ -127,9 +131,13 @@
         </v-icon>
       </v-btn>
     </v-app-bar>
+
+    <!--    // all pages load here-->
     <v-main>
       <nuxt />
     </v-main>
+
+    <!--    // footer at the bottom side-->
     <v-footer :fixed="true" app>
       <div class="copyrightLtr" style="width: 100%;">
         <span style="float: right;">
@@ -141,6 +149,8 @@
         </span>
       </div>
     </v-footer>
+
+    <!--    // load add error message as a modal-->
     <snackbar />
   </v-app>
 </template>
@@ -150,6 +160,81 @@ import colors from 'vuetify/es5/util/colors'
 import { mapActions, mapGetters } from 'vuex'
 import snackbar from '@/components/snacks'
 import userManager from '~/repository/user_manager'
+
+const itemsMenuOrginal = [
+  {
+    icon: 'mdi-apps-box',
+    title: 'menu.transaction',
+    to: '/transactionReport'
+  },
+  {
+    icon: 'mdi-code-less-than-or-equal',
+    title: 'menu.transactionQuery',
+    to: '/transactionQuery'
+  },
+  {
+    icon: 'mdi-chart-box',
+    title: 'menu.transactionStatistics',
+    to: '/transaction-statistics'
+  },
+  {
+    icon: 'mdi-account-arrow-left-outline',
+    title: 'menu.customer',
+    to: '/customer'
+  },
+  {
+    icon: 'mdi-table-account',
+    title: 'menu.customerStatistics',
+    to: '/customer-statistics'
+  },
+  {
+    icon: 'mdi-ev-station',
+    title: 'menu.charge',
+    to: '/charge-report'
+  },
+  {
+    icon: 'mdi-cash-refund',
+    title: 'menu.refund',
+    to: '/refund-report'
+  },
+  {
+    icon: 'mdi-chart-box-plus-outline',
+    title: 'menu.refundStatistics',
+    to: '/refund-statistics'
+  },
+  {
+    icon: 'mdi-lightbulb-outline',
+    title: 'menu.offer',
+    to: '/offer'
+  },
+  {
+    icon: 'mdi-table-arrow-down',
+    title: 'menu.bill',
+    to: '/bill-report'
+  },
+  {
+    icon: 'mdi-calendar-account-outline',
+    title: 'menu.users',
+    to: '/users'
+  }
+]
+const reportsMenuOrginal = [
+  {
+    icon: 'mdi-chart-timeline-variant-shimmer',
+    title: 'menu.error',
+    to: '/error-report'
+  },
+  {
+    icon: 'mdi-finance',
+    title: 'menu.income',
+    to: '/incomeReport'
+  },
+  {
+    icon: 'mdi-chart-bell-curve',
+    title: 'menu.transactionStatus',
+    to: '/transaction-status'
+  }
+]
 
 export default {
   components: {
@@ -164,6 +249,7 @@ export default {
       colors,
       // loggedInUser: JSON.parse(sessionStorage.getItem('mob-userInfo')),
       // barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
+      forceLoadThisComponentMenu: 1,
       clipped: true,
       drawer: true,
       mini: true,
@@ -171,80 +257,10 @@ export default {
       offerList: [],
       userList: [],
       selected: {},
-      items: [
-        {
-          icon: 'mdi-apps-box',
-          title: 'menu.transaction',
-          to: '/transactionReport'
-        },
-        {
-          icon: 'mdi-code-less-than-or-equal',
-          title: 'menu.transactionQuery',
-          to: '/transactionQuery'
-        },
-        {
-          icon: 'mdi-chart-box',
-          title: 'menu.transactionStatistics',
-          to: '/transaction-statistics'
-        },
-        {
-          icon: 'mdi-account-arrow-left-outline',
-          title: 'menu.customer',
-          to: '/customer'
-        },
-        {
-          icon: 'mdi-table-account',
-          title: 'menu.customerStatistics',
-          to: '/customer-statistics'
-        },
-        {
-          icon: 'mdi-ev-station',
-          title: 'menu.charge',
-          to: '/charge-report'
-        },
-        {
-          icon: 'mdi-cash-refund',
-          title: 'menu.refund',
-          to: '/refund-report'
-        },
-        {
-          icon: 'mdi-chart-box-plus-outline',
-          title: 'menu.refundStatistics',
-          to: '/refund-statistics'
-        },
-        {
-          icon: 'mdi-lightbulb-outline',
-          title: 'menu.offer',
-          to: '/offer'
-        },
-        {
-          icon: 'mdi-table-arrow-down',
-          title: 'menu.bill',
-          to: '/bill-report'
-        },
-        {
-          icon: 'mdi-calendar-account-outline',
-          title: 'menu.users',
-          to: '/users'
-        }
-      ],
-      reports: [
-        {
-          icon: 'mdi-chart-timeline-variant-shimmer',
-          title: 'menu.error',
-          to: '/error-report'
-        },
-        {
-          icon: 'mdi-finance',
-          title: 'menu.income',
-          to: '/incomeReport'
-        },
-        {
-          icon: 'mdi-chart-bell-curve',
-          title: 'menu.transactionStatus',
-          to: '/transaction-status'
-        }
-      ]
+      items: itemsMenuOrginal,
+      itemsOrginal: itemsMenuOrginal,
+      reports: reportsMenuOrginal,
+      reportOrginal: reportsMenuOrginal
     }
   },
   computed: {
@@ -291,6 +307,9 @@ export default {
       this.$router.push('/login')
     },
     checkUserAccessMethod () {
+      this.items = this.itemsOrginal
+      this.report = this.reportOrginal
+
       console.log('checkUserAccessMethod Permission', JSON.stringify(this.currentUser), JSON.stringify(this.items))
 
       if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
@@ -313,7 +332,6 @@ export default {
         // همه بجز اینها
         this.userList = this.items
           .filter(e => e.to !== '/users')
-          .filter(e => e.to !== '/charge-report')
           .filter(e => e.to !== '/transaction-statistics')
           .filter(e => e.to !== '/customer-statistics')
           .filter(e => e.to !== '/customer')

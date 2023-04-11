@@ -225,11 +225,18 @@ export default {
             setTimeout(() => {
               this.doLogout()
             }, 1600)
-          }).catch((e) => {
-            this.alert({
-              color: 'orange',
-              content: 'messages.failed'
-            })
+          }).catch((error) => {
+            if (error.response) {
+              this.alert({
+                color: 'orange',
+                content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+              })
+            } else {
+              this.alert({
+                color: 'orange',
+                content: 'messages.failed'
+              })
+            }
           })
         } catch (e) {
           this.alert({

@@ -31,7 +31,7 @@
           :page.sync="searchModel.paginate.page"
           @update:page="search(searchModel)"
           @update:items-per-page="search(searchModel)"
-          @dblclick:row="handleClick"
+          @dblclick:row="handleDbClick"
         >
           <!-- 5 dialog -->
           <template #top class="v-data-footer">
@@ -135,7 +135,8 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-            <!-- dialog -->
+
+            <!-- dialog تعیین وضعیت -->
             <v-dialog
               v-model="refundDialog"
               max-width="300"
@@ -198,6 +199,7 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
+
             <!-- dialog -->
             <v-dialog
               v-model="refundErrorDialog"
@@ -251,6 +253,7 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
+
             <!-- dialog -->
             <v-dialog
               v-model="refundAcceptDialog"
@@ -282,6 +285,7 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
+
             <!-- dialog -->
             <v-dialog
               v-model="refundConfirmationDialog"
@@ -351,6 +355,7 @@
               </v-chip>
             </template>
           </template>
+
           <!-- table column -->
           <template #item.state="{ item }" class="justify-center">
             <template v-if="item.state !== null" class="justify-center">
@@ -363,6 +368,7 @@
               </v-chip>
             </template>
           </template>
+
           <!-- table column -->
           <template #[`item.detail`]="{ item }">
             <v-icon
@@ -382,7 +388,7 @@
 <script>
 import 'vue-json-pretty/lib/styles.css'
 import moment from 'moment-jalaali'
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import VueJsonPretty from 'vue-json-pretty'
 import refundReportFilter from '~/components/refund-report/refundReportFilter'
 import reportManager from '~/repository/report_manager'
@@ -455,10 +461,50 @@ export default {
       sumAmount: 0
     }
   },
+  computed: {
+    ...mapGetters({
+      currentUser: 'user/me'
+    })
+  },
   methods: {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+    // permission
+    checkUserPermissionForShowBtn () {
+      console.log('*** checkUserPermissionForShowBtn 1 ***',
+        this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS'),
+        this.currentUser.permissions.find(e => e.name === 'CONFIRM_REFUND'),
+        this.currentUser.permissions.length === 0,
+        this.currentUser.role.role === 'ROLE_PANEL_ADMIN',
+        (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')
+      )
+
+      if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
+        this.currentUser.permissions.find(e => e.name === 'CONFIRM_REFUND') !== undefined ||
+        (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')
+      ) {
+        // نمایش داده شود
+        console.log('*** checkUserPermissionForShowBtn 2 ***', 'true')
+        return true
+      } else {
+        console.log('*** checkUserPermissionForShowBtn 3 ***', 'false')
+        return false
+      }
+    },
+    handleDbClick (event, { item }) {
+      if (this.checkUserPermissionForShowBtn() === true) {
+        defaultFilterdetails.refundRequest.transactionId = item.id
+        if (item.state === 4) {
+          this.refundDialog = true
+        }
+        if (item.state === 2) {
+          this.refundErrorDialog = true
+        }
+      } else {
+        this.refundErrorDialog = false
+      }
+    },
     getColor (status) {
       if (status >= 200 && status <= 299) {
         return 'success'
@@ -555,15 +601,6 @@ export default {
         .finally(() => {
           this.loading = false
         })
-    },
-    handleClick (event, { item }) {
-      defaultFilterdetails.refundRequest.transactionId = item.id
-      if (item.state === 4) {
-        this.refundDialog = true
-      }
-      if (item.state === 2) {
-        this.refundErrorDialog = true
-      }
     },
     refundManual () {
       defaultFilterdetails.refundRequest.refundStateEnum = 'MANUAL'
