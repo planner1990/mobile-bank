@@ -1,6 +1,6 @@
 {
   "projectName": "پنل موبایل بانک",
-  "version": "نسخه 14020129-1",
+  "version": "نسخه 14020204-3",
   "company": "عصر دانش‌ افزار",
   "clearText": "پاک کن",
   "error": {
@@ -168,7 +168,7 @@
       "billStatus": {
         "successAmount": "موفق",
         "successAmountNull": "موفق",
-        "successAmountUnder1000": "موفق",
+        "successAmountUnder1000": "ناموفق",
         "Error": "ناموفق",
         "400": "ناموفق",
         "502": "ناموفق",
