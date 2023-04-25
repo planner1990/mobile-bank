@@ -39,7 +39,12 @@
             {{ $t('report.billReport.billType.' + item.type) }}
           </template>
           <template #[`item.status`]="{ item }">
-            {{ $t('report.billReport.billStatus.' + item.status) }}
+            <span v-if="['successAmount', 'successAmountNull'].includes(item.status)">
+              {{ $t('report.billReport.billStatus.' + item.status) }}
+            </span>
+            <span v-else>
+              {{ 'ناموفق' }}
+            </span>
           </template>
 
           <template #[`item.mobile`]="{ item }">

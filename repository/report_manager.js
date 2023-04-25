@@ -479,14 +479,20 @@ const billType = [
   }
 ]
 
+/* کاسپین برای ۱۴۰۱ به بعد */
+/* پی بوم برای ۱۴۰۰ به قبل */
 const gatewayType = [
   {
     value: 'Caspian',
-    text: 'report.billReport.gatewayType.boom'
+    text: 'report.billReport.gatewayType.caspian'
   },
   {
     value: 'TAVANIR',
     text: 'report.billReport.gatewayType.tavanir'
+  },
+  {
+    value: 'BOOM',
+    text: 'report.billReport.gatewayType.boom'
   }
 ]
 
