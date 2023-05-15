@@ -35,7 +35,7 @@
 import { mapMutations } from 'vuex'
 
 export default {
-  name: 'RefundIncome',
+  name: 'RefundIncomeComponent',
   props: {
     refundList: Object([]),
     loading: {

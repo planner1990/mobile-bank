@@ -125,7 +125,7 @@ const defaultSearchModel = {
 }
 
 export default {
-  name: 'SearchFilter',
+  name: 'SearchFilterComponent',
   components: {
     /*   ProvinceSelector,
     CitySelector,

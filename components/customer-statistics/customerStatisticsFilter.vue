@@ -105,7 +105,7 @@ const defaultSearchModel = {
 }
 
 export default {
-  name: 'CustomerStatisticsFilter',
+  name: 'CustomerStatisticsFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },

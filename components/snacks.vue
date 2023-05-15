@@ -24,6 +24,7 @@
 
 <script>
 export default {
+  name: 'SnacksComponent',
   data: () => ({
     show: false,
     title: '',

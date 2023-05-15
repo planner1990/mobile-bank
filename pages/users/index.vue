@@ -244,6 +244,7 @@ import provinceViewer from '~/components/location/provinceViewer'
 import branchViewer from '~/components/location/branchViewer'
 
 export default {
+  name: 'UserPage',
   components: {
     'user-filter': UserFilter,
     provinceViewer,

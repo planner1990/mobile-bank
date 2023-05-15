@@ -151,7 +151,7 @@ const defaultFilter = {
   }
 }
 export default {
-  name: 'ErrorReportFilter',
+  name: 'ErrorReportFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },

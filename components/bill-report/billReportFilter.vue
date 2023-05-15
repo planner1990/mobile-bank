@@ -174,7 +174,7 @@ const defaultFilter = {
   }
 }
 export default {
-  name: 'BillReportFilter',
+  name: 'BillReportFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
     // OperationSelector

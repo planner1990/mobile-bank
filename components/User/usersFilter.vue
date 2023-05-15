@@ -148,7 +148,7 @@ const defaultSearchModel = {
 }
 
 export default {
-  name: 'UsersFilter',
+  name: 'UsersFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
     // ProvinceSelector,

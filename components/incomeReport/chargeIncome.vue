@@ -38,7 +38,7 @@
 import { mapMutations } from 'vuex'
 
 export default {
-  name: 'ChargeIncome',
+  name: 'ChargeIncomeComponent',
   props: {
     chargeList: Object([]),
     loading: {

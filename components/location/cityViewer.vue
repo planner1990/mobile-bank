@@ -27,7 +27,7 @@ import locationManager from '@/repository/location_manager'
 import showItem from '~/components/showItem'
 
 export default defineComponent({
-  name: 'CityViewer',
+  name: 'CityViewerComponent',
   props: {
     icon: {
       type: String,

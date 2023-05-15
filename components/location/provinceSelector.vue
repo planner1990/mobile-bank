@@ -26,7 +26,7 @@ import locationManager from '@/repository/location_manager'
 import ProvinceViewer from '@/components/location/provinceViewer'
 
 export default defineComponent({
-  name: 'ProvinceSelector',
+  name: 'ProvinceSelectorComponent',
   components: {
     ProvinceViewer
   },

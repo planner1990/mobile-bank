@@ -340,7 +340,7 @@ const defaultFilter = {
   }
 }
 export default {
-  name: 'RefundReportFilter',
+  name: 'RefundReportFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
     // OperationSelector

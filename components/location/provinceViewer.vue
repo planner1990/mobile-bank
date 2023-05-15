@@ -28,7 +28,7 @@ import locationManager from '@/repository/location_manager'
 import showItem from '~/components/showItem'
 
 export default defineComponent({
-  name: 'ProvinceViewer',
+  name: 'ProvinceViewerComponent',
   props: {
     icon: {
       type: String,

@@ -28,7 +28,7 @@ import locationManager from '@/repository/location_manager'
 import showItem from '~/components/showItem'
 
 export default defineComponent({
-  name: 'OperationViewer',
+  name: 'OperationViewerComponent',
   props: {
     icon: {
       type: String,

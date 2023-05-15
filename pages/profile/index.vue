@@ -15,8 +15,9 @@
 
 <script>
 import profileCard from '~/components/profile/profileCard'
+
 export default {
-  name: 'Profile',
+  name: 'ProfilePage',
   components: {
     profileCard
   }

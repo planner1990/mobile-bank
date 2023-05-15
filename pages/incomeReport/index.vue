@@ -58,7 +58,7 @@ import refundIncome from '~/components/incomeReport/refundIncome'
 import reportManager from '~/repository/report_manager'
 
 export default {
-  name: 'OperatorReport',
+  name: 'IncomeReportPage',
   components: {
     incomeReportFilter,
     transferIncome,

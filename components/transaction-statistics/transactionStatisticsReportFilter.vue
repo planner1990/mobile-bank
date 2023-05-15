@@ -123,7 +123,7 @@ const defaultFilter = {
 
 }
 export default {
-  name: 'TransactionStatisticsReportFilter',
+  name: 'TransactionStatisticsReportFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },

@@ -634,6 +634,7 @@ import reportManager from '~/repository/report_manager'
 import userManager from '~/repository/user_manager'
 
 export default {
+  name: 'OfferPage',
   components: {
     'offer-filter': OfferFilter,
     PDatePicker: VuePersianDatetimePicker

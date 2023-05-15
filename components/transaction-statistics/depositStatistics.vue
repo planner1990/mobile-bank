@@ -32,7 +32,7 @@
 import { mapMutations } from 'vuex'
 
 export default {
-  name: 'DepositStatistics',
+  name: 'DepositStatisticsComponent',
   props: {
     deposits: Object([]),
     loading: {

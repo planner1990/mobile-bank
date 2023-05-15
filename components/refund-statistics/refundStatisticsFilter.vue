@@ -100,7 +100,7 @@ const defaultFilter = {
   }
 }
 export default {
-  name: 'RefundStatisticsFilter',
+  name: 'RefundStatisticsFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },

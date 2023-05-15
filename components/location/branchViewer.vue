@@ -33,7 +33,7 @@ import { defineComponent, useContext, ref, watch } from '@nuxtjs/composition-api
 import locationManager from '@/repository/location_manager'
 
 export default defineComponent({
-  name: 'BranchViewer',
+  name: 'BranchViewerComponent',
   props: {
     icon: {
       type: String,

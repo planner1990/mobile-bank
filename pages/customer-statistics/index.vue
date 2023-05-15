@@ -70,6 +70,7 @@ import userManager from '~/repository/user_manager'
 // import BranchSelector from '@/components/location/branchSelector'
 
 export default {
+  name: 'CustomerStatisticsPage',
   components: {
     'customer-statistics-filter': CustomerStatisticsFilter
     // ProvinceSelector,

@@ -32,7 +32,7 @@ import locationManager from '@/repository/location_manager'
 import BranchViewer from '~/components/location/branchViewer'
 
 export default defineComponent({
-  name: 'BranchSelector',
+  name: 'BranchSelectorComponent',
   components: {
     BranchViewer
   },

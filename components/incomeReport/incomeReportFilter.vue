@@ -107,7 +107,7 @@ const defaultSearchModel = {
 }
 
 export default {
-  name: 'IncomeReportFilter',
+  name: 'IncomeReportFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },

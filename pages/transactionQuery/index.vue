@@ -303,7 +303,7 @@ const defaultFilterdetails = {
   }
 }
 export default {
-  name: 'TransactionReport',
+  name: 'TransactionQueryPage',
   components: {
     transactionQueryReportFilter,
     depositOperations,

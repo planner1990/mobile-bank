@@ -25,7 +25,7 @@ import locationManager from '@/repository/location_manager'
 import OperationViewer from '@/components/location/operationViewer'
 
 export default defineComponent({
-  name: 'OperationSelector',
+  name: 'OperationSelectorComponent',
   components: {
     OperationViewer
   },

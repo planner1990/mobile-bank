@@ -153,7 +153,7 @@ const defaultSearchModel = {
 }
 
 export default {
-  name: 'LoanFilter',
+  name: 'LoanFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },

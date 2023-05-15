@@ -32,7 +32,7 @@
 import { mapMutations } from 'vuex'
 
 export default {
-  name: 'TransferIncome',
+  name: 'TransferIncomeComponent',
   props: {
     transferList: Object([]),
     loading: {

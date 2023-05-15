@@ -122,7 +122,7 @@ const defaultFilter = {
 
 }
 export default {
-  name: 'OfferFilter',
+  name: 'OfferFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
     // OperationSelector
