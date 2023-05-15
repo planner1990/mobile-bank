@@ -349,4 +349,13 @@ select:-webkit-autofill:focus {
   box-shadow: none !important;
 }
 
+/* color vue-persian-datetime-picker */
+.vpd-header {
+  background-color: #73953d !important;
+}
+
+.vpd-day:not([disabled]).vpd-selected .vpd-day-effect {
+  background-color: #73953d !important;
+}
+
 /*# sourceMappingURL=variables.css.map */
