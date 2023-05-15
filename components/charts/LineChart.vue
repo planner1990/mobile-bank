@@ -5,7 +5,7 @@
 import VueApexCharts from 'vue-apexcharts'
 
 export default {
-  name: 'LineChart',
+  name: 'LineChartComponent',
   components: {
     apexcharts: VueApexCharts
   },

@@ -17,7 +17,6 @@
           <v-text-field
             id="my-custom-input"
             v-model="fromDate"
-            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
@@ -39,7 +38,6 @@
           <v-text-field
             id="custom-input"
             v-model="toDate"
-            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
@@ -65,7 +63,6 @@
             :item-text="(item) => $t(item.text)"
             :return-object="false"
             :label="$t('filters.operationName')"
-            prepend-icon="mdi-server-security"
             dense
             clearable
             outlined
@@ -85,7 +82,6 @@
             :item-text="(item) => $t(item.text)"
             :return-object="false"
             :label="$t('filters.duration')"
-            prepend-icon="mdi-calendar-multiple-check"
             dense
             outlined
             @change="checkIsNull()"
@@ -134,7 +130,7 @@ const defaultFilter = {
 }
 
 export default {
-  name: 'TransactionStatusFilter',
+  name: 'TransactionStatusFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },

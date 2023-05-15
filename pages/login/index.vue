@@ -1,33 +1,84 @@
 <template>
-  <div class="bg">
-    <v-container>
-      <v-layout column justify-center align-center>
-        <v-flex xs12 sm8 md2>
+  <div class="bgOne">
+    <div class="bgTwo">
+      <v-sheet
+        sm="12"
+        class="d-flex align-stretch"
+        :height="heightPage"
+      >
+        <v-col sm="12" md="6" style="background-color: #FFFFFF">
           <div class="text-center">
-            <login />
+            <login class="login-right" />
           </div>
-        </v-flex>
-      </v-layout>
-    </v-container>
+        </v-col>
+
+        <v-col sm="12" md="6" class="hidden-sm-and-down left-side">
+          <div class="h-100">
+            <v-img
+              style="height: 775px;width: 588px;left: -60px;top: 30px;"
+              contain
+              :src="require('~/static/img/login-left.svg')"
+            />
+          </div>
+        </v-col>
+      </v-sheet>
+    </div>
   </div>
 </template>
 
 <script>
-import login from '~/components/login/login.vue'
+import login from '@/components/login/login'
 
 export default {
+  name: 'LoginPage',
   components: {
     login
+  },
+  layout: 'auth',
+  data () {
+    return {
+      heightPage: '3600px'
+    }
+  },
+  mounted () {
+    this.heightPage = (window.innerHeight - 40) + 'px'
   }
 }
 </script>
 
-<style scoped>.bg{
-  background-color: rgb(93 111 124);
+<style scoped>
+input:-webkit-autofill {
+  -webkit-text-fill-color: yellow;
+}
+
+/* others */
+.bgOne {
+  padding: 18px 18px 18px 18px;
+  background: #f1f1f1;
+}
+
+.bgTwo {
+  background-color: #fff;
   height: 100%;
   width: 100%;
 }
-.mb_40 {
-  margin-bottom: -40px
+
+.login-right {
+  left: -80px;
+  top: 80px;
+}
+
+@media only screen and (max-width: 1150px) {
+  .login-right {
+    left: 0;
+    top: 80px;
+  }
+}
+
+.left-side {
+  left: 0;
+  top: 0;
+  background: #F2F2F2;
+  border-radius: 0 300px 0 0;
 }
 </style>

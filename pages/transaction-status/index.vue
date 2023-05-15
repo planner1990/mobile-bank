@@ -47,7 +47,7 @@ import transactionStatusFilter from '~/components/transaction-status/transaction
 import LineChart from '~/components/charts/LineChart'
 
 export default {
-  name: 'TransactionStatus',
+  name: 'TransactionStatusPage',
   components: {
     transactionStatusFilter,
     LineChart

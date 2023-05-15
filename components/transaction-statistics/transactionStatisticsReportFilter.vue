@@ -20,7 +20,6 @@
           <v-text-field
             id="my-custom-input"
             v-model="fromDate"
-            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
@@ -42,7 +41,6 @@
           <v-text-field
             id="custom-input"
             v-model="toDate"
-            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
@@ -68,7 +66,6 @@
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
             :label="$t('filters.osName')"
-            prepend-icon="mdi-apple-safari"
             dense
             clearable
             outlined
@@ -126,7 +123,7 @@ const defaultFilter = {
 
 }
 export default {
-  name: 'TransactionStatisticsReportFilter',
+  name: 'TransactionStatisticsReportFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },

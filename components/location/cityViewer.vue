@@ -3,14 +3,12 @@
     <v-input
       v-if="condition === 'table'"
       hide-details="auto"
-      :prepend-icon="icon"
       :messages="$t(message)"
     >
       {{ city }}
     </v-input>
     <v-select
       v-else
-      :prepend-icon="icon"
       :label="$t('common.city')"
       :value="city"
       :items="city"
@@ -29,7 +27,7 @@ import locationManager from '@/repository/location_manager'
 import showItem from '~/components/showItem'
 
 export default defineComponent({
-  name: 'CityViewer',
+  name: 'CityViewerComponent',
   props: {
     icon: {
       type: String,

@@ -42,7 +42,7 @@ import { mapActions, mapMutations, mapGetters } from 'vuex'
 import reportManager from '~/repository/report_manager'
 
 export default {
-  name: 'CardOperations',
+  name: 'CardOperationsComponent',
   props: {
     cards: Object([]),
     listType: {

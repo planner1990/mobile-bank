@@ -80,7 +80,7 @@ import chargeReportFilter from '~/components/charge-report/chargeReportFilter'
 import reportManager from '~/repository/report_manager'
 
 export default {
-  name: 'OperatorReport',
+  name: 'ChargeReportPage',
   components: {
     chargeReportFilter
   },

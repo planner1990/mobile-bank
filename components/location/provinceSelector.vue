@@ -1,7 +1,6 @@
 <template>
   <v-select
     v-if="!me.provinceCode"
-    :prepend-icon="icon"
     :label="$t('common.province')"
     :value="value"
     item-text="title"
@@ -27,7 +26,7 @@ import locationManager from '@/repository/location_manager'
 import ProvinceViewer from '@/components/location/provinceViewer'
 
 export default defineComponent({
-  name: 'ProvinceSelector',
+  name: 'ProvinceSelectorComponent',
   components: {
     ProvinceViewer
   },

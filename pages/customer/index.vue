@@ -91,6 +91,7 @@ import CustomerFilter from '~/components/customer/customerFilter'
 import userManager from '~/repository/user_manager'
 
 export default {
+  name: 'CustomerPage',
   components: {
     'customer-filter': CustomerFilter
   },

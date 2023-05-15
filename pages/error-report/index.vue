@@ -55,7 +55,7 @@ import errorReportFilter from '~/components/error-report/errorReportFilter'
 import LineChart from '~/components/charts/LineChart'
 
 export default {
-  name: 'ErrorReport',
+  name: 'ErrorReportPage',
   components: {
     errorReportFilter,
     LineChart

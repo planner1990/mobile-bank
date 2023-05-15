@@ -347,7 +347,7 @@ const defaultFilterOperation = {
   }
 }
 export default {
-  name: 'TransactionReport',
+  name: 'TransactionReportPage',
   components: {
     transactionReportFilter,
     depositOperations,

@@ -3,14 +3,12 @@
     <v-input
       v-if="condition === 'table'"
       hide-details="auto"
-      :prepend-icon="icon"
       :messages="$t(message)"
     >
       {{ province }}
     </v-input>
     <v-select
       v-else
-      :prepend-icon="icon"
       :label="$t('common.province')"
       :value="province"
       item-text="title"
@@ -30,7 +28,7 @@ import locationManager from '@/repository/location_manager'
 import showItem from '~/components/showItem'
 
 export default defineComponent({
-  name: 'ProvinceViewer',
+  name: 'ProvinceViewerComponent',
   props: {
     icon: {
       type: String,

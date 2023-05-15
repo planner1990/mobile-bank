@@ -9,9 +9,11 @@
     <v-card-title class="text-h5" :style="titleStyle">
       {{ titleText }}
     </v-card-title>
+
     <v-card-text :style="textStyle">
       {{ $t(message) }}
     </v-card-text>
+
     <v-card-actions class="justify-end">
       <v-btn small color="white" :style="buttonStyle" @click="show = false">
         {{ $t('messages.ok') }}
@@ -22,6 +24,7 @@
 
 <script>
 export default {
+  name: 'SnacksComponent',
   data: () => ({
     show: false,
     title: '',

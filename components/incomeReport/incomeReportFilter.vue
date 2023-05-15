@@ -19,7 +19,6 @@
           <v-text-field
             id="createFromMonth"
             v-model="fromMonth"
-            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.month')"
@@ -41,7 +40,6 @@
           <v-text-field
             id="createFromYear"
             v-model="fromYear"
-            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.month')"
@@ -109,7 +107,7 @@ const defaultSearchModel = {
 }
 
 export default {
-  name: 'IncomeReportFilter',
+  name: 'IncomeReportFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },

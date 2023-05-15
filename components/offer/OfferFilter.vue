@@ -20,7 +20,6 @@
           <v-text-field
             id="createFromDate"
             v-model="from"
-            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
@@ -43,7 +42,6 @@
           <v-text-field
             id="createToDate"
             v-model="to"
-            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
@@ -69,7 +67,6 @@
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
             :label="$t('offer.status')"
-            prepend-icon="mdi-clipboard-list"
             dense
             clearable
             outlined
@@ -81,7 +78,6 @@
             dense
             outlined
             :label="$t('offer.title')"
-            prepend-icon="mdi-blur"
           />
         </v-col>
       </v-row>
@@ -126,7 +122,7 @@ const defaultFilter = {
 
 }
 export default {
-  name: 'OfferFilter',
+  name: 'OfferFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
     // OperationSelector

@@ -65,11 +65,12 @@ import { mapMutations } from 'vuex'
 import CustomerStatisticsFilter from '~/components/customer-statistics/customerStatisticsFilter'
 import userManager from '~/repository/user_manager'
 
-// import ProvinceSelector from '@/components/location/provinceSelector.vue'
+// import ProvinceSelector from '@/components/location/provinceSelector'
 // import CitySelector from '@/components/location/citySelector'
 // import BranchSelector from '@/components/location/branchSelector'
 
 export default {
+  name: 'CustomerStatisticsPage',
   components: {
     'customer-statistics-filter': CustomerStatisticsFilter
     // ProvinceSelector,

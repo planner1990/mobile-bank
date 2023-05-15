@@ -403,7 +403,7 @@ const defaultFilterdetails = {
   }
 }
 export default {
-  name: 'RefundReport',
+  name: 'RefundReportPage',
   components: {
     refundReportFilter,
     VueJsonPretty

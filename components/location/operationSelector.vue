@@ -1,7 +1,6 @@
 <template>
   <v-select
     v-if="true"
-    :prepend-icon="icon"
     :label="$t('common.province')"
     :value="value"
     item-text="title"
@@ -26,7 +25,7 @@ import locationManager from '@/repository/location_manager'
 import OperationViewer from '@/components/location/operationViewer'
 
 export default defineComponent({
-  name: 'OperationSelector',
+  name: 'OperationSelectorComponent',
   components: {
     OperationViewer
   },

@@ -87,7 +87,7 @@ import billReportFilter from '~/components/bill-report/billReportFilter'
 import reportManager from '~/repository/report_manager'
 
 export default {
-  name: 'OperatorReport',
+  name: 'BillReportPage',
   components: {
     billReportFilter
   },

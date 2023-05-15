@@ -61,7 +61,7 @@ import otherStatistics from '~/components/transaction-statistics/otherStatistics
 import reportManager from '~/repository/report_manager'
 
 export default {
-  name: 'OperatorReport',
+  name: 'TransactionStatisticsPage',
   components: {
     transactionStatisticsReportFilter,
     cardStatistics,

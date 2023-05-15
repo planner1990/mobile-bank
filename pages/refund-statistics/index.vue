@@ -63,7 +63,7 @@ import refundStatisticsFilter from '~/components/refund-statistics/refundStatist
 import refundStatisticsManager from '~/repository/refundStatistics_manager'
 
 export default {
-  name: 'RefundStatistics',
+  name: 'RefundStatisticsPage',
   components: {
     refundStatisticsFilter
   },

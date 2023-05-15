@@ -1,7 +1,6 @@
 <template>
   <v-select
     v-if="!me.cityCode"
-    :prepend-icon="icon"
     :label="$t('common.city')"
     :value="value"
     :items="cities"
@@ -24,11 +23,11 @@
 
 <script>
 import { computed, defineComponent, ref, useContext, watch } from '@nuxtjs/composition-api'
-import cityViewer from './cityViewer.vue'
+import cityViewer from './cityViewer'
 import locationManager from '@/repository/location_manager'
 
 export default defineComponent({
-  name: 'CitySelector',
+  name: 'CitySelectorComponent',
   components: { cityViewer },
   props: {
     icon: {

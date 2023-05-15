@@ -31,7 +31,6 @@
       <v-text-field
         id="my-custom-input"
         v-model="fromDate"
-        prepend-icon="mdi-calendar"
         outlined
         dense
         :placeholder="$t('filters.fromDate')"
@@ -51,7 +50,6 @@
       <v-text-field
         id="custom-input"
         v-model="toDate"
-        prepend-icon="mdi-calendar"
         outlined
         dense
         :placeholder="$t('filters.toDate')"
@@ -73,21 +71,18 @@
         :label="$t('user.username')"
         dense
         outlined
-        prepend-icon="mdi-account"
       />
       <v-text-field
         v-model="request.userFilter.username"
         :label="$t('user.customerNumber')"
         dense
         outlined
-        prepend-icon="mdi-account"
       />
       <v-text-field
         v-model="request.userFilter.customerName"
         :label="$t('user.customerName')"
         dense
         outlined
-        prepend-icon="mdi-account"
       />
       <v-select
         v-model="request.userFilter.role"
@@ -97,7 +92,6 @@
         :label="$t('user.role')"
         dense
         outlined
-        prepend-icon="mdi-account-lock"
       />
       <v-select
         v-model="request.userFilter.status"
@@ -107,7 +101,6 @@
         :label="$t('user.status.title')"
         dense
         outlined
-        prepend-icon="mdi-account-lock"
       />
       <!--      <province-selector-->
       <!--        v-model="request.locationFilter.provinceCode"-->
@@ -127,9 +120,9 @@
 
 <script>
 // import { mapGetters } from 'vuex'
-// import ProvinceSelector from '../location/provinceSelector.vue'
-// import CitySelector from '../location/citySelector.vue'
-// import BranchSelector from '../location/branchSelector.vue'
+// import ProvinceSelector from '../location/provinceSelector'
+// import CitySelector from '../location/citySelector'
+// import BranchSelector from '../location/branchSelector'
 import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import userManager from '@/repository/user_manager'
@@ -155,7 +148,7 @@ const defaultSearchModel = {
 }
 
 export default {
-  name: 'UsersFilter',
+  name: 'UsersFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
     // ProvinceSelector,
