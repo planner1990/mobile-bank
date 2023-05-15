@@ -1,4 +1,12 @@
 @font-face {
+  font-family: "IranYekanWebN";
+  src: url("static/IranYekanWebN/Normal/woff/IRANYekanWebLight.woff") format("woff"), url("static/IranYekanWebN/Normal/ttf/IRANYekanWebLight.ttf") format("truetype");
+}
+@font-face {
+  font-family: "IranYekanWebNFarsi";
+  src: url("static/IranYekanWebN/Number/woff/iranyekanwebregularfanum.woff") format("woff"), url("static/IranYekanWebN/Number/ttf/iranyekanwebregularfanum.ttf") format("truetype");
+}
+@font-face {
   font-family: "A Iranian Sans";
   src: url("static/Iranian-Sans.woff") format("woff"), url("static/Iranian Sans.ttf") format("truetype");
 }
@@ -22,89 +30,6 @@
   border-radius: 8px !important;
 }
 
-.v-list--dense .v-subheader {
-  font-size: 1.35rem !important;
-  height: 40px !important;
-  padding: 0 8px;
-}
-
-.theme--light.v-subheader {
-  color: #0c0c0d !important;
-  background-color: #E4E8E3 !important;
-}
-
-.v-label {
-  font-size: 13px !important;
-  line-height: 1;
-  min-height: 8px;
-  transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
-}
-
-.v-input {
-  font-size: 13px !important;
-  letter-spacing: normal;
-  text-align: left;
-}
-
-.v-data-table > .v-data-table__wrapper > table > thead > tr > th, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  font-size: 0.86rem !important;
-  height: 48px;
-}
-
-.v-application {
-  font-family: "B Yekan", "Vazir", "B Nazanin", "Times New Roman" !important;
-  line-height: 1.3 !important;
-}
-
-.v-list--dense .v-list-item .v-list-item__title, .v-list--dense .v-list-item .v-list-item__subtitle {
-  font-size: 1rem !important;
-  font-weight: initial;
-  line-height: 1.5rem !important;
-}
-
-.vjs-value__string {
-  color: #595b5a !important;
-}
-
-.theme--light.v-card > .v-card__text, .theme--light.v-card .v-card__subtitle {
-  color: rgb(13, 12, 12) !important;
-}
-
-.vjs-tree {
-  font-family: Monaco, Menlo, Consolas, Bitstream Vera Sans Mono, monospace;
-  font-size: 12px;
-}
-
-.v-tab {
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  flex: 0 1 auto;
-  font-size: 1rem;
-  font-weight: 900 !important;
-  justify-content: center;
-  letter-spacing: 0.0892857143em;
-  line-height: normal;
-  min-width: 90px;
-  max-width: 360px;
-  outline: none;
-  outline-width: medium;
-  padding: 0 32px !important;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
 .v-application .display-1,
 .v-application .display-2,
 .v-application .display-3,
@@ -117,16 +42,42 @@
 .v-application .body-2,
 .v-application .caption,
 .v-application .overline {
-  font-family: "B Yekan", "Vazir", "B Nazanin", "Times New Roman" !important;
+  font-family: "IranYekanWeb", "IranYekanWebNFarsi" !important;
 }
 
+/*** new design ***/
+/*** new design ***/
+/*** new design ***/
+/*** new design ***/
+.v-application .lightGreen {
+  background-color: #ffffff !important;
+  border-bottom: 2px solid #D8D8D8 !important;
+}
+
+/* loading */
+.v-application .primary {
+  background-color: "#4189cd" !important;
+  border-color: "#4189cd" !important;
+}
+
+.theme--light .v-application .primary--text {
+  color: "#4189cd" !important;
+}
+
+.v-application .primary--text {
+  color: "#4189cd" !important;
+  caret-color: "#4189cd" !important;
+}
+
+/*** new design ***/
+/*** new design ***/
 tbody tr:nth-of-type(odd) {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: #FBFBFB;
 }
 
 thead tr {
-  background-color: #eefad1;
-  height: 48px;
+  background-color: #fff;
+  height: 56px;
 }
 
 thead tr th {
@@ -138,13 +89,8 @@ tbody tr td {
   text-align: center !important;
 }
 
-tbody tr {
-  height: 45px;
-}
-
 .v-btn {
   border-radius: 8px;
-  font-size: 14px !important;
 }
 
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
@@ -152,19 +98,17 @@ tbody tr {
   padding: 0 !important;
 }
 
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td,
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > th {
+  padding: 8px !important;
+}
+
 .v-input__slot {
   justify-content: center;
 }
 
-.v-snack__content {
-  flex-grow: 1;
-  font-size: 0.875rem;
-  font-weight: 400;
-  letter-spacing: 0.0178571429em;
-  line-height: 1rem;
-  margin-right: auto;
-  padding: 0;
-  text-align: initial;
+.v-list-item__title {
+  line-height: 2 !important;
 }
 
 #nuxt-loading > div, #nuxt-loading > div:after {
@@ -184,6 +128,225 @@ tbody tr {
   transform: translateZ(0) !important;
   -webkit-animation: nuxtLoading 1.7s infinite linear !important;
   animation: nuxtLoading 1.7s infinite linear !important;
+}
+
+.theme--light.v-icon {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.theme--light.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state) > .v-input__control > .v-input__slot fieldset {
+  color: #e0e0e0 !important;
+}
+
+.filterHeader {
+  color: black !important;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 25px;
+  border-bottom: 0.5px solid #AEAEAE !important;
+}
+
+/* placeholder color */
+.theme--light.v-label {
+  font-size: 15px;
+  color: #757575 !important;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #757575 !important;
+  opacity: 1; /* Firefox */
+  font-size: 15px;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #757575 !important;
+  font-size: 15px;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #757575 !important;
+  font-size: 15px;
+}
+
+/* table */
+/* table */
+/* table */
+.v-data-table--dense > .v-data-table__wrapper > table > tbody > tr > th, .v-data-table--dense > .v-data-table__wrapper > table > thead > tr > th, .v-data-table--dense > .v-data-table__wrapper > table > tfoot > tr > th {
+  height: 46px;
+}
+
+.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
+  border-bottom: thin solid rgba(0, 0, 0, 0.12);
+  font-size: 14px;
+  line-height: 24px;
+  color: #1C1C1C;
+}
+
+tbody tr:nth-of-type(odd) {
+  background-color: #fff;
+}
+
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td, .v-data-table > .v-data-table__wrapper > table > tbody > tr > th {
+  padding: 14px 15px !important;
+  font-size: 14px !important;
+}
+
+.theme--light.v-data-table .v-data-table__empty-wrapper {
+  color: rgba(0, 0, 0, 0.61);
+  height: 56px;
+}
+
+.theme--light.v-data-table .v-data-footer {
+  background-color: #f5f5f5;
+  color: #444;
+}
+
+.theme--light.v-application--is-rtl .v-data-footer__select {
+  font-size: 14px;
+}
+
+.theme--light.v-data-table .v-data-footer .v-input__slot {
+  height: 30px;
+}
+
+.v-data-table__wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-height: 625px;
+}
+
+.v-data-table__wrapper {
+  border-radius: 12px;
+}
+
+.theme--light.v-data-table {
+  border-radius: 12px;
+}
+
+.theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th {
+  border-bottom: thin solid rgba(0, 0, 0, 0.12);
+  font-size: 14px;
+  line-height: 24px;
+  color: #1c1c1c;
+}
+
+/* filters */
+/* filters */
+/* filters */
+.btnSearch {
+  color: #FFFFFF !important;
+  background-color: #2173E0 !important;
+  width: 100% !important;
+  font-size: 19px !important;
+  height: 48px !important;
+}
+
+.btnSave {
+  color: #FFFFFF !important;
+  background-color: #84BD00 !important;
+  width: 100% !important;
+  font-size: 19px !important;
+  height: 48px !important;
+}
+
+.btnSend {
+  color: #FFFFFF !important;
+  background-color: #84BD00 !important;
+  width: 100% !important;
+  font-size: 19px !important;
+  height: 48px !important;
+}
+
+/* text filed css */
+.text-field {
+  border-width: 0.5px !important;
+  width: 400px;
+  height: 48px;
+  border-radius: 10px;
+  color: #84BD00 !important;
+}
+
+.v-input__slot {
+  height: 50px;
+}
+
+.v-input__prepend-inner {
+  margin-top: 13px !important;
+}
+
+.v-input__append-inner {
+  margin-top: 13px !important;
+}
+
+.v-text-field--outlined.v-input--dense .v-label {
+  top: 15px;
+}
+
+.v-text-field.v-text-field--enclosed:not(.v-text-field--rounded) > .v-input__control > .v-input__slot, .v-text-field.v-text-field--enclosed .v-text-field__details {
+  padding: 0 15px;
+  border-radius: 12px;
+}
+
+/* In all projects */
+.row.no-gutters > .col, .row.no-gutters > [class*=col-] {
+  padding: 0 0 0 10px;
+}
+
+.theme--dark.v-overlay {
+  background: rgba(70, 70, 70, 0.3);
+  backdrop-filter: blur(2px);
+}
+
+/* Custom Scrollbar  */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #EEEEEE;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b30000;
+}
+
+/* zoom image */
+.zoomImage {
+  transition: transform 0.2s;
+}
+
+.zoomImage:hover {
+  transform: scale(1.2);
+}
+
+/* autofill css = change color in autocomplete */
+/* autofill css = change color in autocomplete */
+/* autofill css = change color in autocomplete */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-background-clip: text;
+}
+
+/* card */
+.v-toolbar__content, .v-toolbar__extension {
+  font-size: 18px;
+}
+
+.v-sheet.v-card {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: none !important;
 }
 
 /*# sourceMappingURL=variables.css.map */

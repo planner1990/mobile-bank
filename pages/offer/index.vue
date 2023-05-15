@@ -69,7 +69,6 @@
                         <v-col cols="3">
                           <v-text-field
                             v-model="offerForm.offerObj.title"
-                            prepend-icon="mdi-account"
                             :counter="16"
                             :label="$t('offer.title')"
                             outlined
@@ -82,7 +81,6 @@
                             v-model="offerForm.offerObj.widgetTitle"
                             :label="$t('offer.widgetTitle')"
                             :counter="16"
-                            prepend-icon="mdi-account"
                             required
                             dense
                             outlined
@@ -92,7 +90,6 @@
                           <v-text-field
                             v-model="offerForm.offerObj.url"
                             :label="$t('offer.url')"
-                            prepend-icon="mdi-account"
                             outlined
                             dense
                           />
@@ -105,7 +102,6 @@
                             :item-text="(item)=>(item.text)"
                             :return-object="false"
                             :label="$t('offer.type')"
-                            prepend-icon="mdi-clipboard-list"
                             dense
                             clearable
                             outlined
@@ -117,7 +113,6 @@
                           <v-text-field
                             id="createFromDate"
                             v-model="from"
-                            prepend-icon="mdi-calendar"
                             outlined
                             dense
                             :placeholder="$t('filters.fromDate')"
@@ -138,7 +133,6 @@
                           <v-text-field
                             id="createToDate"
                             v-model="to"
-                            prepend-icon="mdi-calendar"
                             outlined
                             dense
                             :placeholder="$t('filters.toDate')"
@@ -159,7 +153,6 @@
                           <v-text-field
                             v-model="offerForm.offerObj.alternativeUrl"
                             :label="$t('offer.alternativeUrl')"
-                            prepend-icon="mdi-account"
                             outlined
                             dense
                           />
@@ -172,7 +165,6 @@
                             :item-text="(item)=>$t(item.text)"
                             :return-object="false"
                             :label="$t('offer.to')"
-                            prepend-icon="mdi-clipboard-list"
                             dense
                             clearable
                             outlined
@@ -184,7 +176,6 @@
                           <v-text-field
                             v-model="offerForm.offerObj.uri"
                             :label="$t('offer.uri')"
-                            prepend-icon="mdi-account"
                             outlined
                             dense
                           />
@@ -197,7 +188,6 @@
                             :item-text="(item)=>$t(item.text)"
                             :return-object="false"
                             :label="$t('offer.offerType')"
-                            prepend-icon="mdi-clipboard-list"
                             dense
                             clearable
                             outlined
@@ -223,7 +213,6 @@
                           <v-textarea
                             v-model="offerForm.offerObj.explanation"
                             :label="$t('offer.description')"
-                            prepend-icon="mdi-account"
                             outlined
                             full-width
                             height="80"
@@ -294,7 +283,6 @@
                         <v-col cols="3">
                           <v-text-field
                             v-model="offerForm.offerObj.title"
-                            prepend-icon="mdi-account"
                             :counter="16"
                             :label="$t('offer.title')"
                             outlined
@@ -307,7 +295,6 @@
                             v-model="offerForm.offerObj.widgetTitle"
                             :label="$t('offer.widgetTitle')"
                             :counter="16"
-                            prepend-icon="mdi-account"
                             required
                             dense
                             outlined
@@ -317,7 +304,6 @@
                           <v-text-field
                             v-model="offerForm.offerObj.url"
                             :label="$t('offer.url')"
-                            prepend-icon="mdi-account"
                             outlined
                             dense
                           />
@@ -330,7 +316,6 @@
                             :item-text="(item)=>(item.text)"
                             :return-object="false"
                             :label="$t('offer.type')"
-                            prepend-icon="mdi-clipboard-list"
                             dense
                             clearable
                             outlined
@@ -342,7 +327,6 @@
                           <v-text-field
                             id="createFromDate"
                             v-model="from"
-                            prepend-icon="mdi-calendar"
                             outlined
                             dense
                             :placeholder="$t('filters.fromDate')"
@@ -363,7 +347,6 @@
                           <v-text-field
                             id="createToDate"
                             v-model="to"
-                            prepend-icon="mdi-calendar"
                             outlined
                             dense
                             :placeholder="$t('filters.toDate')"
@@ -384,7 +367,6 @@
                           <v-text-field
                             v-model="offerForm.offerObj.alternativeUrl"
                             :label="$t('offer.alternativeUrl')"
-                            prepend-icon="mdi-account"
                             outlined
                             dense
                           />
@@ -397,7 +379,6 @@
                             :item-text="(item)=>$t(item.text)"
                             :return-object="false"
                             :label="$t('offer.to')"
-                            prepend-icon="mdi-clipboard-list"
                             dense
                             clearable
                             outlined
@@ -409,7 +390,6 @@
                           <v-text-field
                             v-model="offerForm.offerObj.uri"
                             :label="$t('offer.uri')"
-                            prepend-icon="mdi-account"
                             outlined
                             dense
                           />
@@ -422,7 +402,6 @@
                             :item-text="(item)=>$t(item.text)"
                             :return-object="false"
                             :label="$t('offer.offerType')"
-                            prepend-icon="mdi-clipboard-list"
                             dense
                             clearable
                             outlined
@@ -444,7 +423,6 @@
                           <v-textarea
                             v-model="offerForm.offerObj.explanation"
                             :label="$t('offer.description')"
-                            prepend-icon="mdi-account"
                             outlined
                             full-width
                             height="80"
@@ -523,7 +501,6 @@
                           <v-text-field
                             v-model="offerForm.paramObj.key"
                             :label="$t('offer.key')"
-                            prepend-icon="mdi-account"
                             outlined
                             dense
                           />
@@ -532,7 +509,6 @@
                           <v-text-field
                             v-model="offerForm.paramObj.value"
                             :label="$t('offer.value')"
-                            prepend-icon="mdi-account"
                             outlined
                             dense
                           />

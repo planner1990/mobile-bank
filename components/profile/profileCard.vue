@@ -93,7 +93,6 @@
                   <v-col>
                     <v-text-field
                       v-model="newPassword"
-                      prepend-icon="mdi-form-textbox-password"
                       :label="$t('profile.password')"
                       :counter="16"
                       :rules="[
@@ -113,7 +112,6 @@
                   <v-col>
                     <v-text-field
                       v-model="repeatTheNewPassword"
-                      prepend-icon="mdi-form-textbox-password"
                       :label="$t('profile.repeatPassword')"
                       :counter="16"
                       :rules="[

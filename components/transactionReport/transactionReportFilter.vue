@@ -22,7 +22,6 @@
             id="createFromTime"
             v-model="fromTime"
             class="v-input1"
-            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.fromTime')"
@@ -66,7 +65,6 @@
             id="createToTime"
             v-model="toTime"
             class="v-input1"
-            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.toTime')"
@@ -109,7 +107,6 @@
           <v-select
             v-model="filter.transactionListFilter.operation"
             :label="$t('filters.operation')"
-            prepend-icon="mdi-lumx"
             item-value="value"
             dense
             outlined
@@ -139,7 +136,6 @@
             item-value=""
             :return-object="false"
             :label="$t('filters.errorCode')"
-            prepend-icon="mdi-shape-plus"
             dense
             clearable
             outlined
@@ -153,7 +149,6 @@
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
             :label="$t('filters.result')"
-            prepend-icon="mdi-code-array"
             dense
             clearable
             outlined
@@ -168,7 +163,6 @@
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
             :label="$t('filters.source')"
-            prepend-icon="mdi-hexagon-outline"
             dense
             clearable
             outlined
@@ -182,7 +176,6 @@
             dense
             outlined
             :label="$t('customer.phoneNumber')"
-            prepend-icon="mdi-phone-in-talk"
           />
         </v-col>
         <v-col>
@@ -191,7 +184,6 @@
             dense
             outlined
             :label="$t('report.transactionReport.transaction.sourceNumber')"
-            prepend-icon="mdi-select"
           />
         </v-col>
         <v-col>
@@ -200,7 +192,6 @@
             dense
             outlined
             :label="$t('customer.cif')"
-            prepend-icon="mdi-account"
           />
         </v-col>
         <!--   <v-col>
@@ -209,7 +200,6 @@
             dense
             outlined
             :label="$t('filters.amount')"
-            prepend-icon="mdi-account"
           />
         </v-col>-->
         <v-col>
@@ -218,7 +208,6 @@
             dense
             outlined
             :label="$t('filters.trackerId')"
-            prepend-icon="mdi-leaf"
           />
         </v-col>
         <v-col>
@@ -227,7 +216,6 @@
             dense
             outlined
             :label="$t('filters.transactionId')"
-            prepend-icon="mdi-script"
           />
         </v-col>
         <v-col>
@@ -238,7 +226,6 @@
             :item-text="(item)=>$t(item.text)"
             :return-object="false"
             :label="$t('filters.osName')"
-            prepend-icon="mdi-lightbulb-outline"
             dense
             clearable
             outlined

@@ -32,7 +32,6 @@
             :label="$t('user.username')"
             dense
             outlined
-            prepend-icon="mdi-account"
             clearable
           />
         </v-col>
@@ -45,7 +44,6 @@
             :label="$t('user.role')"
             dense
             outlined
-            prepend-icon="mdi-arrange-bring-to-front"
             clearable
           />
         </v-col>
@@ -58,7 +56,6 @@
             :label="$t('user.status.title')"
             dense
             outlined
-            prepend-icon="mdi-pencil"
             clearable
           />
         </v-col>
@@ -100,9 +97,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-// import ProvinceSelector from '../location/provinceSelector.vue'
-// import CitySelector from '../location/citySelector.vue'
-// import BranchSelector from '../location/branchSelector.vue'
+// import ProvinceSelector from '../location/provinceSelector'
+// import CitySelector from '../location/citySelector'
+// import BranchSelector from '../location/branchSelector'
 import userManager from '@/repository/user_manager'
 
 const defaultSearchModel = {

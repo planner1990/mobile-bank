@@ -3,14 +3,12 @@
     <v-input
       v-if="condition === 'table'"
       hide-details="auto"
-      :prepend-icon="icon"
       :messages="$t(message)"
     >
       {{ city }}
     </v-input>
     <v-select
       v-else
-      :prepend-icon="icon"
       :label="$t('common.city')"
       :value="city"
       :items="city"

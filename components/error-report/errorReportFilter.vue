@@ -20,7 +20,6 @@
           <v-text-field
             id="my-custom-input"
             v-model="fromDate"
-            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.fromDate')"
@@ -42,7 +41,6 @@
           <v-text-field
             id="custom-input"
             v-model="toDate"
-            prepend-icon="mdi-calendar"
             outlined
             dense
             :placeholder="$t('filters.toDate')"
@@ -68,7 +66,6 @@
             item-value="url"
             :return-object="false"
             :label="$t('filters.operation')"
-            prepend-icon="mdi-server-security"
             dense
             clearable
             outlined
@@ -82,7 +79,6 @@
             item-value=""
             :return-object="false"
             :label="$t('filters.errorCode')"
-            prepend-icon="mdi-shape-plus"
             dense
             clearable
             outlined
@@ -96,7 +92,6 @@
             :item-text="(item) => $t(item.title)"
             :return-object="false"
             :label="$t('filters.errorType')"
-            prepend-icon="mdi-launch"
             dense
             clearable
             outlined

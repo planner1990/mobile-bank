@@ -3,14 +3,12 @@
     <v-input
       v-if="condition === 'table'"
       hide-details="auto"
-      :prepend-icon="icon"
       :messages="$t(message)"
     >
       {{ value }}
     </v-input>
     <v-combobox
       v-else
-      :prepend-icon="icon"
       :label="$t('common.branch')"
       :value="branch"
       :items="branch"

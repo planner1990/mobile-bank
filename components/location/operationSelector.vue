@@ -1,7 +1,6 @@
 <template>
   <v-select
     v-if="true"
-    :prepend-icon="icon"
     :label="$t('common.province')"
     :value="value"
     item-text="title"

@@ -1,7 +1,6 @@
 <template>
   <v-select
     v-if="!me.branchCode"
-    :prepend-icon="icon"
     :label="$t('common.branch')"
     :items="branches"
     :value="value"

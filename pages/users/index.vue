@@ -72,7 +72,6 @@
                         <v-col>
                           <v-text-field
                             v-model="userForm.userObj.username"
-                            prepend-icon="mdi-account"
                             :counter="16"
                             :label="$t('user.username')"
                             :rules="[
@@ -88,7 +87,6 @@
                           <v-text-field
                             v-if="!userForm.userObj.id"
                             v-model="userForm.userObj.password"
-                            prepend-icon="mdi-lock"
                             :counter="16"
                             :label="$t('user.password')"
                             :rules="[
@@ -105,7 +103,6 @@
                           <v-text-field
                             v-if="!!userForm.userObj.id"
                             v-model="userForm.userObj.password"
-                            prepend-icon="mdi-lock"
                             :label="$t('user.password')"
                             :type="userForm.showPassword ? 'text' : 'Password'"
                             :append-icon="userForm.showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -119,7 +116,6 @@
                         <v-col cols="6">
                           <v-select
                             v-model="userForm.userObj.role"
-                            prepend-icon="mdi-account-lock"
                             :items="roles"
                             :item-text="(item) => $t(item.text)"
                             :rules="[ v => !!v || $t('user.validation.required') ]"
@@ -135,7 +131,6 @@
                         <v-col cols="6">
                           <v-select
                             v-model="userForm.userObj.userAccessList"
-                            prepend-icon="mdi-folder-lock"
                             :items="computedUserAccessList"
                             :item-text="(item) => $t(item.text)"
                             item-value="value"
