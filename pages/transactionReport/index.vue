@@ -401,7 +401,8 @@ export default {
         { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false },
         { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
         { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false, align: 'center' }
+        { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.requestId'), value: 'requestId', sortable: false }
       ],
       headersTransactionRequest: [
         { text: this.$t('report.transactionReport.headers.requestJson'), value: 'requestJson', sortable: false },

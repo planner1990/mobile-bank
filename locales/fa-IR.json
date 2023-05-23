@@ -80,6 +80,7 @@
         "detail": "جزییات",
         "phoneNumber" : "شماره موبایل",
         "trackerId": "کد پیگیری",
+        "requestId": "کد پیگیری عملیات",
         "operator": "اپراتور",
         "chargeAmount": "مبلغ شارژ",
         "chargeType": "نوع شارژ",
