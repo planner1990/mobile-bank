@@ -475,6 +475,7 @@ export default {
     },
     editItem (item) {
       this.createDialog = true
+
       this.itemsTransactionData.splice(0, 1)
       this.itemsTransactionData.push({
         sourceType: item.sourceType,
@@ -509,7 +510,8 @@ export default {
           osVersion: response.data.osVersion,
           osName: response.data.osName,
           responseLongTime: response.data.responseLongTime,
-          requestId: response.data.trackerId,
+          trackerId: response.data.trackerId,
+          requestId: response.data.requestId,
           ip: response.data.ipAddress,
           traceId: response.data.traceId
         })
