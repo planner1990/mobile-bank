@@ -77,7 +77,6 @@
         "requestTime": "زمان درخواست",
         "ip": "IP",
         "traceId": "Trace ID",
-        "requestId": "کد پیگیری عملیات",
         "detail": "جزییات",
         "phoneNumber" : "شماره موبایل",
         "trackerId": "کد پیگیری",
