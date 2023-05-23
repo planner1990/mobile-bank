@@ -1,6 +1,6 @@
 {
   "projectName": "پنل موبایل بانک",
-  "version": "نسخه 2-14020225",
+  "version": "نسخه 2-14020302",
   "company": "عصر دانش‌ افزار",
   "clearText": "پاک کن",
   "error": {
@@ -77,6 +77,7 @@
         "requestTime": "زمان درخواست",
         "ip": "IP",
         "traceId": "Trace ID",
+        "requestId": "کد پیگیری عملیات",
         "detail": "جزییات",
         "phoneNumber" : "شماره موبایل",
         "trackerId": "کد پیگیری",
