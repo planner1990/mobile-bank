@@ -395,12 +395,12 @@ export default {
         { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false, align: 'center' }
       ],
       headersTransaction: [
-        { text: this.$t('report.transactionReport.headers.responseTime'), value: 'responseLongTime', sortable: false },
-        { text: this.$t('report.transactionReport.headers.appVersion'), value: 'appVersion', sortable: false },
-        { text: this.$t('report.transactionReport.headers.osVersion'), value: 'osVersion', sortable: false },
-        { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false },
-        { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.responseTime'), value: 'responseLongTime', sortable: false, align: 'center' },
+        { text: this.$t('report.transactionReport.headers.appVersion'), value: 'appVersion', sortable: false, align: 'center' },
+        { text: this.$t('report.transactionReport.headers.osVersion'), value: 'osVersion', sortable: false, align: 'center' },
+        { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false, align: 'center' },
+        { text: this.$t('report.transactionReport.headers.ip'), value: 'ip', sortable: false, align: 'center' },
+        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'trackerId', sortable: false, align: 'center' },
         { text: this.$t('report.transactionReport.headers.traceId'), value: 'traceId', sortable: false, align: 'center' },
         { text: this.$t('report.transactionReport.headers.requestId'), value: 'requestId', sortable: false, align: 'center' }
       ],
@@ -475,6 +475,7 @@ export default {
     },
     editItem (item) {
       this.createDialog = true
+
       this.itemsTransactionData.splice(0, 1)
       this.itemsTransactionData.push({
         sourceType: item.sourceType,
@@ -509,7 +510,8 @@ export default {
           osVersion: response.data.osVersion,
           osName: response.data.osName,
           responseLongTime: response.data.responseLongTime,
-          requestId: response.data.trackerId,
+          trackerId: response.data.trackerId,
+          requestId: response.data.requestId,
           ip: response.data.ipAddress,
           traceId: response.data.traceId
         })

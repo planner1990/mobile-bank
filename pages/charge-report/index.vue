@@ -107,7 +107,7 @@ export default {
       loading: false,
       headers: [
         { text: this.$t('report.transactionReport.headers.transactionId'), value: 'id', sortable: false },
-        { text: this.$t('report.transactionReport.headers.trackerId'), value: 'requestId', sortable: false },
+        { text: this.$t('report.transactionReport.headers.requestId'), value: 'requestId', sortable: false },
         { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false },
         { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'source', sortable: false },
