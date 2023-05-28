@@ -21,7 +21,6 @@
           <v-text-field
             id="createFromTime"
             v-model="fromTime"
-            class="v-input1"
             outlined
             dense
             :placeholder="$t('filters.fromTime')"
@@ -64,7 +63,6 @@
           <v-text-field
             id="createToTime"
             v-model="toTime"
-            class="v-input1"
             outlined
             dense
             :placeholder="$t('filters.toTime')"
@@ -603,18 +601,4 @@ export default {
 </script>
 
 <style scoped>
-
-  .v-subheader {
-    align-items: center;
-    display: flex;
-    height: 48px;
-    font-size: 0.875rem;
-    font-weight: 400;
-    padding: 0 16px 0 16px;
-  }
-  .v-input1 {
-    font-size: 11px !important;
-    letter-spacing: normal;
-    text-align: left;
-  }
 </style>

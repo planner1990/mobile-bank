@@ -149,6 +149,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import reportManager from '~/repository/report_manager'
@@ -189,6 +190,7 @@ export default {
       time: null,
       menu2: false,
       modal2: false,
+      downloadLoading: false,
       filter: defaultFilter,
       billType: reportManager.billType,
       gatewayType: reportManager.gatewayType,
@@ -205,35 +207,13 @@ export default {
     defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
     defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
     this.filter = Object.assign(this.value, defaultFilter)
-    this.operation()
   },
   methods: {
+    ...mapMutations({
+      alert: 'snacks/showMessage'
+    }),
     search () {
       this.$emit('search', this.filter)
-    },
-    operation () {
-      this.loading = true
-      reportManager.operationList(this.$axios).then((response) => {
-        console.log(response)
-        const operationList = response.data
-        this.items = operationList
-        console.log(operationList)
-      }).catch((error) => {
-        if (error.response) {
-          console.log(error.response)
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          console.log('error.response is null')
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-        this.loading = false
-      })
     },
     downloadReports (searchModel) {
       this.downloadLoading = true
@@ -304,7 +284,6 @@ export default {
       console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
       return d.getTime() + (d.getTimezoneOffset() * 60000)
     }
-
   }
 }
 </script>

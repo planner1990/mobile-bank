@@ -1,29 +1,23 @@
 <template>
-  <v-container
-    tag="section"
-    fluid
-  >
-    <v-col>
-      <v-row
-        justify="center"
-      >
-        <transactionReportFilter v-model="searchModel" @search="search" @edit="editItem2()" />
-      </v-row>
-      <br>
-      <br>
-      <v-row
-        justify="center"
-      >
+  <v-container tag="section" fluid>
+    <v-row>
+      <!-- filter -->
+      <v-col cols="12" style="padding: 8px !important;">
+        <transactionReportFilter ref="refTransactionReportFilter" v-model="searchModel" @search="search" @edit="editItem2()" />
+      </v-col>
+
+      <!-- grid -->
+      <v-col cols="12" style="padding: 8px !important;">
         <v-data-table
           dense
           item-key="cardOwnerId"
           sort-by="cardOwnerId"
           :items="items"
           :headers="headers"
-          class="elevation-5 fullScreen"
+          class=""
           :loading="loading"
           :footer-props="{
-            'items-per-page-options': [50, 100, 300, 500, 1000]
+            'items-per-page-options': [20, 50, 100, 500, 1000]
           }"
           :items-per-page.sync="searchModel.paginate.length"
           :page.sync="searchModel.paginate.page"
@@ -31,267 +25,320 @@
           @update:page="search(searchModel)"
           @update:items-per-page="search(searchModel)"
         >
-          <template #top>
-            <v-dialog
-              v-model="createDialog"
-              max-width="1000"
-              transition="dialog-bottom-transition"
+          <template #[`item.sourceNumber`]="{ item }">
+            <div v-if="item.sourceNumber">
+              {{ priceFormat(item.sourceNumber) }}
+            </div>
+            <div v-else style="color: #f1b0b0">
+              {{ 'تعیین نشده' }}
+            </div>
+          </template>
+          <template #[`item.requestTime`]="{ item }">
+            {{ convertToJalali(item.requestTime) }}
+          </template>
+          <template #[`item.platform`]="{ item }">
+            {{ $t('report.transactionReport.platform.' + item.platform) }}
+          </template>
+          <template #[`item.sourceType`]="{ item }">
+            {{ $t('report.transactionReport.source.' + item.sourceType) }}
+          </template>
+          <template #[`item.cif`]="{ item }">
+            <div v-if="item.cif">
+              {{ priceFormat(item.cif) }}
+            </div>
+            <div v-else style="color: #f1b0b0">
+              {{ 'تعیین نشده' }}
+            </div>
+          </template>
+          <template #[`item.phoneNumber`]="{ item }">
+            <div v-if="item.phoneNumber">
+              {{ priceFormat(item.phoneNumber) }}
+            </div>
+            <div v-else style="color: #f1b0b0">
+              {{ 'تعیین نشده' }}
+            </div>
+          </template>
+          <template #[`item.amount`]="{ item }">
+            <div v-if="item.amount">
+              {{ priceFormat(item.amount) }}
+            </div>
+            <div v-else style="color: #f1b0b0">
+              {{ 'تعیین نشده' }}
+            </div>
+          </template>
+          <template #item.responseCode="{ item }">
+            <div v-if="item.responseCode || item.responseCode === 0" class="chip" :style="'color: ' + getColor(item.responseCode)">
+              {{ item.responseCode }}
+            </div>
+            <div v-else class="chip" :style="'color: ' + getColor(null)">
+              {{ 'تعیین نشده' }}
+            </div>
+          </template>
+
+          <!-- details -->
+          <!-- details -->
+          <!-- details -->
+          <template #[`item.detail`]="{ item }">
+            <v-btn
+              small
+              elevation="0"
+              style="color: #84BD00;border-radius: 8px;height: 36px;font-weight: bold;width: 80px;"
+              color="rgba(132, 189, 0, 0.1)"
+              @click="editItem(item)"
             >
-              <v-card
-                :loading="loading"
+              {{ $t('global.review') }}
+            </v-btn>
+          </template>
+
+          <!-- Add btn to Footer page -->
+          <!-- Add btn to Footer page -->
+          <!-- Add btn to Footer page -->
+          <template #footer>
+            <v-btn
+              :loading="downloadLoading"
+              :disabled="downloadLoading"
+              style="top: 50px;width: 146px;height: 36px;background: #84BD00;box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              @click="downloadReports()"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.0013 7.33334V11.3333M6.0013 11.3333L7.33464 10M6.0013 11.3333L4.66797 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M14.6654 6.66668V10C14.6654 13.3333 13.332 14.6667 9.9987 14.6667H5.9987C2.66536 14.6667 1.33203 13.3333 1.33203 10V6.00001C1.33203 2.66668 2.66536 1.33334 5.9987 1.33334H9.33203" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M14.6654 6.66668H11.9987C9.9987 6.66668 9.33203 6.00001 9.33203 4.00001V1.33334L14.6654 6.66668Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+
+              <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
+                {{ $t('report.download') }}
+              </span>
+            </v-btn>
+          </template>
+        </v-data-table>
+
+        <!-- Dialog show details request -->
+        <!-- Dialog show details request -->
+        <!-- Dialog show details request -->
+        <v-dialog
+          v-model="createDialog"
+          max-width="1000"
+          transition="dialog-bottom-transition"
+        >
+          <v-card :loading="loading">
+            <!-- title -->
+            <!-- title -->
+            <!-- title -->
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style="position: absolute;left: 20px; top: 18px;cursor: pointer"
+              @click="createDialog = false"
+            >
+              <g clip-path="url(#clip0_401_143)">
+                <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+              </g>
+              <defs>
+                <clipPath id="clip0_401_143">
+                  <rect width="24" height="24" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            <v-card-title class=" black--text font-weight-bold headline mb-2" style="border-bottom: 1px solid #D8D8D8;">
+              {{ $t('user.createDialog') }}
+            </v-card-title>
+
+            <v-container>
+              <v-form
+                ref="form"
               >
-                <v-card-title class="lightGreen light-green--text font-weight-bold headline">
-                  {{ $t('user.createDialog') }}
-                </v-card-title>
-                <v-container>
-                  <v-form
-                    ref="form"
-                  >
-                    <br>
-                    <v-row>
-                      <v-data-table
+                <v-row>
+                  <v-data-table
+                    dense
+                    item-key="cardOwnerId"
+                    sort-by="cardOwnerId"
+                    :items="itemsTransaction"
+                    :headers="headersTransaction"
+                    class="fullScreen"
+                    :hide-default-footer="true"
+                  />
+                </v-row>
+                <v-row>
+                  <v-col cols="6">
+                    <v-card
+                      color="#fff"
+                      height="100%"
+                    >
+                      <v-toolbar
+                        class="black--text"
+                        color="white"
+                        flat
+                        dark
                         dense
-                        item-key="cardOwnerId"
-                        sort-by="cardOwnerId"
-                        :items="itemsTransaction"
-                        :headers="headersTransaction"
-                        class="elevation-5 fullScreen"
-                        :hide-default-footer="true"
-                      />
-                    </v-row>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <v-row>
-                      <v-col cols="6">
-                        <v-card
-                          color="#f6f6f6"
-                          height="100%"
+                        style="border-bottom: 2px solid #D8D8D8 !important;"
+                      >
+                        {{ $t('report.transactionReport.headers.request') }}
+                        <v-spacer />
+                      </v-toolbar>
+                      <v-card-text dir="ltr" class="text-center">
+                        <div align="justify" style="width:450px;overflow:auto">
+                          <vue-json-pretty :data="requestJson" />
+                        </div>
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                  <v-col cols="6">
+                    <v-flex text-xs-center fill-height>
+                      <v-card
+                        color="#fff"
+                        height="100%"
+
+                        class="justify-center"
+                      >
+                        <v-toolbar
+                          class="black--text"
+                          color="white"
+                          flat
+                          dark
+                          dense
+                          style="border-bottom: 2px solid #D8D8D8 !important;"
                         >
-                          <v-toolbar
-                            class="black--text"
-                            color="grey lighten-4"
-                            flat
-                            dark
-                            dense
-                            elevation="1"
-                          >
-                            {{ $t('report.transactionReport.headers.request') }}
-                            <v-spacer />
-                          </v-toolbar>
-                          <v-card-text dir="ltr" class="text-center">
-                            <div align="justify" style="width:450px;overflow:auto">
-                              <vue-json-pretty :data="requestJson" />
-                            <!-- <pre>   //{{ item.responseJson }}
+                          {{ $t('report.transactionReport.headers.response') }}
+                          <v-spacer />
+                        </v-toolbar>
+                        <v-card-text dir="ltr">
+                          <div align="justify" style="width:450px;overflow:auto">
+                            <vue-json-pretty :data="responseJson" />
+                          </div>
+                        </v-card-text>
+                      </v-card>
+                    </v-flex>
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-container>
+          </v-card>
+        </v-dialog>
 
-                            </pre>-->
-                            </div>
-                          </v-card-text>
-                        </v-card>
-                      </v-col>
-                      <v-col cols="6">
-                        <v-flex text-xs-center fill-height>
-                          <v-card
-                            color="#f6f6f6"
-                            height="100%"
-
-                            class="justify-center"
-                          >
-                            <v-toolbar
-                              class="black--text"
-                              color="grey lighten-4"
-                              flat
-                              dark
-                              dense
-                              elevation="1"
-                            >
-                              {{ $t('report.transactionReport.headers.response') }}
-                              <v-spacer />
-                            </v-toolbar>
-                            <v-card-text dir="ltr">
-                              <div align="justify" style="width:450px;overflow:auto">
-                                <vue-json-pretty :data="responseJson" />
-                                <!-- <pre>   //{{ item.responseJson }}
-
-                            </pre>-->
-                              </div>
-                            </v-card-text>
-                          </v-card>
-                        </v-flex>
-                      </v-col>
-                    </v-row>
-                  </v-form>
-                </v-container>
-                <v-card-actions>
-                  <v-spacer />
+        <!-- Dialog show selector for operation select -->
+        <!-- Dialog show selector for operation select -->
+        <!-- Dialog show selector for operation select -->
+        <v-dialog
+          v-model="operationDialog"
+          width="1200"
+          transition="dialog-bottom-transition"
+        >
+          <v-card
+            :loading="loading"
+          >
+            <v-card-title class="lightGreen light-green--text font-weight-bold headline">
+              <v-row no-gutters>
+                <v-col cols="10">
+                  {{ $t('report.transactionReport.operationSelect') }}
+                </v-col>
+                <v-col>
                   <v-btn
-                    color="orange"
+                    color="success"
+                    class="mr-10"
+                    @click="okOperationDialog"
+                  >
+                    {{ $t('buttons.submit') }}
+                  </v-btn>
+                </v-col>
+                <v-col />
+                <v-col>
+                  <v-btn
+                    color="warning"
+                    dark
                     @click="closeTransactionDetailsDialog"
                   >
                     {{ $t('buttons.cancel') }}
                   </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-
-            <v-dialog
-              v-model="operationDialog"
-              width="1200"
-              transition="dialog-bottom-transition"
-            >
-              <v-card
-                :loading="loading"
+                </v-col>
+              </v-row>
+            </v-card-title>
+            <v-container>
+              <v-form
+                ref="form"
               >
-                <v-card-title class="lightGreen light-green--text font-weight-bold headline">
-                  <v-row no-gutters>
-                    <v-col cols="10">
-                      {{ $t('report.transactionReport.operationSelect') }}
-                    </v-col>
-                    <v-col>
-                      <v-btn
-                        color="success"
-                        class="mr-10"
-                        @click="okOperationDialog"
-                      >
-                        {{ $t('buttons.submit') }}
-                      </v-btn>
-                    </v-col>
-                    <v-col />
-                    <v-col>
-                      <v-btn
-                        color="warning"
-                        dark
-                        @click="closeTransactionDetailsDialog"
-                      >
-                        {{ $t('buttons.cancel') }}
-                      </v-btn>
-                    </v-col>
+                <v-card height="600px" color="">
+                  <v-row>
+                    <v-tabs
+                      v-model="tabsModel"
+                      align-with-title
+                      color="success"
+                    >
+                      <v-tab href="#depositOperation" class="font-weight-black">
+                        {{ $t('report.transactionReport.headers.depositOperation') }}
+                      </v-tab>
+                      <v-tab-item value="depositOperation">
+                        <br>
+                        <deposit-operations :list-type="listType" />
+                      </v-tab-item>
+
+                      <v-tab href="#cardOperation" class="font-weight-black">
+                        {{ $t('report.transactionReport.headers.cardOperation') }}
+                      </v-tab>
+                      <v-tab-item value="cardOperation">
+                        <br>
+                        <card-operations :list-type="listType" />
+                      </v-tab-item>
+
+                      <v-tab href="#userOperation" class="font-weight-black">
+                        {{ $t('report.transactionReport.headers.userOperation') }}
+                      </v-tab>
+                      <v-tab-item value="userOperation">
+                        <br>
+                        <user-operations :list-type="listType" />
+                      </v-tab-item>
+
+                      <v-tab href="#publicOperation" class="font-weight-black">
+                        {{ $t('report.transactionReport.headers.publicOperation') }}
+                      </v-tab>
+                      <v-tab-item value="publicOperation">
+                        <br>
+                        <public-operations :list-type="listType" />
+                      </v-tab-item>
+
+                      <v-tab href="#cardReissueOperation" class="font-weight-black">
+                        {{ $t('report.transactionReport.headers.cardReissueOperation') }}
+                      </v-tab>
+                      <v-tab-item value="cardReissueOperation">
+                        <br>
+                        <card-reissue-operations :list-type="listType" />
+                      </v-tab-item>
+
+                      <v-tab href="#loanRequestOperation" class="font-weight-black">
+                        {{ $t('report.transactionReport.headers.loanRequestOperation') }}
+                      </v-tab>
+                      <v-tab-item value="loanRequestOperation">
+                        <br>
+                        <loan-operations :list-type="listType" />
+                      </v-tab-item>
+
+                      <v-tab href="#onlineDepositOperation" class="font-weight-black">
+                        {{ $t('report.transactionReport.headers.onlineDepositOperation') }}
+                      </v-tab>
+                      <v-tab-item value="onlineDepositOperation">
+                        <br>
+                        <online-deposit-operations :list-type="listType" />
+                      </v-tab-item>
+
+                      <v-tab href="#pichackOperations" class="font-weight-black">
+                        {{ $t('report.transactionReport.headers.pichackOperation') }}
+                      </v-tab>
+                      <v-tab-item value="pichackOperations">
+                        <br>
+                        <pichack-operations :list-type="listType" />
+                      </v-tab-item>
+                    </v-tabs>
                   </v-row>
-                </v-card-title>
-                <v-container>
-                  <v-form
-                    ref="form"
-                  >
-                    <v-card height="600px" color="">
-                      <v-row>
-                        <v-tabs
-                          v-model="tabsModel"
-                          align-with-title
-                          color="success"
-                        >
-                          <v-tab href="#depositOperation" class="font-weight-black">
-                            {{ $t('report.transactionReport.headers.depositOperation') }}
-                          </v-tab>
-                          <v-tab-item value="depositOperation">
-                            <br>
-                            <deposit-operations :list-type="listType" />
-                          </v-tab-item>
-
-                          <v-tab href="#cardOperation" class="font-weight-black">
-                            {{ $t('report.transactionReport.headers.cardOperation') }}
-                          </v-tab>
-                          <v-tab-item value="cardOperation">
-                            <br>
-                            <card-operations :list-type="listType" />
-                          </v-tab-item>
-
-                          <v-tab href="#userOperation" class="font-weight-black">
-                            {{ $t('report.transactionReport.headers.userOperation') }}
-                          </v-tab>
-                          <v-tab-item value="userOperation">
-                            <br>
-                            <user-operations :list-type="listType" />
-                          </v-tab-item>
-
-                          <v-tab href="#publicOperation" class="font-weight-black">
-                            {{ $t('report.transactionReport.headers.publicOperation') }}
-                          </v-tab>
-                          <v-tab-item value="publicOperation">
-                            <br>
-                            <public-operations :list-type="listType" />
-                          </v-tab-item>
-
-                          <v-tab href="#cardReissueOperation" class="font-weight-black">
-                            {{ $t('report.transactionReport.headers.cardReissueOperation') }}
-                          </v-tab>
-                          <v-tab-item value="cardReissueOperation">
-                            <br>
-                            <card-reissue-operations :list-type="listType" />
-                          </v-tab-item>
-
-                          <v-tab href="#loanRequestOperation" class="font-weight-black">
-                            {{ $t('report.transactionReport.headers.loanRequestOperation') }}
-                          </v-tab>
-                          <v-tab-item value="loanRequestOperation">
-                            <br>
-                            <loan-operations :list-type="listType" />
-                          </v-tab-item>
-
-                          <v-tab href="#onlineDepositOperation" class="font-weight-black">
-                            {{ $t('report.transactionReport.headers.onlineDepositOperation') }}
-                          </v-tab>
-                          <v-tab-item value="onlineDepositOperation">
-                            <br>
-                            <online-deposit-operations :list-type="listType" />
-                          </v-tab-item>
-
-                          <v-tab href="#pichackOperations" class="font-weight-black">
-                            {{ $t('report.transactionReport.headers.pichackOperation') }}
-                          </v-tab>
-                          <v-tab-item value="pichackOperations">
-                            <br>
-                            <pichack-operations :list-type="listType" />
-                          </v-tab-item>
-                        </v-tabs>
-                      </v-row>
-                    </v-card>
-                  </v-form>
-                </v-container>
-              </v-card>
-            </v-dialog>
-          </template>
-
-          <template #[`item.requestTime`]="{ item }">
-            {{ convertToJalali(item.requestTime) }}
-          </template>
-
-          <template #[`item.platform`]="{ item }">
-            {{ $t('report.transactionReport.platform.' + item.platform) }}
-          </template>
-
-          <template #[`item.sourceType`]="{ item }">
-            {{ $t('report.transactionReport.source.' + item.sourceType) }}
-          </template>
-
-          <template #[`item.amount`]="{ item }">
-            {{ priceFormat(item.amount) }}
-          </template>
-
-          <template #item.responseCode="{ item }">
-            <template v-if="item.responseCode !== null">
-              <v-chip
-                :color="getColor(item.responseCode)"
-                class="v-chip.v-size--default justify-center"
-                label
-              >
-                {{ item.responseCode }}
-              </v-chip>
-            </template>
-          </template>
-
-          <template #[`item.detail`]="{ item }">
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(item)"
-            >
-              mdi-eye
-            </v-icon>
-          </template>
-        </v-data-table>
-      </v-row>
-    </v-col>
+                </v-card>
+              </v-form>
+            </v-container>
+          </v-card>
+        </v-dialog>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -339,7 +386,7 @@ const defaultFilterOperation = {
   },
   paginate: {
     page: 1,
-    length: 50,
+    length: 20,
     sort: {
       property: 'id',
       direction: 'desc'
@@ -362,6 +409,7 @@ export default {
   },
   data () {
     return {
+      tabsModel: [],
       downloadLoading: false,
       createDialog: false,
       operationDialog: false,
@@ -392,7 +440,7 @@ export default {
         { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
         { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false },
         { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
-        { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false, align: 'center' }
+        { text: '', value: 'detail', sortable: false, align: 'center' }
       ],
       headersTransaction: [
         { text: this.$t('report.transactionReport.headers.responseTime'), value: 'responseLongTime', sortable: false, align: 'center' },
@@ -440,20 +488,21 @@ export default {
       cardReissueOperationList: 'onlineDepositStore/cardReissueOperationList'
 
     })
-
   },
-  // mounted () {
-  //   this.search(this.searchModel)
-  // },
+  mounted () {
+    // this.search(this.searchModel, 'mounted')
+  },
   methods: {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
     getColor (status) {
       if (status >= 200 && status <= 299) {
-        return 'success'
-      } else if (status !== null) {
-        return 'red'
+        return '#84BD00'
+      } if (status === null) {
+        return '#f1b0b0'
+      } else {
+        return '#444444'
       }
     },
     priceFormat (amount) {
@@ -474,6 +523,7 @@ export default {
       this.operationDialog = true
     },
     editItem (item) {
+      this.loading = true
       this.createDialog = true
 
       this.itemsTransactionData.splice(0, 1)
@@ -569,12 +619,9 @@ export default {
     convertToJalali (date) {
       return moment(date).format('HH:mm:ss jYYYY/jM/jD')
     },
-    downloadReports1 () {
-
-    },
-    downloadReports (searchModel) {
+    downloadReports () {
       this.downloadLoading = true
-      reportManager.downloadTransactionList(searchModel, this.$axios).then((res) => {
+      reportManager.downloadTransactionList(this.searchModel, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL
@@ -604,6 +651,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
   .fullScreen {
     width: 100%;
@@ -621,13 +669,8 @@ export default {
     width:30px;
 
   }
-  .v-chip.v-size--default {
-    border-radius: 16px;
-    font-size: 10px;
-    height: 20px;
-    width: 60px;
-    color: white;
-    padding: 0 5px;
-  }
 
+  /deep/ .v-data-table__wrapper {
+    min-height: 120px !important;
+  }
 </style>

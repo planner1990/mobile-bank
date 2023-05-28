@@ -71,6 +71,7 @@ export default {
   data () {
     return {
       downloadLoading: false,
+      tabsModel: false,
       searchModel: {
         paginate: {
           page: 1,

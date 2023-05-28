@@ -111,6 +111,7 @@ export default {
     return {
       fromDate: this.currentDayFrom(),
       toDate: this.currentDayTo(),
+      downloadLoading: false,
       time: null,
       filter: defaultFilter,
       items: []

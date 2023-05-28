@@ -305,7 +305,7 @@
 <script>
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import reportManager from '~/repository/report_manager'
 
 const defaultFilter = {
@@ -358,6 +358,7 @@ export default {
       refundToDate: null,
       menu2: false,
       modal2: false,
+      downloadLoading: false,
       filter: defaultFilter,
       status: reportManager.status,
       source: reportManager.source,
@@ -380,9 +381,11 @@ export default {
     defaultFilter.refundListFilter.refundFromDate = this.convertJalaliDateToTimestamp(this.refundFromDate)
     defaultFilter.refundListFilter.refundToDate = this.convertJalaliDateToTimestamp(this.refundToDate)
     this.filter = Object.assign(this.value, defaultFilter)
-    this.operation()
   },
   methods: {
+    ...mapMutations({
+      alert: 'snacks/showMessage'
+    }),
     // permission
     checkUserPermissionForShowBtn () {
       console.log('*** checkUserPermissionForShowBtn 1 ***',
@@ -407,26 +410,6 @@ export default {
     },
     search () {
       this.$emit('search', this.filter)
-    },
-    operation () {
-      this.loading = true
-      reportManager.operationList(this.$axios).then((response) => {
-        const operationList = response.data
-        this.items = operationList
-      }).catch((error) => {
-        if (error.response) {
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-        this.loading = false
-      })
     },
     refundList (searchModel) {
       this.$emit('refund', this.filter)

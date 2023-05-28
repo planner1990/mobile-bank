@@ -140,6 +140,7 @@ export default {
       fromDate: this.currentDayFrom(),
       toDate: this.currentDayTo(),
       filter: defaultFilter,
+      downloadLoading: false,
       status: reportManager.status,
       osName: reportManager.osName,
       source: reportManager.source,
@@ -158,7 +159,6 @@ export default {
         this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, 23, 59, 59)
       }
     },
-
     downloadReports (searchModel) {
       this.downloadLoading = true
       reportManager.downloadTransactionStatistics(defaultFilter, this.$axios).then((res) => {
