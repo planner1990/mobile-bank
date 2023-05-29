@@ -19,7 +19,7 @@
           sort-by="username"
           :items="users"
           :headers="headers"
-          class="elevation-5 fullScreen"
+          class="fullScreen"
           :loading="loading"
           dense
           :items-per-page.sync="pagination.rowsPerPage"
@@ -447,11 +447,8 @@ export default {
   }
 }
 </script>
-<style>
-  .fullScreen {
-    width: 100%;
-  }
 
+<style scoped>
   /deep/ .theme--light.v-chip:not(.v-chip--active) {
     background: #e0e0e0;
   }

@@ -1,53 +1,46 @@
 <template>
-  <v-container
-    tag="section"
-    fluid
-  >
-    <v-col>
-      <v-row
-        justify="center"
-      >
-        <transactionStatisticsReportFilter v-model="searchModel" @search="search" />
-      </v-row>
-      <v-row>
+  <v-container tag="section" fluid>
+    <v-row>
+      <!-- filter -->
+      <v-col cols="12" style="padding: 8px !important;">
+        <transactionStatisticsReportFilter ref="downloadExcelPdf" v-model="searchModel" @search="search" />
+      </v-col>
+
+      <!-- grid -->
+      <v-col cols="12" style="padding: 8px !important;">
         <v-card
           :loading="loading"
         />
-      </v-row>
-      <v-row class="my-5" />
-      <v-row>
         <v-tabs
           v-model="tabsModel"
+          style="border-radius: 12px;"
           align-with-title
           center-active
           color="success"
         >
-          <v-tab href="#search2" class="font-weight-black">
+          <v-tab href="#deposit" class="font-weight-bold">
             {{ $t('report.transactionReport.headers.depositTransaction') }}
           </v-tab>
-          <v-tab-item value="search2">
-            <br>
-            <deposit-statistics :deposits="depositList" :loading="enableLoading( loadingStatus)" />
+          <v-tab-item value="deposit" style="border-radius: 12px;">
+            <deposit-statistics :deposits="depositList" :loading="enableLoading( loadingStatus)" @downloadExcelEmit="downloadExcel" />
           </v-tab-item>
 
-          <v-tab href="#search" class="font-weight-black">
+          <v-tab href="#card" class="font-weight-bold">
             {{ $t('report.transactionReport.headers.cardTransaction') }}
           </v-tab>
-          <v-tab-item value="search">
-            <br>
+          <v-tab-item value="card" style="border-radius: 12px;">
             <card-statistics :cards="cardList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
 
-          <v-tab href="#search3" class="font-weight-black">
+          <v-tab href="#others" class="font-weight-bold">
             {{ $t('report.transactionReport.headers.otherTransaction') }}
           </v-tab>
-          <v-tab-item value="search3">
-            <br>
+          <v-tab-item value="others" style="border-radius: 12px;">
             <other-statistics :others="otherList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
         </v-tabs>
-      </v-row>
-    </v-col>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -85,7 +78,6 @@ export default {
       totalNumberOfItems: 0,
       loading: false,
       loadingStatus: false,
-
       items: [],
       cardList: [],
       depositList: [],
@@ -146,12 +138,23 @@ export default {
     },
     moment (date) {
       return momentJalali(date).format('HH:mm:ss jYYYY/jM/jD')
+    },
+    downloadExcel () {
+      this.$refs.downloadExcelPdf.downloadReports()
     }
   }
 }
 </script>
-<style>
-  .fullScreen {
-    width: 100%;
-  }
+
+<style scoped>
+/deep/ .v-tabs-bar {
+  border-radius: inherit !important;
+  height: 58px !important;
+  margin-bottom: 15px !important;
+}
+
+/deep/ .theme--light.v-tabs-items {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+}
 </style>

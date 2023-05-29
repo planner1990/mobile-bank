@@ -20,7 +20,7 @@
           sort-by="cardOwnerId"
           :items="items"
           :headers="headers"
-          class="elevation-5 fullScreen"
+          class="fullScreen"
           :loading="loading"
           :footer-props="{
             'items-per-page-options': [50, 100, 300, 500, 1000],
@@ -59,7 +59,7 @@
                         sort-by="cardOwnerId"
                         :items="itemsTransaction"
                         :headers="headersTransaction"
-                        class="elevation-5 fullScreen"
+                        class="fullScreen"
                         :hide-default-footer="true"
                       />
                     </v-row>
@@ -685,10 +685,8 @@ export default {
   }
 }
 </script>
-<style>
-  .fullScreen {
-    width: 100%;
-  }
+
+<style scoped>
   .v-data-footer {
     font-size: 1.05rem !important;
   }

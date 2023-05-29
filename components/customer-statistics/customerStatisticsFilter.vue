@@ -125,6 +125,7 @@ export default {
       roles: userManager.userRoles,
       status: userManager.userStatus,
       loading: false,
+      downloadLoading: false,
       request: defaultSearchModel
     }
   },

@@ -1,25 +1,19 @@
 <template>
-  <v-container
-    tag="section"
-    fluid
-  >
-    <v-col>
-      <v-row
-        justify="center"
-      >
+  <v-container tag="section" fluid>
+    <v-row>
+      <!-- filter -->
+      <v-col cols="12" style="padding: 8px !important;">
         <offer-filter v-model="requestObject" @search="search" />
-      </v-row>
-      <br>
-      <br>
-      <v-row
-        justify="center"
-      >
+      </v-col>
+
+      <!-- grid -->
+      <v-col cols="12" style="padding: 8px !important;">
         <v-data-table
           item-key="username"
           sort-by="username"
           :items="offers"
           :headers="headers"
-          class="elevation-5 fullScreen"
+          class="fullScreen"
           :loading="loading"
           dense
           :footer-props="{
@@ -31,6 +25,43 @@
           @update:page="search (requestObject)"
           @update:items-per-page="search (requestObject)"
         >
+          <template #[`item.addParams`]="{ item }">
+            <v-icon
+              small
+              class="mr-2"
+              @click="addParams(item)"
+            >
+              mdi-pencil
+            </v-icon>
+          </template>
+          <template #[`item.actions`]="{ item }">
+            <v-icon
+              small
+              class="mr-2"
+              @click="editItem(item)"
+            >
+              mdi-pencil
+            </v-icon>
+          </template>
+          <template #[`item.dateFrom`]="{ item }">
+            {{ convertToJalali(item.dateFrom) }}
+          </template>
+          <template #[`item.dateTo`]="{ item }">
+            {{ convertToJalali(item.dateTo) }}
+          </template>
+          <template #[`item.os`]="{ item }">
+            {{ $t('offer.toTypeFilter.' + item.os) }}
+          </template>
+          <template #[`item.status`]="{ item }">
+            {{ $t('offer.offerStatusFilter.' + item.status) }}
+          </template>
+          <template #[`item.recommendationType`]="{ item }">
+            {{ $t('offer.offerTypeFilter.' + item.recommendationType) }}
+          </template>
+
+          <!-- dialog 3 action -->
+          <!-- dialog 3 action -->
+          <!-- dialog 3 action -->
           <template #top>
             <v-toolbar
               class="black--text"
@@ -537,7 +568,7 @@
                   sort-by="username"
                   :items="params"
                   :headers="headersParam"
-                  class="elevation-5 fullScreen"
+                  class="fullScreen"
                   :loading="loading"
                   dense
                   :footer-props="{
@@ -552,42 +583,11 @@
               </v-dialog>
             </v-toolbar>
           </template>
-
-          <template #[`item.addParams`]="{ item }">
-            <v-icon
-              small
-              class="mr-2"
-              @click="addParams(item)"
-            >
-              mdi-pencil
-            </v-icon>
-          </template>
-          <template #[`item.actions`]="{ item }">
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(item)"
-            >
-              mdi-pencil
-            </v-icon>
-          </template>
-
-          <template #[`item.dateFrom`]="{ item }">
-            {{ convertToJalali(item.dateFrom) }}
-          </template>
-          <template #[`item.dateTo`]="{ item }">
-            {{ convertToJalali(item.dateTo) }}
-          </template>
-          <template #[`item.os`]="{ item }">
-            {{ $t('offer.toTypeFilter.' + item.os) }}
-          </template>
-          <template #[`item.status`]="{ item }">
-            {{ $t('offer.offerStatusFilter.' + item.status) }}
-          </template>
-          <template #[`item.recommendationType`]="{ item }">
-            {{ $t('offer.offerTypeFilter.' + item.recommendationType) }}
-          </template>
         </v-data-table>
+
+        <!-- dialog delete user -->
+        <!-- dialog delete user -->
+        <!-- dialog delete user -->
         <v-dialog
           v-model="deleteUserDialog"
           max-width="290"
@@ -620,8 +620,8 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-      </v-row>
-    </v-col>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -649,14 +649,6 @@ export default {
       offerType: reportManager.offerType,
       offerToTypeItem: reportManager.offerToType,
       offerTypDisplayItem: reportManager.offerTypDisplay,
-      // paginate: {
-      //   page: 1,
-      //   length: 20,
-      //   sort: {
-      //     property: 'status',
-      //     direction: 'desc'
-      //   }
-      // },
       totalNumberOfItems: 0,
       guids: [
         {
@@ -845,6 +837,7 @@ export default {
         explanation: item.content,
         status: status
       }
+
       console.log(this.offerForm.offerObj)
       this.createUpdateDialog = true
       this.isShowTitleOfEditDialog = true
@@ -964,9 +957,8 @@ export default {
             color: 'orange',
             content: 'messages.failed'
           })
-            .finally(() => {
-              this.loading = false
-            })
+        } finally {
+          this.loading = false
         }
       }
     },
@@ -1113,8 +1105,6 @@ export default {
   }
 }
 </script>
-<style>
-  .fullScreen {
-    width: 100%;
-  }
+
+<style scoped>
 </style>

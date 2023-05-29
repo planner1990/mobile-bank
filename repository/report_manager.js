@@ -94,7 +94,7 @@ async function errorCodeList (axios) {
 }
 async function errorList (request, axios) {
   const rest = await axios.post('error-report/list', request)
-  console.log(rest)
+  console.log('async function errorList', rest)
   return rest
 }
 

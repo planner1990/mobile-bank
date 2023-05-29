@@ -510,7 +510,6 @@ export default {
       const d = new Date(gmtDate)
       return d.getTime() + (d.getTimezoneOffset() * 60000)
     }
-
   }
 }
 </script>

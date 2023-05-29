@@ -141,8 +141,4 @@ export default {
 </script>
 
 <style scoped>
-  .fullScreen {
-    width: 100%;
-  }
-
 </style>

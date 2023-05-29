@@ -1,50 +1,46 @@
 <template>
-  <v-container
-    tag="section"
-    fluid
-  >
-    <v-col>
-      <v-row
-        justify="center"
-      >
+  <v-container tag="section" fluid>
+    <v-row>
+      <!-- filter -->
+      <v-col cols="12" style="padding: 8px !important;">
         <incomeReportFilter v-model="searchModel" @search="search" />
-      </v-row>
-      <v-row>
+      </v-col>
+
+      <!-- grid -->
+      <v-col cols="12" style="padding: 8px !important;">
         <v-card
           :loading="loading"
         />
-      </v-row>
-      <v-row class="my-5" />
-      <v-row>
         <v-tabs
           v-model="tabsModel"
+          style="border-radius: 12px;"
           align-with-title
           center-active
           color="success"
         >
-          <v-tab href="#search2">
+          <v-tab href="#deposit" class="font-weight-bold">
             {{ $t('income.transferIncomeTitle') }}
           </v-tab>
-          <v-tab-item value="search2">
+          <v-tab-item value="deposit" style="border-radius: 12px;">
             <transfer-income :transfer-list="transferList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
 
-          <v-tab href="#search">
+          <v-tab href="#card" class="font-weight-bold">
             {{ $t('income.chargerIncomeTitle') }}
           </v-tab>
-          <v-tab-item value="search">
+          <v-tab-item value="card" style="border-radius: 12px;">
             <charge-income :charge-list="chargeList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
 
-          <v-tab href="#search3">
+          <v-tab href="#others" class="font-weight-bold">
             {{ $t('income.chargeRefundIncomeTitle') }}
           </v-tab>
-          <v-tab-item value="search3">
+          <v-tab-item value="others" style="border-radius: 12px;">
             <refund-income :refund-list="refundList" :loading="enableLoading( loadingStatus)" />
           </v-tab-item>
         </v-tabs>
-      </v-row>
-    </v-col>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -67,7 +63,6 @@ export default {
   },
   data () {
     return {
-      downloadLoading: false,
       searchModel: {
         paginate: {
           page: 1,
@@ -81,6 +76,8 @@ export default {
       totalNumberOfItems: 0,
       loading: false,
       loadingStatus: false,
+      tabsModel: false,
+      downloadLoading: false,
 
       items: [],
       transferList: [],
@@ -158,8 +155,16 @@ export default {
   }
 }
 </script>
-<style>
-  .fullScreen {
-    width: 100%;
-  }
+
+<style scoped>
+/deep/ .v-tabs-bar {
+  border-radius: inherit !important;
+  height: 58px !important;
+  margin-bottom: 15px !important;
+}
+
+/deep/ .theme--light.v-tabs-items {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+}
 </style>

@@ -168,6 +168,7 @@ export default {
       customerType: userManager.customerType,
       status: userManager.userStatus,
       loading: false,
+      downloadLoading: false,
       request: defaultSearchModel
     }
   },

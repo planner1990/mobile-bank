@@ -27,7 +27,7 @@
         >
           <template #[`item.sourceNumber`]="{ item }">
             <div v-if="item.sourceNumber">
-              {{ priceFormat(item.sourceNumber) }}
+              {{ item.sourceNumber }}
             </div>
             <div v-else style="color: #f1b0b0">
               {{ 'تعیین نشده' }}
@@ -44,15 +44,15 @@
           </template>
           <template #[`item.cif`]="{ item }">
             <div v-if="item.cif">
-              {{ priceFormat(item.cif) }}
+              {{ item.cif }}
             </div>
             <div v-else style="color: #f1b0b0">
               {{ 'تعیین نشده' }}
             </div>
           </template>
-          <template #[`item.phoneNumber`]="{ item }">
-            <div v-if="item.phoneNumber">
-              {{ priceFormat(item.phoneNumber) }}
+          <template #[`item.mobileNumber`]="{ item }">
+            <div v-if="item.mobileNumber">
+              {{ item.mobileNumber }}
             </div>
             <div v-else style="color: #f1b0b0">
               {{ 'تعیین نشده' }}
@@ -66,7 +66,7 @@
               {{ 'تعیین نشده' }}
             </div>
           </template>
-          <template #item.responseCode="{ item }">
+          <template #[`item.responseCode`]="{ item }">
             <div v-if="item.responseCode || item.responseCode === 0" class="chip" :style="'color: ' + getColor(item.responseCode)">
               {{ item.responseCode }}
             </div>
@@ -151,8 +151,10 @@
               <v-form
                 ref="form"
               >
+                <!-- row database -->
                 <v-row>
                   <v-data-table
+                    height="20px"
                     dense
                     item-key="cardOwnerId"
                     sort-by="cardOwnerId"
@@ -162,6 +164,7 @@
                     :hide-default-footer="true"
                   />
                 </v-row>
+                <!-- request original details -->
                 <v-row>
                   <v-col cols="6">
                     <v-card
@@ -653,10 +656,6 @@ export default {
 </script>
 
 <style scoped>
-  .fullScreen {
-    width: 100%;
-  }
-
   html {
     font-size: 12px !important;
     text-rendering: optimizeLegibility;
@@ -668,9 +667,5 @@ export default {
     text-overflow: ellipsis;
     width:30px;
 
-  }
-
-  /deep/ .v-data-table__wrapper {
-    min-height: 120px !important;
   }
 </style>

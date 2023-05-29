@@ -112,6 +112,7 @@
 <script>
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
+import { mapMutations } from 'vuex'
 import reportManager from '~/repository/report_manager'
 
 const defaultFilter = {
@@ -137,6 +138,7 @@ export default {
       time: null,
       menu2: false,
       modal2: false,
+      downloadLoading: false,
       filter: defaultFilter,
       osName: reportManager.osName,
       platform: reportManager.platform,
@@ -151,60 +153,13 @@ export default {
     defaultFilter.dateFrom = this.convertJalaliDateToTimestamp(this.from)
     defaultFilter.dateTo = this.convertJalaliDateToTimestamp(this.to)
     this.filter = Object.assign(this.value, defaultFilter)
-    this.operation()
-    this.errorList()
   },
   methods: {
+    ...mapMutations({
+      alert: 'snacks/showMessage'
+    }),
     search () {
       this.$emit('search', this.filter)
-    },
-    operation () {
-      this.loading = true
-      reportManager.operationList(this.$axios).then((response) => {
-        console.log(response)
-        const operationList = response.data
-        this.items = operationList
-        console.log(operationList)
-      }).catch((error) => {
-        if (error.response) {
-          console.log(error.response)
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          console.log('error.response is null')
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-        this.loading = false
-      })
-    },
-    errorList () {
-      this.loading = true
-      reportManager.errorList(this.$axios).then((response) => {
-        console.log(response)
-        const errorList = response.data
-        this.errorItems = errorList
-        console.log(errorList)
-      }).catch((error) => {
-        if (error.response) {
-          console.log(error.response)
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          console.log('error.response is null')
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-        this.loading = false
-      })
     },
     checkIsNullFromDate () {
       if (this.from != null) {

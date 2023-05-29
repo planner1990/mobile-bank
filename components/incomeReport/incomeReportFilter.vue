@@ -1,87 +1,64 @@
 <template>
-  <v-card
-    elevation="5"
-    class="fullScreen"
-  >
-    <v-toolbar
-      class="black--text"
-      color="lightGreen"
-      flat
-      dense
-      dark
-    >
-      گزارش درآمد (فیلترها)
-      <v-spacer />
-    </v-toolbar>
+  <v-card flat>
     <v-container fluid>
-      <v-row>
-        <v-col cols="2">
-          <v-text-field
-            id="createFromMonth"
-            v-model="fromMonth"
-            outlined
-            dense
-            :placeholder="$t('filters.month')"
-          />
-          <p-date-picker
-            v-model="fromMonth"
-            type="month"
-            element="createFromMonth"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="jMM"
-            @close="checkIsNull()"
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-text-field
-            id="createFromYear"
-            v-model="fromYear"
-            outlined
-            dense
-            :placeholder="$t('filters.month')"
-          />
-          <p-date-picker
-            v-model="fromYear"
-            type="year"
-            element="createFromYear"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="jYYYY"
-            @close="checkIsNull()"
-          />
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-        <v-col>
-          <v-btn
-            color="success"
-            small
-            class="mr-10"
-            @click="search"
-          >
-            {{ $t('buttons.search') }}
-          </v-btn>
-        </v-col>
-        <v-col cols="10" />
-        <v-col>
-          <v-btn
-            color="warning"
-            :loading="downloadLoading"
-            dark
-            small
-            @click="downloadReports(defaultFilter)"
-          >
-            {{ $t('report.download') }}
-          </v-btn>
-        </v-col>
-      </v-row>
+      <!-- main part -->
+      <!-- main part -->
+      <!-- main part -->
+      <div class="main">
+        <v-row style="margin-top: -5px;">
+          <div class="row mt-2 mr-4 ml-7">
+            <v-row>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  id="createFromMonth"
+                  v-model="fromMonth"
+                  outlined
+                  dense
+                  :placeholder="$t('filters.month')"
+                />
+                <p-date-picker
+                  v-model="fromMonth"
+                  type="month"
+                  element="createFromMonth"
+                  color="dimgray"
+                  dense
+                  outlined
+                  popove
+                  auto-submit
+                  format="jMM"
+                  @close="checkIsNull()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  id="createFromYear"
+                  v-model="fromYear"
+                  outlined
+                  dense
+                  :placeholder="$t('filters.month')"
+                />
+                <p-date-picker
+                  v-model="fromYear"
+                  type="year"
+                  element="createFromYear"
+                  color="dimgray"
+                  dense
+                  outlined
+                  popove
+                  auto-submit
+                  format="jYYYY"
+                  @close="checkIsNull()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="direction:ltr">
+                <v-btn :loading="loadingBtn" :disabled="loadingBtn" color="#84BD00" class="btnSearch" @click="search">
+                  {{ $t('buttons.search') }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+        </v-row>
+      </div>
     </v-container>
   </v-card>
 </template>
@@ -89,6 +66,7 @@
 <script>
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
+import { mapMutations } from 'vuex'
 import userManager from '~/repository/user_manager'
 import reportManager from '~/repository/report_manager'
 
@@ -124,6 +102,10 @@ export default {
   },
   data () {
     return {
+      loadingBtn: false,
+      seen: false,
+      tabsModel: false,
+      downloadLoading: false,
       fromMonth: this.currentMonth(),
       fromYear: this.currentYear(),
       roles: userManager.userRoles,
@@ -133,6 +115,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      alert: 'snacks/showMessage'
+    }),
     search () {
       this.loading = true
       this.request = Object.assign(this.value, defaultSearchModel)

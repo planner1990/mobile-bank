@@ -23,7 +23,7 @@
           }"
           :items="items"
           :headers="headers"
-          class="elevation-5 fullScreen"
+          class="fullScreen"
           :loading="loading"
           :items-per-page.sync="searchModel.paginate.length"
           :server-items-length="totalNumberOfItems"
@@ -183,10 +183,8 @@ export default {
   }
 }
 </script>
-<style>
-.fullScreen {
-  width: 100%;
-}
+
+<style scoped>
 .v-data-footer {
   font-size: 1.05rem !important;
 }

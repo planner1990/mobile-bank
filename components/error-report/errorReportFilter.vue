@@ -1,127 +1,103 @@
 <template>
-  <v-card
-    elevation="10"
-    class="fullScreen"
-  >
-    <v-toolbar
-      class="black--text"
-      color="lightGreen"
-      flat
-      dark
-      dense
-      elevation="1"
-    >
-      گزارش خطا (فیلترها)
-      <v-spacer />
-    </v-toolbar>
+  <v-card flat>
     <v-container fluid>
-      <v-row>
-        <v-col cols="2">
-          <v-text-field
-            id="my-custom-input"
-            v-model="fromDate"
-            outlined
-            dense
-            :placeholder="$t('filters.fromDate')"
-            format="jYYYY/jMM/jDD"
-            input-format="jYYYY/jMM/jDD"
-          />
-          <p-date-picker
-            v-model="fromDate"
-            element="my-custom-input"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            @close="checkIsNull()"
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-text-field
-            id="custom-input"
-            v-model="toDate"
-            outlined
-            dense
-            :placeholder="$t('filters.toDate')"
-            format="jYYYY/jMM/jDD"
-            input-format="jYYYY/jMM/jDD"
-          />
-          <p-date-picker
-            v-model="toDate"
-            element="custom-input"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            @close="checkIsNull()"
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-select
-            v-model="filter.errorReportListFilter.operation"
-            :items="items"
-            item-text="title"
-            item-value="url"
-            :return-object="false"
-            :label="$t('filters.operation')"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-select
-            v-model="filter.errorReportListFilter.responseCode"
-            :items="errorItems"
-            item-text="title"
-            item-value=""
-            :return-object="false"
-            :label="$t('filters.errorCode')"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-select
-            v-model="filter.errorReportListFilter.errorType"
-            :items="errorTypeItems"
-            :item-value="(item) => item.value"
-            :item-text="(item) => $t(item.title)"
-            :return-object="false"
-            :label="$t('filters.errorType')"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-        <v-col>
-          <v-btn
-            color="success"
-            small
-            class="mr-10"
-            @click="search"
-          >
-            {{ $t('buttons.search') }}
-          </v-btn>
-        </v-col>
-        <v-col cols="10" />
-        <v-col>
-          <v-btn
-            color="warning"
-            :loading="downloadLoading"
-            dark
-            small
-            @click="downloadReports(defaultFilter)"
-          >
-            {{ $t('report.download') }}
-          </v-btn>
-        </v-col>
-      </v-row>
+      <!-- main part -->
+      <!-- main part -->
+      <!-- main part -->
+      <div class="main">
+        <v-row style="margin-top: -5px;">
+          <div class="row mt-2 mr-4 ml-7">
+            <v-row>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  id="my-custom-input"
+                  v-model="fromDate"
+                  outlined
+                  dense
+                  :placeholder="$t('filters.fromDate')"
+                  format="jYYYY/jMM/jDD"
+                  input-format="jYYYY/jMM/jDD"
+                />
+                <p-date-picker
+                  v-model="fromDate"
+                  element="my-custom-input"
+                  color="dimgray"
+                  dense
+                  outlined
+                  popove
+                  auto-submit
+                  @close="checkIsNull()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  id="custom-input"
+                  v-model="toDate"
+                  outlined
+                  dense
+                  :placeholder="$t('filters.toDate')"
+                  format="jYYYY/jMM/jDD"
+                  input-format="jYYYY/jMM/jDD"
+                />
+                <p-date-picker
+                  v-model="toDate"
+                  element="custom-input"
+                  color="dimgray"
+                  dense
+                  outlined
+                  popove
+                  auto-submit
+                  @close="checkIsNull()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-select
+                  v-model="filter.errorReportListFilter.operation"
+                  :items="items"
+                  item-text="title"
+                  item-value="url"
+                  :return-object="false"
+                  :label="$t('filters.operation')"
+                  dense
+                  clearable
+                  outlined
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-select
+                  v-model="filter.errorReportListFilter.responseCode"
+                  :items="errorItems"
+                  item-text="title"
+                  item-value=""
+                  :return-object="false"
+                  :label="$t('filters.errorCode')"
+                  dense
+                  clearable
+                  outlined
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-select
+                  v-model="filter.errorReportListFilter.errorType"
+                  :items="errorTypeItems"
+                  :item-value="(item) => item.value"
+                  :item-text="(item) => $t(item.title)"
+                  :return-object="false"
+                  :label="$t('filters.errorType')"
+                  dense
+                  clearable
+                  outlined
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="direction:ltr">
+                <v-btn :loading="loadingBtn" :disabled="loadingBtn" color="#84BD00" class="btnSearch" @click="search">
+                  {{ $t('buttons.search') }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+        </v-row>
+      </div>
     </v-container>
   </v-card>
 </template>
@@ -160,6 +136,8 @@ export default {
   },
   data () {
     return {
+      loadingBtn: false,
+      seen: false,
       fromDate: this.currentDayFrom(),
       toDate: this.currentDayTo(),
       filter: defaultFilter,

@@ -99,9 +99,6 @@ $body-font-family: 'IranYekanWeb', 'IranYekanWebNFarsi';
   }
 }
 
-
-
-
 /*** new design ***/
 /*** new design ***/
 
@@ -280,7 +277,7 @@ tbody tr:nth-of-type(odd) {
 .v-data-table__wrapper {
   overflow-x: auto;
   overflow-y: hidden;
-  min-height: 625px;
+  min-height: 500px;
 }
 
 .v-data-table__wrapper {
@@ -421,3 +418,15 @@ select:-webkit-autofill:focus {
 .vpd-day:not([disabled]).vpd-selected .vpd-day-effect {
   background-color: #73953d !important;
 }
+
+/* page */
+.fullScreen {
+  width: 100%;
+}
+
+/* all tabs */
+.theme--light.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active), .theme--light.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active) > .v-icon, .theme--light.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active) > .v-btn, .theme--light.v-tabs > .v-tabs-bar .v-tab--disabled {
+  color: #757575;
+}
+
+

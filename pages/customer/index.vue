@@ -19,7 +19,7 @@
           sort-by="username"
           :items="users"
           :headers="headers"
-          class="elevation-5 fullScreen"
+          class="fullScreen"
           :loading="loading"
           dense
           :footer-props="{
@@ -317,7 +317,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
   .fullScreen {
     width: 100%;
   }

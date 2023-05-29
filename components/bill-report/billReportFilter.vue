@@ -1,149 +1,179 @@
 <template>
-  <v-card
-    elevation="5"
-    class="fullScreen"
-  >
-    <v-toolbar
-      class="black--text"
-      color="lightGreen"
-      flat
-      dark
-      dense
-      elevation="1"
-    >
-      استعلام قبض (فیلترها)
-      <v-spacer />
-    </v-toolbar>
+  <v-card flat>
     <v-container fluid>
-      <v-row>
-        <v-col cols="3">
-          <v-text-field
-            id="createFromDate"
-            v-model="fromDate"
-            outlined
-            dense
-            :placeholder="$t('filters.fromDate')"
-          />
-          <p-date-picker
-            v-model="fromDate"
-            type="datetime"
-            element="createFromDate"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullFromDate()"
-          />
-        </v-col>
+      <!-- main part -->
+      <!-- main part -->
+      <!-- main part -->
+      <div class="main">
+        <v-row style="margin-top: -5px;">
+          <div class="row mt-2 mr-4 ml-7">
+            <v-row>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  id="createFromDate"
+                  v-model="fromDate"
+                  outlined
+                  dense
+                  :placeholder="$t('filters.fromDate')"
+                />
+                <p-date-picker
+                  v-model="fromDate"
+                  type="datetime"
+                  element="createFromDate"
+                  color="dimgray"
+                  dense
+                  outlined
+                  popove
+                  auto-submit
+                  format="HH:mm jYYYY/jMM/jDD"
+                  @close="checkIsNullFromDate()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  id="createToDate"
+                  v-model="toDate"
+                  outlined
+                  dense
+                  :placeholder="$t('filters.toDate')"
+                />
+                <p-date-picker
+                  v-model="toDate"
+                  type="datetime"
+                  element="createToDate"
+                  color="dimgray"
+                  dense
+                  outlined
+                  popove
+                  auto-submit
+                  format="HH:mm jYYYY/jMM/jDD"
+                  @close="checkIsNullToDate()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  v-model="filter.billListFilter.billId"
+                  dense
+                  outlined
+                  :label="$t('filters.billId')"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-select
+                  v-model="filter.billListFilter.billType"
+                  :items="billType"
+                  item-value="value"
+                  :item-text="(item)=>$t(item.text)"
+                  :return-object="false"
+                  :label="$t('filters.billType')"
+                  dense
+                  clearable
+                  outlined
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-select
+                  v-model="filter.billListFilter.gatewayApi"
+                  :items="gatewayType"
+                  item-value="value"
+                  :item-text="(item)=>$t(item.text)"
+                  :return-object="false"
+                  :label="$t('filters.gatewayType')"
+                  dense
+                  clearable
+                  outlined
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="direction:ltr">
+                <div class="row" style="margin-top: -1px">
+                  <div ref="arrowShowExtraFilterTop" style="width: 20%;margin-right: 10px;margin-top: -3px;cursor: pointer;" @click="seen = !seen">
+                    <svg
+                      v-if="!seen"
+                      width="53"
+                      height="53"
+                      viewBox="0 0 53 53"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect width="53" height="53" rx="12" fill="#F6F6F6" />
+                      <g clip-path="url(#clip0_559_883)">
+                        <path d="M35.2675 22.6008L28 29.8525L20.7325 22.6008L18.5 24.8333L28 34.3333L37.5 24.8333L35.2675 22.6008Z" fill="#757575" />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_559_883">
+                          <rect width="38" height="38" fill="white" transform="translate(9 9)" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                    <svg
+                      v-else
+                      width="53"
+                      height="53"
+                      viewBox="0 0 53 53"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect width="53" height="53" rx="12" fill="#e2dfdf" />
+                      <g clip-path="url(#clip0_559_892)">
+                        <path d="M20.7325 33.3992L28 26.1475L35.2675 33.3992L37.5 31.1667L28 21.6667L18.5 31.1667L20.7325 33.3992Z" fill="#757575" />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_559_892">
+                          <rect width="38" height="38" fill="white" transform="matrix(-1 0 0 -1 47 47)" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </div>
+                  <div style="width: 75%">
+                    <v-btn
+                      :loading="loadingBtn"
+                      :disabled="loadingBtn"
+                      color="#84BD00"
+                      class="btnSearch"
+                      @click="search"
+                    >
+                      {{ $t('buttons.search') }}
+                    </v-btn>
+                  </div>
+                </div>
+              </v-col>
+            </v-row>
+          </div>
+        </v-row>
+      </div>
 
-        <v-col cols="3">
-          <v-text-field
-            id="createToDate"
-            v-model="toDate"
-            outlined
-            dense
-            :placeholder="$t('filters.toDate')"
-          />
-          <p-date-picker
-            v-model="toDate"
-            type="datetime"
-            element="createToDate"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullToDate()"
-          />
-        </v-col>
-
-        <v-col cols="3">
-          <v-text-field
-            v-model="filter.billListFilter.billId"
-            dense
-            outlined
-            :label="$t('filters.billId')"
-          />
-        </v-col>
-
-        <v-col cols="3">
-          <v-select
-            v-model="filter.billListFilter.billType"
-            :items="billType"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.billType')"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-
-        <v-col cols="3">
-          <v-select
-            v-model="filter.billListFilter.gatewayApi"
-            :items="gatewayType"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.gatewayType')"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-
-        <v-col cols="3">
-          <v-select
-            v-model="filter.billListFilter.status"
-            :items="statusType"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('filters.statusBill')"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-
-        <v-col cols="3">
-          <v-text-field
-            v-model="filter.billListFilter.mobile"
-            label="شماره موبایل"
-            dense
-            outlined
-          />
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-        <v-col>
-          <v-btn
-            color="success"
-            small
-            class="mr-10"
-            @click="search"
-          >
-            {{ $t('buttons.search') }}
-          </v-btn>
-        </v-col>
-        <v-col cols="10" />
-        <v-col>
-          <v-btn
-            color="warning"
-            :loading="downloadLoading"
-            dark
-            small
-            @click="downloadReports(defaultFilter)"
-          >
-            {{ $t('report.download') }}
-          </v-btn>
-        </v-col>
-      </v-row>
+      <!-- hide part -->
+      <!-- hide part -->
+      <!-- hide part -->
+      <div v-if="seen" id="hide">
+        <v-row>
+          <div class="row mt-2 mr-4 ml-7">
+            <v-row>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-select
+                  v-model="filter.billListFilter.status"
+                  :items="statusType"
+                  item-value="value"
+                  :item-text="(item)=>$t(item.text)"
+                  :return-object="false"
+                  :label="$t('filters.statusBill')"
+                  dense
+                  clearable
+                  outlined
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  v-model="filter.billListFilter.mobile"
+                  label="شماره موبایل"
+                  dense
+                  outlined
+                />
+              </v-col>
+            </v-row>
+          </div>
+        </v-row>
+      </div>
     </v-container>
   </v-card>
 </template>
@@ -185,6 +215,8 @@ export default {
   },
   data () {
     return {
+      loadingBtn: false,
+      seen: false,
       fromDate: this.currentDayFrom(),
       toDate: this.currentDayTo(),
       time: null,

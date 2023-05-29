@@ -1,112 +1,91 @@
 <template>
-  <v-card elevation="5" class="fullScreen">
-    <v-toolbar
-      class="black--text"
-      color="lightGreen"
-      flat
-      dark
-      dense
-      elevation="1"
-    >
-      آمار تراکنش ها (فیلترها)
-      <v-spacer />
-    </v-toolbar>
+  <v-card flat>
     <v-container fluid>
-      <v-row>
-        <v-col cols="3">
-          <v-text-field
-            id="my-custom-input"
-            v-model="fromDate"
-            outlined
-            dense
-            :placeholder="$t('filters.fromDate')"
-            format="jYYYY/jMM/jDD"
-            input-format="jYYYY/jMM/jDD"
-          />
-          <p-date-picker
-            v-model="fromDate"
-            element="my-custom-input"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            @close="checkIsNull()"
-          />
-        </v-col>
-        <v-col cols="3">
-          <v-text-field
-            id="custom-input"
-            v-model="toDate"
-            outlined
-            dense
-            :placeholder="$t('filters.toDate')"
-            format="jYYYY/jMM/jDD"
-            input-format="jYYYY/jMM/jDD"
-          />
-          <p-date-picker
-            v-model="toDate"
-            element="custom-input"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            @close="checkIsNull()"
-          />
-        </v-col>
-        <v-col cols="3">
-          <v-select
-            v-model="operation"
-            :items="operationName"
-            item-value="url"
-            :item-text="(item) => $t(item.text)"
-            :return-object="false"
-            :label="$t('filters.operationName')"
-            dense
-            clearable
-            outlined
-            @change="checkIsNull()"
-          />
-        </v-col>
-        <v-col cols="3">
-          <!-- <select v-model="selected">
-                <option v-for="option in options" v-bind:value="option.value">
-                  {{ option.text }}
-                </option>
-              </select> -->
-          <v-select
-            v-model="duration"
-            :items="options"
-            item-value="value"
-            :item-text="(item) => $t(item.text)"
-            :return-object="false"
-            :label="$t('filters.duration')"
-            dense
-            outlined
-            @change="checkIsNull()"
-          />
-        </v-col>
-      </v-row>
-      <v-row no-gutters style="direction:ltr">
-        <v-col>
-          <v-btn color="success" small class="mr-10" @click="search">
-            {{ $t('buttons.search') }}
-          </v-btn>
-        </v-col>
-        <v-col cols="10" />
-        <!-- <v-col>
-          <v-btn
-            color="warning"
-            :loading="downloadLoading"
-            dark
-            small
-            @click="downloadReports(defaultFilter)"
-          >
-            {{ $t('report.download') }}
-          </v-btn>
-        </v-col> -->
-      </v-row>
+      <!-- main part -->
+      <!-- main part -->
+      <!-- main part -->
+      <div class="main">
+        <v-row style="margin-top: -5px;">
+          <div class="row mt-2 mr-4 ml-7">
+            <v-row>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  id="my-custom-input"
+                  v-model="fromDate"
+                  outlined
+                  dense
+                  :placeholder="$t('filters.fromDate')"
+                  format="jYYYY/jMM/jDD"
+                  input-format="jYYYY/jMM/jDD"
+                />
+                <p-date-picker
+                  v-model="fromDate"
+                  element="my-custom-input"
+                  color="dimgray"
+                  dense
+                  outlined
+                  popove
+                  auto-submit
+                  @close="checkIsNull()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  id="custom-input"
+                  v-model="toDate"
+                  outlined
+                  dense
+                  :placeholder="$t('filters.toDate')"
+                  format="jYYYY/jMM/jDD"
+                  input-format="jYYYY/jMM/jDD"
+                />
+                <p-date-picker
+                  v-model="toDate"
+                  element="custom-input"
+                  color="dimgray"
+                  dense
+                  outlined
+                  popove
+                  auto-submit
+                  @close="checkIsNull()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-select
+                  v-model="operation"
+                  :items="operationName"
+                  item-value="url"
+                  :item-text="(item) => $t(item.text)"
+                  :return-object="false"
+                  :label="$t('filters.operationName')"
+                  dense
+                  clearable
+                  outlined
+                  @change="checkIsNull()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-select
+                  v-model="duration"
+                  :items="options"
+                  item-value="value"
+                  :item-text="(item) => $t(item.text)"
+                  :return-object="false"
+                  :label="$t('filters.duration')"
+                  dense
+                  outlined
+                  @change="checkIsNull()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="direction:ltr">
+                <v-btn :loading="loadingBtn" :disabled="loadingBtn" color="#84BD00" class="btnSearch" @click="search">
+                  {{ $t('buttons.search') }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+        </v-row>
+      </div>
     </v-container>
   </v-card>
 </template>
@@ -126,7 +105,6 @@ const defaultFilter = {
     from: null,
     to: null
   }
-
 }
 
 export default {
@@ -135,13 +113,13 @@ export default {
     PDatePicker: VuePersianDatetimePicker
   },
   mounted: function () {
-    console.log('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiii' + this.selected)
+    console.log('mounted function' + this.selected)
     defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
     defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
     // defaultFilter.transactionChartDto.duration = this.duration
 
     this.filter = Object.assign(this.value, defaultFilter)
-    // console.log('llllllllllllllll' + this.operation())
+    // console.log('mounted operation' + this.operation())
     // this.operation()
   },
   props: {
@@ -149,9 +127,11 @@ export default {
   },
   data () {
     return {
+      loadingBtn: false,
+      seen: false,
       duration: null,
       operation: null,
-      fromDate: this.currentDayFrom(),
+      fromDate: this.yesterdayDayFrom(),
       toDate: this.currentDayTo(),
       filter: defaultFilter,
       operationName: reportManager.operationName2,
@@ -183,52 +163,6 @@ export default {
         this.filter.transactionChartDto.operation = this.operation
       }
     },
-    // operation () {
-    //   this.loading = true
-    //   reportManager.operationList(this.operationType, this.$axios).then((response) => {
-    //     const operationList = response.data
-    //     const operationCardList = operationList.cardOperation
-    //     operationCardList.push({ divider: true })
-    //     const operationDepositList = operationList.depositOperation
-    //     operationDepositList.push({ divider: true })
-    //     const operationUserList = operationList.userOperation
-    //     operationUserList.push({ divider: true })
-    //     const operationSettingList = operationList.settingOperation
-    //     operationSettingList.push({ divider: true })
-    //     const operationPublicList = operationList.publicOperation
-    //     operationSettingList.push({ divider: true })
-    //     const operationLastList = operationDepositList
-    //     operationCardList.unshift({ divider: true })
-    //     operationCardList.unshift({ header: 'عملیات کارت' })
-    //     operationDepositList.unshift({ divider: true })
-    //     operationDepositList.unshift({ header: 'عملیات حساب' })
-    //     operationDepositList.unshift({ divider: true })
-    //     operationUserList.unshift({ divider: true })
-    //     operationUserList.unshift({ header: 'عملیات کاربری' })
-    //     operationSettingList.unshift({ divider: true })
-    //     operationSettingList.unshift({ header: 'عملیات تنظیمات' })
-    //     operationPublicList.unshift({ divider: true })
-    //     operationPublicList.unshift({ header: 'عملیات عمومی' })
-    //     const array1 = operationLastList.concat(operationCardList, operationUserList, operationSettingList, operationPublicList)
-
-    //     console.log('pppppppp' + array1)
-    //     this.items = array1
-    //   }).catch((error) => {
-    //     if (error.response) {
-    //       this.alert({
-    //         color: 'orange',
-    //         content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-    //       })
-    //     } else {
-    //       this.alert({
-    //         color: 'orange',
-    //         content: 'messages.failed'
-    //       })
-    //     }
-    //     this.loading = false
-    //   })
-    // },
-
     convertJalaliDateToTimestamp (date) {
       const year = moment(date, 'jYYYY/jM/jD').format('YYYY')
       const month = moment(date, 'jYYYY/jM/jD').format('MM')
@@ -239,6 +173,15 @@ export default {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
+      return year + '/' + month + '/' + day
+    },
+    yesterdayDayFrom: function () {
+      const today = new Date()
+      const yesterday = new Date(); yesterday.setDate(today.getDate() - 14)
+
+      const year = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+      const month = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      const day = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
       return year + '/' + month + '/' + day
     },
     currentDayTo: function () {
