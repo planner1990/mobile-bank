@@ -1,19 +1,13 @@
 <template>
-  <v-container
-    tag="section"
-    fluid
-  >
-    <v-col>
-      <v-row
-        justify="center"
-      >
+  <v-container tag="section" fluid>
+    <v-row>
+      <!-- filter -->
+      <v-col cols="12" style="padding: 8px !important;">
         <customer-statistics-filter v-model="requestObject" @search="search" />
-      </v-row>
-      <br>
-      <br>
-      <v-row
-        justify="center"
-      >
+      </v-col>
+
+      <!-- grid -->
+      <v-col cols="12" style="padding: 8px !important;">
         <v-data-table
           item-key="username"
           sort-by="username"
@@ -31,15 +25,6 @@
           @update:page="search (requestObject)"
           @update:items-per-page="search (requestObject)"
         >
-          <template #top>
-            <v-toolbar
-              color="lightGreen"
-              flat
-              dense
-              dark
-            />
-          </template>
-
           <template #[`item.actions`]="{ item }">
             <v-icon
               small
@@ -49,14 +34,34 @@
               mdi-pencil
             </v-icon>
           </template>
-
-          <template #top />
           <template #[`item.customerType`]="{ item }">
             {{ $t('customer.customerStatistics.customerTypeTitle.' + item.customerType) }}
           </template>
+
+          <!-- Add btn to Footer page -->
+          <!-- Add btn to Footer page -->
+          <!-- Add btn to Footer page -->
+          <template #footer>
+            <v-btn
+              :loading="downloadLoading"
+              :disabled="downloadLoading"
+              style="top: 50px;width: 146px;height: 36px;background: #84BD00;box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              @click="downloadReports()"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.0013 7.33334V11.3333M6.0013 11.3333L7.33464 10M6.0013 11.3333L4.66797 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M14.6654 6.66668V10C14.6654 13.3333 13.332 14.6667 9.9987 14.6667H5.9987C2.66536 14.6667 1.33203 13.3333 1.33203 10V6.00001C1.33203 2.66668 2.66536 1.33334 5.9987 1.33334H9.33203" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M14.6654 6.66668H11.9987C9.9987 6.66668 9.33203 6.00001 9.33203 4.00001V1.33334L14.6654 6.66668Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+
+              <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
+                {{ $t('report.download') }}
+              </span>
+            </v-btn>
+          </template>
         </v-data-table>
-      </v-row>
-    </v-col>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -65,29 +70,14 @@ import { mapMutations } from 'vuex'
 import CustomerStatisticsFilter from '~/components/customer-statistics/customerStatisticsFilter'
 import userManager from '~/repository/user_manager'
 
-// import ProvinceSelector from '@/components/location/provinceSelector'
-// import CitySelector from '@/components/location/citySelector'
-// import BranchSelector from '@/components/location/branchSelector'
-
 export default {
   name: 'CustomerStatisticsPage',
   components: {
     'customer-statistics-filter': CustomerStatisticsFilter
-    // ProvinceSelector,
-    // CitySelector,
-    // BranchSelector,
   },
   data: function () {
     return {
       isShowTitleOfEditDialog: false,
-      // paginate: {
-      //   page: 1,
-      //   length: 20,
-      //   sort: {
-      //     property: 'status',
-      //     direction: 'desc'
-      //   }
-      // },
       totalNumberOfItems: 0,
       guids: [
         {

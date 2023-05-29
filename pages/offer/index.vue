@@ -3,7 +3,7 @@
     <v-row>
       <!-- filter -->
       <v-col cols="12" style="padding: 8px !important;">
-        <offer-filter v-model="requestObject" @search="search" />
+        <offer-filter v-model="requestObject" @search="search" @showCreateDialog="showCreateDialog" @closeCreateDialog="closeCreateDialog" />
       </v-col>
 
       <!-- grid -->
@@ -59,531 +59,532 @@
             {{ $t('offer.offerTypeFilter.' + item.recommendationType) }}
           </template>
 
-          <!-- dialog 3 action -->
-          <!-- dialog 3 action -->
-          <!-- dialog 3 action -->
-          <template #top>
-            <v-toolbar
-              class="black--text"
-              color="lightGreen"
-              flat
-              dense
-              dark
+          <!-- Add btn to Footer page -->
+          <!-- Add btn to Footer page -->
+          <!-- Add btn to Footer page -->
+          <template #footer>
+            <v-btn
+              :loading="downloadLoading"
+              :disabled="downloadLoading"
+              style="top: 50px;width: 146px;height: 36px;background: #84BD00;box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              @click="downloadReports()"
             >
-              <v-dialog
-                v-model="createDialog"
-                max-width="1000"
-                transition="dialog-bottom-transition"
-              >
-                <template #activator="{ on, attrs }">
-                  <v-btn
-                    color="warning"
-                    class="mb-2"
-                    small
-                    v-bind="attrs"
-                    v-on="on"
-                  >
-                    {{ $t('offer.newOffer') }}
-                  </v-btn>
-                </template>
-                <v-card
-                  :loading="loading"
-                >
-                  <v-card-title v-if="!isShowTitleOfEditDialog" primary-title class="lightGreen font-weight-bold text-h5">
-                    {{ $t('offer.dialogTitle') }}
-                  </v-card-title>
-                  <v-container>
-                    <v-form
-                      ref="form"
-                    >
-                      <v-row>
-                        <v-col cols="3">
-                          <v-text-field
-                            v-model="offerForm.offerObj.title"
-                            :counter="16"
-                            :label="$t('offer.title')"
-                            outlined
-                            dense
-                            required
-                          />
-                        </v-col>
-                        <v-col cols="3">
-                          <v-text-field
-                            v-model="offerForm.offerObj.widgetTitle"
-                            :label="$t('offer.widgetTitle')"
-                            :counter="16"
-                            required
-                            dense
-                            outlined
-                          />
-                        </v-col>
-                        <v-col cols="3">
-                          <v-text-field
-                            v-model="offerForm.offerObj.url"
-                            :label="$t('offer.url')"
-                            outlined
-                            dense
-                          />
-                        </v-col>
-                        <v-col cols="3">
-                          <v-select
-                            v-model="offerForm.offerObj.recommendationType"
-                            :items="offerTypDisplayItem"
-                            item-value="value"
-                            :item-text="(item)=>(item.text)"
-                            :return-object="false"
-                            :label="$t('offer.type')"
-                            dense
-                            clearable
-                            outlined
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col cols="3">
-                          <v-text-field
-                            id="createFromDate"
-                            v-model="from"
-                            outlined
-                            dense
-                            :placeholder="$t('filters.fromDate')"
-                          />
-                          <p-date-picker
-                            v-model="from"
-                            type="datetime"
-                            element="createFromDate"
-                            color="dimgray"
-                            dense
-                            outlined
-                            popove
-                            format="HH:mm jYYYY/jMM/jDD"
-                            @close="checkIsNullFromDate()"
-                          />
-                        </v-col>
-                        <v-col cols="3">
-                          <v-text-field
-                            id="createToDate"
-                            v-model="to"
-                            outlined
-                            dense
-                            :placeholder="$t('filters.toDate')"
-                          />
-                          <p-date-picker
-                            v-model="to"
-                            type="datetime"
-                            element="createToDate"
-                            color="dimgray"
-                            dense
-                            outlined
-                            popove
-                            format="HH:mm jYYYY/jMM/jDD"
-                            @close="checkIsNullToDate()"
-                          />
-                        </v-col>
-                        <v-col cols="3">
-                          <v-text-field
-                            v-model="offerForm.offerObj.alternativeUrl"
-                            :label="$t('offer.alternativeUrl')"
-                            outlined
-                            dense
-                          />
-                        </v-col>
-                        <v-col cols="3">
-                          <v-select
-                            v-model="offerForm.offerObj.os"
-                            :items="offerToTypeItem"
-                            item-value="value"
-                            :item-text="(item)=>$t(item.text)"
-                            :return-object="false"
-                            :label="$t('offer.to')"
-                            dense
-                            clearable
-                            outlined
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col cols="3">
-                          <v-text-field
-                            v-model="offerForm.offerObj.uri"
-                            :label="$t('offer.uri')"
-                            outlined
-                            dense
-                          />
-                        </v-col>
-                        <v-col cols="3">
-                          <v-select
-                            v-model="offerForm.offerObj.type"
-                            :items="offerType"
-                            item-value="value"
-                            :item-text="(item)=>$t(item.text)"
-                            :return-object="false"
-                            :label="$t('offer.offerType')"
-                            dense
-                            clearable
-                            outlined
-                          />
-                        </v-col>
-                        <v-col cols="6">
-                          <v-file-input
-                            v-model="offerForm.offerObj.file"
-                            show-size
-                            outlined
-                            :rules="[
-                              v => !!v || $t('user.validation.required')
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.0013 7.33334V11.3333M6.0013 11.3333L7.33464 10M6.0013 11.3333L4.66797 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M14.6654 6.66668V10C14.6654 13.3333 13.332 14.6667 9.9987 14.6667H5.9987C2.66536 14.6667 1.33203 13.3333 1.33203 10V6.00001C1.33203 2.66668 2.66536 1.33334 5.9987 1.33334H9.33203" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M14.6654 6.66668H11.9987C9.9987 6.66668 9.33203 6.00001 9.33203 4.00001V1.33334L14.6654 6.66668Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
 
-                            ]"
-                            dense
-                            validate-on-blur
-                            label="File input"
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col cols="3">
-                          <v-textarea
-                            v-model="offerForm.offerObj.explanation"
-                            :label="$t('offer.description')"
-                            outlined
-                            full-width
-                            height="80"
-                            dense
-                          />
-                        </v-col>
-                        <v-col cols="1">
-                          <v-checkbox
-                            v-model="checkbox1"
-                            dense
-                            :label="`  غعال`"
-                          />
-                        </v-col>
-                      </v-row>
-                    </v-form>
-                    <v-row
-                      v-for="(error, index) in computedErrorsInCreateDialog"
-                      :key="index"
-                    >
-                      <v-col>
-                        <v-alert
-                          v-model="createUserErrors[index].isShow"
-                          dismissible
-                          dense
-                          type="error"
-                          elevation="2"
-                          icon="mdi-alert-decagram-outline"
-                          @click:close="createUserErrors[index].isShow = false"
-                        >
-                          {{ error.type }}
-                        </v-alert>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                  <v-card-actions>
-                    <v-spacer />
-                    <v-btn
-                      color="success"
-                      @click="save"
-                    >
-                      {{ $t('buttons.submit') }}
-                    </v-btn>
-                    <v-btn
-                      color="warning"
-                      @click="closeCreateOfferDialog"
-                    >
-                      {{ $t('buttons.cancel') }}
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-              <v-dialog
-                v-model="createUpdateDialog"
-                max-width="1000"
-                transition="dialog-bottom-transition"
-              >
-                <v-card
-                  :loading="loading"
-                >
-                  <v-card-title v-if="!isShowTitleOfEditDialog" primary-title class="lightGreen font-weight-bold text-h5">
-                    {{ $t('offer.dialogTitle') }}
-                  </v-card-title>
-                  <v-container>
-                    <v-form
-                      ref="form"
-                    >
-                      <v-row>
-                        <v-col cols="3">
-                          <v-text-field
-                            v-model="offerForm.offerObj.title"
-                            :counter="16"
-                            :label="$t('offer.title')"
-                            outlined
-                            dense
-                            required
-                          />
-                        </v-col>
-                        <v-col cols="3">
-                          <v-text-field
-                            v-model="offerForm.offerObj.widgetTitle"
-                            :label="$t('offer.widgetTitle')"
-                            :counter="16"
-                            required
-                            dense
-                            outlined
-                          />
-                        </v-col>
-                        <v-col cols="3">
-                          <v-text-field
-                            v-model="offerForm.offerObj.url"
-                            :label="$t('offer.url')"
-                            outlined
-                            dense
-                          />
-                        </v-col>
-                        <v-col cols="3">
-                          <v-select
-                            v-model="offerForm.offerObj.recommendationType"
-                            :items="offerTypDisplayItem"
-                            item-value="value"
-                            :item-text="(item)=>(item.text)"
-                            :return-object="false"
-                            :label="$t('offer.type')"
-                            dense
-                            clearable
-                            outlined
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col cols="3">
-                          <v-text-field
-                            id="createFromDate"
-                            v-model="from"
-                            outlined
-                            dense
-                            :placeholder="$t('filters.fromDate')"
-                          />
-                          <p-date-picker
-                            v-model="from"
-                            type="datetime"
-                            element="createFromDate"
-                            color="dimgray"
-                            dense
-                            outlined
-                            popove
-                            format="HH:mm jYYYY/jMM/jDD"
-                            @close="checkIsNullFromDate()"
-                          />
-                        </v-col>
-                        <v-col cols="3">
-                          <v-text-field
-                            id="createToDate"
-                            v-model="to"
-                            outlined
-                            dense
-                            :placeholder="$t('filters.toDate')"
-                          />
-                          <p-date-picker
-                            v-model="to"
-                            type="datetime"
-                            element="createToDate"
-                            color="dimgray"
-                            dense
-                            outlined
-                            popove
-                            format="HH:mm jYYYY/jMM/jDD"
-                            @close="checkIsNullToDate()"
-                          />
-                        </v-col>
-                        <v-col cols="3">
-                          <v-text-field
-                            v-model="offerForm.offerObj.alternativeUrl"
-                            :label="$t('offer.alternativeUrl')"
-                            outlined
-                            dense
-                          />
-                        </v-col>
-                        <v-col cols="3">
-                          <v-select
-                            v-model="offerForm.offerObj.os"
-                            :items="offerToTypeItem"
-                            item-value="value"
-                            :item-text="(item)=>$t(item.text)"
-                            :return-object="false"
-                            :label="$t('offer.to')"
-                            dense
-                            clearable
-                            outlined
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col cols="3">
-                          <v-text-field
-                            v-model="offerForm.offerObj.uri"
-                            :label="$t('offer.uri')"
-                            outlined
-                            dense
-                          />
-                        </v-col>
-                        <v-col cols="3">
-                          <v-select
-                            v-model="offerForm.offerObj.type"
-                            :items="offerType"
-                            item-value="value"
-                            :item-text="(item)=>$t(item.text)"
-                            :return-object="false"
-                            :label="$t('offer.offerType')"
-                            dense
-                            clearable
-                            outlined
-                          />
-                        </v-col>
-                        <v-col cols="6">
-                          <v-file-input
-                            v-model="offerForm.offerObj.file"
-                            show-size
-                            outlined
-                            dense
-                            validate-on-blur
-                            label="File input"
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col cols="3">
-                          <v-textarea
-                            v-model="offerForm.offerObj.explanation"
-                            :label="$t('offer.description')"
-                            outlined
-                            full-width
-                            height="80"
-                            dense
-                          />
-                        </v-col>
-                        <v-col cols="1">
-                          <v-checkbox
-                            v-model="offerForm.offerObj.status"
-                            dense
-                            :label="`  غعال`"
-                          />
-                        </v-col>
-                      </v-row>
-                    </v-form>
-                    <v-row
-                      v-for="(error, index) in computedErrorsInCreateDialog"
-                      :key="index"
-                    >
-                      <v-col>
-                        <v-alert
-                          v-model="createUserErrors[index].isShow"
-                          dismissible
-                          dense
-                          type="error"
-                          elevation="2"
-                          icon="mdi-alert-decagram-outline"
-                          @click:close="createUserErrors[index].isShow = false"
-                        >
-                          {{ error.type }}
-                        </v-alert>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                  <v-card-actions>
-                    <v-spacer />
-                    <v-btn
-                      color="success"
-                      @click="removeAll"
-                    >
-                      {{ $t('buttons.delete') }}
-                    </v-btn>
-                    <v-btn
-                      color="success"
-                      @click="save"
-                    >
-                      {{ $t('buttons.submit') }}
-                    </v-btn>
-                    <v-btn
-                      color="warning"
-                      @click="closeCreateOfferDialog"
-                    >
-                      {{ $t('buttons.cancel') }}
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-              <v-dialog
-                v-model="createParamDialog"
-                persistent
-                max-width="860"
-                transition="dialog-bottom-transition"
-              >
-                <v-card
-                  :loading="loading"
-                >
-                  <v-card-title v-if="!isShowTitleOfEditDialog" primary-title class="lightGreen font-weight-bold text-h5">
-                    {{ $t('offer.dialogTitle') }}
-                  </v-card-title>
-                  <v-container>
-                    <v-form
-                      ref="form"
-                    >
-                      <v-row>
-                        <v-col>
-                          <v-text-field
-                            v-model="offerForm.paramObj.key"
-                            :label="$t('offer.key')"
-                            outlined
-                            dense
-                          />
-                        </v-col>
-                        <v-col>
-                          <v-text-field
-                            v-model="offerForm.paramObj.value"
-                            :label="$t('offer.value')"
-                            outlined
-                            dense
-                          />
-                        </v-col>
-                      </v-row>
-                    </v-form>
-                  </v-container>
-                  <v-card-actions>
-                    <v-spacer />
-                    <v-btn
-                      color="success"
-                      @click="saveParam"
-                    >
-                      {{ $t('buttons.submit') }}
-                    </v-btn>
-                    <v-btn
-                      color="warning"
-                      @click="closeCreateParamDialog"
-                    >
-                      {{ $t('buttons.cancel') }}
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-                <v-data-table
-                  item-key="username"
-                  sort-by="username"
-                  :items="params"
-                  :headers="headersParam"
-                  class="fullScreen"
-                  :loading="loading"
-                  dense
-                  :footer-props="{
-                    'items-per-page-options': [10, 20, 30, 40, 50]
-                  }"
-                  :items-per-page.sync="paramObject.paginate.length"
-                  :page.sync="paramObject.paginate.page"
-                  :server-items-length="totalNumberOfItems"
-                  @update:page="searchParams (paramObject)"
-                  @update:items-per-page="searchParams (paramObject)"
-                />
-              </v-dialog>
-            </v-toolbar>
+              <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
+                {{ $t('report.download') }}
+              </span>
+            </v-btn>
           </template>
         </v-data-table>
+
+        <!-- dialog 3 action -->
+        <!-- dialog 3 action -->
+        <!-- dialog 3 action -->
+        <v-dialog
+          v-model="createDialog"
+          max-width="1000"
+          transition="dialog-bottom-transition"
+        >
+          <v-card
+            :loading="loading"
+          >
+            <v-card-title v-if="!isShowTitleOfEditDialog" primary-title class="lightGreen font-weight-bold text-h5">
+              {{ $t('offer.dialogTitle') }}
+            </v-card-title>
+            <v-container>
+              <v-form
+                ref="form"
+              >
+                <v-row>
+                  <v-col cols="3">
+                    <v-text-field
+                      v-model="offerForm.offerObj.title"
+                      :counter="16"
+                      :label="$t('offer.title')"
+                      outlined
+                      dense
+                      required
+                    />
+                  </v-col>
+                  <v-col cols="3">
+                    <v-text-field
+                      v-model="offerForm.offerObj.widgetTitle"
+                      :label="$t('offer.widgetTitle')"
+                      :counter="16"
+                      required
+                      dense
+                      outlined
+                    />
+                  </v-col>
+                  <v-col cols="3">
+                    <v-text-field
+                      v-model="offerForm.offerObj.url"
+                      :label="$t('offer.url')"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                  <v-col cols="3">
+                    <v-select
+                      v-model="offerForm.offerObj.recommendationType"
+                      :items="offerTypDisplayItem"
+                      item-value="value"
+                      :item-text="(item)=>(item.text)"
+                      :return-object="false"
+                      :label="$t('offer.type')"
+                      dense
+                      clearable
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="3">
+                    <v-text-field
+                      id="createFromDate"
+                      v-model="from"
+                      outlined
+                      dense
+                      :placeholder="$t('filters.fromDate')"
+                    />
+                    <p-date-picker
+                      v-model="from"
+                      type="datetime"
+                      element="createFromDate"
+                      color="dimgray"
+                      dense
+                      outlined
+                      popove
+                      format="HH:mm jYYYY/jMM/jDD"
+                      @close="checkIsNullFromDate()"
+                    />
+                  </v-col>
+                  <v-col cols="3">
+                    <v-text-field
+                      id="createToDate"
+                      v-model="to"
+                      outlined
+                      dense
+                      :placeholder="$t('filters.toDate')"
+                    />
+                    <p-date-picker
+                      v-model="to"
+                      type="datetime"
+                      element="createToDate"
+                      color="dimgray"
+                      dense
+                      outlined
+                      popove
+                      format="HH:mm jYYYY/jMM/jDD"
+                      @close="checkIsNullToDate()"
+                    />
+                  </v-col>
+                  <v-col cols="3">
+                    <v-text-field
+                      v-model="offerForm.offerObj.alternativeUrl"
+                      :label="$t('offer.alternativeUrl')"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                  <v-col cols="3">
+                    <v-select
+                      v-model="offerForm.offerObj.os"
+                      :items="offerToTypeItem"
+                      item-value="value"
+                      :item-text="(item)=>$t(item.text)"
+                      :return-object="false"
+                      :label="$t('offer.to')"
+                      dense
+                      clearable
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="3">
+                    <v-text-field
+                      v-model="offerForm.offerObj.uri"
+                      :label="$t('offer.uri')"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                  <v-col cols="3">
+                    <v-select
+                      v-model="offerForm.offerObj.type"
+                      :items="offerType"
+                      item-value="value"
+                      :item-text="(item)=>$t(item.text)"
+                      :return-object="false"
+                      :label="$t('offer.offerType')"
+                      dense
+                      clearable
+                      outlined
+                    />
+                  </v-col>
+                  <v-col cols="6">
+                    <v-file-input
+                      v-model="offerForm.offerObj.file"
+                      show-size
+                      outlined
+                      :rules="[
+                        v => !!v || $t('user.validation.required')
+
+                      ]"
+                      dense
+                      validate-on-blur
+                      label="File input"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="3">
+                    <v-textarea
+                      v-model="offerForm.offerObj.explanation"
+                      :label="$t('offer.description')"
+                      outlined
+                      full-width
+                      height="80"
+                      dense
+                    />
+                  </v-col>
+                  <v-col cols="1">
+                    <v-checkbox
+                      v-model="checkbox1"
+                      dense
+                      :label="`  غعال`"
+                    />
+                  </v-col>
+                </v-row>
+              </v-form>
+              <v-row
+                v-for="(error, index) in computedErrorsInCreateDialog"
+                :key="index"
+              >
+                <v-col>
+                  <v-alert
+                    v-model="createUserErrors[index].isShow"
+                    dismissible
+                    dense
+                    type="error"
+                    elevation="2"
+                    icon="mdi-alert-decagram-outline"
+                    @click:close="createUserErrors[index].isShow = false"
+                  >
+                    {{ error.type }}
+                  </v-alert>
+                </v-col>
+              </v-row>
+            </v-container>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="success"
+                @click="save"
+              >
+                {{ $t('buttons.submit') }}
+              </v-btn>
+              <v-btn
+                color="warning"
+                @click="closeCreateOfferDialog"
+              >
+                {{ $t('buttons.cancel') }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-dialog
+          v-model="createUpdateDialog"
+          max-width="1000"
+          transition="dialog-bottom-transition"
+        >
+          <v-card
+            :loading="loading"
+          >
+            <v-card-title v-if="!isShowTitleOfEditDialog" primary-title class="lightGreen font-weight-bold text-h5">
+              {{ $t('offer.dialogTitle') }}
+            </v-card-title>
+            <v-container>
+              <v-form
+                ref="form"
+              >
+                <v-row>
+                  <v-col cols="3">
+                    <v-text-field
+                      v-model="offerForm.offerObj.title"
+                      :counter="16"
+                      :label="$t('offer.title')"
+                      outlined
+                      dense
+                      required
+                    />
+                  </v-col>
+                  <v-col cols="3">
+                    <v-text-field
+                      v-model="offerForm.offerObj.widgetTitle"
+                      :label="$t('offer.widgetTitle')"
+                      :counter="16"
+                      required
+                      dense
+                      outlined
+                    />
+                  </v-col>
+                  <v-col cols="3">
+                    <v-text-field
+                      v-model="offerForm.offerObj.url"
+                      :label="$t('offer.url')"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                  <v-col cols="3">
+                    <v-select
+                      v-model="offerForm.offerObj.recommendationType"
+                      :items="offerTypDisplayItem"
+                      item-value="value"
+                      :item-text="(item)=>(item.text)"
+                      :return-object="false"
+                      :label="$t('offer.type')"
+                      dense
+                      clearable
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="3">
+                    <v-text-field
+                      id="createFromDate"
+                      v-model="from"
+                      outlined
+                      dense
+                      :placeholder="$t('filters.fromDate')"
+                    />
+                    <p-date-picker
+                      v-model="from"
+                      type="datetime"
+                      element="createFromDate"
+                      color="dimgray"
+                      dense
+                      outlined
+                      popove
+                      format="HH:mm jYYYY/jMM/jDD"
+                      @close="checkIsNullFromDate()"
+                    />
+                  </v-col>
+                  <v-col cols="3">
+                    <v-text-field
+                      id="createToDate"
+                      v-model="to"
+                      outlined
+                      dense
+                      :placeholder="$t('filters.toDate')"
+                    />
+                    <p-date-picker
+                      v-model="to"
+                      type="datetime"
+                      element="createToDate"
+                      color="dimgray"
+                      dense
+                      outlined
+                      popove
+                      format="HH:mm jYYYY/jMM/jDD"
+                      @close="checkIsNullToDate()"
+                    />
+                  </v-col>
+                  <v-col cols="3">
+                    <v-text-field
+                      v-model="offerForm.offerObj.alternativeUrl"
+                      :label="$t('offer.alternativeUrl')"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                  <v-col cols="3">
+                    <v-select
+                      v-model="offerForm.offerObj.os"
+                      :items="offerToTypeItem"
+                      item-value="value"
+                      :item-text="(item)=>$t(item.text)"
+                      :return-object="false"
+                      :label="$t('offer.to')"
+                      dense
+                      clearable
+                      outlined
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="3">
+                    <v-text-field
+                      v-model="offerForm.offerObj.uri"
+                      :label="$t('offer.uri')"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                  <v-col cols="3">
+                    <v-select
+                      v-model="offerForm.offerObj.type"
+                      :items="offerType"
+                      item-value="value"
+                      :item-text="(item)=>$t(item.text)"
+                      :return-object="false"
+                      :label="$t('offer.offerType')"
+                      dense
+                      clearable
+                      outlined
+                    />
+                  </v-col>
+                  <v-col cols="6">
+                    <v-file-input
+                      v-model="offerForm.offerObj.file"
+                      show-size
+                      outlined
+                      dense
+                      validate-on-blur
+                      label="File input"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="3">
+                    <v-textarea
+                      v-model="offerForm.offerObj.explanation"
+                      :label="$t('offer.description')"
+                      outlined
+                      full-width
+                      height="80"
+                      dense
+                    />
+                  </v-col>
+                  <v-col cols="1">
+                    <v-checkbox
+                      v-model="offerForm.offerObj.status"
+                      dense
+                      :label="`  غعال`"
+                    />
+                  </v-col>
+                </v-row>
+              </v-form>
+              <v-row
+                v-for="(error, index) in computedErrorsInCreateDialog"
+                :key="index"
+              >
+                <v-col>
+                  <v-alert
+                    v-model="createUserErrors[index].isShow"
+                    dismissible
+                    dense
+                    type="error"
+                    elevation="2"
+                    icon="mdi-alert-decagram-outline"
+                    @click:close="createUserErrors[index].isShow = false"
+                  >
+                    {{ error.type }}
+                  </v-alert>
+                </v-col>
+              </v-row>
+            </v-container>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="success"
+                @click="removeAll"
+              >
+                {{ $t('buttons.delete') }}
+              </v-btn>
+              <v-btn
+                color="success"
+                @click="save"
+              >
+                {{ $t('buttons.submit') }}
+              </v-btn>
+              <v-btn
+                color="warning"
+                @click="closeCreateOfferDialog"
+              >
+                {{ $t('buttons.cancel') }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-dialog
+          v-model="createParamDialog"
+          persistent
+          max-width="860"
+          transition="dialog-bottom-transition"
+        >
+          <v-card
+            :loading="loading"
+          >
+            <v-card-title v-if="!isShowTitleOfEditDialog" primary-title class="lightGreen font-weight-bold text-h5">
+              {{ $t('offer.dialogTitle') }}
+            </v-card-title>
+            <v-container>
+              <v-form
+                ref="form"
+              >
+                <v-row>
+                  <v-col>
+                    <v-text-field
+                      v-model="offerForm.paramObj.key"
+                      :label="$t('offer.key')"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                  <v-col>
+                    <v-text-field
+                      v-model="offerForm.paramObj.value"
+                      :label="$t('offer.value')"
+                      outlined
+                      dense
+                    />
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-container>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="success"
+                @click="saveParam"
+              >
+                {{ $t('buttons.submit') }}
+              </v-btn>
+              <v-btn
+                color="warning"
+                @click="closeCreateParamDialog"
+              >
+                {{ $t('buttons.cancel') }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+          <v-data-table
+            item-key="username"
+            sort-by="username"
+            :items="params"
+            :headers="headersParam"
+            class="fullScreen"
+            :loading="loading"
+            dense
+            :footer-props="{
+              'items-per-page-options': [10, 20, 30, 40, 50]
+            }"
+            :items-per-page.sync="paramObject.paginate.length"
+            :page.sync="paramObject.paginate.page"
+            :server-items-length="totalNumberOfItems"
+            @update:page="searchParams (paramObject)"
+            @update:items-per-page="searchParams (paramObject)"
+          />
+        </v-dialog>
 
         <!-- dialog delete user -->
         <!-- dialog delete user -->
@@ -1058,6 +1059,12 @@ export default {
       /*  if (this.isShowTitleOfEditDialog) {
           this.isShowTitleOfEditDialog = false
         } */
+    },
+    showCreateDialog () {
+      this.createDialog = true
+    },
+    closeCreateDialog () {
+      this.createDialog = false
     },
     validate () {
       console.log('validate')
