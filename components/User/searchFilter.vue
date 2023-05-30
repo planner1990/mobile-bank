@@ -121,15 +121,11 @@ const defaultSearchModel = {
       direction: 'desc'
     }
   }
-
 }
 
 export default {
   name: 'SearchFilterComponent',
   components: {
-    /*   ProvinceSelector,
-    CitySelector,
-    BranchSelector */
   },
   props: {
     value: Object(defaultSearchModel)
@@ -140,7 +136,6 @@ export default {
       status: userManager.userStatus,
       loading: false,
       request: defaultSearchModel
-
     }
   },
   computed: {
@@ -161,6 +156,9 @@ export default {
         return this.request.locationFilter.cityCode
       }
     }
+  },
+  mounted: function () {
+    this.search()
   },
   methods: {
     search () {

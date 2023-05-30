@@ -325,8 +325,6 @@ export default {
   name: 'TransactionReportFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
-
-    // OperationSelector
   },
 
   props: {
@@ -366,6 +364,7 @@ export default {
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
     this.errorList()
+    this.search()
   },
   methods: {
     search () {

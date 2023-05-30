@@ -137,7 +137,6 @@ const defaultSearchModel = {
       direction: 'desc'
     }
   }
-
 }
 
 export default {
@@ -152,13 +151,13 @@ export default {
     return {
       loadingBtn: false,
       seen: false,
+      downloadLoading: false,
       fromDate: this.currentDayFrom(),
       toDate: this.currentDayTo(),
       roles: userManager.userRoles,
       customerType: userManager.customerType,
       status: userManager.userStatus,
       loading: false,
-      downloadLoading: false,
       request: defaultSearchModel
     }
   },
@@ -166,6 +165,7 @@ export default {
     defaultSearchModel.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
     defaultSearchModel.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
     this.filter = Object.assign(this.value, defaultSearchModel)
+    this.search()
   },
   methods: {
     search () {

@@ -335,8 +335,8 @@ export default {
     return {
       loadingBtn: false,
       seen: false,
-      createDialog: false,
       downloadLoading: false,
+      createDialog: false,
       fromDate: this.currentDayFrom(),
       fromTime: this.currentTimeFrom(),
       toTime: this.currentTimeTo(),

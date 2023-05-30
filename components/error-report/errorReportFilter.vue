@@ -138,7 +138,7 @@ export default {
     return {
       loadingBtn: false,
       seen: false,
-      fromDate: this.currentDayFrom(),
+      fromDate: this.yesterdayDayFrom(),
       toDate: this.currentDayTo(),
       filter: defaultFilter,
       status: reportManager.status,
@@ -158,6 +158,7 @@ export default {
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
     this.errorList()
+    this.search()
   },
   methods: {
     search () {
@@ -277,6 +278,15 @@ export default {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
+      return year + '/' + month + '/' + day
+    },
+    yesterdayDayFrom: function () {
+      const today = new Date()
+      const yesterday = new Date(); yesterday.setDate(today.getDate() - 14)
+
+      const year = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+      const month = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      const day = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
       return year + '/' + month + '/' + day
     }
   }

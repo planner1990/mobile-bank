@@ -1,21 +1,13 @@
 <template>
-  <v-container
-    tag="section"
-    fluid
-  >
-    <v-col>
-      <v-row
-        justify="center"
-      >
-        <refundStatisticsFilter v-model="searchModel" @search="search" @confirm="confirm" />
-      </v-row>
-      <br>
-      <br>
-      <br>
-      <br>
-      <v-row
-        justify="center"
-      >
+  <v-container tag="section" fluid>
+    <v-row>
+      <!-- filter -->
+      <v-col cols="12" style="padding: 8px !important;">
+        <refundStatisticsFilter ref="refundStatisticsRef" v-model="searchModel" @search="search" @confirm="confirm" />
+      </v-col>
+
+      <!-- grid -->
+      <v-col cols="12" style="padding: 8px !important;">
         <v-data-table
           dense
           :footer-props="{
@@ -28,20 +20,16 @@
           :items-per-page.sync="searchModel.paginate.length"
           :server-items-length="totalNumberOfItems"
         >
-          <template #top />
           <template #[`item.date`]="{ item }">
             {{ item.date }}
           </template>
           <template #[`item.state`]="{ item }">
             <template v-if="item.state !== null" class="justify-center">
-              <v-chip
-                style="font-size: 13px !important;"
-                :color="getColorState(item.state)"
-                label
-                class="v-chip1 justify-center"
+              <span
+                :style="'font-size: 13px !important;color:' + getColorState(item.state) + ' !important;'"
               >
                 {{ $t('report.refundReport.refundTypeNum.' + item.state) }}
-              </v-chip>
+              </span>
             </template>
           </template>
           <template #[`item.number`]="{ item }">
@@ -50,9 +38,25 @@
           <template #[`item.sum`]="{ item }">
             {{ priceFormat(item.sum) }}
           </template>
+
+          <!-- Add btn to Footer page -->
+          <!-- Add btn to Footer page -->
+          <!-- Add btn to Footer page -->
+          <template #footer>
+            <v-btn
+              :loading="downloadLoading"
+              :disabled="downloadLoading"
+              style="top: 50px;width: 366px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              @click="confirm()"
+            >
+              <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
+                {{ $t('buttons.confirmRefundStatistics') }}
+              </span>
+            </v-btn>
+          </template>
         </v-data-table>
-      </v-row>
-    </v-col>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -77,6 +81,7 @@ export default {
       },
       totalNumberOfItems: 0,
       loading: false,
+      downloadLoading: false,
       headers: [
         { text: this.$t('refundStatistics.date'), value: 'date', sortable: false },
         { text: this.$t('refundStatistics.state'), value: 'state', sortable: false },
@@ -163,13 +168,13 @@ export default {
     },
     getColorState (state) {
       if (state === 0) {
-        return '#ffff00'
+        return '#444429'
       } else if (state === 1) {
         return 'success'
       } else if (state === 4) {
-        return '#EEE8AA'
+        return '#1a1a12'
       } else if (state === 5) {
-        return '#66CDAA'
+        return '#082f22'
       } else if (state === 3) {
         return '#ff9933'
       } else if (state === 6) {

@@ -86,12 +86,6 @@ export default {
   components: {
     PDatePicker: VuePersianDatetimePicker
   },
-  mounted: function () {
-    // defaultSearchModel.persianDate = this.convertJalaliDateToTimestamp(this.fromMonth, this.fromYear)
-    console.log(this.currentYear() + this.currentMonth())
-    defaultSearchModel.persianDate = this.currentYear() + '/' + this.currentMonth()
-    this.filter = Object.assign(this.value, defaultSearchModel)
-  },
   props: {
     value: Object(defaultSearchModel)
   },
@@ -107,6 +101,13 @@ export default {
       downloadLoading: false,
       request: defaultSearchModel
     }
+  },
+  mounted: function () {
+    // defaultSearchModel.persianDate = this.convertJalaliDateToTimestamp(this.fromMonth, this.fromYear)
+    console.log(this.currentYear() + this.currentMonth())
+    defaultSearchModel.persianDate = this.currentYear() + '/' + this.currentMonth()
+    this.filter = Object.assign(this.value, defaultSearchModel)
+    this.search()
   },
   methods: {
     search () {

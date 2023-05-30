@@ -106,7 +106,6 @@ export default {
   name: 'OfferFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
-    // OperationSelector
   },
   props: {
     value: Object({})
@@ -116,7 +115,7 @@ export default {
       loadingBtn: false,
       loadingBtnNewSuggest: false,
       seen: false,
-      from: this.currentDayFrom(),
+      from: this.yesterdayDayFrom(),
       to: this.currentDayTo(),
       time: null,
       menu2: false,
@@ -136,6 +135,7 @@ export default {
     defaultFilter.dateFrom = this.convertJalaliDateToTimestamp(this.from)
     defaultFilter.dateTo = this.convertJalaliDateToTimestamp(this.to)
     this.filter = Object.assign(this.value, defaultFilter)
+    this.search()
   },
   methods: {
     ...mapMutations({
@@ -174,6 +174,15 @@ export default {
       // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
 
       return '23:59 ' + year + '/' + month + '/' + day
+    },
+    yesterdayDayFrom: function () {
+      const today = new Date()
+      const yesterday = new Date(); yesterday.setDate(today.getDate() - 14)
+
+      const year = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+      const month = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      const day = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
+      return '00:00 ' + year + '/' + month + '/' + day
     },
     convertJalaliDateToTimestamp (date) {
       const year = moment(date, 'HH:mm jYYYY/jMM/jDD').format('YYYY')

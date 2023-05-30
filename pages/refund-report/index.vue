@@ -1,19 +1,13 @@
 <template>
-  <v-container
-    tag="section"
-    fluid
-  >
-    <v-col>
-      <v-row
-        justify="center"
-      >
+  <v-container tag="section" fluid>
+    <v-row>
+      <!-- filter -->
+      <v-col cols="12" style="padding: 8px !important;">
         <refundReportFilter v-model="searchModel" @search="search" @refund="createRefundAcceptDialog()" @confirmRefund="createRefundConfirmDialog()" />
-      </v-row>
-      <br>
-      <br>
-      <v-row
-        justify="center"
-      >
+      </v-col>
+
+      <!-- grid -->
+      <v-col cols="12" style="padding: 8px !important;">
         <v-data-table
           dense
           item-key="cardOwnerId"
@@ -33,6 +27,120 @@
           @update:items-per-page="search(searchModel)"
           @dblclick:row="handleDbClick"
         >
+          <!-- table column -->
+          <template #[`item.transactionTime`]="{ item }">
+            {{ convertToJalali(item.transactionTime) }}
+          </template>
+          <!-- table column -->
+          <template #[`item.createdTime`]="{ item }">
+            {{ convertToJalali(item.createdTime) }}
+          </template>
+          <!-- table column -->
+          <template #[`item.refundOrFailTime`]="{ item }">
+            {{ convertToJalali(item.refundOrFailTime) }}
+          </template>
+          <!-- table column -->
+          <template #[`item.state`]="{ item }">
+            {{ $t('report.refundReport.refundTypeNum.' + item.state) }}
+          </template>
+          <!-- table column -->
+          <template #[`item.url`]="{ item }">
+            {{ $t('report.refundReport.refundUrlType.' + item.url) }}
+          </template>
+          <!-- table column -->
+          <template #[`item.amount`]="{ item }">
+            {{ priceFormat(item.amount) }}
+          </template>
+          <!-- table column -->
+          <template #item.errorCode="{ item }">
+            <template v-if="item.errorCode !== null">
+              <v-chip
+                :color="getColor(item.errorCode)"
+                label
+                class="v-chip.v-size--default justify-center"
+              >
+                {{ item.errorCode }}
+              </v-chip>
+            </template>
+          </template>
+          <!-- table column -->
+          <template #item.state="{ item }" class="justify-center">
+            <template v-if="item.state !== null" class="justify-center">
+              <v-chip
+                :color="getColorState(item.state)"
+                label
+                class="v-chip1 justify-center"
+              >
+                {{ $t('report.refundReport.refundTypeNum.' + item.state) }}
+              </v-chip>
+            </template>
+          </template>
+
+          <!-- details -->
+          <!-- details -->
+          <!-- details -->
+          <template #[`item.detail`]="{ item }">
+            <v-btn
+              small
+              elevation="0"
+              style="color: #84BD00;border-radius: 8px;height: 36px;font-weight: bold;width: 80px;"
+              color="rgba(132, 189, 0, 0.1)"
+              @click="editItem(item)"
+            >
+              {{ $t('global.review') }}
+            </v-btn>
+          </template>
+
+          <!-- Add btn to Footer page -->
+          <!-- Add btn to Footer page -->
+          <!-- Add btn to Footer page -->
+          <template #footer>
+            <v-btn
+              :loading="downloadLoading"
+              :disabled="downloadLoading"
+              style="top: 50px;width: 146px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              @click="downloadReports()"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.0013 7.33334V11.3333M6.0013 11.3333L7.33464 10M6.0013 11.3333L4.66797 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M14.6654 6.66668V10C14.6654 13.3333 13.332 14.6667 9.9987 14.6667H5.9987C2.66536 14.6667 1.33203 13.3333 1.33203 10V6.00001C1.33203 2.66668 2.66536 1.33334 5.9987 1.33334H9.33203" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M14.6654 6.66668H11.9987C9.9987 6.66668 9.33203 6.00001 9.33203 4.00001V1.33334L14.6654 6.66668Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+
+              <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
+                {{ $t('report.download') }}
+              </span>
+            </v-btn>
+            <!-- تایید بازگشت وجه گروهی btn -->
+            <!-- تایید بازگشت وجه گروهی btn -->
+            <!-- تایید بازگشت وجه گروهی btn -->
+            <v-btn
+              :loading="downloadLoading"
+              :disabled="downloadLoading"
+              style="top: 50px;width: 196px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              @click="downloadReports()"
+            >
+              <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
+                {{ $t('report.refundReport.refundList') }}
+              </span>
+            </v-btn>
+            <!-- btn بازگشت وجه گروهی -->
+            <!-- btn بازگشت وجه گروهی -->
+            <!-- btn بازگشت وجه گروهی -->
+            <v-btn
+              :loading="downloadLoading"
+              :disabled="downloadLoading"
+              style="top: 50px;width: 156px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              @click="downloadReports()"
+            >
+              <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
+                {{ $t('report.refundReport.refundConfirmList') }}
+              </span>
+            </v-btn>
+          </template>
+
+          <!-- 5 dialog -->
+          <!-- 5 dialog -->
           <!-- 5 dialog -->
           <template #top class="v-data-footer">
             <!-- dialog -->
@@ -135,7 +243,6 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-
             <!-- dialog تعیین وضعیت -->
             <v-dialog
               v-model="refundDialog"
@@ -199,7 +306,6 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-
             <!-- dialog -->
             <v-dialog
               v-model="refundErrorDialog"
@@ -253,7 +359,6 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-
             <!-- dialog -->
             <v-dialog
               v-model="refundAcceptDialog"
@@ -285,7 +390,6 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-
             <!-- dialog -->
             <v-dialog
               v-model="refundConfirmationDialog"
@@ -318,70 +422,9 @@
               </v-card>
             </v-dialog>
           </template>
-
-          <!-- table column -->
-          <template #[`item.transactionTime`]="{ item }">
-            {{ convertToJalali(item.transactionTime) }}
-          </template>
-          <!-- table column -->
-          <template #[`item.createdTime`]="{ item }">
-            {{ convertToJalali(item.createdTime) }}
-          </template>
-          <!-- table column -->
-          <template #[`item.refundOrFailTime`]="{ item }">
-            {{ convertToJalali(item.refundOrFailTime) }}
-          </template>
-          <!-- table column -->
-          <template #[`item.state`]="{ item }">
-            {{ $t('report.refundReport.refundTypeNum.' + item.state) }}
-          </template>
-          <!-- table column -->
-          <template #[`item.url`]="{ item }">
-            {{ $t('report.refundReport.refundUrlType.' + item.url) }}
-          </template>
-          <!-- table column -->
-          <template #[`item.amount`]="{ item }">
-            {{ priceFormat(item.amount) }}
-          </template>
-          <!-- table column -->
-          <template #item.errorCode="{ item }">
-            <template v-if="item.errorCode !== null">
-              <v-chip
-                :color="getColor(item.errorCode)"
-                label
-                class="v-chip.v-size--default justify-center"
-              >
-                {{ item.errorCode }}
-              </v-chip>
-            </template>
-          </template>
-
-          <!-- table column -->
-          <template #item.state="{ item }" class="justify-center">
-            <template v-if="item.state !== null" class="justify-center">
-              <v-chip
-                :color="getColorState(item.state)"
-                label
-                class="v-chip1 justify-center"
-              >
-                {{ $t('report.refundReport.refundTypeNum.' + item.state) }}
-              </v-chip>
-            </template>
-          </template>
-
-          <!-- table column -->
-          <template #[`item.detail`]="{ item }">
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(item)"
-            >
-              mdi-eye
-            </v-icon>
-          </template>
         </v-data-table>
-      </v-row>
-    </v-col>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

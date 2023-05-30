@@ -244,7 +244,6 @@ export default {
   name: 'ChargeReportFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
-    // OperationSelector
   },
   props: {
     value: Object({})
@@ -270,15 +269,11 @@ export default {
       items: []
     }
   },
-  // computed: {
-  //   computedOperation: function () {
-  //     return this.filter.transactionListFilter.operation
-  //   }
-  // },
   mounted: function () {
     defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
     defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
     this.filter = Object.assign(this.value, defaultFilter)
+    this.search()
   },
   methods: {
     ...mapMutations({

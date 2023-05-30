@@ -112,16 +112,6 @@ export default {
   components: {
     PDatePicker: VuePersianDatetimePicker
   },
-  mounted: function () {
-    console.log('mounted function' + this.selected)
-    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
-    // defaultFilter.transactionChartDto.duration = this.duration
-
-    this.filter = Object.assign(this.value, defaultFilter)
-    // console.log('mounted operation' + this.operation())
-    // this.operation()
-  },
   props: {
     value: Object({})
   },
@@ -142,8 +132,18 @@ export default {
       operationType: {
         operationType: 'LIST'
       }
-
     }
+  },
+  mounted: function () {
+    console.log('mounted function' + this.selected)
+    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    // defaultFilter.transactionChartDto.duration = this.duration
+
+    this.filter = Object.assign(this.value, defaultFilter)
+    // console.log('mounted operation' + this.operation())
+    // this.operation()
+    this.search()
   },
   methods: {
     search () {
