@@ -11,6 +11,14 @@
     class="fullScreen"
     :loading="loading"
   >
+    <template #[`item.operationTitle`]="{ item }">
+      <div v-if="item.operationTitle">
+        {{ item.operationTitle }}
+      </div>
+      <div v-else style="color: #f1b0b0">
+        {{ 'تعیین نشده' }}
+      </div>
+    </template>
     <template #[`item.successfulAmount`]="{ item }">
       {{ priceFormat(item.successfulAmount) }}
     </template>

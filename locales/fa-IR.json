@@ -1,6 +1,6 @@
 {
   "projectName": "پنل موبایل بانک",
-  "version": "نسخه 6-14020309",
+  "version": "نسخه 2-14020316",
   "company": "عصر دانش‌ افزار",
   "clearText": "پاک کن",
   "error": {
@@ -462,7 +462,9 @@
       "UNIVERSAL": "دسترسی کشوری",
       "PROVINCE": "دسترسی استانی",
       "CITY": "دسترسی شهر",
-      "BRANCH": "دسترسی شعبه"
+      "BRANCH": "دسترسی شعبه",
+      "EXPORT_OPENED_DEPOSIT_FILE": "خروجی فایل افتتاح حساب",
+      "UPDATE_STATUS": "بروزرسانی وضعیت"
     },
     "province": "استان",
     "city": "شهر",

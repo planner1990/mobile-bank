@@ -104,15 +104,16 @@
                   multiple
                   @click="editItem()"
                 >
-                  <template>
-                    <v-chip v-if=" items1.length === 1">
+                  <template #selection="{ item, index }">
+                    <span v-if="index === 0" style="font-size: 14px;">
                       <span>{{ item[0] }}</span>
-                    </v-chip>
+                    </span>
                     <span
-                      v-else
-                      class="grey--text text-caption"
+                      v-if="index === 1"
+                      class="blue--text text-caption"
+                      style="margin-right: 10px"
                     >
-                      (+{{ items1.length - 1 }} others)
+                      (+{{ items1.length - 1 }} مورد)
                     </span>
                   </template>
                 </v-select>
@@ -128,7 +129,26 @@
                   dense
                   clearable
                   outlined
-                />
+                >
+                  <template #append>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19.9201 8.95L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.95"
+                        stroke="#84BD00"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </template>
+                </v-select>
               </v-col>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-select
@@ -141,7 +161,26 @@
                   dense
                   clearable
                   outlined
-                />
+                >
+                  <template #append>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19.9201 8.95L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.95"
+                        stroke="#84BD00"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </template>
+                </v-select>
               </v-col>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="direction:ltr">
                 <div class="row" style="margin-top: -1px">
@@ -219,7 +258,26 @@
                   dense
                   clearable
                   outlined
-                />
+                >
+                  <template #append>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19.9201 8.95L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.95"
+                        stroke="#84BD00"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </template>
+                </v-select>
               </v-col>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-text-field
@@ -274,7 +332,26 @@
                   dense
                   clearable
                   outlined
-                />
+                >
+                  <template #append>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19.9201 8.95L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.95"
+                        stroke="#84BD00"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </template>
+                </v-select>
               </v-col>
             </v-row>
           </div>

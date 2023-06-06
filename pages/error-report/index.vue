@@ -100,7 +100,7 @@ export default {
       headers: [
         { text: this.$t('report.errorReport.headers.operationName'), value: 'operation', sortable: false, align: 'center' },
         { text: this.$t('report.errorReport.headers.count'), value: 'count', sortable: false, align: 'center' },
-        { text: this.$t('report.errorReport.headers.errorTextPersian'), value: 'errorTextPersian', sortable: false, align: 'center', width: '40%' },
+        { text: this.$t('report.errorReport.headers.errorTextPersian'), value: 'errorTextPersian', sortable: false, align: 'center', width: '35%' },
         { text: this.$t('report.errorReport.headers.errorName'), value: 'errorName', sortable: false, align: 'center' },
         { text: this.$t('report.errorReport.headers.errorType'), value: 'errorType', sortable: false, align: 'center' },
         { text: this.$t('report.errorReport.headers.errorCode'), value: 'responseCode', sortable: false, align: 'center' }

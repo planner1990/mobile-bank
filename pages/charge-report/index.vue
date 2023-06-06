@@ -37,17 +37,27 @@
           <template #[`item.operator`]="{ item }">
             {{ $t('report.chargeReport.operatorType.' + item.operator) }}
           </template>
-          <template #item.errorCode="{ item }">
-            <template v-if="item.errorCode !== null">
-              <v-chip
-                :color="getColor(item.errorCode)"
-                class="v-chip.v-size--default justify-center"
-                label
-              >
-                {{ item.errorCode }}
-              </v-chip>
-            </template>
+
+          <!--          <template #item.errorCode="{ item }">-->
+          <!--            <template v-if="item.errorCode !== null">-->
+          <!--              <v-chip-->
+          <!--                :color="getColor(item.errorCode)"-->
+          <!--                class="v-chip.v-size&#45;&#45;default justify-center"-->
+          <!--                label-->
+          <!--              >-->
+          <!--                {{ item.errorCode }}-->
+          <!--              </v-chip>-->
+          <!--            </template>-->
+          <!--          </template>-->
+          <template #[`item.errorCode`]="{ item }">
+            <div v-if="item.errorCode || item.errorCode === 0" class="chip" :style="'color: ' + getColor(item.errorCode)">
+              {{ item.errorCode }}
+            </div>
+            <div v-else class="chip" :style="'color: ' + getColor(null)">
+              {{ 'تعیین نشده' }}
+            </div>
           </template>
+
           <template #[`item.detail`]="{ item }">
             <v-icon
               small
@@ -144,9 +154,11 @@ export default {
     }),
     getColor (status) {
       if (status >= 200 && status <= 299) {
-        return 'success'
-      } else if (status !== null) {
-        return 'red'
+        return '#84BD00'
+      } if (status === null) {
+        return '#f1b0b0'
+      } else {
+        return '#444444'
       }
     },
     priceFormat (amount) {

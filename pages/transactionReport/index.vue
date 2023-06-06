@@ -50,6 +50,16 @@
               {{ 'تعیین نشده' }}
             </div>
           </template>
+
+          <template #[`item.operation`]="{ item }">
+            <div v-if="item.operation">
+              {{ item.operation }}
+            </div>
+            <div v-else style="color: #f1b0b0">
+              {{ 'تعیین نشده' }}
+            </div>
+          </template>
+
           <template #[`item.mobileNumber`]="{ item }">
             <div v-if="item.mobileNumber">
               {{ item.mobileNumber }}
@@ -154,7 +164,7 @@
                 <!-- row database -->
                 <v-row>
                   <v-data-table
-                    height="20px"
+                    id="detailsTableShowDialog"
                     dense
                     item-key="cardOwnerId"
                     sort-by="cardOwnerId"
@@ -183,8 +193,8 @@
                         <v-spacer />
                       </v-toolbar>
                       <v-card-text dir="ltr" class="text-center">
-                        <div align="justify" style="width:450px;overflow:auto">
-                          <vue-json-pretty :data="requestJson" />
+                        <div style="width:450px;overflow:auto">
+                          <vue-json-pretty :data="requestJson" show-line-number="true" show-double-quotes="true" />
                         </div>
                       </v-card-text>
                     </v-card>
@@ -209,8 +219,8 @@
                           <v-spacer />
                         </v-toolbar>
                         <v-card-text dir="ltr">
-                          <div align="justify" style="width:450px;overflow:auto">
-                            <vue-json-pretty :data="responseJson" />
+                          <div style="width:450px;overflow:auto">
+                            <vue-json-pretty :data="responseJson" show-line-number="true" show-double-quotes="true" />
                           </div>
                         </v-card-text>
                       </v-card>
@@ -667,5 +677,9 @@ export default {
     text-overflow: ellipsis;
     width:30px;
 
+  }
+
+  /deep/ #detailsTableShowDialog > .v-data-table__wrapper {
+    min-height: 110px !important;
   }
 </style>
