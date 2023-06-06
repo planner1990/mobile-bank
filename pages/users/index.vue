@@ -59,54 +59,15 @@
           <!-- گزینه ویرایش و حذف و ... -->
           <!-- گزینه ویرایش و حذف و ... -->
           <template #[`item.actions`]="{ item }">
-            <center>
-              <v-tooltip top>
-                <template #activator="{ on, attrs }">
-                  <v-btn
-                    small
-                    v-bind="attrs"
-                    style="background: rgba(132, 189, 0, 0.1);border-radius: 8px;height: 40px;width:40px;box-shadow: unset;min-width: 5px !important;"
-                    color="#84BD00"
-                    @click="editItem(item)"
-                    v-on="on"
-                  >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M12 12C13.3261 12 14.5979 11.4732 15.5355 10.5355C16.4732 9.59785 17 8.32608 17 7C17 5.67392 16.4732 4.40215 15.5355 3.46447C14.5979 2.52678 13.3261 2 12 2C10.6739 2 9.40215 2.52678 8.46447 3.46447C7.52678 4.40215 7 5.67392 7 7C7 8.32608 7.52678 9.59785 8.46447 10.5355C9.40215 11.4732 10.6739 12 12 12Z"
-                        stroke="#84BD00"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M19.2091 15.74L15.6691 19.28C15.5291 19.42 15.3991 19.68 15.3691 19.87L15.1791 21.22C15.1091 21.71 15.4491 22.05 15.9391 21.98L17.2891 21.79C17.4791 21.76 17.7491 21.63 17.8791 21.49L21.4191 17.95C22.0291 17.34 22.3191 16.63 21.4191 15.73C20.5291 14.84 19.8191 15.13 19.2091 15.74Z"
-                        stroke="#84BD00"
-                        stroke-width="1.5"
-                        stroke-miterlimit="10"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M18.6992 16.25C18.9992 17.33 19.8392 18.17 20.9192 18.47"
-                        stroke="#84BD00"
-                        stroke-width="1.5"
-                        stroke-miterlimit="10"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M3.41016 22C3.41016 18.13 7.26016 15 12.0002 15C13.0402 15 14.0402 15.15 14.9702 15.43"
-                        stroke="#84BD00"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </v-btn>
-                </template>
-                <span>ویرایش کاربر</span>
-              </v-tooltip>
-            </center>
+            <v-btn
+              small
+              elevation="0"
+              style="color: #84BD00;border-radius: 8px;height: 36px;font-weight: bold;width: 80px;"
+              color="rgba(132, 189, 0, 0.1)"
+              @click="editItem(item)"
+            >
+              {{ 'ویرایش' }}
+            </v-btn>
           </template>
 
           <!-- گزینه کاربر جدید + دیالوگ باکس کاربر جدید -->
@@ -126,7 +87,7 @@
                   class="mb-2"
                   v-bind="attrs"
                   small
-                  style="background: #FB8500;border-radius: 8px;font-size: 14px !important;height: 36px;position: absolute;left: 5%;margin-top: 9px;"
+                  style="background: #FB8500;border-radius: 8px;font-size: 14px !important;height: 36px;position: absolute;left: 2%;margin-top: 9px;"
                   v-on="on"
                 >
                   کاربر جدید
@@ -428,8 +389,8 @@ export default {
         { text: this.$t('user.username'), value: 'username', sortable: false, align: 'center', width: '30%' },
         { text: this.$t('user.role'), value: 'role', sortable: false, align: 'right', width: '20%' },
         { text: this.$t('user.permission'), value: 'permissions', align: 'right', width: '20%' },
-        { text: this.$t('user.statusHeader'), value: 'status', sortable: false, width: '10%' },
-        { text: '', value: 'actions', sortable: false, align: 'center', width: '20%' }
+        { text: this.$t('user.statusHeader'), value: 'status', sortable: false, width: '20%' },
+        { text: '', value: 'actions', sortable: false, align: 'center', width: '15%' }
       ],
       users: []
     }

@@ -62,6 +62,14 @@
               {{ 'تعیین نشده' }}
             </div>
           </template>
+          <template #[`item.url`]="{ item }">
+            <div v-if="item.url">
+              {{ item.url }}
+            </div>
+            <div v-else style="color: #f1b0b0">
+              {{ 'تعیین نشده' }}
+            </div>
+          </template>
 
           <template #[`item.addParams`]="{ item }">
             <v-tooltip top>

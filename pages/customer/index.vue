@@ -40,6 +40,22 @@
               </v-col>
             </v-row>
           </template>
+          <template #[`item.cif`]="{ item }">
+            <div v-if="item.cif">
+              {{ item.cif }}
+            </div>
+            <div v-else style="color: #f1b0b0">
+              {{ 'تعیین نشده' }}
+            </div>
+          </template>
+          <template #[`item.cardOrDeposit`]="{ item }">
+            <div v-if="item.cardOrDeposit">
+              {{ item.cardOrDeposit }}
+            </div>
+            <div v-else style="color: #f1b0b0">
+              {{ 'تعیین نشده' }}
+            </div>
+          </template>
 
           <!-- Add btn to Footer page -->
           <!-- Add btn to Footer page -->
@@ -162,8 +178,7 @@ export default {
         { text: this.$t('customer.cif'), value: 'cif' },
         { text: this.$t('customer.name'), value: 'fullName' },
         { text: this.$t('customer.headers.depositOrCard'), value: 'cardOrDeposit' },
-        { text: this.$t('customer.headers.registerDate'), value: 'registerDate' },
-        { text: '', value: 'actions', sortable: false, align: 'center' }
+        { text: this.$t('customer.headers.registerDate'), value: 'registerDate' }
 
       ],
       users: [],

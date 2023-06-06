@@ -26,6 +26,39 @@
     <template #[`item.coIncomeShareAmount`]="{ item }">
       {{ priceFormat(item.coIncomeShareAmount) }}
     </template>
+
+    <template #[`item.operator`]="{ item }">
+      <div v-if="item.operator">
+        {{ item.operator }}
+      </div>
+      <div v-else style="color: #f1b0b0">
+        {{ 'تعیین نشده' }}
+      </div>
+    </template>
+    <template #[`item.amount`]="{ item }">
+      <div v-if="item.amount">
+        {{ item.amount }}
+      </div>
+      <div v-else style="color: #f1b0b0">
+        {{ 'تعیین نشده' }}
+      </div>
+    </template>
+    <template #[`item.incomePercent`]="{ item }">
+      <div v-if="item.incomePercent">
+        {{ item.incomePercent }}
+      </div>
+      <div v-else style="color: #f1b0b0">
+        {{ 'تعیین نشده' }}
+      </div>
+    </template>
+    <template #[`item.coSharePercent`]="{ item }">
+      <div v-if="item.coSharePercent">
+        {{ item.coSharePercent }}
+      </div>
+      <div v-else style="color: #f1b0b0">
+        {{ 'تعیین نشده' }}
+      </div>
+    </template>
   </v-data-table>
 </template>
 

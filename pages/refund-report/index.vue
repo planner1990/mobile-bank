@@ -68,12 +68,27 @@
             <template v-if="item.state !== null" class="justify-center">
               <v-chip
                 :color="getColorState(item.state)"
-                label
                 class="v-chip1 justify-center"
               >
                 {{ $t('report.refundReport.refundTypeNum.' + item.state) }}
               </v-chip>
             </template>
+          </template>
+          <template #[`item.refundOrFailTime`]="{ item }">
+            <div v-if="item.refundOrFailTime">
+              {{ item.refundOrFailTime }}
+            </div>
+            <div v-else style="color: #f1b0b0">
+              {{ 'تعیین نشده' }}
+            </div>
+          </template>
+          <template #[`item.errorCode`]="{ item }">
+            <div v-if="item.errorCode">
+              {{ item.errorCode }}
+            </div>
+            <div v-else style="color: #f1b0b0">
+              {{ 'تعیین نشده' }}
+            </div>
           </template>
 
           <!-- details -->
