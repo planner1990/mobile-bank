@@ -232,53 +232,69 @@
           </v-card>
         </v-dialog>
 
-        <!-- Dialog show selector for operation select -->
-        <!-- Dialog show selector for operation select -->
-        <!-- Dialog show selector for operation select -->
+        <!-- Dialog show selector for operation select عملیات -->
+        <!-- Dialog show selector for operation select عملیات -->
+        <!-- Dialog show selector for operation select عملیات -->
         <v-dialog
           v-model="operationDialog"
-          width="1200"
+          width="1000"
           transition="dialog-bottom-transition"
         >
           <v-card
             :loading="loading"
           >
-            <v-card-title class="lightGreen light-green--text font-weight-bold headline">
+            <!-- title -->
+            <!-- title -->
+            <!-- title -->
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style="position: absolute;left: 20px; top: 18px;cursor: pointer"
+              @click="closeTransactionDetailsDialog()"
+            >
+              <g clip-path="url(#clip0_401_143)">
+                <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+              </g>
+              <defs>
+                <clipPath id="clip0_401_143">
+                  <rect width="24" height="24" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            <v-card-title class=" black--text font-weight-bold headline" style="border-bottom: 0 solid #D8D8D8;">
               <v-row no-gutters>
-                <v-col cols="10">
-                  {{ $t('report.transactionReport.operationSelect') }}
-                </v-col>
-                <v-col>
-                  <v-btn
-                    color="success"
-                    class="mr-10"
-                    @click="okOperationDialog"
+                <v-col cols="8">
+                  <v-text-field
+                    v-model="searchOperation"
+                    outlined
+                    dense
+                    placeholder="جستجو"
+                    class="mb-6 text-field"
                   >
-                    {{ $t('buttons.submit') }}
-                  </v-btn>
-                </v-col>
-                <v-col />
-                <v-col>
-                  <v-btn
-                    color="warning"
-                    dark
-                    @click="closeTransactionDetailsDialog"
-                  >
-                    {{ $t('buttons.cancel') }}
-                  </v-btn>
+                    <template #append>
+                      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20.1654 20.1667L18.332 18.3334M10.5404 19.25C11.684 19.25 12.8164 19.0248 13.8729 18.5872C14.9294 18.1495 15.8894 17.5081 16.6981 16.6994C17.5067 15.8908 18.1482 14.9308 18.5858 13.8742C19.0235 12.8177 19.2487 11.6853 19.2487 10.5417C19.2487 9.39811 19.0235 8.26572 18.5858 7.20917C18.1482 6.15263 17.5067 5.19263 16.6981 4.38399C15.8894 3.57534 14.9294 2.93389 13.8729 2.49626C12.8164 2.05862 11.684 1.83337 10.5404 1.83337C8.23077 1.83337 6.01577 2.75086 4.38264 4.38399C2.74951 6.01712 1.83203 8.23211 1.83203 10.5417C1.83203 12.8513 2.74951 15.0663 4.38264 16.6994C6.01577 18.3326 8.23077 19.25 10.5404 19.25Z" stroke="#979797" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </template>
+                  </v-text-field>
                 </v-col>
               </v-row>
             </v-card-title>
+
             <v-container>
               <v-form
                 ref="form"
               >
-                <v-card height="600px" color="">
+                <v-card color="">
                   <v-row>
                     <v-tabs
                       v-model="tabsModel"
                       align-with-title
                       color="success"
+                      grow
                     >
                       <v-tab href="#depositOperation" class="font-weight-black">
                         {{ $t('report.transactionReport.headers.depositOperation') }}
@@ -346,6 +362,17 @@
                     </v-tabs>
                   </v-row>
                 </v-card>
+                <v-row>
+                  <v-col style="direction: ltr;">
+                    <v-btn
+                      color="success"
+                      style="width: 160px;height: 48px;background: #84BD00;border-radius: 12px;font-size: 18px;line-height: 20px;color: #FFFFFF;font-style: normal;font-weight: 500;"
+                      @click="okOperationDialog"
+                    >
+                      {{ 'انتخاب عملیات' }}
+                    </v-btn>
+                  </v-col>
+                </v-row>
               </v-form>
             </v-container>
           </v-card>
@@ -486,7 +513,8 @@ export default {
       onlineDepositList: [],
       otherList: [],
       operationList: [],
-      listType: 'LIST'
+      listType: 'LIST',
+      searchOperation: ''
     }
   },
   computed: {
@@ -601,6 +629,7 @@ export default {
         this.userOperationList
       )
       this.operationDialog = false
+      console.log('pages/transactionReport/index.vue okOperationDialog', JSON.stringify(this.operationList))
     },
     search (searchModel) {
       this.loading = true
@@ -681,5 +710,26 @@ export default {
 
   /deep/ #detailsTableShowDialog > .v-data-table__wrapper {
     min-height: 110px !important;
+  }
+
+  /deep/ .v-tabs-bar.v-item-group > * {
+    border-bottom: 2px solid #D8D8D8 !important;
+  }
+  /deep/ .v-tabs-slider {
+    margin-top: -1px !important;
+  }
+  /deep/ .v-tabs-bar {
+    border-radius: inherit !important;
+    height: 68px !important;
+  }
+  /deep/ .v-tab::before {
+    border-radius: 10px 10px 0 0 !important;
+    top: 10px !important;
+  }
+  /deep/ .v-tab:before {
+    background-color: #e0e0e04d !important;
+  }
+  /deep/ .v-tab {
+    padding: 3px 3px !important;
   }
 </style>

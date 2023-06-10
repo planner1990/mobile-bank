@@ -247,7 +247,7 @@
                   item-value="value"
                   :item-text="(item)=>$t(item.text)"
                   :return-object="false"
-                  :label="$t('filters.refund')"
+                  :label="'وضعیت ' + $t('filters.refund')"
                   dense
                   clearable
                   outlined

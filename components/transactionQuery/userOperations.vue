@@ -2,29 +2,16 @@
   <v-container fluid>
     <v-layout row wrap>
       <v-container>
-        <v-flex xs12 md12 class="greyBorder blue-grey lighten-5">
-          <div class="mr-6 ml-6 whiteback userGroupHeight">
+        <v-flex xs12 md12 class="" style="height: 400px;overflow-y: auto;">
+          <div class="mr-6 ml-6">
             <v-layout row wrap>
-              <v-btn
-                class="mt-4 pa-3"
-                color="blue-grey lighten-3"
-                elevation="1"
-                rounded
-                small
-                @click="clearAllCheckBox()"
-              >
-                <v-icon left>
-                  mdi-delete
-                </v-icon>
-                {{ $t('clearText') }}
-              </v-btn>
-              <v-divider />
-              <v-flex v-for="(item,index) in items" :key="items[index].title" xs3>
+              <v-flex v-for="(item,index) in items" :key="items[index].title" xs4>
                 <v-checkbox
                   v-model="category.selected"
                   light
                   :label="checkValueBeforeShow(item.title, item)"
                   multiple
+                  style="margin: -5px 2px -1px -4px !important; padding: 1px !important;"
                   :value="item.url"
                   @change="checked(item)"
                 />
@@ -90,15 +77,17 @@ export default {
         return 0
       }
     },
+    // دریافت لیست عملیات ها
+    // دریافت لیست عملیات ها
+    // دریافت لیست عملیات ها
     operation () {
       console.log('response')
       reportManager.operationList(this.operationType, this.$axios).then((response) => {
         console.log(response)
         const operationList = response.data
-        const operationCardList = operationList.userOperation
-        const operationLastList = operationCardList
 
-        this.items = operationLastList
+        // userOperation
+        this.items = operationList.userOperation
       }).catch((error) => {
         if (error.response) {
           console.log(error.response)

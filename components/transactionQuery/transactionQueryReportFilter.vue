@@ -106,15 +106,34 @@
                 >
                   <template #selection="{ item, index }">
                     <span v-if="index === 0" style="font-size: 14px;">
-                      <span>{{ item[0] }}</span>
+                      <span>{{ $t(item.text) }}</span>
                     </span>
                     <span
                       v-if="index === 1"
                       class="blue--text text-caption"
                       style="margin-right: 10px"
                     >
-                      (+{{ items1.length - 1 }} مورد)
+                      (+{{ filter.transactionListFilter.operation.length - 1 }})
                     </span>
+                  </template>
+
+                  <template #append>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19.9201 8.95L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.95"
+                        stroke="#84BD00"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
                   </template>
                 </v-select>
               </v-col>
@@ -452,21 +471,29 @@ export default {
 
       this.createDialog = true
     },
+    // دریافت لیست عملیات ها
     operation () {
       this.loading = true
       reportManager.operationList(this.operationType, this.$axios).then((response) => {
         const operationList = response.data
+
         const operationCardList = operationList.cardOperation
         operationCardList.push({ divider: true })
+
         const operationDepositList = operationList.depositOperation
         operationDepositList.push({ divider: true })
+
         const operationUserList = operationList.userOperation
         operationUserList.push({ divider: true })
+
         const operationSettingList = operationList.settingOperation
         operationSettingList.push({ divider: true })
+
         const operationPublicList = operationList.publicOperation
         operationSettingList.push({ divider: true })
+
         const operationLastList = operationDepositList
+
         operationCardList.unshift({ divider: true })
         operationCardList.unshift({ header: 'عملیات کارت' })
         operationDepositList.unshift({ divider: true })
@@ -478,6 +505,7 @@ export default {
         operationSettingList.unshift({ header: 'عملیات تنظیمات' })
         operationPublicList.unshift({ divider: true })
         operationPublicList.unshift({ header: 'عملیات عمومی' })
+
         this.items = operationLastList.concat(operationCardList, operationUserList, operationSettingList, operationPublicList)
       }).catch((error) => {
         if (error.response) {

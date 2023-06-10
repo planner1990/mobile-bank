@@ -39,9 +39,9 @@
             {{ priceFormat(item.sum) }}
           </template>
 
-          <!-- Add btn to Footer page -->
-          <!-- Add btn to Footer page -->
-          <!-- Add btn to Footer page -->
+          <!-- Add btn to Footer page استعلام و تایید استرداد های بازه زمانی انتخاب شده -->
+          <!-- Add btn to Footer page استعلام و تایید استرداد های بازه زمانی انتخاب شده -->
+          <!-- Add btn to Footer page استعلام و تایید استرداد های بازه زمانی انتخاب شده -->
           <template #footer>
             <v-btn
               :loading="downloadLoading"
@@ -133,13 +133,16 @@ export default {
           this.loading = false
         })
     },
-    confirm (searchModel) {
-      refundStatisticsManager.confirm(searchModel, this.$axios).then(() => {
+    // استعلام و تایید استرداد های بازه زمانی انتخاب شده
+    confirm () {
+      this.downloadLoading = true
+      refundStatisticsManager.confirm(this.searchModel, this.$axios).then(() => {
         this.alert({
           color: 'success',
           content: 'messages.successful'
         })
-        this.search(searchModel)
+        this.search(this.searchModel)
+        this.downloadLoading = false
       }).catch((error) => {
         if (error.response) {
           this.alert({
@@ -153,9 +156,11 @@ export default {
           })
         }
         this.loading = false
+        this.downloadLoading = false
       })
         .finally(() => {
           this.loading = false
+          this.downloadLoading = false
         })
     },
     convertToJalali (date) {

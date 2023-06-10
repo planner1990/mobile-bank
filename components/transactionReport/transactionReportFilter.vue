@@ -112,15 +112,16 @@
                   multiple
                   @click="editItem()"
                 >
-                  <template>
-                    <v-chip v-if="items1.length === 1">
-                      <span>{{ item[0] }}</span>
-                    </v-chip>
+                  <template #selection="{ item, index }">
+                    <span v-if="index === 0" style="font-size: 14px;">
+                      <span>{{ $t(item.text) }}</span>
+                    </span>
                     <span
-                      v-else
-                      class="grey--text text-caption"
+                      v-if="index === 1"
+                      class="blue--text text-caption"
+                      style="margin-right: 10px"
                     >
-                      (+{{ items1.length - 1 }} others)
+                      (+{{ filter.transactionListFilter.operation - 1 }})
                     </span>
                   </template>
 
@@ -466,27 +467,33 @@ export default {
       this.$emit('search', this.filter)
     },
     editItem () {
-      console.log('item212112')
       this.$emit('edit', this.filter)
 
       this.createDialog = true
     },
+    // دریافت لیست عملیات ها
     operation () {
       this.loading = true
       reportManager.operationList(this.operationType, this.$axios).then((response) => {
-        console.log(response)
         const operationList = response.data
+
         const operationCardList = operationList.cardOperation
         operationCardList.push({ divider: true })
+
         const operationDepositList = operationList.depositOperation
         operationDepositList.push({ divider: true })
+
         const operationUserList = operationList.userOperation
         operationUserList.push({ divider: true })
+
         const operationSettingList = operationList.settingOperation
         operationSettingList.push({ divider: true })
+
         const operationPublicList = operationList.publicOperation
         operationSettingList.push({ divider: true })
+
         const operationLastList = operationDepositList
+
         operationCardList.unshift({ divider: true })
         operationCardList.unshift({ header: 'عملیات کارت' })
         operationDepositList.unshift({ divider: true })
@@ -498,6 +505,7 @@ export default {
         operationSettingList.unshift({ header: 'عملیات تنظیمات' })
         operationPublicList.unshift({ divider: true })
         operationPublicList.unshift({ header: 'عملیات عمومی' })
+
         this.items = operationLastList.concat(operationCardList, operationUserList, operationSettingList, operationPublicList)
       }).catch((error) => {
         if (error.response) {

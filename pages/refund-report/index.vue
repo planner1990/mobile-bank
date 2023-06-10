@@ -27,31 +27,30 @@
           @update:items-per-page="search(searchModel)"
           @dblclick:row="handleDbClick"
         >
-          <!-- table column -->
           <template #[`item.transactionTime`]="{ item }">
             {{ convertToJalali(item.transactionTime) }}
           </template>
-          <!-- table column -->
+
           <template #[`item.createdTime`]="{ item }">
             {{ convertToJalali(item.createdTime) }}
           </template>
-          <!-- table column -->
+
           <template #[`item.refundOrFailTime`]="{ item }">
             {{ convertToJalali(item.refundOrFailTime) }}
           </template>
-          <!-- table column -->
+
           <template #[`item.state`]="{ item }">
             {{ $t('report.refundReport.refundTypeNum.' + item.state) }}
           </template>
-          <!-- table column -->
+
           <template #[`item.url`]="{ item }">
             {{ $t('report.refundReport.refundUrlType.' + item.url) }}
           </template>
-          <!-- table column -->
+
           <template #[`item.amount`]="{ item }">
             {{ priceFormat(item.amount) }}
           </template>
-          <!-- table column -->
+
           <template #item.errorCode="{ item }">
             <template v-if="item.errorCode !== null">
               <v-chip
@@ -63,17 +62,19 @@
               </v-chip>
             </template>
           </template>
-          <!-- table column -->
+
+          <!-- state -->
           <template #item.state="{ item }" class="justify-center">
             <template v-if="item.state !== null" class="justify-center">
               <v-chip
                 :color="getColorState(item.state)"
-                class="v-chip1 justify-center"
+                class="justify-center"
               >
                 {{ $t('report.refundReport.refundTypeNum.' + item.state) }}
               </v-chip>
             </template>
           </template>
+
           <template #[`item.refundOrFailTime`]="{ item }">
             <div v-if="item.refundOrFailTime">
               {{ item.refundOrFailTime }}
@@ -130,10 +131,10 @@
             <!-- تایید بازگشت وجه گروهی btn -->
             <!-- تایید بازگشت وجه گروهی btn -->
             <v-btn
-              :loading="downloadLoading"
-              :disabled="downloadLoading"
+              :loading="downloadLoading_refundList"
+              :disabled="downloadLoading_refundList"
               style="top: 50px;width: 196px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
-              @click="downloadReports()"
+              @click="createRefundAcceptDialog()"
             >
               <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
                 {{ $t('report.refundReport.refundList') }}
@@ -143,10 +144,10 @@
             <!-- btn بازگشت وجه گروهی -->
             <!-- btn بازگشت وجه گروهی -->
             <v-btn
-              :loading="downloadLoading"
-              :disabled="downloadLoading"
+              :loading="downloadLoading_refundConfirmList"
+              :disabled="downloadLoading_refundConfirmList"
               style="top: 50px;width: 156px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
-              @click="downloadReports()"
+              @click="createRefundConfirmDialog()"
             >
               <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
                 {{ $t('report.refundReport.refundConfirmList') }}
@@ -158,7 +159,9 @@
           <!-- 5 dialog -->
           <!-- 5 dialog -->
           <template #top class="v-data-footer">
-            <!-- dialog -->
+            <!-- dialog گزارش جزییات -->
+            <!-- dialog گزارش جزییات -->
+            <!-- dialog گزارش جزییات -->
             <v-dialog
               v-model="createDialog"
               max-width="1000"
@@ -167,17 +170,41 @@
               <v-card
                 :loading="loading"
               >
-                <v-card-title class="lightGreen light-green--text font-weight-bold headline">
+                <!-- title -->
+                <!-- title -->
+                <!-- title -->
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style="position: absolute;left: 20px; top: 18px;cursor: pointer"
+                  @click="createDialog = false"
+                >
+                  <g clip-path="url(#clip0_401_143)">
+                    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_401_143">
+                      <rect width="24" height="24" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <v-card-title class=" black--text font-weight-bold headline mb-2" style="border-bottom: 1px solid #D8D8D8;">
                   {{ $t('user.createDialog') }}
                 </v-card-title>
+
                 <v-container>
                   <v-form
                     ref="form"
                   >
-                    <br>
+                    <!-- row database -->
                     <v-row>
                       <v-data-table
+                        id="detailsTableShowDialog"
                         dense
+                        height="20px"
                         item-key="cardOwnerId"
                         sort-by="cardOwnerId"
                         :items="itemsTransaction"
@@ -186,10 +213,7 @@
                         :hide-default-footer="true"
                       />
                     </v-row>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+                    <!-- request original details -->
                     <v-row>
                       <v-col cols="6">
                         <v-card
@@ -198,18 +222,18 @@
                         >
                           <v-toolbar
                             class="black--text"
-                            color="grey lighten-4"
+                            color="white"
                             flat
                             dark
                             dense
-                            elevation="1"
+                            style="border-bottom: 2px solid #D8D8D8 !important;"
                           >
                             {{ $t('report.transactionReport.headers.request') }}
                             <v-spacer />
                           </v-toolbar>
                           <v-card-text dir="ltr" class="text-center">
-                            <div style="width:450px" class=" justify-center">
-                              <vue-json-pretty :data="requestJson" />
+                            <div style="width:450px;overflow:auto">
+                              <vue-json-pretty :data="requestJson" show-line-number="true" show-double-quotes="true" />
                             </div>
                           </v-card-text>
                         </v-card>
@@ -224,21 +248,18 @@
                           >
                             <v-toolbar
                               class="black--text"
-                              color="grey lighten-4"
+                              color="white"
                               flat
                               dark
                               dense
-                              elevation="1"
+                              style="border-bottom: 2px solid #D8D8D8 !important;"
                             >
                               {{ $t('report.transactionReport.headers.response') }}
                               <v-spacer />
                             </v-toolbar>
                             <v-card-text dir="ltr" class="text-center">
-                              <div style="width:450px" class=" justify-center">
-                                <vue-json-pretty :data="responseJson" />
-                                <!-- <pre>   //{{ item.responseJson }}
-
-                            </pre>-->
+                              <div style="width:450px;overflow:auto">
+                                <vue-json-pretty :data="responseJson" show-line-number="true" show-double-quotes="true" />
                               </div>
                             </v-card-text>
                           </v-card>
@@ -247,18 +268,80 @@
                     </v-row>
                   </v-form>
                 </v-container>
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn
-                    color="orange"
-                    @click="closeTransactionDetailsDialog"
-                  >
-                    {{ $t('buttons.cancel') }}
-                  </v-btn>
-                </v-card-actions>
               </v-card>
             </v-dialog>
-            <!-- dialog تعیین وضعیت -->
+
+            <!-- dialog تعیین وضعیت در زمان وضعیت ناموفق -->
+            <!-- dialog تعیین وضعیت در زمان وضعیت ناموفق -->
+            <!-- dialog تعیین وضعیت در زمان وضعیت ناموفق -->
+            <v-dialog
+              v-model="refundErrorDialog"
+              max-width="300"
+              transition="dialog-bottom-transition"
+            >
+              <v-card
+                :loading="loading"
+              >
+                <!-- title -->
+                <!-- title -->
+                <!-- title -->
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style="position: absolute;left: 20px; top: 18px;cursor: pointer"
+                  @click="refundErrorDialog = false"
+                >
+                  <g clip-path="url(#clip0_401_143)">
+                    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_401_143">
+                      <rect width="24" height="24" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <v-card-title class=" black--text font-weight-bold headline mb-2" style="border-bottom: 1px solid #D8D8D8;">
+                  {{ $t('report.refundReport.refundStateTitle') }}
+                </v-card-title>
+
+                <v-container>
+                  <v-form
+                    ref="form"
+                    style="margin-bottom: 15px"
+                  >
+                    <v-row justify="center">
+                      <v-card-actions style="align-content: center">
+                        <v-btn
+                          style="width: 250px;color: #fff;"
+                          color="purple"
+                          @click="refund"
+                        >
+                          {{ $t('report.refundReport.PENDING') }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-row>
+
+                    <v-row justify="center">
+                      <v-card-actions>
+                        <v-btn
+                          style="width: 250px;color: #fff;"
+                          color="purple"
+                          @click="refundManual"
+                        >
+                          {{ $t('report.refundReport.MANUAL') }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-row>
+                  </v-form>
+                </v-container>
+              </v-card>
+            </v-dialog>
+            <!-- dialog تعیین وضعیت - نفهمیدم کجا استفاده شده -کد مرده -->
+            <!-- dialog تعیین وضعیت - نفهمیدم کجا استفاده شده -کد مرده -->
+            <!-- dialog تعیین وضعیت - نفهمیدم کجا استفاده شده -کد مرده -->
             <v-dialog
               v-model="refundDialog"
               max-width="300"
@@ -267,18 +350,41 @@
               <v-card
                 :loading="loading"
               >
-                <v-card-title class="lightGreen light-green--text font-weight-bold headline">
+                <!-- title -->
+                <!-- title -->
+                <!-- title -->
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style="position: absolute;left: 20px; top: 18px;cursor: pointer"
+                  @click="refundDialog = false"
+                >
+                  <g clip-path="url(#clip0_401_143)">
+                    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_401_143">
+                      <rect width="24" height="24" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <v-card-title class=" black--text font-weight-bold headline mb-2" style="border-bottom: 1px solid #D8D8D8;">
                   {{ $t('report.refundReport.refundStateTitle') }}
                 </v-card-title>
+
                 <v-container>
                   <v-form
                     ref="form"
+                    style="margin-bottom: 15px"
                   >
                     <v-row justify="center">
                       <v-card-actions style="align-content: center">
                         <v-btn
-                          style="width: 250px;"
-                          color="lightGreen"
+                          style="width: 250px;color: #fff;"
+                          color="purple"
                           @click="refund"
                         >
                           {{ $t('report.refundReport.PENDING') }}
@@ -288,8 +394,8 @@
                     <v-row justify="center">
                       <v-card-actions>
                         <v-btn
-                          style="width: 250px;"
-                          color="lightGreen"
+                          style="width: 250px;color: #fff;"
+                          color="purple"
                           @click="refundNotRequired"
                         >
                           {{ $t('report.refundReport.REFUND_NOT_REQUIRED') }}
@@ -299,8 +405,8 @@
                     <v-row justify="center">
                       <v-card-actions>
                         <v-btn
-                          style="width: 250px;"
-                          color="lightGreen"
+                          style="width: 250px;color: #fff;"
+                          color="purple"
                           @click="refundManual"
                         >
                           {{ $t('report.refundReport.MANUAL') }}
@@ -309,131 +415,132 @@
                     </v-row>
                   </v-form>
                 </v-container>
-                <br>
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn
-                    color="orange"
-                    @click="closeTransactionDetailsDialog"
-                  >
-                    {{ $t('buttons.cancel') }}
-                  </v-btn>
-                </v-card-actions>
               </v-card>
             </v-dialog>
-            <!-- dialog -->
-            <v-dialog
-              v-model="refundErrorDialog"
-              max-width="300"
-              transition="dialog-bottom-transition"
-            >
-              <v-card
-                :loading="loading"
-              >
-                <v-card-title class="lightGreen light-green--text font-weight-bold headline">
-                  {{ $t('report.refundReport.refundStateTitle') }}
-                </v-card-title>
-                <v-container>
-                  <v-form
-                    ref="form"
-                  >
-                    <v-row justify="center">
-                      <v-card-actions style="align-content: center">
-                        <v-btn
-                          style="width: 250px;"
-                          color="lightGreen"
-                          @click="refund"
-                        >
-                          {{ $t('report.refundReport.PENDING') }}
-                        </v-btn>
-                      </v-card-actions>
-                    </v-row>
 
-                    <v-row justify="center">
-                      <v-card-actions>
-                        <v-btn
-                          style="width: 250px;"
-                          color="lightGreen"
-                          @click="refundManual"
-                        >
-                          {{ $t('report.refundReport.MANUAL') }}
-                        </v-btn>
-                      </v-card-actions>
-                    </v-row>
-                  </v-form>
-                </v-container>
-                <br>
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn
-                    color="orange"
-                    @click="closeTransactionDetailsDialog"
-                  >
-                    {{ $t('buttons.cancel') }}
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-            <!-- dialog -->
+            <!-- dialog تاییده گرفتن از کاربر برای تایید بازگشت وجه گروهی -->
+            <!-- dialog تاییده گرفتن از کاربر برای تایید بازگشت وجه گروهی -->
+            <!-- dialog تاییده گرفتن از کاربر برای تایید بازگشت وجه گروهی -->
             <v-dialog
               v-model="refundAcceptDialog"
-              max-width="300"
+              max-width="400px"
               transition="dialog-bottom-transition"
             >
               <v-card
                 :loading="loading"
               >
-                <v-card-title class="headline">
-                  {{ $t('messages.warning') }}
+                <!-- title -->
+                <!-- title -->
+                <!-- title -->
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style="position: absolute;left: 20px; top: 18px;cursor: pointer"
+                  @click="closeTransactionDetailsDialog()"
+                >
+                  <g clip-path="url(#clip0_401_143)">
+                    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_401_143">
+                      <rect width="24" height="24" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <v-card-title class=" black--text font-weight-bold headline mb-2" style="border-bottom: 1px solid #D8D8D8;">
+                  {{ 'تایید بازگشت وجه گروهی' }}
                 </v-card-title>
 
-                <br>
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn
-                    color="orange"
-                    @click="refundList('accept')"
-                  >
-                    {{ $t('buttons.submit') }}
-                  </v-btn>
-                  <v-btn
-                    color="orange"
-                    @click="closeTransactionDetailsDialog"
-                  >
-                    {{ $t('buttons.cancel') }}
-                  </v-btn>
-                </v-card-actions>
+                <v-container>
+                  <span style="font-size: 12px;">کاربر گرامی، برای تایید بازگشت وجه گروهی اطمینان دارید؟</span>
+                  <br>
+
+                  <center class="mt-4" style="margin-top: 10px;">
+                    <v-btn
+                      text
+                      small
+                      style="background: rgba(33, 115, 224, 0.1);border-radius: 8px;font-size: 11px;color: #2173E0;"
+                      @click="refundList('accept')"
+                    >
+                      بله انجام شود (تایید بازگشت وجه گروهی)
+                    </v-btn>
+                    <v-btn
+                      text
+                      small
+                      style="background: red;border-radius: 8px;font-size: 11px;color: #ffffff;margin-right: 10px;"
+                      @click="closeTransactionDetailsDialog()"
+                    >
+                      انصراف
+                    </v-btn>
+                  </center>
+                  <br>
+                </v-container>
               </v-card>
             </v-dialog>
-            <!-- dialog -->
+
+            <!-- dialog تاییده گرفتن از کاربر برای بازگشت وجه گروهی -->
+            <!-- dialog تاییده گرفتن از کاربر برای بازگشت وجه گروهی -->
+            <!-- dialog تاییده گرفتن از کاربر برای بازگشت وجه گروهی -->
             <v-dialog
               v-model="refundConfirmationDialog"
-              max-width="300"
+              max-width="400px"
               transition="dialog-bottom-transition"
             >
               <v-card
                 :loading="loading"
               >
-                <v-card-title class="headline">
-                  {{ $t('messages.warning') }}
+                <!-- title -->
+                <!-- title -->
+                <!-- title -->
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  style="position: absolute;left: 20px; top: 18px;cursor: pointer"
+                  @click="closeTransactionDetailsDialog()"
+                >
+                  <g clip-path="url(#clip0_401_143)">
+                    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_401_143">
+                      <rect width="24" height="24" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <v-card-title class=" black--text font-weight-bold headline mb-2" style="border-bottom: 1px solid #D8D8D8;">
+                  {{ 'بازگشت وجه گروهی' }}
                 </v-card-title>
 
-                <br>
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn
-                    color="orange"
-                    @click="refundList('confirm')"
-                  >
-                    {{ $t('buttons.submit') }}
-                  </v-btn>
-                  <v-btn
-                    color="orange"
-                    @click="closeTransactionDetailsDialog"
-                  >
-                    {{ $t('buttons.cancel') }}
-                  </v-btn>
-                </v-card-actions>
+                <v-container>
+                  <span style="font-size: 12px;">کاربر گرامی، برای بازگشت وجه گروهی اطمینان دارید؟</span>
+                  <br>
+
+                  <center class="mt-4" style="margin-top: 10px;">
+                    <v-btn
+                      text
+                      small
+                      style="background: rgba(33, 115, 224, 0.1);border-radius: 8px;font-size: 11px;color: #2173E0;"
+                      @click="refundList('confirm')"
+                    >
+                      بله انجام شود (بازگشت وجه گروهی)
+                    </v-btn>
+                    <v-btn
+                      text
+                      small
+                      style="background: red;border-radius: 8px;font-size: 11px;color: #ffffff;margin-right: 10px;"
+                      @click="closeTransactionDetailsDialog()"
+                    >
+                      انصراف
+                    </v-btn>
+                  </center>
+                  <br>
+                </v-container>
               </v-card>
             </v-dialog>
           </template>
@@ -469,6 +576,8 @@ export default {
   data () {
     return {
       downloadLoading: false,
+      downloadLoading_refundList: false,
+      downloadLoading_refundConfirmList: false,
       createDialog: false,
       refundDialog: false,
       refundErrorDialog: false,
@@ -745,23 +854,7 @@ export default {
 </script>
 
 <style scoped>
-  .v-data-footer {
-    font-size: 1.05rem !important;
-  }
-  .v-chip.v-size--default {
-    border-radius: 16px;
-    font-size: 10px;
-    height: 20px;
-    width: 60px;
-    color: white;
-    padding: 0 5px;
-  }
-  .v-chip1 {
-    border-radius: 16px;
-    font-size: 8px!important;
-    height: 20px;
-    width: 100px !important;
-    color: black !important;
-    padding: 0 0px !important;
+  /deep/ #detailsTableShowDialog > .v-data-table__wrapper {
+    min-height: 110px !important;
   }
 </style>
