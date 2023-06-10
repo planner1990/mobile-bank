@@ -1,36 +1,65 @@
 <template>
-  <v-row
-    justify="center"
+  <v-data-table
+    dense
+    item-key="operationUrl"
+    sort-by="operationUrl"
+    :items="chargeList"
+    :headers="headers"
+    class="fullScreen"
+    :loading="loading"
   >
-    <v-data-table
-      dense
-      item-key="operationUrl"
-      sort-by="operationUrl"
-      :items="chargeList"
-      :headers="headers"
-      class="elevation-5 fullScreen"
-      :loading="loading"
-    >
-      <template #[`item.operator`]="{ item }">
-        {{ $t('report.chargeReport.operatorType.' + item.operator) }}
-      </template>
-      <template #[`item.amount`]="{ item }">
-        {{ $t('income.constants.' + item.amount) }}
-      </template>
-      <template #[`item.count`]="{ item }">
-        {{ priceFormat(item.count) }}
-      </template>
-      <template #[`item.sum`]="{ item }">
-        {{ priceFormat(item.sum) }}
-      </template>
-      <template #[`item.incomeAmount`]="{ item }">
-        {{ priceFormat(item.incomeAmount) }}
-      </template>
-      <template #[`item.coIncomeShareAmount`]="{ item }">
-        {{ priceFormat(item.coIncomeShareAmount) }}
-      </template>
-    </v-data-table>
-  </v-row>
+    <template #[`item.operator`]="{ item }">
+      {{ $t('report.chargeReport.operatorType.' + item.operator) }}
+    </template>
+    <template #[`item.amount`]="{ item }">
+      {{ $t('income.constants.' + item.amount) }}
+    </template>
+    <template #[`item.count`]="{ item }">
+      {{ priceFormat(item.count) }}
+    </template>
+    <template #[`item.sum`]="{ item }">
+      {{ priceFormat(item.sum) }}
+    </template>
+    <template #[`item.incomeAmount`]="{ item }">
+      {{ priceFormat(item.incomeAmount) }}
+    </template>
+    <template #[`item.coIncomeShareAmount`]="{ item }">
+      {{ priceFormat(item.coIncomeShareAmount) }}
+    </template>
+
+    <template #[`item.operator`]="{ item }">
+      <div v-if="item.operator">
+        {{ item.operator }}
+      </div>
+      <div v-else style="color: #f1b0b0">
+        {{ 'تعیین نشده' }}
+      </div>
+    </template>
+    <template #[`item.amount`]="{ item }">
+      <div v-if="item.amount">
+        {{ item.amount }}
+      </div>
+      <div v-else style="color: #f1b0b0">
+        {{ 'تعیین نشده' }}
+      </div>
+    </template>
+    <template #[`item.incomePercent`]="{ item }">
+      <div v-if="item.incomePercent">
+        {{ item.incomePercent }}
+      </div>
+      <div v-else style="color: #f1b0b0">
+        {{ 'تعیین نشده' }}
+      </div>
+    </template>
+    <template #[`item.coSharePercent`]="{ item }">
+      <div v-if="item.coSharePercent">
+        {{ item.coSharePercent }}
+      </div>
+      <div v-else style="color: #f1b0b0">
+        {{ 'تعیین نشده' }}
+      </div>
+    </template>
+  </v-data-table>
 </template>
 
 <script>

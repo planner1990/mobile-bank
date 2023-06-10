@@ -1,24 +1,21 @@
 <template>
-  <v-snackbar
-    v-model="show"
-    :color="color"
-    :timeout="-1"
-    rounded="lg"
-    top
-  >
-    <v-card-title class="text-h5" :style="titleStyle">
-      {{ titleText }}
-    </v-card-title>
-
-    <v-card-text :style="textStyle">
+  <v-snackbar v-model="show" :top="true" color="#fff" :timeout="timeout">
+    <span style="font-weight: normal;color: #444; margin-right: 5px;">
       {{ $t(message) }}
-    </v-card-text>
+    </span>
 
-    <v-card-actions class="justify-end">
-      <v-btn small color="white" :style="buttonStyle" @click="show = false">
-        {{ $t('messages.ok') }}
+    <template #action="{ attrs }">
+      <v-btn
+        small
+        elevation="0"
+        style="background-color: unset;color: #444;border-radius: 8px;height: 36px;font-weight: normal"
+        color="rgb(203 214 177 / 10%)"
+        v-bind="attrs"
+        @click="show = false"
+      >
+        {{ $t('global.ok') }}
       </v-btn>
-    </v-card-actions>
+    </template>
   </v-snackbar>
 </template>
 
@@ -30,7 +27,8 @@ export default {
     title: '',
     message: '',
     color: '',
-    textColor: ''
+    textColor: '',
+    timeout: 10000
   }),
   computed: {
     titleStyle () {
@@ -65,3 +63,9 @@ export default {
   methods: {}
 }
 </script>
+
+<style scoped>
+/deep/ .v-snack__wrapper {
+  min-height: 75px !important;
+}
+</style>

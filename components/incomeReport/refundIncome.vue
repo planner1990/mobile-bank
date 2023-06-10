@@ -1,33 +1,29 @@
 <template>
-  <v-row
-    justify="center"
+  <v-data-table
+    dense
+    item-key="operationUrl"
+    sort-by="operationUrl"
+    :items="refundList"
+    :headers="headers"
+    class="fullScreen"
+    :loading="loading"
+    :footer-props="{
+      'items-per-page-options': [500, 1000]
+    }"
   >
-    <v-data-table
-      dense
-      item-key="operationUrl"
-      sort-by="operationUrl"
-      :items="refundList"
-      :headers="headers"
-      class="elevation-5 fullScreen"
-      :loading="loading"
-      :footer-props="{
-        'items-per-page-options': [500, 1000]
-      }"
-    >
-      <template #[`item.successfulAmount`]="{ item }">
-        {{ priceFormat(item.successfulAmount) }}
-      </template>
-      <template #[`item.successFulCount`]="{ item }">
-        {{ priceFormat(item.successFulCount) }}
-      </template>
-      <template #[`item.failedCount`]="{ item }">
-        {{ priceFormat(item.failedCount) }}
-      </template>
-      <template #[`item.failedAmount`]="{ item }">
-        {{ priceFormat(item.failedAmount) }}
-      </template>
-    </v-data-table>
-  </v-row>
+    <template #[`item.successfulAmount`]="{ item }">
+      {{ priceFormat(item.successfulAmount) }}
+    </template>
+    <template #[`item.successFulCount`]="{ item }">
+      {{ priceFormat(item.successFulCount) }}
+    </template>
+    <template #[`item.failedCount`]="{ item }">
+      {{ priceFormat(item.failedCount) }}
+    </template>
+    <template #[`item.failedAmount`]="{ item }">
+      {{ priceFormat(item.failedAmount) }}
+    </template>
+  </v-data-table>
 </template>
 
 <script>

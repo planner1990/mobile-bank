@@ -1,41 +1,47 @@
 <template>
-  <v-container
-    tag="section"
-    fluid
-  >
-    <v-col>
-      <v-row
-        justify="center"
-      >
+  <v-container tag="section" fluid>
+    <v-row>
+      <!-- filter -->
+      <v-col cols="12" style="padding: 8px !important;">
         <transactionStatusFilter v-model="searchModel" @search="search" />
-      </v-row>
-      <br>
-      <br>
-      <v-row
-        justify="center"
-      >
-        <LineChart
-          v-show="chart.reportAllSuccess.show"
-          :title="$t('report.transactionStatus.chart.chartSuccess')"
-          :get-labels-props="chart.reportAllSuccess.labels"
-          :get-series-props="chart.reportAllSuccess.series"
-          :change="chart.reportAllSuccess.change"
+        <!-- loading -->
+        <v-progress-linear
+          v-show="loading"
+          indeterminate
+          color="#84BD00"
         />
-      </v-row>
-      <br>
-      <br>
-      <v-row
-        justify="center"
-      >
-        <LineChart
-          v-show="chart.reportAllFail.show"
-          :title="$t('report.transactionStatus.chart.chartFail')"
-          :get-labels-props="chart.reportAllFail.labels"
-          :get-series-props="chart.reportAllFail.series"
-          :change="chart.reportAllFail.change"
-        />
-      </v-row>
-    </v-col>
+      </v-col>
+
+      <!-- charts -->
+      <v-col cols="12" style="margin-top:30px; padding: 8px !important;">
+        <!-- charts 1 -->
+        <v-row
+          justify="center"
+        >
+          <LineChart
+            v-show="chart.reportAllSuccess.show"
+            style="width: 80%"
+            :title="$t('report.transactionStatus.chart.chartSuccess')"
+            :get-labels-props="chart.reportAllSuccess.labels"
+            :get-series-props="chart.reportAllSuccess.series"
+            :change="chart.reportAllSuccess.change"
+          />
+        </v-row>
+        <!-- charts 2 -->
+        <v-row
+          justify="center"
+        >
+          <LineChart
+            v-show="chart.reportAllFail.show"
+            style="width: 80%;margin-top: 20px;"
+            :title="$t('report.transactionStatus.chart.chartFail')"
+            :get-labels-props="chart.reportAllFail.labels"
+            :get-series-props="chart.reportAllFail.series"
+            :change="chart.reportAllFail.change"
+          />
+        </v-row>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -148,8 +154,6 @@ export default {
   }
 }
 </script>
-<style>
-  .fullScreen {
-    width: 100%;
-  }
+
+<style scoped>
 </style>

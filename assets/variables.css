@@ -56,17 +56,17 @@
 
 /* loading */
 .v-application .primary {
-  background-color: "#4189cd" !important;
-  border-color: "#4189cd" !important;
+  background-color: #84bd00 !important;
+  border-color: #84bd00 !important;
 }
 
 .theme--light .v-application .primary--text {
-  color: "#4189cd" !important;
+  color: #84bd00 !important;
 }
 
 .v-application .primary--text {
-  color: "#4189cd" !important;
-  caret-color: "#4189cd" !important;
+  color: #84bd00 !important;
+  caret-color: #84bd00 !important;
 }
 
 /*** new design ***/
@@ -199,20 +199,25 @@ tbody tr:nth-of-type(odd) {
 .theme--light.v-data-table .v-data-footer {
   background-color: #f5f5f5;
   color: #444;
+  font-size: 18px;
 }
 
 .theme--light.v-application--is-rtl .v-data-footer__select {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .theme--light.v-data-table .v-data-footer .v-input__slot {
   height: 30px;
 }
 
+.v-data-footer__select .v-select__selections .v-select__selection--comma {
+  font-size: 16px;
+}
+
 .v-data-table__wrapper {
   overflow-x: auto;
   overflow-y: hidden;
-  min-height: 625px;
+  min-height: 500px;
 }
 
 .v-data-table__wrapper {
@@ -235,9 +240,9 @@ tbody tr:nth-of-type(odd) {
 /* filters */
 .btnSearch {
   color: #FFFFFF !important;
-  background-color: #2173E0 !important;
+  background-color: #84BD00 !important;
   width: 100% !important;
-  font-size: 19px !important;
+  font-size: 18px !important;
   height: 48px !important;
 }
 
@@ -245,7 +250,7 @@ tbody tr:nth-of-type(odd) {
   color: #FFFFFF !important;
   background-color: #84BD00 !important;
   width: 100% !important;
-  font-size: 19px !important;
+  font-size: 18px !important;
   height: 48px !important;
 }
 
@@ -253,7 +258,15 @@ tbody tr:nth-of-type(odd) {
   color: #FFFFFF !important;
   background-color: #84BD00 !important;
   width: 100% !important;
-  font-size: 19px !important;
+  font-size: 18px !important;
+  height: 48px !important;
+}
+
+.btnAddNew {
+  color: #FFFFFF !important;
+  background-color: #FB8500 !important;
+  width: 100% !important;
+  font-size: 18px !important;
   height: 48px !important;
 }
 
@@ -356,6 +369,16 @@ select:-webkit-autofill:focus {
 
 .vpd-day:not([disabled]).vpd-selected .vpd-day-effect {
   background-color: #73953d !important;
+}
+
+/* page */
+.fullScreen {
+  width: 100%;
+}
+
+/* all tabs */
+.theme--light.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active), .theme--light.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active) > .v-icon, .theme--light.v-tabs > .v-tabs-bar .v-tab:not(.v-tab--active) > .v-btn, .theme--light.v-tabs > .v-tabs-bar .v-tab--disabled {
+  color: #757575;
 }
 
 /*# sourceMappingURL=variables.css.map */

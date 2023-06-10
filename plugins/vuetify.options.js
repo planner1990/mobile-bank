@@ -9,7 +9,8 @@ export default function ({ store, app }) {
   const theme = {
     black: '#000000',
     vahidSabetiBlack: '#1C1C1E',
-    primary: '#0084FF',
+    // primary: '#0084FF',
+    primary: '#84BD00',
     success: '#84BD00',
     darkSuccess: '#0e4f00',
     info: '#b1e4e3',
