@@ -32,7 +32,7 @@
           class="fullScreen"
           :loading="loading"
           :footer-props="{
-            'items-per-page-options': [50, 75, 150, 300, 600, 1000]
+            'items-per-page-options': [20, 50, 100, 500, 1000]
           }"
           :items-per-page.sync="searchModel.paginate.length"
           :page.sync="searchModel.paginate.page"
@@ -88,7 +88,7 @@ export default {
       searchModel: {
         paginate: {
           page: 1,
-          length: 75,
+          length: 50,
           sort: {
             property: 'url',
             direction: 'desc'

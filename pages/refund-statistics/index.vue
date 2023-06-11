@@ -11,7 +11,7 @@
         <v-data-table
           dense
           :footer-props="{
-            'items-per-page-options': [50, 100, 300, 500, 1000]
+            'items-per-page-options': [20, 50, 100, 500, 1000]
           }"
           :items="items"
           :headers="headers"

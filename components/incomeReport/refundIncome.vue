@@ -8,7 +8,7 @@
     class="fullScreen"
     :loading="loading"
     :footer-props="{
-      'items-per-page-options': [500, 1000]
+      'items-per-page-options': [20, 50, 100, 500, 1000]
     }"
   >
     <template #[`item.successfulAmount`]="{ item }">
@@ -57,11 +57,11 @@ export default {
       downloadLoading: false,
       totalNumberOfItems: 0,
       headers: [
-        { text: this.$t('income.headers.amount'), value: 'amount' },
-        { text: this.$t('income.headers.countSuccess'), value: 'successFulCount' },
-        { text: this.$t('income.headers.amountSuccess'), value: 'successFulAmount' },
-        { text: this.$t('income.headers.countFail'), value: 'failedCount' },
-        { text: this.$t('income.headers.amountFail'), value: 'failedAmount' }
+        { text: this.$t('income.headers.amount'), value: 'amount', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.countSuccess'), value: 'successFulCount', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.amountSuccess'), value: 'successFulAmount', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.countFail'), value: 'failedCount', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.amountFail'), value: 'failedAmount', sortable: false, align: 'center' }
 
       ]
     }

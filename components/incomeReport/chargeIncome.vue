@@ -93,14 +93,14 @@ export default {
       downloadLoading: false,
       totalNumberOfItems: 0,
       headers: [
-        { text: this.$t('income.headers.operator'), value: 'operator' },
-        { text: this.$t('income.headers.amount'), value: 'amount' },
-        { text: this.$t('income.headers.count'), value: 'count' },
-        { text: this.$t('income.headers.sum'), value: 'sum' },
-        { text: this.$t('income.headers.incomePercent'), value: 'incomePercent' },
-        { text: this.$t('income.headers.incomeAmount'), value: 'incomeAmount' },
-        { text: this.$t('income.headers.coSharePercent'), value: 'coSharePercent' },
-        { text: this.$t('income.headers.coShareAmount'), value: 'coIncomeShareAmount' }
+        { text: this.$t('income.headers.operator'), value: 'operator', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.amount'), value: 'amount', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.count'), value: 'count', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.sum'), value: 'sum', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.incomePercent'), value: 'incomePercent', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.incomeAmount'), value: 'incomeAmount', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.coSharePercent'), value: 'coSharePercent', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.coShareAmount'), value: 'coIncomeShareAmount', sortable: false, align: 'center' }
 
       ]
     }

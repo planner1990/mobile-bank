@@ -20,7 +20,7 @@
           :page.sync="pagination.page"
           :server-items-length="totalNumberOfItems"
           :footer-props="{
-            'items-per-page-options': [50, 100, 200, 500, 1000]
+            'items-per-page-options': [20, 50, 100, 500, 1000]
           }"
           @update:page="paginate"
           @update:items-per-page="paginate"
@@ -372,7 +372,7 @@ export default {
       totalNumberOfItems: 0,
       searchModel: {
         page: 1,
-        length: 10
+        length: 50
       },
       loading: false,
       loadingBtnInsert: false,
@@ -386,7 +386,8 @@ export default {
       createDialog: false,
       deleteUserDialog: false,
       headers: [
-        { text: this.$t('user.username'), value: 'username', sortable: false, align: 'center', width: '30%' },
+        { text: '', value: '', sortable: false, align: 'center', width: '5%' },
+        { text: this.$t('user.username'), value: 'username', sortable: false, align: 'right', width: '20%' },
         { text: this.$t('user.role'), value: 'role', sortable: false, align: 'right', width: '20%' },
         { text: this.$t('user.permission'), value: 'permissions', align: 'right', width: '20%' },
         { text: this.$t('user.statusHeader'), value: 'status', sortable: false, width: '20%' },

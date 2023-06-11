@@ -17,7 +17,7 @@
           :loading="loading"
           dense
           :footer-props="{
-            'items-per-page-options': [50, 100, 200, 400, 500]
+            'items-per-page-options': [20, 50, 100, 500, 1000]
           }"
           :items-per-page.sync="requestObject.paginate.length"
           :page.sync="requestObject.paginate.page"
@@ -894,7 +894,7 @@
                 :loading="loading"
                 dense
                 :footer-props="{
-                  'items-per-page-options': [10, 20, 30, 40, 50]
+                  'items-per-page-options': [20, 50, 100, 500, 1000]
                 }"
                 :items-per-page.sync="paramObject.paginate.length"
                 :page.sync="paramObject.paginate.page"
@@ -999,7 +999,7 @@ export default {
         id: null,
         paginate: {
           page: 1,
-          length: 20,
+          length: 50,
           sort: {
             property: 'id'
           }

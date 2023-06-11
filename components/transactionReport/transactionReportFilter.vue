@@ -102,8 +102,9 @@
               </v-col>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-select
+                  ref="lableSelectOperatorRef"
                   v-model="filter.transactionListFilter.operation"
-                  :label="$t('filters.operation')"
+                  :label="lableSelectOperator"
                   item-value="value"
                   dense
                   outlined
@@ -410,7 +411,7 @@ const defaultFilter = {
   },
   paginate: {
     page: 1,
-    length: 20,
+    length: 50,
     sort: {
       property: 'id',
       direction: 'desc'
@@ -463,6 +464,10 @@ export default {
     this.errorList()
   },
   methods: {
+    lableSelectOperator () {
+      // $t('filters.operation')
+      this.$refs.lableSelectOperatorRef.ariaLabel = 'skdlaskdl'
+    },
     search () {
       this.$emit('search', this.filter)
     },

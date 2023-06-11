@@ -3,7 +3,7 @@
     <v-row>
       <!-- filter -->
       <v-col cols="12" style="padding: 8px !important;">
-        <transactionReportFilter ref="refTransactionReportFilter" v-model="searchModel" @search="search" @edit="editItem2()" />
+        <transactionReportFilter ref="refTransactionReportFilter" v-model="searchModel" @search="search" @sumSelectOperationDialog="sumSelectOperationDialog" @edit="editItem2()" />
       </v-col>
 
       <!-- grid -->
@@ -266,13 +266,13 @@
             </svg>
             <v-card-title class=" black--text font-weight-bold headline" style="border-bottom: 0 solid #D8D8D8;">
               <v-row no-gutters>
-                <v-col cols="8">
+                <v-col cols="4">
                   <v-text-field
                     v-model="searchOperation"
                     outlined
                     dense
                     placeholder="جستجو"
-                    class="mb-6 text-field"
+                    class="mb-4 text-field"
                   >
                     <template #append>
                       <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -426,7 +426,7 @@ const defaultFilterOperation = {
   },
   paginate: {
     page: 1,
-    length: 20,
+    length: 50,
     sort: {
       property: 'id',
       direction: 'desc'
@@ -471,15 +471,15 @@ export default {
       totalNumberOfItems: 0,
       loading: false,
       headers: [
-        { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
-        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.transactionId'), value: 'id', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
-        { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
-        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
-        { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false },
-        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
+        { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.transactionId'), value: 'id', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false, align: 'right' },
         { text: '', value: 'detail', sortable: false, align: 'center' }
       ],
       headersTransaction: [
@@ -493,7 +493,7 @@ export default {
         { text: this.$t('report.transactionReport.headers.requestId'), value: 'requestId', sortable: false, align: 'center' }
       ],
       headersTransactionRequest: [
-        { text: this.$t('report.transactionReport.headers.requestJson'), value: 'requestJson', sortable: false },
+        { text: this.$t('report.transactionReport.headers.requestJson'), value: 'requestJson', sortable: false, align: 'center' },
         { text: this.$t('report.transactionReport.headers.responseJson'), value: 'responseJson', sortable: false, align: 'center' }
       ],
       headersTransactionLog: [
@@ -630,6 +630,18 @@ export default {
       )
       this.operationDialog = false
       console.log('pages/transactionReport/index.vue okOperationDialog', JSON.stringify(this.operationList))
+    },
+    sumSelectOperationDialog () {
+      this.operationList = this.depositOperationList.concat(
+        this.cardReissueOperationList,
+        this.cardOperationList,
+        this.loanRequestOperationList,
+        this.onlineDepositOperationList,
+        this.publicOperationList,
+        this.userOperationList
+      )
+      console.log('pages/transactionReport/index.vue okOperationDialog', JSON.stringify(this.operationList), this.operationList.count())
+      return this.operationList.count()
     },
     search (searchModel) {
       this.loading = true

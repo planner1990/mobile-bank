@@ -17,7 +17,7 @@
           :loading="loading"
           dense
           :footer-props="{
-            'items-per-page-options': [50, 100, 300, 500, 1000]
+            'items-per-page-options': [20, 50, 100, 500, 1000]
           }"
           :items-per-page.sync="requestObject.paginate.length"
           :page.sync="requestObject.paginate.page"
@@ -172,13 +172,13 @@ export default {
       createDialog: false,
       deleteUserDialog: false,
       headers: [
-        { text: this.$t('customer.headers.id'), value: 'id' },
-        { text: this.$t('customer.customerType'), value: 'customerType' },
-        { text: this.$t('customer.phoneNumber'), value: 'phoneNumber' },
-        { text: this.$t('customer.cif'), value: 'cif' },
-        { text: this.$t('customer.name'), value: 'fullName' },
-        { text: this.$t('customer.headers.depositOrCard'), value: 'cardOrDeposit' },
-        { text: this.$t('customer.headers.registerDate'), value: 'registerDate' }
+        { text: this.$t('customer.headers.id'), value: 'id', sortable: false, align: 'center' },
+        { text: this.$t('customer.customerType'), value: 'customerType', sortable: false, align: 'center' },
+        { text: this.$t('customer.phoneNumber'), value: 'phoneNumber', sortable: false, align: 'center' },
+        { text: this.$t('customer.cif'), value: 'cif', sortable: false, align: 'center' },
+        { text: this.$t('customer.name'), value: 'fullName', sortable: false, align: 'center' },
+        { text: this.$t('customer.headers.depositOrCard'), value: 'cardOrDeposit', sortable: false, align: 'center' },
+        { text: this.$t('customer.headers.registerDate'), value: 'registerDate', sortable: false, align: 'center' }
 
       ],
       users: [],

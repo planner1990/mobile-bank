@@ -176,7 +176,7 @@ const defaultFilter = {
   },
   paginate: {
     page: 1,
-    length: 75,
+    length: 50,
     sort: {
       property: 'errorCode',
       direction: 'desc'
