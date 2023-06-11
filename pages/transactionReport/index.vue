@@ -3,7 +3,13 @@
     <v-row>
       <!-- filter -->
       <v-col cols="12" style="padding: 8px !important;">
-        <transactionReportFilter ref="refTransactionReportFilter" v-model="searchModel" @search="search" @sumSelectOperationDialog="sumSelectOperationDialog" @edit="editItem2()" />
+        <transactionReportFilter
+          ref="refTransactionReportFilter"
+          v-model="searchModel"
+          @okOperationDialog="okOperationDialog"
+          @search="search"
+          @edit="editItem2()"
+        />
       </v-col>
 
       <!-- grid -->
@@ -296,83 +302,83 @@
                       color="success"
                       grow
                     >
-                      <v-tab href="#depositOperation" class="font-weight-black">
+                      <v-tab href="#depositOperation" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.depositOperation') }}
                       </v-tab>
                       <v-tab-item value="depositOperation">
                         <br>
-                        <deposit-operations :list-type="listType" />
+                        <deposit-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
 
-                      <v-tab href="#cardOperation" class="font-weight-black">
+                      <v-tab href="#cardOperation" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.cardOperation') }}
                       </v-tab>
                       <v-tab-item value="cardOperation">
                         <br>
-                        <card-operations :list-type="listType" />
+                        <card-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
 
-                      <v-tab href="#userOperation" class="font-weight-black">
+                      <v-tab href="#userOperation" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.userOperation') }}
                       </v-tab>
                       <v-tab-item value="userOperation">
                         <br>
-                        <user-operations :list-type="listType" />
+                        <user-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
 
-                      <v-tab href="#publicOperation" class="font-weight-black">
+                      <v-tab href="#publicOperation" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.publicOperation') }}
                       </v-tab>
                       <v-tab-item value="publicOperation">
                         <br>
-                        <public-operations :list-type="listType" />
+                        <public-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
 
-                      <v-tab href="#cardReissueOperation" class="font-weight-black">
+                      <v-tab href="#cardReissueOperation" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.cardReissueOperation') }}
                       </v-tab>
                       <v-tab-item value="cardReissueOperation">
                         <br>
-                        <card-reissue-operations :list-type="listType" />
+                        <card-reissue-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
 
-                      <v-tab href="#loanRequestOperation" class="font-weight-black">
+                      <v-tab href="#loanRequestOperation" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.loanRequestOperation') }}
                       </v-tab>
                       <v-tab-item value="loanRequestOperation">
                         <br>
-                        <loan-operations :list-type="listType" />
+                        <loan-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
 
-                      <v-tab href="#onlineDepositOperation" class="font-weight-black">
+                      <v-tab href="#onlineDepositOperation" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.onlineDepositOperation') }}
                       </v-tab>
                       <v-tab-item value="onlineDepositOperation">
                         <br>
-                        <online-deposit-operations :list-type="listType" />
+                        <online-deposit-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
 
-                      <v-tab href="#pichackOperations" class="font-weight-black">
+                      <v-tab href="#pichackOperations" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.pichackOperation') }}
                       </v-tab>
                       <v-tab-item value="pichackOperations">
                         <br>
-                        <pichack-operations :list-type="listType" />
+                        <pichack-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
                     </v-tabs>
                   </v-row>
                 </v-card>
-                <v-row>
-                  <v-col style="direction: ltr;">
-                    <v-btn
-                      color="success"
-                      style="width: 160px;height: 48px;background: #84BD00;border-radius: 12px;font-size: 18px;line-height: 20px;color: #FFFFFF;font-style: normal;font-weight: 500;"
-                      @click="okOperationDialog"
-                    >
-                      {{ 'انتخاب عملیات' }}
-                    </v-btn>
-                  </v-col>
-                </v-row>
+                <!--                <v-row>-->
+                <!--                  <v-col style="direction: ltr;">-->
+                <!--                    <v-btn-->
+                <!--                      color="success"-->
+                <!--                      style="width: 160px;height: 48px;background: #84BD00;border-radius: 12px;font-size: 18px;line-height: 20px;color: #FFFFFF;font-style: normal;font-weight: 500;"-->
+                <!--                      @click="okOperationDialog"-->
+                <!--                    >-->
+                <!--                      {{ 'انتخاب عملیات' }}-->
+                <!--                    </v-btn>-->
+                <!--                  </v-col>-->
+                <!--                </v-row>-->
               </v-form>
             </v-container>
           </v-card>
@@ -449,6 +455,7 @@ export default {
   },
   data () {
     return {
+      keyTab: 1,
       tabsModel: [],
       downloadLoading: false,
       createDialog: false,
@@ -519,6 +526,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      // get from list
       cardOperationList: 'onlineDepositStore/cardOperationList',
       depositOperationList: 'onlineDepositStore/depositOperationList',
       publicOperationList: 'onlineDepositStore/publicOperationList',
@@ -527,7 +535,6 @@ export default {
       onlineDepositOperationList: 'onlineDepositStore/onlineDepositOperationList',
       loanRequestOperationList: 'onlineDepositStore/loanRequestOperationList',
       cardReissueOperationList: 'onlineDepositStore/cardReissueOperationList'
-
     })
   },
   mounted () {
@@ -619,6 +626,9 @@ export default {
       this.operationDialog = false
     },
     okOperationDialog () {
+      this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(sessionStorage.getItem('lastSelectTitleOperation'))
+
+      // add (merge)
       this.cardList = this.cardOperationList
       this.operationList = this.depositOperationList.concat(
         this.cardReissueOperationList,
@@ -629,19 +639,7 @@ export default {
         this.userOperationList
       )
       this.operationDialog = false
-      console.log('pages/transactionReport/index.vue okOperationDialog', JSON.stringify(this.operationList))
-    },
-    sumSelectOperationDialog () {
-      this.operationList = this.depositOperationList.concat(
-        this.cardReissueOperationList,
-        this.cardOperationList,
-        this.loanRequestOperationList,
-        this.onlineDepositOperationList,
-        this.publicOperationList,
-        this.userOperationList
-      )
-      console.log('pages/transactionReport/index.vue okOperationDialog', JSON.stringify(this.operationList), this.operationList.count())
-      return this.operationList.count()
+      console.log('*** pages/transactionReport/index.vue okOperationDialog', JSON.stringify(this.operationList))
     },
     search (searchModel) {
       this.loading = true

@@ -102,30 +102,16 @@
               </v-col>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-select
-                  ref="lableSelectOperatorRef"
                   v-model="filter.transactionListFilter.operation"
-                  :label="lableSelectOperator"
+                  :label="lableSelectOperatorRef"
                   item-value="value"
                   dense
                   outlined
                   required
+                  :value="lableSelectOperatorRef"
                   clearable
-                  multiple
                   @click="editItem()"
                 >
-                  <template #selection="{ item, index }">
-                    <span v-if="index === 0" style="font-size: 14px;">
-                      <span>{{ $t(item.text) }}</span>
-                    </span>
-                    <span
-                      v-if="index === 1"
-                      class="blue--text text-caption"
-                      style="margin-right: 10px"
-                    >
-                      (+{{ filter.transactionListFilter.operation - 1 }})
-                    </span>
-                  </template>
-
                   <template #append>
                     <svg
                       width="24"
@@ -430,6 +416,7 @@ export default {
   },
   data () {
     return {
+      lableSelectOperatorRef: this.$t('filters.operation'),
       loadingBtn: false,
       seen: false,
       downloadLoading: false,
@@ -462,11 +449,13 @@ export default {
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
     this.errorList()
+
+    this.search()
   },
   methods: {
-    lableSelectOperator () {
-      // $t('filters.operation')
-      this.$refs.lableSelectOperatorRef.ariaLabel = 'skdlaskdl'
+    changeLableSelectOperatorRef (input) {
+      console.log('*** components/transactionReport/transactionReportFilter.vue changeLableSelectOperatorRef', input)
+      this.lableSelectOperatorRef = input
     },
     search () {
       this.$emit('search', this.filter)

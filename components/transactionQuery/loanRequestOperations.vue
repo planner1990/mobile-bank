@@ -11,7 +11,7 @@
                   light
                   :label="checkValueBeforeShow(item.title, item)"
                   multiple
-                  style="margin: -5px 2px -1px -4px !important; padding: 1px !important;"
+                  style="margin: 7px 2px -1px -4px !important; padding: 1px !important;"
                   :value="item.url"
                   @change="checked(item)"
                 />
@@ -53,16 +53,23 @@ export default {
   },
   mounted: function () {
     this.operation()
+    this.clearAllCheckBox()
   },
   methods: {
     ...mapActions({
-      initialLoanRequestOperations: 'onlineDepositStore/initialLoanRequestOperations'
+      // set to list
+      initialDepositOperations: 'onlineDepositStore/initialDepositOperations',
+      initialCardOperations: 'onlineDepositStore/initialCardOperations',
+      initialUserOperations: 'onlineDepositStore/initialUserOperations',
+      initialPublicOperations: 'onlineDepositStore/initialPublicOperations',
+      initialCardReissueOperations: 'onlineDepositStore/initialCardReissueOperations',
+      initialLoanRequestOperations: 'onlineDepositStore/initialLoanRequestOperations',
+      initialOnlineDepositOperations: 'onlineDepositStore/initialOnlineDepositOperations'
     }),
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
     checkValueBeforeShow: function (value, itemObject) {
-      console.log(value)
       if (value === '' || value === ' ' || value === undefined || value === null) {
         return itemObject.url
       }
@@ -80,17 +87,14 @@ export default {
     // دریافت لیست عملیات ها
     // دریافت لیست عملیات ها
     operation () {
-      console.log('response')
       reportManager.operationList(this.operationType, this.$axios).then((response) => {
-        console.log(response)
         const operationList = response.data
 
         const operationLoanList = operationList.loanOperation
         const operationLoanPanelList = operationList.loanPanelOperation
 
         const operationLastList = operationLoanList.concat(operationLoanPanelList)
-        console.log('operationLoanList')
-        console.log(operationLastList)
+        console.log('operationLoanList concat operationLoanPanelList', operationLastList)
 
         // loanOperation + loanPanelOperation
         this.items = operationLastList
@@ -116,7 +120,19 @@ export default {
         return index
       }
     },
+    clearAllBeforeSelected () {
+      // clear because we wanna one operation
+      this.initialDepositOperations([])
+      this.initialCardOperations([])
+      this.initialUserOperations([])
+      this.initialPublicOperations([])
+      this.initialCardReissueOperations([])
+      this.initialLoanRequestOperations([])
+      this.initialOnlineDepositOperations([])
+    },
     checked (input) {
+      this.clearAllBeforeSelected()
+
       /* clear ALL OLD checked And set only -> input.url */
       this.category.selected = []
       this.category.selected = [input.url]
@@ -124,8 +140,12 @@ export default {
       console.log(this.listType)
       this.initialLoanRequestOperations(this.category.selected)
       console.log('checked')
-      console.log(input)
+      console.log('++++++++++', input)
       console.log(this.category.selected)
+
+      // close modal operations after click and select
+      sessionStorage.setItem('lastSelectTitleOperation', input.title)
+      this.$emit('okOperationDialog')
     },
     clearAllCheckBox: function () {
       this.category.selected = []
