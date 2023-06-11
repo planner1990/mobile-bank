@@ -61,7 +61,7 @@ export default {
       searchModel: {
         paginate: {
           page: 1,
-          length: 20,
+          length: 50,
           sort: {
             property: 'operationDate',
             direction: 'desc'

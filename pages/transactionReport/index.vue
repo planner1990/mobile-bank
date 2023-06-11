@@ -3,7 +3,13 @@
     <v-row>
       <!-- filter -->
       <v-col cols="12" style="padding: 8px !important;">
-        <transactionReportFilter ref="refTransactionReportFilter" v-model="searchModel" @search="search" @edit="editItem2()" />
+        <transactionReportFilter
+          ref="refTransactionReportFilter"
+          v-model="searchModel"
+          @okOperationDialog="okOperationDialog"
+          @search="search"
+          @edit="editItem2()"
+        />
       </v-col>
 
       <!-- grid -->
@@ -266,13 +272,13 @@
             </svg>
             <v-card-title class=" black--text font-weight-bold headline" style="border-bottom: 0 solid #D8D8D8;">
               <v-row no-gutters>
-                <v-col cols="8">
+                <v-col cols="4">
                   <v-text-field
                     v-model="searchOperation"
                     outlined
                     dense
                     placeholder="جستجو"
-                    class="mb-6 text-field"
+                    class="mb-4 text-field"
                   >
                     <template #append>
                       <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -296,83 +302,83 @@
                       color="success"
                       grow
                     >
-                      <v-tab href="#depositOperation" class="font-weight-black">
+                      <v-tab href="#depositOperation" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.depositOperation') }}
                       </v-tab>
                       <v-tab-item value="depositOperation">
                         <br>
-                        <deposit-operations :list-type="listType" />
+                        <deposit-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
 
-                      <v-tab href="#cardOperation" class="font-weight-black">
+                      <v-tab href="#cardOperation" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.cardOperation') }}
                       </v-tab>
                       <v-tab-item value="cardOperation">
                         <br>
-                        <card-operations :list-type="listType" />
+                        <card-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
 
-                      <v-tab href="#userOperation" class="font-weight-black">
+                      <v-tab href="#userOperation" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.userOperation') }}
                       </v-tab>
                       <v-tab-item value="userOperation">
                         <br>
-                        <user-operations :list-type="listType" />
+                        <user-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
 
-                      <v-tab href="#publicOperation" class="font-weight-black">
+                      <v-tab href="#publicOperation" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.publicOperation') }}
                       </v-tab>
                       <v-tab-item value="publicOperation">
                         <br>
-                        <public-operations :list-type="listType" />
+                        <public-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
 
-                      <v-tab href="#cardReissueOperation" class="font-weight-black">
+                      <v-tab href="#cardReissueOperation" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.cardReissueOperation') }}
                       </v-tab>
                       <v-tab-item value="cardReissueOperation">
                         <br>
-                        <card-reissue-operations :list-type="listType" />
+                        <card-reissue-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
 
-                      <v-tab href="#loanRequestOperation" class="font-weight-black">
+                      <v-tab href="#loanRequestOperation" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.loanRequestOperation') }}
                       </v-tab>
                       <v-tab-item value="loanRequestOperation">
                         <br>
-                        <loan-operations :list-type="listType" />
+                        <loan-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
 
-                      <v-tab href="#onlineDepositOperation" class="font-weight-black">
+                      <v-tab href="#onlineDepositOperation" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.onlineDepositOperation') }}
                       </v-tab>
                       <v-tab-item value="onlineDepositOperation">
                         <br>
-                        <online-deposit-operations :list-type="listType" />
+                        <online-deposit-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
 
-                      <v-tab href="#pichackOperations" class="font-weight-black">
+                      <v-tab href="#pichackOperations" class="font-weight-black" @click="keyTab++">
                         {{ $t('report.transactionReport.headers.pichackOperation') }}
                       </v-tab>
                       <v-tab-item value="pichackOperations">
                         <br>
-                        <pichack-operations :list-type="listType" />
+                        <pichack-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
                     </v-tabs>
                   </v-row>
                 </v-card>
-                <v-row>
-                  <v-col style="direction: ltr;">
-                    <v-btn
-                      color="success"
-                      style="width: 160px;height: 48px;background: #84BD00;border-radius: 12px;font-size: 18px;line-height: 20px;color: #FFFFFF;font-style: normal;font-weight: 500;"
-                      @click="okOperationDialog"
-                    >
-                      {{ 'انتخاب عملیات' }}
-                    </v-btn>
-                  </v-col>
-                </v-row>
+                <!--                <v-row>-->
+                <!--                  <v-col style="direction: ltr;">-->
+                <!--                    <v-btn-->
+                <!--                      color="success"-->
+                <!--                      style="width: 160px;height: 48px;background: #84BD00;border-radius: 12px;font-size: 18px;line-height: 20px;color: #FFFFFF;font-style: normal;font-weight: 500;"-->
+                <!--                      @click="okOperationDialog"-->
+                <!--                    >-->
+                <!--                      {{ 'انتخاب عملیات' }}-->
+                <!--                    </v-btn>-->
+                <!--                  </v-col>-->
+                <!--                </v-row>-->
               </v-form>
             </v-container>
           </v-card>
@@ -426,7 +432,7 @@ const defaultFilterOperation = {
   },
   paginate: {
     page: 1,
-    length: 20,
+    length: 50,
     sort: {
       property: 'id',
       direction: 'desc'
@@ -449,6 +455,7 @@ export default {
   },
   data () {
     return {
+      keyTab: 1,
       tabsModel: [],
       downloadLoading: false,
       createDialog: false,
@@ -471,15 +478,15 @@ export default {
       totalNumberOfItems: 0,
       loading: false,
       headers: [
-        { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
-        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.transactionId'), value: 'id', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false },
-        { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false },
-        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false },
-        { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false },
-        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false },
+        { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.transactionId'), value: 'id', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.operation'), value: 'operation', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.cif'), value: 'cif', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.requestTime'), value: 'requestTime', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.errorCode'), value: 'responseCode', sortable: false, align: 'right' },
         { text: '', value: 'detail', sortable: false, align: 'center' }
       ],
       headersTransaction: [
@@ -493,7 +500,7 @@ export default {
         { text: this.$t('report.transactionReport.headers.requestId'), value: 'requestId', sortable: false, align: 'center' }
       ],
       headersTransactionRequest: [
-        { text: this.$t('report.transactionReport.headers.requestJson'), value: 'requestJson', sortable: false },
+        { text: this.$t('report.transactionReport.headers.requestJson'), value: 'requestJson', sortable: false, align: 'center' },
         { text: this.$t('report.transactionReport.headers.responseJson'), value: 'responseJson', sortable: false, align: 'center' }
       ],
       headersTransactionLog: [
@@ -519,6 +526,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      // get from list
       cardOperationList: 'onlineDepositStore/cardOperationList',
       depositOperationList: 'onlineDepositStore/depositOperationList',
       publicOperationList: 'onlineDepositStore/publicOperationList',
@@ -527,7 +535,6 @@ export default {
       onlineDepositOperationList: 'onlineDepositStore/onlineDepositOperationList',
       loanRequestOperationList: 'onlineDepositStore/loanRequestOperationList',
       cardReissueOperationList: 'onlineDepositStore/cardReissueOperationList'
-
     })
   },
   mounted () {
@@ -619,6 +626,9 @@ export default {
       this.operationDialog = false
     },
     okOperationDialog () {
+      this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(sessionStorage.getItem('lastSelectTitleOperation'))
+
+      // add (merge)
       this.cardList = this.cardOperationList
       this.operationList = this.depositOperationList.concat(
         this.cardReissueOperationList,
@@ -629,7 +639,7 @@ export default {
         this.userOperationList
       )
       this.operationDialog = false
-      console.log('pages/transactionReport/index.vue okOperationDialog', JSON.stringify(this.operationList))
+      console.log('*** pages/transactionReport/index.vue okOperationDialog', JSON.stringify(this.operationList))
     },
     search (searchModel) {
       this.loading = true

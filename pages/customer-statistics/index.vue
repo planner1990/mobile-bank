@@ -17,7 +17,7 @@
           :loading="loading"
           dense
           :footer-props="{
-            'items-per-page-options': [50, 100, 300, 500, 1000]
+            'items-per-page-options': [20, 50, 100, 500, 1000]
           }"
           :items-per-page.sync="requestObject.paginate.length"
           :page.sync="requestObject.paginate.page"
@@ -116,9 +116,9 @@ export default {
       createDialog: false,
       deleteUserDialog: false,
       headers: [
-        { text: this.$t('customer.customerStatistics.headers.customerType'), value: 'customerType' },
-        { text: this.$t('customer.customerStatistics.headers.countNew'), value: 'countNew' },
-        { text: this.$t('customer.customerStatistics.headers.countActive'), value: 'countActive', align: 'center' }
+        { text: this.$t('customer.customerStatistics.headers.customerType'), value: 'customerType', sortable: false, align: 'center' },
+        { text: this.$t('customer.customerStatistics.headers.countNew'), value: 'countNew', sortable: false, align: 'center' },
+        { text: this.$t('customer.customerStatistics.headers.countActive'), value: 'countActive', sortable: false, align: 'center' }
 
       ],
       users: []

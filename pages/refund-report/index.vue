@@ -17,7 +17,7 @@
           class="fullScreen"
           :loading="loading"
           :footer-props="{
-            'items-per-page-options': [50, 100, 300, 500, 1000],
+            'items-per-page-options': [20, 50, 100, 500, 1000],
             'items-per-page-text': ' جمع مبالغ بازگشتی : '+ priceFormat(sumAmount)
           }"
           :items-per-page.sync="searchModel.paginate.length"
@@ -602,23 +602,23 @@ export default {
       filterDetails: defaultFilterdetails,
       loading: false,
       headers: [
-        { text: this.$t('report.refundReport.headers.id'), value: 'id', sortable: false },
-        { text: this.$t('report.refundReport.headers.transactionTime'), value: 'transactionTime', sortable: false },
-        { text: this.$t('report.refundReport.headers.phoneNumber'), value: 'phoneNumber', sortable: false },
-        { text: this.$t('report.refundReport.headers.source'), value: 'source', sortable: false },
-        { text: this.$t('report.refundReport.headers.transactionErrorCode'), value: 'transactionErrorCode', sortable: false },
-        { text: this.$t('report.refundReport.headers.amount'), value: 'amount', sortable: false },
-        { text: this.$t('report.refundReport.headers.createdTime'), value: 'createdTime', sortable: false },
-        { text: this.$t('report.refundReport.headers.state'), value: 'state', sortable: false },
-        { text: this.$t('report.refundReport.headers.requestId'), value: 'requestId', sortable: false },
-        { text: this.$t('report.refundReport.headers.refundOrFailTime'), value: 'refundOrFailTime', sortable: false },
-        { text: this.$t('report.refundReport.headers.errorCode'), value: 'errorCode', sortable: false },
+        { text: this.$t('report.refundReport.headers.id'), value: 'id', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.transactionTime'), value: 'transactionTime', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.phoneNumber'), value: 'phoneNumber', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.source'), value: 'source', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.transactionErrorCode'), value: 'transactionErrorCode', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.amount'), value: 'amount', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.createdTime'), value: 'createdTime', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.state'), value: 'state', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.requestId'), value: 'requestId', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.refundOrFailTime'), value: 'refundOrFailTime', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.errorCode'), value: 'errorCode', sortable: false, align: 'right' },
         { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false, align: 'center' }
       ],
       headersTransaction: [
-        { text: this.$t('report.refundReport.headers.transactionId'), value: 'transactionId', sortable: false },
-        { text: this.$t('report.refundReport.headers.url'), value: 'url', sortable: false },
-        { text: this.$t('report.refundReport.headers.ip'), value: 'ip', sortable: false },
+        { text: this.$t('report.refundReport.headers.transactionId'), value: 'transactionId', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.url'), value: 'url', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.ip'), value: 'ip', sortable: false, align: 'right' },
         { text: this.$t('report.refundReport.headers.switchResponseRrn'), value: 'switchResponseRrn', sortable: false, align: 'center' }
       ],
       items: [],
@@ -681,7 +681,7 @@ export default {
     },
     getColorState (state) {
       if (state === 0) {
-        return '#ffff00'
+        return '#ffff008a'
       } else if (state === 1) {
         return 'success'
       } else if (state === 4) {
@@ -689,7 +689,7 @@ export default {
       } else if (state === 5) {
         return '#66CDAA'
       } else if (state === 3) {
-        return '#ff9933'
+        return '#ff9933b8'
       } else if (state === 6) {
         return '#5b90bf'
       } else if (state === 2) {

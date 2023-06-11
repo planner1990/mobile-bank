@@ -76,11 +76,11 @@ export default {
       downloadLoading: false,
       totalNumberOfItems: 0,
       headers: [
-        { text: this.$t('income.headers.transactionName'), value: 'transactionName' },
-        { text: this.$t('income.headers.transactionCount'), value: 'transactionCount' },
-        { text: this.$t('income.headers.feeSum'), value: 'feeSum' },
-        { text: this.$t('income.headers.coSharePercent'), value: 'coSharePercent' },
-        { text: this.$t('income.headers.coShareAmount'), value: 'coShareAmount' }
+        { text: this.$t('income.headers.transactionName'), value: 'transactionName', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.transactionCount'), value: 'transactionCount', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.feeSum'), value: 'feeSum', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.coSharePercent'), value: 'coSharePercent', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.coShareAmount'), value: 'coShareAmount', sortable: false, align: 'center' }
 
       ]
     }

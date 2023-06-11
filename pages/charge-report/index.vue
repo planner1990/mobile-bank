@@ -11,7 +11,7 @@
         <v-data-table
           dense
           :footer-props="{
-            'items-per-page-options': [50, 100, 300, 500, 1000]
+            'items-per-page-options': [20, 50, 100, 500, 1000]
           }"
           item-key="cardOwnerId"
           sort-by="cardOwnerId"
@@ -131,15 +131,15 @@ export default {
       totalNumberOfItems: 0,
       loading: false,
       headers: [
-        { text: this.$t('report.transactionReport.headers.transactionId'), value: 'id', sortable: false },
-        { text: this.$t('report.transactionReport.headers.requestId'), value: 'requestId', sortable: false },
-        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false },
-        { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false },
-        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'source', sortable: false },
-        { text: this.$t('report.transactionReport.headers.chargeType'), value: 'chargeType', sortable: false },
-        { text: this.$t('report.transactionReport.headers.operator'), value: 'operator', sortable: false },
-        { text: this.$t('report.chargeReport.headers.amount'), value: 'amount', sortable: false },
-        { text: this.$t('report.transactionReport.headers.sellTime'), value: 'requestTime', sortable: false },
+        { text: this.$t('report.transactionReport.headers.transactionId'), value: 'id', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.requestId'), value: 'requestId', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.phoneNumber'), value: 'mobileNumber', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'source', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.chargeType'), value: 'chargeType', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.operator'), value: 'operator', sortable: false, align: 'right' },
+        { text: this.$t('report.chargeReport.headers.amount'), value: 'amount', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.sellTime'), value: 'requestTime', sortable: false, align: 'right' },
         { text: this.$t('report.transactionReport.headers.errorCode'), value: 'errorCode', sortable: false, align: 'center' }],
 
       items: []

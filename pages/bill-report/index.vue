@@ -11,7 +11,7 @@
         <v-data-table
           dense
           :footer-props="{
-            'items-per-page-options': [50, 100, 300, 500, 1000]
+            'items-per-page-options': [20, 50, 100, 500, 1000]
           }"
           item-key="cardOwnerId"
           sort-by="cardOwnerId"
@@ -128,9 +128,9 @@ export default {
       totalNumberOfItems: 0,
       loading: false,
       headers: [
-        { text: this.$t('report.billReport.headers.type'), value: 'type', sortable: false },
-        { text: this.$t('report.billReport.headers.billId'), value: 'inq_search', sortable: false, width: '20%' },
-        { text: this.$t('report.billReport.headers.createDate'), value: 'created_at', sortable: false },
+        { text: this.$t('report.billReport.headers.type'), value: 'type', sortable: false, align: 'center' },
+        { text: this.$t('report.billReport.headers.billId'), value: 'inq_search', sortable: false, align: 'center', width: '20%' },
+        { text: this.$t('report.billReport.headers.createDate'), value: 'created_at', sortable: false, align: 'center' },
         { text: this.$t('report.billReport.headers.status'), value: 'status', sortable: false, align: 'center' },
         { text: this.$t('report.billReport.headers.mobile'), value: 'mobile', sortable: false, align: 'center' }
       ],
