@@ -40,6 +40,7 @@ export default {
     // Plugins
     { src: '~/plugins/i18n.js' },
     { src: '~/plugins/axios', mode: 'client' },
+    { src: '~/plugins/select2' },
 
     // filters
     { src: '~/filters/filterMomentJalali' },
