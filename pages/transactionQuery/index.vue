@@ -261,6 +261,7 @@
         <!-- Dialog show selector for operation select عملیات -->
         <v-dialog
           v-model="operationDialog"
+          persistent
           width="1000"
           transition="dialog-bottom-transition"
         >
@@ -636,6 +637,7 @@ export default {
       this.createDialog = false
       this.itemsTransaction.splice(0, 1)
       this.operationDialog = false
+      this.buttonCloseModal = false
     },
     okOperationDialog () {
       this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(sessionStorage.getItem('lastSelectTitleOperation'))
@@ -650,6 +652,8 @@ export default {
         this.publicOperationList,
         this.userOperationList
       )
+
+      this.buttonCloseModal = false
       this.operationDialog = false
       console.log('pages/transactionQuery/index.vue okOperationDialog', JSON.stringify(this.operationList))
     },

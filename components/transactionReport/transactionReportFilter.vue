@@ -106,6 +106,7 @@
                   outlined
                   :value="lableSelectOperatorRef"
                   color="gray"
+                  style="cursor: pointer !important;"
                   @click="editItem()"
                 />
               </v-col>

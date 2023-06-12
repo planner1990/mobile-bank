@@ -97,6 +97,7 @@
                   dense
                   outlined
                   :value="lableSelectOperatorRef"
+                  style="cursor: pointer !important;"
                   @click="editItem()"
                 />
               </v-col>
