@@ -13,7 +13,7 @@
           sort-by="username"
           :items="users"
           :headers="headers"
-          class="fullScreen"
+          class="fullScreen mb-16"
           :loading="loading"
           dense
           :footer-props="{
@@ -64,7 +64,7 @@
             <v-btn
               :loading="downloadLoading"
               :disabled="downloadLoading"
-              style="top: 50px;width: 146px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              class="btnOnFooterFixUnderGrid"
               @click="downloadReports()"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -125,6 +125,7 @@ import { mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
 import CustomerFilter from '~/components/customer/customerFilter'
 import userManager from '~/repository/user_manager'
+import reportManager from '~/repository/report_manager'
 
 export default {
   name: 'CustomerPage',
@@ -134,6 +135,7 @@ export default {
   data: function () {
     return {
       isShowTitleOfEditDialog: false,
+      downloadLoading: false,
       totalNumberOfItems: 0,
       guids: [
         {
@@ -179,14 +181,12 @@ export default {
         { text: this.$t('customer.name'), value: 'fullName', sortable: false, align: 'center' },
         { text: this.$t('customer.headers.depositOrCard'), value: 'cardOrDeposit', sortable: false, align: 'center' },
         { text: this.$t('customer.headers.registerDate'), value: 'registerDate', sortable: false, align: 'center' }
-
       ],
       users: [],
       createUserErrors: []
     }
   },
   computed: {
-
     computedErrorsInCreateDialog: function () {
       if (this.createUserErrors.length !== 0) {
         this.createUserErrors.forEach((e) => {
@@ -197,7 +197,6 @@ export default {
         return []
       }
     }
-
   },
   methods: {
     ...mapMutations({
@@ -213,6 +212,7 @@ export default {
     },
     async search (searchModel) {
       this.loading = true
+      this.searchModel = searchModel
       try {
         const response = await userManager.getCustomerList(searchModel, this.$axios)
         this.users = response.data.itemList
@@ -230,7 +230,6 @@ export default {
     convertToJalali (date) {
       return moment(date).format('hh:mm:ss jYYYY/jM/jD')
     },
-
     showErrorsInCreateUserDialog (errors) {
       this.loading = false
       this.createUserErrors = errors
@@ -348,6 +347,33 @@ export default {
     },
     resetValidation () {
       this.$refs.form.resetValidation()
+    },
+    downloadReports () {
+      this.downloadLoading = true
+
+      reportManager.downloadCustomer(this.searchModel, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'customer-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+      }).finally(() => {
+        this.downloadLoading = false
+      })
     }
   }
 }

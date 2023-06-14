@@ -186,6 +186,9 @@ export default {
   methods: {
     search () {
       this.$emit('search', this.filter)
+
+      this.loadingBtn = true
+      setTimeout(() => (this.loadingBtn = false), 2000)
     },
     checkIsNull () {
       if (this.fromDate != null) {

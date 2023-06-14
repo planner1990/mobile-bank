@@ -17,7 +17,7 @@
           sort-by="cardOwnerId"
           :items="items"
           :headers="headers"
-          class="fullScreen"
+          class="fullScreen mb-16"
           :loading="loading"
           :items-per-page.sync="searchModel.paginate.length"
           :page.sync="searchModel.paginate.page"
@@ -75,7 +75,7 @@
             <v-btn
               :loading="downloadLoading"
               :disabled="downloadLoading"
-              style="top: 50px;width: 146px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              class="btnOnFooterFixUnderGrid"
               @click="downloadReports()"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -204,6 +204,33 @@ export default {
     },
     moment (date) {
       return moment(date).format('HH:mm:ss jYYYY/jM/jD')
+    },
+    downloadReports () {
+      this.downloadLoading = true
+      reportManager.downloadBillList(this.searchModel, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'charge-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        console.log(error)
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+      }).finally(() => {
+        this.downloadLoading = false
+      })
     }
   }
 }

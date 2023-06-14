@@ -13,7 +13,7 @@
           sort-by="username"
           :items="users"
           :headers="headers"
-          class="fullScreen"
+          class="fullScreen mb-16"
           :loading="loading"
           dense
           :items-per-page.sync="pagination.rowsPerPage"

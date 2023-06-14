@@ -5,7 +5,7 @@
     sort-by="operationUrl"
     :items="chargeList"
     :headers="headers"
-    class="fullScreen"
+    class="fullScreen mb-16"
     :loading="loading"
   >
     <template #[`item.operator`]="{ item }">

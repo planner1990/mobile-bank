@@ -15,7 +15,7 @@
           }"
           :items="items"
           :headers="headers"
-          class="fullScreen"
+          class="fullScreen mb-16"
           :loading="loading"
           :items-per-page.sync="searchModel.paginate.length"
           :server-items-length="totalNumberOfItems"
@@ -46,7 +46,7 @@
             <v-btn
               :loading="downloadLoading"
               :disabled="downloadLoading"
-              style="top: 50px;width: 366px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              style="position: fixed !important;bottom: 10px !important;z-index: 10 !important;width: 366px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
               @click="confirm()"
             >
               <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">

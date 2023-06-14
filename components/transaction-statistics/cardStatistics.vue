@@ -8,7 +8,7 @@
     sort-by="operationUrl"
     :items="cards"
     :headers="headers"
-    class="fullScreen"
+    class="fullScreen mb-16"
     :loading="loading"
   >
     <template #[`item.operationTitle`]="{ item }">

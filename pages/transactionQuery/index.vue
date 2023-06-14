@@ -21,7 +21,7 @@
           sort-by="cardOwnerId"
           :items="items"
           :headers="headers"
-          class="fullScreen"
+          class="fullScreen mb-16"
           :loading="loading"
           :footer-props="{
             'items-per-page-options': [20, 50, 100, 500, 1000]
@@ -114,7 +114,7 @@
             <v-btn
               :loading="downloadLoading"
               :disabled="downloadLoading"
-              style="top: 50px;width: 146px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              class="btnOnFooterFixUnderGrid"
               @click="downloadReports()"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -178,7 +178,7 @@
                     sort-by="cardOwnerId"
                     :items="itemsTransaction"
                     :headers="headersTransaction"
-                    class="fullScreen"
+                    class="fullScreen mb-16"
                     :hide-default-footer="true"
                   />
                 </v-row>
@@ -526,13 +526,6 @@ export default {
       searchOperation: ''
     }
   },
-  mounted () {
-    // this.search(this.searchModel, 'mounted')
-
-    // search operation in textbox
-    this.operation()
-    this.search_listOperationCopy = [...this.search_listOperation]
-  },
   computed: {
     ...mapGetters({
       cardOperationList: 'onlineDepositStore/cardOperationList',
@@ -544,6 +537,13 @@ export default {
       loanRequestOperationList: 'onlineDepositStore/loanRequestOperationList',
       cardReissueOperationList: 'onlineDepositStore/cardReissueOperationList'
     })
+  },
+  mounted () {
+    // this.search(this.searchModel, 'mounted')
+
+    // search operation in textbox
+    this.operation()
+    this.search_listOperationCopy = [...this.search_listOperation]
   },
   methods: {
     ...mapActions({
@@ -691,9 +691,9 @@ export default {
     convertToJalali (date) {
       return moment(date).format('HH:mm:ss jYYYY/jM/jD')
     },
-    downloadReports (searchModel) {
+    downloadReports () {
       this.downloadLoading = true
-      reportManager.downloadTransactionList(searchModel, this.$axios).then((res) => {
+      reportManager.downloadTransactionList(this.searchModel, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL

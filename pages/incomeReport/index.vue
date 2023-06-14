@@ -22,7 +22,7 @@
             {{ $t('income.transferIncomeTitle') }}
           </v-tab>
           <v-tab-item value="deposit" style="border-radius: 12px;">
-            <transfer-income :transfer-list="transferList" :loading="enableLoading( loadingStatus)" />
+            <transfer-income :transfer-list="transferList" :loading="enableLoading( loadingStatus)" @downloadReports="downloadReports()" />
           </v-tab-item>
 
           <v-tab href="#card" class="font-weight-bold">
@@ -123,6 +123,9 @@ export default {
         this.loading = false
       })
     },
+    /* برای نفر بعد ی(شرمنده) */
+    /* فرصت نداشتن برای ریفکتور وگرنه این گندی که تو این کد زدن رو در حدی هست که باید از اول نشوته بشه */
+    /* قشنگ گورستانی از کد مرده هست */
     getDeposit: function () {
       console.log('inja omad')
       if (this.items.length > 0) {
@@ -151,6 +154,33 @@ export default {
 
     moment (date) {
       return momentJalali(date).format('HH:mm:ss jYYYY/jM/jD')
+    },
+    downloadReports () {
+      this.downloadLoading = true
+      reportManager.downloadTransactionStatistics(this.searchModel, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'operator-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        console.log(error)
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+      }).finally(() => {
+        this.downloadLoading = false
+      })
     }
   }
 }

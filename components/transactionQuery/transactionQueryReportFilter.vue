@@ -434,6 +434,9 @@ export default {
     },
     search () {
       this.$emit('search', this.filter)
+
+      this.loadingBtn = true
+      setTimeout(() => (this.loadingBtn = false), 4000)
     },
     editItem () {
       this.$emit('re_render')

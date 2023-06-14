@@ -135,7 +135,6 @@
 import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import userManager from '~/repository/user_manager'
-import reportManager from '~/repository/report_manager'
 
 const defaultSearchModel = {
   customerListFilter: {
@@ -192,33 +191,9 @@ export default {
       this.request = Object.assign(this.value, defaultSearchModel)
       this.$emit('search', this.request)
       this.loading = false
-    },
 
-    downloadReports (searchModel) {
-      this.downloadLoading = true
-      reportManager.downloadCustomer(defaultSearchModel, this.$axios).then((res) => {
-        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
-        const fileLink = document.createElement('a')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', 'customer-reports.xlsx')
-        document.body.appendChild(fileLink)
-        fileLink.click()
-        // ------------
-      }).catch((error) => {
-        if (error.response) {
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-      }).finally(() => {
-        this.downloadLoading = false
-      })
+      this.loadingBtn = true
+      setTimeout(() => (this.loadingBtn = false), 2000)
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {

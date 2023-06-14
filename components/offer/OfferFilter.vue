@@ -162,6 +162,9 @@ export default {
     }),
     search () {
       this.$emit('search', this.filter)
+
+      this.loadingBtn = true
+      setTimeout(() => (this.loadingBtn = false), 2000)
     },
     checkIsNullFromDate () {
       if (this.from != null) {

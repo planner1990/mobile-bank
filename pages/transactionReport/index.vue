@@ -114,7 +114,7 @@
             <v-btn
               :loading="downloadLoading"
               :disabled="downloadLoading"
-              style="top: 50px;width: 146px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              class="btnOnFooterFixUnderGrid"
               @click="downloadReports()"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -177,7 +177,7 @@
                     sort-by="cardOwnerId"
                     :items="itemsTransaction"
                     :headers="headersTransaction"
-                    class="fullScreen"
+                    class="fullScreen mb-16"
                     :hide-default-footer="true"
                   />
                 </v-row>
