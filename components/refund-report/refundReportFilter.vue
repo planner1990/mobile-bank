@@ -507,38 +507,15 @@ export default {
     },
     search () {
       this.$emit('search', this.filter)
+
+      this.loadingBtn = true
+      setTimeout(() => (this.loadingBtn = false), 2000)
     },
     refundList (searchModel) {
       this.$emit('refund', this.filter)
     },
     refundConfirmList (searchModel) {
       this.$emit('confirmRefund', this.filter)
-    },
-    downloadReports (searchModel) {
-      this.downloadLoading = true
-      reportManager.downloadRefundList(defaultFilter, this.$axios).then((res) => {
-        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
-        const fileLink = document.createElement('a')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', 'refund-reports.xlsx')
-        document.body.appendChild(fileLink)
-        fileLink.click()
-        // ------------
-      }).catch((error) => {
-        if (error.response) {
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-      }).finally(() => {
-        this.downloadLoading = false
-      })
     },
     convertToJalali (date) {
       if (date !== null) {

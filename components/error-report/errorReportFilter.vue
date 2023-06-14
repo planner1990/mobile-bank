@@ -220,6 +220,9 @@ export default {
   methods: {
     search () {
       this.$emit('search', this.filter)
+
+      this.loadingBtn = true
+      setTimeout(() => (this.loadingBtn = false), 2000)
     },
     operation: function () {
       this.loading = true
@@ -280,33 +283,6 @@ export default {
           })
         }
         this.loading = false
-      })
-    },
-    downloadReports (searchModel) {
-      this.downloadLoading = true
-      delete searchModel.paginate
-      reportManager.downloadErrorReport(searchModel, this.$axios).then((res) => {
-        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
-        const fileLink = document.createElement('a')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', 'operator-reports.xlsx')
-        document.body.appendChild(fileLink)
-        fileLink.click()
-        // ------------
-      }).catch((error) => {
-        if (error.response) {
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-      }).finally(() => {
-        this.downloadLoading = false
       })
     },
     checkIsNull () {

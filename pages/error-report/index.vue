@@ -29,7 +29,7 @@
           sort-by="cardOwnerId"
           :items="items"
           :headers="headers"
-          class="fullScreen"
+          class="fullScreen mb-16"
           :loading="loading"
           :footer-props="{
             'items-per-page-options': [20, 50, 100, 500, 1000]
@@ -49,7 +49,7 @@
             <v-btn
               :loading="downloadLoading"
               :disabled="downloadLoading"
-              style="top: 50px;width: 146px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              class="btnOnFooterFixUnderGrid"
               @click="downloadReports()"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,6 +85,7 @@ export default {
   data () {
     return {
       showChart: true,
+      downloadLoading: false,
       searchModel: {
         paginate: {
           page: 1,
@@ -233,6 +234,32 @@ export default {
     },
     moment (date) {
       return momentJalali(date).format('hh:mm:ss jYYYY/jM/jD')
+    },
+    downloadReports () {
+      this.downloadLoading = true
+      reportManager.downloadErrorReport(this.searchModel, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'operator-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+      }).finally(() => {
+        this.downloadLoading = false
+      })
     }
   }
 }

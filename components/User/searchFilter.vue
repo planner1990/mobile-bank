@@ -173,6 +173,9 @@ export default {
       this.request = Object.assign(this.value, defaultSearchModel)
       this.$emit('search', this.request)
       this.loading = false
+
+      this.loadingBtn = true
+      setTimeout(() => (this.loadingBtn = false), 2000)
     }
   }
 }

@@ -13,7 +13,7 @@
           sort-by="username"
           :items="users"
           :headers="headers"
-          class="fullScreen"
+          class="fullScreen mb-16"
           :loading="loading"
           dense
           :footer-props="{
@@ -45,7 +45,7 @@
             <v-btn
               :loading="downloadLoading"
               :disabled="downloadLoading"
-              style="top: 50px;width: 146px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              class="btnOnFooterFixUnderGrid"
               @click="downloadReports()"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -69,6 +69,7 @@
 import { mapMutations } from 'vuex'
 import CustomerStatisticsFilter from '~/components/customer-statistics/customerStatisticsFilter'
 import userManager from '~/repository/user_manager'
+import reportManager from '~/repository/report_manager'
 
 export default {
   name: 'CustomerStatisticsPage',
@@ -78,6 +79,7 @@ export default {
   data: function () {
     return {
       isShowTitleOfEditDialog: false,
+      downloadLoading: false,
       totalNumberOfItems: 0,
       guids: [
         {
@@ -119,15 +121,11 @@ export default {
         { text: this.$t('customer.customerStatistics.headers.customerType'), value: 'customerType', sortable: false, align: 'center' },
         { text: this.$t('customer.customerStatistics.headers.countNew'), value: 'countNew', sortable: false, align: 'center' },
         { text: this.$t('customer.customerStatistics.headers.countActive'), value: 'countActive', sortable: false, align: 'center' }
-
       ],
       users: []
     }
   },
   computed: {
-    // ...mapGetters({
-    //   loggedInUser: 'user/me'
-    // }),
     computedErrorsInCreateDialog: function () {
       if (this.createUserErrors.length !== 0) {
         this.createUserErrors.forEach((e) => {
@@ -138,13 +136,6 @@ export default {
         return []
       }
     }
-    //   if (this.userForm.userObj.role === 'ADMIN' || this.userForm.userObj.role === 'REPORTER') {
-    //     return this.userForm.locationAccess.filter(e => e.value === 'UNIVERSAL' || e.value === 'PROVINCE')
-    //   } else
-    //     return this.userForm.locationAccess.filter(e => e.value === 'BRANCH')
-    //   }
-    //   return []
-    // }
   },
   methods: {
     ...mapMutations({
@@ -156,6 +147,9 @@ export default {
     async search (searchModel) {
       searchModel.page = this.pagination.page
       searchModel.length = this.pagination.rowsPerPage
+
+      this.searchModel = searchModel
+
       this.loading = true
       try {
         const response = await userManager.getCustomerStatisticsReport(searchModel, this.$axios)
@@ -183,6 +177,33 @@ export default {
     },
     resetValidation () {
       this.$refs.form.resetValidation()
+    },
+    downloadReports () {
+      this.downloadLoading = true
+      reportManager.downloadCustomerStatistics(this.searchModel, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'customer-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        console.log(error)
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+      }).finally(() => {
+        this.downloadLoading = false
+      })
     }
   }
 }

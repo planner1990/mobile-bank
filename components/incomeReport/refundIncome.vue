@@ -5,7 +5,7 @@
     sort-by="operationUrl"
     :items="refundList"
     :headers="headers"
-    class="fullScreen"
+    class="fullScreen mb-16"
     :loading="loading"
     :footer-props="{
       'items-per-page-options': [20, 50, 100, 500, 1000]

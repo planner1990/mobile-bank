@@ -5,7 +5,7 @@
     sort-by="operationUrl"
     :items="transferList"
     :headers="headers"
-    class="fullScreen"
+    class="fullScreen mb-16"
     :loading="loading"
   >
     <template #[`item.transactionName`]="{ item }">
@@ -28,8 +28,8 @@
       <v-btn
         :loading="downloadLoading"
         :disabled="downloadLoading"
-        style="top: 50px;width: 146px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
-        @click="downloadReports()"
+        class="btnOnFooterFixUnderGrid"
+        @click="downloadReportsEmit()"
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M6.0013 7.33334V11.3333M6.0013 11.3333L7.33464 10M6.0013 11.3333L4.66797 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -46,7 +46,6 @@
 </template>
 
 <script>
-
 import { mapMutations } from 'vuex'
 
 export default {
@@ -56,6 +55,19 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    }
+  },
+  data () {
+    return {
+      downloadLoading: false,
+      totalNumberOfItems: 0,
+      headers: [
+        { text: this.$t('income.headers.transactionName'), value: 'transactionName', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.transactionCount'), value: 'transactionCount', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.feeSum'), value: 'feeSum', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.coSharePercent'), value: 'coSharePercent', sortable: false, align: 'center' },
+        { text: this.$t('income.headers.coShareAmount'), value: 'coShareAmount', sortable: false, align: 'center' }
+      ]
     }
   },
   methods: {
@@ -68,21 +80,11 @@ export default {
       } else {
         return 0
       }
-    }
-  },
-
-  data () {
-    return {
-      downloadLoading: false,
-      totalNumberOfItems: 0,
-      headers: [
-        { text: this.$t('income.headers.transactionName'), value: 'transactionName', sortable: false, align: 'center' },
-        { text: this.$t('income.headers.transactionCount'), value: 'transactionCount', sortable: false, align: 'center' },
-        { text: this.$t('income.headers.feeSum'), value: 'feeSum', sortable: false, align: 'center' },
-        { text: this.$t('income.headers.coSharePercent'), value: 'coSharePercent', sortable: false, align: 'center' },
-        { text: this.$t('income.headers.coShareAmount'), value: 'coShareAmount', sortable: false, align: 'center' }
-
-      ]
+    },
+    downloadReportsEmit () {
+      this.downloadLoading = true
+      this.$emit('downloadReports')
+      setTimeout(() => { this.downloadLoading = false }, 3000)
     }
   }
 }
