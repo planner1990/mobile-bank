@@ -441,7 +441,8 @@ select:-webkit-autofill:focus {
 .v-data-table .v-data-footer {
   position: fixed !important;
   bottom: 0 !important;
-  width: 99% !important;
+  width: 100% !important;
+  padding-left: 8px !important;
   background-color: #eaeaea !important;
   color: #444 !important;
 }
