@@ -297,7 +297,7 @@
                           :disabled="loadingBtnInsert"
                           color="#84BD00"
                           class="btnSave"
-                          @click="save"
+                          @click="save()"
                         >
                           {{ $t('buttons.submit') }}
                         </v-btn>
@@ -307,7 +307,7 @@
                           :disabled="loadingBtnInsert"
                           color="#84BD00"
                           class="btnSave"
-                          @click="save"
+                          @click="save()"
                         >
                           {{ $t('buttons.edit') }}
                         </v-btn>
@@ -401,13 +401,44 @@ export default {
       currentUser: 'user/me'
     }),
     computedUserAccessList: function () {
-      if (this.userForm.userObj.role !== 'ROLE_PANEL_ADMIN') {
-        return this.userForm.permissions.filter(e => e.value !== 'FULL_ACCESS')
+      const operationAccess = []
+
+      if (this.userForm.userObj.role === 'ROLE_PANEL_USER') {
+        // کارگزار شعبه
+        this.userForm.permissions.forEach((e) => {
+          if ([
+            'OFFER_ACCESS',
+            'ADMIN_ACCESS',
+            'ACCOUNTING_ACCESS',
+            'CREATE_USER',
+            'CONFIRM_REFUND'
+          ].includes(e.value)) {
+            operationAccess.push(e)
+          }
+        })
+        console.log('[[[ computedUserAccessList ]]]', 'ROLE_PANEL_USER', JSON.stringify(operationAccess))
+        console.log('[[[ computedUserAccessList ]]]', 'ROLE_PANEL_USER userAccessList', JSON.stringify(this.userForm.userObj.userAccessList))
+      } else if (this.userForm.userObj.role === 'ROLE_PANEL_REPORT') {
+        // گزارش گیر
+        this.userForm.permissions.forEach((e) => {
+          if ([
+            'REPORTER_ACCESS'
+          ].includes(e.value)) {
+            operationAccess.push(e)
+          }
+        })
+        console.log('[[[ computedUserAccessList ]]]', 'ROLE_PANEL_REPORT', JSON.stringify(operationAccess))
+        console.log('[[[ computedUserAccessList ]]]', 'ROLE_PANEL_REPORT userAccessList', JSON.stringify(this.userForm.userObj.userAccessList))
       } else {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        // this.userForm.userObj.userAccessList = []
-        return this.userForm.permissions
+        // کاربر ادمین - مدیر
+        this.userForm.permissions.forEach((e) => {
+          operationAccess.push(e)
+        })
+        console.log('[[[ computedUserAccessList ]]]', 'ADMIN', JSON.stringify(operationAccess))
+        console.log('[[[ computedUserAccessList ]]]', 'ADMIN userAccessList', JSON.stringify(this.userForm.userObj.userAccessList))
       }
+
+      return operationAccess
     },
     computedProvince: function () {
       if (this.userForm.userObj.provinceCode) {
@@ -457,6 +488,7 @@ export default {
         return []
       }
     },
+    // new Or update users
     save () {
       if (this.validate()) {
         this.loading = true
@@ -480,7 +512,6 @@ export default {
                   content: 'messages.failed'
                 })
               }
-              // this.showErrorsInCreateUserDialog(e.response.data.detailList)
             })
           } else {
             userManager.createUser(this.userForm.userObj, this.$axios).then(() => {
@@ -501,7 +532,6 @@ export default {
                   content: 'messages.failed'
                 })
               }
-              // this.showErrorsInCreateUserDialog(e.response.data.detailList)
             })
           }
         } catch (e) {
