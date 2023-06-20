@@ -471,7 +471,9 @@ export default {
       } else {
         // کاربر ادمین - مدیر
         this.userForm.permissions.forEach((e) => {
-          operationAccess.push(e)
+          if (e.value !== 'REPORTER_ACCESS') {
+            operationAccess.push(e)
+          }
         })
         console.log('[[[ computedUserAccessList ]]]', 'ADMIN', JSON.stringify(operationAccess))
         console.log('[[[ computedUserAccessList ]]]', 'ADMIN userAccessList', JSON.stringify(this.userForm.userObj.userAccessList))
