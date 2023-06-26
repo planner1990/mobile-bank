@@ -89,13 +89,6 @@
               :icon="'mdi-bank'"
             />
           </v-col>
-          <!--        <v-col cols="2">-->
-          <!--          <show-item-->
-          <!--            :icon="'mdi-account-check'"-->
-          <!--            :title="$t('common.status')"-->
-          <!--            :content="$t('user.status.' + currentUser.status)"-->
-          <!--          />-->
-          <!--        </v-col>-->
         </v-layout>
 
         <v-divider />

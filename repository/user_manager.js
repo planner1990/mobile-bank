@@ -86,6 +86,10 @@ const userPermissions = [
   {
     value: 'CONFIRM_REFUND',
     text: 'user.permissions.CONFIRM_REFUND'
+  },
+  {
+    value: 'REPORTER',
+    text: 'user.roles.REPORTER'
   }
 ]
 

@@ -380,81 +380,6 @@ import { mapActions, mapGetters } from 'vuex'
 import snackbar from '@/components/snacks'
 import userManager from '~/repository/user_manager'
 
-const itemsMenuOrginal = [
-  {
-    icon: 'mdi-apps-box',
-    title: 'menu.transaction',
-    to: '/transactionReport'
-  },
-  {
-    icon: 'mdi-code-less-than-or-equal',
-    title: 'menu.transactionQuery',
-    to: '/transactionQuery'
-  },
-  {
-    icon: 'mdi-chart-box',
-    title: 'menu.transactionStatistics',
-    to: '/transaction-statistics'
-  },
-  {
-    icon: 'mdi-account-arrow-left-outline',
-    title: 'menu.customer',
-    to: '/customer'
-  },
-  {
-    icon: 'mdi-table-account',
-    title: 'menu.customerStatistics',
-    to: '/customer-statistics'
-  },
-  {
-    icon: 'mdi-ev-station',
-    title: 'menu.charge',
-    to: '/charge-report'
-  },
-  {
-    icon: 'mdi-cash-refund',
-    title: 'menu.refund',
-    to: '/refund-report'
-  },
-  {
-    icon: 'mdi-chart-box-plus-outline',
-    title: 'menu.refundStatistics',
-    to: '/refund-statistics'
-  },
-  {
-    icon: 'mdi-lightbulb-outline',
-    title: 'menu.offer',
-    to: '/offer'
-  },
-  {
-    icon: 'mdi-table-arrow-down',
-    title: 'menu.bill',
-    to: '/bill-report'
-  },
-  {
-    icon: 'mdi-calendar-account-outline',
-    title: 'menu.users',
-    to: '/users'
-  }
-]
-const reportsMenuOrginal = [
-  {
-    icon: 'mdi-chart-timeline-variant-shimmer',
-    title: 'menu.error',
-    to: '/error-report'
-  },
-  {
-    icon: 'mdi-finance',
-    title: 'menu.income',
-    to: '/incomeReport'
-  },
-  {
-    icon: 'mdi-chart-bell-curve',
-    title: 'menu.transactionStatus',
-    to: '/transaction-status'
-  }
-]
-
 export default {
   components: {
     snackbar
@@ -467,8 +392,6 @@ export default {
       userManager: userManager,
       active_tab: null,
       colors,
-      // loggedInUser: JSON.parse(sessionStorage.getItem('mob-userInfo')),
-      // barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
       forceLoadThisComponentMenu: 1,
       clipped: true,
       drawer: true,
@@ -476,105 +399,223 @@ export default {
       createUserList: [],
       offerList: [],
       userList: [],
-      selected: {},
-      items: itemsMenuOrginal,
-      itemsOrginal: itemsMenuOrginal,
-      reports: reportsMenuOrginal,
-      reportOrginal: reportsMenuOrginal
+      selected: {}
     }
   },
   computed: {
     ...mapGetters({
       isLogin: 'user/isLogin',
       rtl: 'rtl',
-      currentUser: 'user/me'
-    }),
-    // برای سایر منو ها بجز گزارشات
-    // برای سطح دسترسی
-    checkUserAccess: function () {
-      return this.checkUserAccessMethod()
-    },
-    // برای منوی گزارشات
-    checkUserAccessReports () {
-      if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
-        (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
-        // همه
-        return this.reports
-      } else if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
-        // هیچ
-        return null
-      } else if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined &&
-        this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined &&
-        this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
-        // همه بجز اینها
-        return this.reports
-          .filter(e => e.to !== '/offer')
-          .filter(e => e.to !== '/users')
-          .filter(e => e.to !== '/charge-report')
-          .filter(e => e.to !== '/refund-report')
-      } else {
-        // همه بجز اینها
-        return this.reports.filter(e => e.to === '/offer')
-      }
-    }
+      currentUser: 'user/me',
+      loggedInUser: 'user/me'
+    })
   },
   methods: {
     ...mapActions({
       init: 'user/init',
       logout: 'user/logout'
     }),
+    checkUserAccessForMenu: function (actionCall, type) {
+      console.log('===== checkUserAccessForMenu =====', 'role -> ', JSON.stringify(this.loggedInUser), ' permissions -> ', JSON.stringify(this.loggedInUser.permissions))
+      let outcome = true
+      // -----------------------
+      // roles and permission -> priarity with permissions -> FULL_ACCESS
+      // -----------------------
+
+      // high priarity
+      // permissions -> FULL_ACCESS
+      if (type === 'menu') {
+        if (this.loggedInUser.permissions.find(e => e.name === 'FULL_ACCESS')) {
+          outcome = true
+          console.log('===== checkUserAccessForMenu ===== 1', 'outcome -> ', outcome)
+        }
+
+        // roles
+        if (this.loggedInUser.role.role === 'ROLE_PANEL_ADMIN') {
+          // All Menu
+          outcome = true
+          console.log('===== checkUserAccessForMenu ===== 2', 'outcome -> ', outcome)
+        } else if (this.loggedInUser.role.role === 'ROLE_PANEL_USER' && actionCall === '/users') {
+          // don't see / user
+          outcome = false
+          console.log('===== checkUserAccessForMenu ===== 3', 'outcome -> ', outcome)
+        } else if (this.currentUser.permissions.find(e => e.name === 'CREATE_USER')) {
+          // don't see root patch
+          if ([
+            '/',
+            '/transactionReport',
+            '/offer',
+            '/charge-report',
+            '/transaction-statistics',
+            '/customer',
+            '/refund-report'
+          ].includes(actionCall)) {
+            outcome = false
+          } else {
+            outcome = true
+          }
+
+          console.log('===== checkUserAccessForMenu ===== 4', 'outcome -> ', outcome)
+        } else if (
+          this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') ||
+          this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS')
+        ) {
+          // don't see root patch
+          if (![
+            '/',
+            '/transactionReport',
+            '/users',
+            '/transaction-statistics',
+            '/customer-statistics',
+            '/customer',
+            '/offer',
+            '/refund-statistics'
+          ].includes(actionCall)) {
+            outcome = false
+          } else {
+            outcome = true
+          }
+
+          console.log('===== checkUserAccessForMenu ===== 5', 'outcome -> ', outcome)
+        } else if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS')) {
+          // don't see root patch
+          if (![
+            '/',
+            '/transactionReport',
+            '/users',
+            '/charge-report',
+            '/refund-report',
+            '/transaction-statistics',
+            '/customer-statistics',
+            '/customer'
+          ].includes(actionCall)) {
+            outcome = false
+          } else {
+            outcome = true
+          }
+
+          console.log('===== checkUserAccessForMenu ===== 6', 'outcome -> ', outcome)
+        }
+      }
+
+      if (type === 'menuReport') {
+        if (this.loggedInUser.permissions.find(e => e.name === 'FULL_ACCESS')) {
+          outcome = true
+          console.log('===== checkUserAccessForMenu ===== 111', 'outcome -> ', outcome)
+        }
+
+        // roles
+        if (this.loggedInUser.role.role === 'ROLE_PANEL_ADMIN') {
+          // All Menu
+          outcome = true
+          console.log('===== checkUserAccessForMenu ===== 211', 'outcome -> ', outcome)
+        } else if (this.loggedInUser.role.role === 'ROLE_PANEL_USER') {
+          // don't see / user
+          outcome = true
+          console.log('===== checkUserAccessForMenu ===== 311', 'outcome -> ', outcome)
+        } else if (this.currentUser.permissions.find(e => e.name === 'CREATE_USER')) {
+          // don't see all report
+          outcome = false
+          console.log('===== checkUserAccessForMenu ===== 411', 'outcome -> ', outcome)
+        } else if (
+          this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') &&
+          this.currentUser.permissions.find(e => e.name === 'CREATE_USER') &&
+          this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS')
+        ) {
+          // don't see this patch
+          if ([
+            '/offer',
+            '/users',
+            '/charge-report',
+            '/refund-report'
+          ].includes(actionCall)) {
+            outcome = false
+          } else {
+            outcome = true
+          }
+
+          console.log('===== checkUserAccessForMenu ===== 511', 'outcome -> ', outcome)
+        }
+      }
+
+      console.log('===== checkUserAccessForMenu ===== final', 'outcome -> ', outcome)
+      return outcome
+    },
     doLogout () {
       this.logout()
       this.$router.push('/login')
-    },
+    }
+    // برای منوی گزارشات
+    // checkUserAccessReports () {
+    //   if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
+    //     (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
+    //     // همه
+    //     return this.reports
+    //   } else if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
+    //     // هیچ
+    //     return null
+    //   } else if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined &&
+    //     this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined &&
+    //     this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
+    //     // همه بجز اینها
+    //     return this.reports
+    //       .filter(e => e.to !== '/offer')
+    //       .filter(e => e.to !== '/users')
+    //       .filter(e => e.to !== '/charge-report')
+    //       .filter(e => e.to !== '/refund-report')
+    //   } else {
+    //     // همه بجز اینها
+    //     return this.reports.filter(e => e.to === '/offer')
+    //   }
+    // }
     // برای سایر منو ها بجز گزارشات
     // برای سطح دسترسی
-    checkUserAccessMethod () {
-      this.items = this.itemsOrginal
-      this.report = this.reportOrginal
+    // checkUserAccessMethod () {
+    //   this.items = this.itemsOrginal
+    //   this.report = this.reportOrginal
 
-      console.log('checkUserAccessMethod Permission', JSON.stringify(this.currentUser), JSON.stringify(this.items))
+    //   console.log('checkUserAccessMethod Permission', JSON.stringify(this.currentUser), JSON.stringify(this.items))
 
-      if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
-      (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
-        // همه
-        return this.items
-      } if (this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined) {
-        // همه بجز اینها
-        this.createUserList = this.items
-          .filter(e => e.to !== '/offer')
-          .filter(e => e.to !== '/charge-report')
-          .filter(e => e.to !== '/transaction-statistics')
-          .filter(e => e.to !== '/customer-statistics')
-          .filter(e => e.to !== '/customer')
-          .filter(e => e.to !== '/refund-report')
-          .filter(e => e.to !== '/')
-          .filter(e => e.to !== '/offer')
-      } if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined ||
-        this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
-        // همه بجز اینها
-        this.userList = this.items
-          .filter(e => e.to !== '/users')
-          .filter(e => e.to !== '/transaction-statistics')
-          .filter(e => e.to !== '/customer-statistics')
-          .filter(e => e.to !== '/customer')
-          .filter(e => e.to !== '/offer')
-          .filter(e => e.to !== '/refund-statistics')
-      } if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
-        // همه بجز اینها
-        this.offerList = this.items
-          .filter(e => e.to !== '/users')
-          .filter(e => e.to !== '/charge-report')
-          .filter(e => e.to !== '/refund-report')
-          .filter(e => e.to !== '/transaction-statistics')
-          .filter(e => e.to !== '/customer-statistics')
-          .filter(e => e.to !== '/customer')
-          .filter(e => e.to !== '/')
-      }
+    //   if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
+    //   (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
+    //     // همه
+    //     return this.items
+    //   } if (this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined) {
+    //     // همه بجز اینها
+    //     this.createUserList = this.items
+    //       .filter(e => e.to !== '/offer')
+    //       .filter(e => e.to !== '/charge-report')
+    //       .filter(e => e.to !== '/transaction-statistics')
+    //       .filter(e => e.to !== '/customer-statistics')
+    //       .filter(e => e.to !== '/customer')
+    //       .filter(e => e.to !== '/refund-report')
+    //       .filter(e => e.to !== '/')
+    //       .filter(e => e.to !== '/offer')
+    //   } if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined ||
+    //     this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
+    //     // همه بجز اینها
+    //     this.userList = this.items
+    //       .filter(e => e.to !== '/users')
+    //       .filter(e => e.to !== '/transaction-statistics')
+    //       .filter(e => e.to !== '/customer-statistics')
+    //       .filter(e => e.to !== '/customer')
+    //       .filter(e => e.to !== '/offer')
+    //       .filter(e => e.to !== '/refund-statistics')
+    //   } if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
+    //     // همه بجز اینها
+    //     this.offerList = this.items
+    //       .filter(e => e.to !== '/users')
+    //       .filter(e => e.to !== '/charge-report')
+    //       .filter(e => e.to !== '/refund-report')
+    //       .filter(e => e.to !== '/transaction-statistics')
+    //       .filter(e => e.to !== '/customer-statistics')
+    //       .filter(e => e.to !== '/customer')
+    //       .filter(e => e.to !== '/')
+    //   }
 
-      this.items = this.createUserList.concat(this.userList, this.offerList)
-      return this.items
-    }
+    //   this.items = this.createUserList.concat(this.userList, this.offerList)
+    //   return this.items
+    // }
   }
 }
 </script>
