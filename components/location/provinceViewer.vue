@@ -68,7 +68,7 @@ export default defineComponent({
   },
   setup (props) {
     const { $axios } = useContext()
-    const province = ref('')
+    const province = ref('تعیین نشده')
     if (props.value) {
       locationManager.getProvince(props.value, $axios).then((res) => {
         province.value = res.title
@@ -92,4 +92,8 @@ export default defineComponent({
 .v-input__slot {
   justify-content: center !important;
 }
+
+ /deep/ .v-input {
+   font-size: 14px;
+ }
 </style>

@@ -54,7 +54,7 @@ export default defineComponent({
   },
   setup (props) {
     const { $axios } = useContext()
-    const branch = ref('')
+    const branch = ref('تعیین نشده')
     if (props.value) {
       locationManager.getBranch(props.value, $axios).then((res) => {
         if (res.length > 0) {
@@ -77,3 +77,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+/deep/ .v-input {
+  font-size: 14px;
+}
+</style>
