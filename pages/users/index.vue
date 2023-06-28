@@ -504,7 +504,7 @@ export default {
     checkPermissionBtn () {
       let outcome = true
 
-      if (this.currentUser.permissions.find(e => e.name !== 'FULL_ACCESS') && this.currentUser.role.role !== 'ADMIN') {
+      if (this.currentUser.permissions.find(e => e.name !== 'FULL_ACCESS') && this.currentUser.role.role !== 'ROLE_PANEL_ADMIN') {
         if (this.currentUser.permissions.find(e => e.name !== 'CREATE_USER')) {
           outcome = false
           console.log('===== checkUserAccessForMenu ===== 6', 'outcome -> ', outcome)
