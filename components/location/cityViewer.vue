@@ -71,7 +71,7 @@ export default defineComponent({
   },
   setup (props) {
     const { $axios } = useContext()
-    const city = ref('')
+    const city = ref('تعیین نشده')
     if (props.value) {
       locationManager.getCities(props.province, $axios).then((res) => {
         const ix = res.findIndex((value, index) => value.id === props.value)
@@ -97,3 +97,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+/deep/ .v-input {
+  font-size: 14px;
+}
+</style>

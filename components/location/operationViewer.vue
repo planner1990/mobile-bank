@@ -68,7 +68,7 @@ export default defineComponent({
   },
   setup (props) {
     const { $axios } = useContext()
-    const operation = ref('')
+    const operation = ref('تعیین نشده')
 
     locationManager.getOperation($axios).then((res) => {
       operation.value = res.title
@@ -85,4 +85,8 @@ export default defineComponent({
 .v-input__slot {
   justify-content: center !important;
 }
+
+ /deep/ .v-input {
+   font-size: 14px;
+ }
 </style>

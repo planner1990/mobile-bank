@@ -120,7 +120,7 @@
               transition="dialog-bottom-transition"
             >
               <!-- btn new user | edit user -->
-              <template #activator="{ on, attrs }">
+              <template v-if="checkPermissionBtn()" #activator="{ on, attrs }">
                 <v-btn
                   color="warning"
                   class="mb-2"
@@ -501,6 +501,18 @@ export default {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
+    checkPermissionBtn () {
+      let outcome = true
+
+      if (this.currentUser.permissions.find(e => e.name !== 'FULL_ACCESS') && this.currentUser.role.role !== 'ROLE_PANEL_ADMIN') {
+        if (this.currentUser.permissions.find(e => e.name !== 'CREATE_USER')) {
+          outcome = false
+          console.log('===== checkUserAccessForMenu ===== 6', 'outcome -> ', outcome)
+        }
+      }
+
+      return outcome
+    },
     clearAllDataInForm () {
       delete this.userForm.userObj.userAccessList
       this.resetValidation()

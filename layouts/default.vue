@@ -72,12 +72,12 @@
             </template>
 
             <v-list>
-              <v-list-item :to="'/transactionReport'">
+              <v-list-item v-if="checkUserAccessForMenu('/transactionReport', 'menu')" :to="'/transactionReport'">
                 <v-list-item-title key="1" style="font-size: 15px;">
                   لیست تراکنش ها
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :to="'/transaction-statistics'">
+              <v-list-item v-if="checkUserAccessForMenu('/transaction-statistics', 'menu')" :to="'/transaction-statistics'">
                 <v-list-item-title key="2" style="font-size: 15px;">
                   آمار تراکنش ها
                 </v-list-item-title>
@@ -85,7 +85,7 @@
             </v-list>
           </v-menu>
         </v-btn>
-        <v-btn value="2" :to="'/transactionQuery'" style="color: #fff;font-size: 15px;">
+        <v-btn v-if="checkUserAccessForMenu('/transactionQuery', 'menu')" value="2" :to="'/transactionQuery'" style="color: #fff;font-size: 15px;">
           درخواست ها
 
           <svg
@@ -153,12 +153,12 @@
             </template>
 
             <v-list>
-              <v-list-item :to="'/refund-report'">
+              <v-list-item v-if="checkUserAccessForMenu('/refund-report', 'menu')" :to="'/refund-report'">
                 <v-list-item-title key="1" style="font-size: 15px;">
                   لیست استرداد
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :to="'/refund-statistics'">
+              <v-list-item v-if="checkUserAccessForMenu('/refund-statistics', 'menu')" :to="'/refund-statistics'">
                 <v-list-item-title key="2" style="font-size: 15px;">
                   آمار استرداد وجه
                 </v-list-item-title>
@@ -166,7 +166,7 @@
             </v-list>
           </v-menu>
         </v-btn>
-        <v-btn value="4" :to="'/charge-report'" style="color: #fff;font-size: 15px;">
+        <v-btn v-if="checkUserAccessForMenu('/charge-report', 'menu')" value="4" :to="'/charge-report'" style="color: #fff;font-size: 15px;">
           شارژ ها
 
           <svg
@@ -181,7 +181,7 @@
             <path d="M16.0404 11C16.0404 13.7867 13.7854 16.0417 10.9987 16.0417C8.21203 16.0417 6.5162 13.2367 6.5162 13.2367M6.5162 13.2367H8.78953M6.5162 13.2367V15.7575M5.95703 11C5.95703 8.21337 8.1937 5.95837 10.9987 5.95837C14.3629 5.95837 16.0404 8.76337 16.0404 8.76337M16.0404 8.76337V6.24254M16.0404 8.76337H13.8037" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </v-btn>
-        <v-btn value="5" :to="'/bill-report'" style="color: #fff;font-size: 15px;">
+        <v-btn v-if="checkUserAccessForMenu('/bill-report', 'menu')" value="5" :to="'/bill-report'" style="color: #fff;font-size: 15px;">
           استعلام قبض
 
           <svg
@@ -247,17 +247,17 @@
             </template>
 
             <v-list>
-              <v-list-item :to="'/error-report'">
+              <v-list-item v-if="checkUserAccessForMenu('/error-report', 'menuReport')" :to="'/error-report'">
                 <v-list-item-title key="1" style="font-size: 15px;">
                   گزارش خطا
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :to="'/incomeReport'">
+              <v-list-item v-if="checkUserAccessForMenu('/incomeReport', 'menuReport')" :to="'/incomeReport'">
                 <v-list-item-title key="2" style="font-size: 15px;">
                   گزارش درآمد
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :to="'/transaction-status'">
+              <v-list-item v-if="checkUserAccessForMenu('/transaction-status', 'menuReport')" :to="'/transaction-status'">
                 <v-list-item-title key="3" style="font-size: 15px;">
                   آمار تراکنش ها
                 </v-list-item-title>
@@ -310,22 +310,22 @@
             </template>
 
             <v-list>
-              <v-list-item :to="'/offer'">
+              <v-list-item v-if="checkUserAccessForMenu('/transaction-status', 'menu')" :to="'/offer'">
                 <v-list-item-title key="1" style="font-size: 15px;">
                   پیشنهاد روز
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :to="'/customer'">
+              <v-list-item v-if="checkUserAccessForMenu('/transaction-status', 'menu')" :to="'/customer'">
                 <v-list-item-title key="1" style="font-size: 15px;">
                   لیست کاربران
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :to="'/customer-statistics'">
+              <v-list-item v-if="checkUserAccessForMenu('/transaction-status', 'menu')" :to="'/customer-statistics'">
                 <v-list-item-title key="2" style="font-size: 15px;">
                   آمار کاربران
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :to="'/users'">
+              <v-list-item v-if="checkUserAccessForMenu('/users', 'menu')" :to="'/users'">
                 <v-list-item-title key="3" style="font-size: 15px;">
                   مدیران سیستم
                 </v-list-item-title>
@@ -380,81 +380,6 @@ import { mapActions, mapGetters } from 'vuex'
 import snackbar from '@/components/snacks'
 import userManager from '~/repository/user_manager'
 
-const itemsMenuOrginal = [
-  {
-    icon: 'mdi-apps-box',
-    title: 'menu.transaction',
-    to: '/transactionReport'
-  },
-  {
-    icon: 'mdi-code-less-than-or-equal',
-    title: 'menu.transactionQuery',
-    to: '/transactionQuery'
-  },
-  {
-    icon: 'mdi-chart-box',
-    title: 'menu.transactionStatistics',
-    to: '/transaction-statistics'
-  },
-  {
-    icon: 'mdi-account-arrow-left-outline',
-    title: 'menu.customer',
-    to: '/customer'
-  },
-  {
-    icon: 'mdi-table-account',
-    title: 'menu.customerStatistics',
-    to: '/customer-statistics'
-  },
-  {
-    icon: 'mdi-ev-station',
-    title: 'menu.charge',
-    to: '/charge-report'
-  },
-  {
-    icon: 'mdi-cash-refund',
-    title: 'menu.refund',
-    to: '/refund-report'
-  },
-  {
-    icon: 'mdi-chart-box-plus-outline',
-    title: 'menu.refundStatistics',
-    to: '/refund-statistics'
-  },
-  {
-    icon: 'mdi-lightbulb-outline',
-    title: 'menu.offer',
-    to: '/offer'
-  },
-  {
-    icon: 'mdi-table-arrow-down',
-    title: 'menu.bill',
-    to: '/bill-report'
-  },
-  {
-    icon: 'mdi-calendar-account-outline',
-    title: 'menu.users',
-    to: '/users'
-  }
-]
-const reportsMenuOrginal = [
-  {
-    icon: 'mdi-chart-timeline-variant-shimmer',
-    title: 'menu.error',
-    to: '/error-report'
-  },
-  {
-    icon: 'mdi-finance',
-    title: 'menu.income',
-    to: '/incomeReport'
-  },
-  {
-    icon: 'mdi-chart-bell-curve',
-    title: 'menu.transactionStatus',
-    to: '/transaction-status'
-  }
-]
-
 export default {
   components: {
     snackbar
@@ -467,8 +392,6 @@ export default {
       userManager: userManager,
       active_tab: null,
       colors,
-      // loggedInUser: JSON.parse(sessionStorage.getItem('mob-userInfo')),
-      // barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
       forceLoadThisComponentMenu: 1,
       clipped: true,
       drawer: true,
@@ -476,105 +399,223 @@ export default {
       createUserList: [],
       offerList: [],
       userList: [],
-      selected: {},
-      items: itemsMenuOrginal,
-      itemsOrginal: itemsMenuOrginal,
-      reports: reportsMenuOrginal,
-      reportOrginal: reportsMenuOrginal
+      selected: {}
     }
   },
   computed: {
     ...mapGetters({
       isLogin: 'user/isLogin',
       rtl: 'rtl',
-      currentUser: 'user/me'
-    }),
-    // برای سایر منو ها بجز گزارشات
-    // برای سطح دسترسی
-    checkUserAccess: function () {
-      return this.checkUserAccessMethod()
-    },
-    // برای منوی گزارشات
-    checkUserAccessReports () {
-      if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
-        (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
-        // همه
-        return this.reports
-      } else if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
-        // هیچ
-        return null
-      } else if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined &&
-        this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined &&
-        this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
-        // همه بجز اینها
-        return this.reports
-          .filter(e => e.to !== '/offer')
-          .filter(e => e.to !== '/users')
-          .filter(e => e.to !== '/charge-report')
-          .filter(e => e.to !== '/refund-report')
-      } else {
-        // همه بجز اینها
-        return this.reports.filter(e => e.to === '/offer')
-      }
-    }
+      currentUser: 'user/me',
+      loggedInUser: 'user/me'
+    })
   },
   methods: {
     ...mapActions({
       init: 'user/init',
       logout: 'user/logout'
     }),
+    checkUserAccessForMenu: function (actionCall, type) {
+      console.log('===== checkUserAccessForMenu =====', 'role -> ', JSON.stringify(this.loggedInUser), ' permissions -> ', JSON.stringify(this.loggedInUser.permissions))
+      let outcome = true
+      // -----------------------
+      // roles and permission -> priarity with permissions -> FULL_ACCESS
+      // -----------------------
+
+      // high priarity
+      // permissions -> FULL_ACCESS
+      if (type === 'menu') {
+        if (this.loggedInUser.permissions.find(e => e.name === 'FULL_ACCESS')) {
+          outcome = true
+          console.log('===== checkUserAccessForMenu ===== 1', 'outcome -> ', outcome)
+        }
+
+        // roles
+        if (this.loggedInUser.role.role === 'ROLE_PANEL_ADMIN') {
+          // All Menu
+          outcome = true
+          console.log('===== checkUserAccessForMenu ===== 2', 'outcome -> ', outcome)
+        } else if (this.loggedInUser.role.role === 'ROLE_PANEL_USER' && actionCall === '/users') {
+          // don't see / user
+          outcome = false
+          console.log('===== checkUserAccessForMenu ===== 3', 'outcome -> ', outcome)
+        } else if (this.currentUser.permissions.find(e => e.name === 'CREATE_USER')) {
+          // don't see root patch
+          if ([
+            '/',
+            '/transactionReport',
+            '/offer',
+            '/charge-report',
+            '/transaction-statistics',
+            '/customer',
+            '/refund-report'
+          ].includes(actionCall)) {
+            outcome = false
+          } else {
+            outcome = true
+          }
+
+          console.log('===== checkUserAccessForMenu ===== 4', 'outcome -> ', outcome)
+        } else if (
+          this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') ||
+          this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS')
+        ) {
+          // don't see root patch
+          if (![
+            '/',
+            '/transactionReport',
+            '/users',
+            '/transaction-statistics',
+            '/customer-statistics',
+            '/customer',
+            '/offer',
+            '/refund-statistics'
+          ].includes(actionCall)) {
+            outcome = false
+          } else {
+            outcome = true
+          }
+
+          console.log('===== checkUserAccessForMenu ===== 5', 'outcome -> ', outcome)
+        } else if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS')) {
+          // don't see root patch
+          if (![
+            '/',
+            '/transactionReport',
+            '/users',
+            '/charge-report',
+            '/refund-report',
+            '/transaction-statistics',
+            '/customer-statistics',
+            '/customer'
+          ].includes(actionCall)) {
+            outcome = false
+          } else {
+            outcome = true
+          }
+
+          console.log('===== checkUserAccessForMenu ===== 6', 'outcome -> ', outcome)
+        }
+      }
+
+      if (type === 'menuReport') {
+        if (this.loggedInUser.permissions.find(e => e.name === 'FULL_ACCESS')) {
+          outcome = true
+          console.log('===== checkUserAccessForMenu ===== 111', 'outcome -> ', outcome)
+        }
+
+        // roles
+        if (this.loggedInUser.role.role === 'ROLE_PANEL_ADMIN') {
+          // All Menu
+          outcome = true
+          console.log('===== checkUserAccessForMenu ===== 211', 'outcome -> ', outcome)
+        } else if (this.loggedInUser.role.role === 'ROLE_PANEL_USER') {
+          // don't see / user
+          outcome = true
+          console.log('===== checkUserAccessForMenu ===== 311', 'outcome -> ', outcome)
+        } else if (this.currentUser.permissions.find(e => e.name === 'CREATE_USER')) {
+          // don't see all report
+          outcome = false
+          console.log('===== checkUserAccessForMenu ===== 411', 'outcome -> ', outcome)
+        } else if (
+          this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') &&
+          this.currentUser.permissions.find(e => e.name === 'CREATE_USER') &&
+          this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS')
+        ) {
+          // don't see this patch
+          if ([
+            '/offer',
+            '/users',
+            '/charge-report',
+            '/refund-report'
+          ].includes(actionCall)) {
+            outcome = false
+          } else {
+            outcome = true
+          }
+
+          console.log('===== checkUserAccessForMenu ===== 511', 'outcome -> ', outcome)
+        }
+      }
+
+      console.log('===== checkUserAccessForMenu ===== final', 'outcome -> ', outcome)
+      return outcome
+    },
     doLogout () {
       this.logout()
       this.$router.push('/login')
-    },
+    }
+    // برای منوی گزارشات
+    // checkUserAccessReports () {
+    //   if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
+    //     (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
+    //     // همه
+    //     return this.reports
+    //   } else if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
+    //     // هیچ
+    //     return null
+    //   } else if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined &&
+    //     this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined &&
+    //     this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
+    //     // همه بجز اینها
+    //     return this.reports
+    //       .filter(e => e.to !== '/offer')
+    //       .filter(e => e.to !== '/users')
+    //       .filter(e => e.to !== '/charge-report')
+    //       .filter(e => e.to !== '/refund-report')
+    //   } else {
+    //     // همه بجز اینها
+    //     return this.reports.filter(e => e.to === '/offer')
+    //   }
+    // }
     // برای سایر منو ها بجز گزارشات
     // برای سطح دسترسی
-    checkUserAccessMethod () {
-      this.items = this.itemsOrginal
-      this.report = this.reportOrginal
+    // checkUserAccessMethod () {
+    //   this.items = this.itemsOrginal
+    //   this.report = this.reportOrginal
 
-      console.log('checkUserAccessMethod Permission', JSON.stringify(this.currentUser), JSON.stringify(this.items))
+    //   console.log('checkUserAccessMethod Permission', JSON.stringify(this.currentUser), JSON.stringify(this.items))
 
-      if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
-      (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
-        // همه
-        return this.items
-      } if (this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined) {
-        // همه بجز اینها
-        this.createUserList = this.items
-          .filter(e => e.to !== '/offer')
-          .filter(e => e.to !== '/charge-report')
-          .filter(e => e.to !== '/transaction-statistics')
-          .filter(e => e.to !== '/customer-statistics')
-          .filter(e => e.to !== '/customer')
-          .filter(e => e.to !== '/refund-report')
-          .filter(e => e.to !== '/')
-          .filter(e => e.to !== '/offer')
-      } if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined ||
-        this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
-        // همه بجز اینها
-        this.userList = this.items
-          .filter(e => e.to !== '/users')
-          .filter(e => e.to !== '/transaction-statistics')
-          .filter(e => e.to !== '/customer-statistics')
-          .filter(e => e.to !== '/customer')
-          .filter(e => e.to !== '/offer')
-          .filter(e => e.to !== '/refund-statistics')
-      } if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
-        // همه بجز اینها
-        this.offerList = this.items
-          .filter(e => e.to !== '/users')
-          .filter(e => e.to !== '/charge-report')
-          .filter(e => e.to !== '/refund-report')
-          .filter(e => e.to !== '/transaction-statistics')
-          .filter(e => e.to !== '/customer-statistics')
-          .filter(e => e.to !== '/customer')
-          .filter(e => e.to !== '/')
-      }
+    //   if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
+    //   (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')) {
+    //     // همه
+    //     return this.items
+    //   } if (this.currentUser.permissions.find(e => e.name === 'CREATE_USER') !== undefined) {
+    //     // همه بجز اینها
+    //     this.createUserList = this.items
+    //       .filter(e => e.to !== '/offer')
+    //       .filter(e => e.to !== '/charge-report')
+    //       .filter(e => e.to !== '/transaction-statistics')
+    //       .filter(e => e.to !== '/customer-statistics')
+    //       .filter(e => e.to !== '/customer')
+    //       .filter(e => e.to !== '/refund-report')
+    //       .filter(e => e.to !== '/')
+    //       .filter(e => e.to !== '/offer')
+    //   } if (this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') !== undefined ||
+    //     this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS') !== undefined) {
+    //     // همه بجز اینها
+    //     this.userList = this.items
+    //       .filter(e => e.to !== '/users')
+    //       .filter(e => e.to !== '/transaction-statistics')
+    //       .filter(e => e.to !== '/customer-statistics')
+    //       .filter(e => e.to !== '/customer')
+    //       .filter(e => e.to !== '/offer')
+    //       .filter(e => e.to !== '/refund-statistics')
+    //   } if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS') !== undefined) {
+    //     // همه بجز اینها
+    //     this.offerList = this.items
+    //       .filter(e => e.to !== '/users')
+    //       .filter(e => e.to !== '/charge-report')
+    //       .filter(e => e.to !== '/refund-report')
+    //       .filter(e => e.to !== '/transaction-statistics')
+    //       .filter(e => e.to !== '/customer-statistics')
+    //       .filter(e => e.to !== '/customer')
+    //       .filter(e => e.to !== '/')
+    //   }
 
-      this.items = this.createUserList.concat(this.userList, this.offerList)
-      return this.items
-    }
+    //   this.items = this.createUserList.concat(this.userList, this.offerList)
+    //   return this.items
+    // }
   }
 }
 </script>
