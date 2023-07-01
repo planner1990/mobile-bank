@@ -72,12 +72,12 @@
             </template>
 
             <v-list>
-              <v-list-item :to="'/transactionReport'">
+              <v-list-item v-if="checkUserAccessForMenu('/transactionReport', 'menu')" :to="'/transactionReport'">
                 <v-list-item-title key="1" style="font-size: 15px;">
                   لیست تراکنش ها
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :to="'/transaction-statistics'">
+              <v-list-item v-if="checkUserAccessForMenu('/transaction-statistics', 'menu')" :to="'/transaction-statistics'">
                 <v-list-item-title key="2" style="font-size: 15px;">
                   آمار تراکنش ها
                 </v-list-item-title>
@@ -85,7 +85,7 @@
             </v-list>
           </v-menu>
         </v-btn>
-        <v-btn value="2" :to="'/transactionQuery'" style="color: #fff;font-size: 15px;">
+        <v-btn v-if="checkUserAccessForMenu('/transactionQuery', 'menu')" value="2" :to="'/transactionQuery'" style="color: #fff;font-size: 15px;">
           درخواست ها
 
           <svg
@@ -153,12 +153,12 @@
             </template>
 
             <v-list>
-              <v-list-item :to="'/refund-report'">
+              <v-list-item v-if="checkUserAccessForMenu('/refund-report', 'menu')" :to="'/refund-report'">
                 <v-list-item-title key="1" style="font-size: 15px;">
                   لیست استرداد
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :to="'/refund-statistics'">
+              <v-list-item v-if="checkUserAccessForMenu('/refund-statistics', 'menu')" :to="'/refund-statistics'">
                 <v-list-item-title key="2" style="font-size: 15px;">
                   آمار استرداد وجه
                 </v-list-item-title>
@@ -166,7 +166,7 @@
             </v-list>
           </v-menu>
         </v-btn>
-        <v-btn value="4" :to="'/charge-report'" style="color: #fff;font-size: 15px;">
+        <v-btn v-if="checkUserAccessForMenu('/charge-report', 'menu')" value="4" :to="'/charge-report'" style="color: #fff;font-size: 15px;">
           شارژ ها
 
           <svg
@@ -181,7 +181,7 @@
             <path d="M16.0404 11C16.0404 13.7867 13.7854 16.0417 10.9987 16.0417C8.21203 16.0417 6.5162 13.2367 6.5162 13.2367M6.5162 13.2367H8.78953M6.5162 13.2367V15.7575M5.95703 11C5.95703 8.21337 8.1937 5.95837 10.9987 5.95837C14.3629 5.95837 16.0404 8.76337 16.0404 8.76337M16.0404 8.76337V6.24254M16.0404 8.76337H13.8037" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </v-btn>
-        <v-btn value="5" :to="'/bill-report'" style="color: #fff;font-size: 15px;">
+        <v-btn v-if="checkUserAccessForMenu('/bill-report', 'menu')" value="5" :to="'/bill-report'" style="color: #fff;font-size: 15px;">
           استعلام قبض
 
           <svg
@@ -247,17 +247,17 @@
             </template>
 
             <v-list>
-              <v-list-item :to="'/error-report'">
+              <v-list-item v-if="checkUserAccessForMenu('/error-report', 'menuReport')" :to="'/error-report'">
                 <v-list-item-title key="1" style="font-size: 15px;">
                   گزارش خطا
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :to="'/incomeReport'">
+              <v-list-item v-if="checkUserAccessForMenu('/incomeReport', 'menuReport')" :to="'/incomeReport'">
                 <v-list-item-title key="2" style="font-size: 15px;">
                   گزارش درآمد
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :to="'/transaction-status'">
+              <v-list-item v-if="checkUserAccessForMenu('/transaction-status', 'menuReport')" :to="'/transaction-status'">
                 <v-list-item-title key="3" style="font-size: 15px;">
                   آمار تراکنش ها
                 </v-list-item-title>
@@ -310,22 +310,22 @@
             </template>
 
             <v-list>
-              <v-list-item :to="'/offer'">
+              <v-list-item v-if="checkUserAccessForMenu('/transaction-status', 'menu')" :to="'/offer'">
                 <v-list-item-title key="1" style="font-size: 15px;">
                   پیشنهاد روز
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :to="'/customer'">
+              <v-list-item v-if="checkUserAccessForMenu('/transaction-status', 'menu')" :to="'/customer'">
                 <v-list-item-title key="1" style="font-size: 15px;">
                   لیست کاربران
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :to="'/customer-statistics'">
+              <v-list-item v-if="checkUserAccessForMenu('/transaction-status', 'menu')" :to="'/customer-statistics'">
                 <v-list-item-title key="2" style="font-size: 15px;">
                   آمار کاربران
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item :to="'/users'">
+              <v-list-item v-if="checkUserAccessForMenu('/users', 'menu')" :to="'/users'">
                 <v-list-item-title key="3" style="font-size: 15px;">
                   مدیران سیستم
                 </v-list-item-title>
