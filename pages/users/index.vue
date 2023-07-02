@@ -58,7 +58,7 @@
           <!-- گزینه ویرایش و حذف و ... -->
           <!-- گزینه ویرایش و حذف و ... -->
           <!-- گزینه ویرایش و حذف و ... -->
-          <template #[`item.actions`]="{ item }">
+          <template v-if="checkPermissionBtn()" #[`item.actions`]="{ item }">
             <center>
               <v-tooltip top>
                 <template #activator="{ on, attrs }">
