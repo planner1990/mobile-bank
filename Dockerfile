@@ -4,7 +4,7 @@ FROM artifactory.asredanesh.com/docker/node:current-buster-slim
 WORKDIR /usr/src/app
 COPY package.json ./
 COPY package-lock.json ./
-RUN yarn install
+RUN yarn install --ignore-engines
 
 # Copy application source
 WORKDIR /usr/src
