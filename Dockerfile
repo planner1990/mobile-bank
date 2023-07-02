@@ -1,4 +1,4 @@
-FROM artifactory.asredanesh.com/docker/node:current-buster-slim
+FROM artifactory.asredanesh.com/docker/node:current-buster-slim2
 RUN apt update \
     && apt install net-tools
 
