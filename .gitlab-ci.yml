@@ -3,7 +3,8 @@ stages:
   - artifact
   - deploy
   - restart
-
+  - remove
+  
 variables:
   VUE_APP_BASE_ROUTE: "/mobile-bank-panel-client/"
   VUE_APP_I18N_LOCALE: "fa"
