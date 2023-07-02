@@ -1,21 +1,17 @@
-#FROM artifactory.asredanesh.com/docker/node:current-buster-slim
-FROM artifactory.asredanesh.com/docker/node:saeed
+FROM artifactory.asredanesh.com/docker/node:current-buster-slim2
+RUN apt update \
+    && apt install net-tools
 # Install node packages
 WORKDIR /usr/src/app
 COPY package.json ./
-COPY package-lock.json ./
-RUN yarn install --ignore-engines
-
+RUN npm install
 # Copy application source
 WORKDIR /usr/src
 COPY . ./app
-COPY .env_development ./app/.env
+COPY .env_product ./app/.env
 WORKDIR /usr/src/app
-
 # Build App
-RUN yarn build
-
-# Deploy
-EXPOSE 3000
-CMD [ "yarn", "start" ]
-####
+RUN npm run build
+##### Deploy
+CMD [ "npm", "run", "start" ]
+###
