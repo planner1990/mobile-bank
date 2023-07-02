@@ -1,5 +1,5 @@
-FROM artifactory.asredanesh.com/docker/node:current-buster-slim
-
+#FROM artifactory.asredanesh.com/docker/node:current-buster-slim
+FROM artifactory.asredanesh.com/docker/node:saeed
 # Install node packages
 WORKDIR /usr/src/app
 COPY package.json ./
