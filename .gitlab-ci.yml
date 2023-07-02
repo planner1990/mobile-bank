@@ -18,6 +18,7 @@ build-image-Development:
   script:
     - echo $VUE_APP_BASE_ROUTE
     - docker login -u $user_repository -p $pass_repository https://$repository
+    - sleep 5000
     - docker build
       --build-arg VUE_APP_BASE_ROUTE=$VUE_APP_BASE_ROUTE
       --build-arg VUE_APP_I18N_LOCALE=$VUE_APP_I18N_LOCALE
