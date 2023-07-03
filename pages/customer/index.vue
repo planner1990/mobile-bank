@@ -44,7 +44,7 @@
             <div v-if="item.cif">
               {{ item.cif }}
             </div>
-            <div v-else style="color: #f1b0b0">
+            <div v-else style="color: #f1b0b094">
               {{ 'تعیین نشده' }}
             </div>
           </template>
@@ -52,7 +52,7 @@
             <div v-if="item.cardOrDeposit">
               {{ item.cardOrDeposit }}
             </div>
-            <div v-else style="color: #f1b0b0">
+            <div v-else style="color: #f1b0b094">
               {{ 'تعیین نشده' }}
             </div>
           </template>
@@ -197,6 +197,9 @@ export default {
         return []
       }
     }
+  },
+  mounted () {
+    this.search(this.requestObject, 'mounted')
   },
   methods: {
     ...mapMutations({

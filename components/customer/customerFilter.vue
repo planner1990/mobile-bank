@@ -183,7 +183,6 @@ export default {
     defaultSearchModel.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
     defaultSearchModel.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
     this.filter = Object.assign(this.value, defaultSearchModel)
-    this.search()
   },
   methods: {
     search () {
@@ -193,7 +192,7 @@ export default {
       this.loading = false
 
       this.loadingBtn = true
-      setTimeout(() => (this.loadingBtn = false), 2000)
+      setTimeout(() => (this.loadingBtn = false), 1500)
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {

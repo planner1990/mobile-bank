@@ -425,7 +425,6 @@ export default {
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
     this.errorList()
-    this.search()
   },
   methods: {
     changeLableSelectOperatorRef (input) {
