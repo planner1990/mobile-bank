@@ -36,7 +36,7 @@
             <div v-if="item.sourceNumber">
               {{ item.sourceNumber }}
             </div>
-            <div v-else style="color: #f1b0b0">
+            <div v-else style="color: #f1b0b094">
               {{ 'تعیین نشده' }}
             </div>
           </template>
@@ -53,7 +53,7 @@
             <div v-if="item.cif">
               {{ item.cif }}
             </div>
-            <div v-else style="color: #f1b0b0">
+            <div v-else style="color: #f1b0b094">
               {{ 'تعیین نشده' }}
             </div>
           </template>
@@ -62,7 +62,7 @@
             <div v-if="item.operation">
               {{ item.operation }}
             </div>
-            <div v-else style="color: #f1b0b0">
+            <div v-else style="color: #f1b0b094">
               {{ 'تعیین نشده' }}
             </div>
           </template>
@@ -71,7 +71,7 @@
             <div v-if="item.mobileNumber">
               {{ item.mobileNumber }}
             </div>
-            <div v-else style="color: #f1b0b0">
+            <div v-else style="color: #f1b0b094">
               {{ 'تعیین نشده' }}
             </div>
           </template>
@@ -79,7 +79,7 @@
             <div v-if="item.amount">
               {{ priceFormat(item.amount) }}
             </div>
-            <div v-else style="color: #f1b0b0">
+            <div v-else style="color: #f1b0b094">
               {{ 'تعیین نشده' }}
             </div>
           </template>
@@ -135,7 +135,7 @@
         <!-- Dialog show details request -->
         <v-dialog
           v-model="createDialog"
-          max-width="1000"
+          max-width="1200"
           transition="dialog-bottom-transition"
         >
           <v-card :loading="loading">
@@ -177,7 +177,7 @@
                     sort-by="cardOwnerId"
                     :items="itemsTransaction"
                     :headers="headersTransaction"
-                    class="fullScreen mb-16"
+                    class="fullScreen"
                     :hide-default-footer="true"
                   />
                 </v-row>
@@ -200,7 +200,7 @@
                         <v-spacer />
                       </v-toolbar>
                       <v-card-text dir="ltr" class="text-center">
-                        <div style="width:450px;overflow:auto;line-height: 2;">
+                        <div style="line-height: 3;">
                           <vue-json-pretty
                             :data="requestJson"
                             show-key-value-space="true"
@@ -234,7 +234,7 @@
                           <v-spacer />
                         </v-toolbar>
                         <v-card-text dir="ltr">
-                          <div style="width:450px;overflow:auto;line-height: 2;">
+                          <div style="line-height: 3;">
                             <vue-json-pretty
                               :data="responseJson"
                               show-key-value-space="true"
@@ -575,9 +575,9 @@ export default {
     })
   },
   mounted () {
-    // this.search(this.searchModel, 'mounted')
+    this.search(this.searchModel, 'mounted')
 
-    // search operation in textbox
+    // search operation in textBox
     this.operation()
     this.search_listOperationCopy = [...this.search_listOperation]
   },
@@ -876,5 +876,24 @@ export default {
 
   /deep/ .theme--light.v-list {
     background: #361717 !important;
+  }
+
+  /* ***   JSON beautifully   *** */
+  /* ***   JSON beautifully   *** */
+  /* ***   JSON beautifully   *** */
+
+  /deep/ .vjs-tree__node .vjs-tree__indent.has-line {
+    border-left: 2px dashed #bfcbd9 !important;
+  }
+  /deep/ .vjs-tree__node .vjs-tree__indent {
+    -ms-flex: 0 0 2em !important;
+    flex: 0 0 2em !important;
+  }
+  /deep/ .vjs-value__string {
+    color: #6fb78f !important;
+    line-break: anywhere !important;
+  }
+  /deep/ .vjs-value__boolean, .vjs-value__number {
+    color: #0268b5 !important;
   }
 </style>

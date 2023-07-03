@@ -477,7 +477,6 @@ export default {
     defaultFilter.refundListFilter.refundFromDate = this.convertJalaliDateToTimestamp(this.refundFromDate)
     defaultFilter.refundListFilter.refundToDate = this.convertJalaliDateToTimestamp(this.refundToDate)
     this.filter = Object.assign(this.value, defaultFilter)
-    this.search()
   },
   methods: {
     ...mapMutations({
@@ -509,7 +508,7 @@ export default {
       this.$emit('search', this.filter)
 
       this.loadingBtn = true
-      setTimeout(() => (this.loadingBtn = false), 2000)
+      setTimeout(() => (this.loadingBtn = false), 1500)
     },
     refundList (searchModel) {
       this.$emit('refund', this.filter)

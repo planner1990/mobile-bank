@@ -91,6 +91,9 @@ export default {
       items: []
     }
   },
+  mounted () {
+    this.search(this.searchModel, 'mounted')
+  },
   methods: {
     ...mapMutations({
       alert: 'snacks/showMessage'

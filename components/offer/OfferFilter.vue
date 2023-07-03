@@ -119,7 +119,6 @@ const defaultFilter = {
   title: null,
   dateFrom: null,
   dateTo: null
-
 }
 export default {
   name: 'OfferFilterComponent',
@@ -154,7 +153,6 @@ export default {
     defaultFilter.dateFrom = this.convertJalaliDateToTimestamp(this.from)
     defaultFilter.dateTo = this.convertJalaliDateToTimestamp(this.to)
     this.filter = Object.assign(this.value, defaultFilter)
-    this.search()
   },
   methods: {
     ...mapMutations({
@@ -164,7 +162,7 @@ export default {
       this.$emit('search', this.filter)
 
       this.loadingBtn = true
-      setTimeout(() => (this.loadingBtn = false), 2000)
+      setTimeout(() => (this.loadingBtn = false), 1500)
     },
     checkIsNullFromDate () {
       if (this.from != null) {

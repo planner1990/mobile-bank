@@ -112,7 +112,6 @@ export default {
     defaultSearchModel.month = this.currentMonth()
     defaultSearchModel.year = this.currentYear()
     this.filter = Object.assign(this.value, defaultSearchModel)
-    this.search()
   },
   methods: {
     ...mapMutations({
@@ -125,7 +124,7 @@ export default {
       this.loading = false
 
       this.loadingBtn = true
-      setTimeout(() => (this.loadingBtn = false), 2000)
+      setTimeout(() => (this.loadingBtn = false), 1500)
     },
     checkIsNull () {
       if (this.fromYear != null) {

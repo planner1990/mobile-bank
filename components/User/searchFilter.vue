@@ -155,9 +155,6 @@ export default {
       }
     }
   },
-  mounted: function () {
-    this.search()
-  },
   methods: {
     search () {
       this.loading = true
@@ -175,7 +172,7 @@ export default {
       this.loading = false
 
       this.loadingBtn = true
-      setTimeout(() => (this.loadingBtn = false), 2000)
+      setTimeout(() => (this.loadingBtn = false), 1500)
     }
   }
 }

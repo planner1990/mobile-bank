@@ -79,7 +79,7 @@
             <div v-if="item.refundOrFailTime">
               {{ item.refundOrFailTime }}
             </div>
-            <div v-else style="color: #f1b0b0">
+            <div v-else style="color: #f1b0b094">
               {{ 'تعیین نشده' }}
             </div>
           </template>
@@ -87,7 +87,7 @@
             <div v-if="item.errorCode">
               {{ item.errorCode }}
             </div>
-            <div v-else style="color: #f1b0b0">
+            <div v-else style="color: #f1b0b094">
               {{ 'تعیین نشده' }}
             </div>
           </template>
@@ -632,6 +632,9 @@ export default {
     ...mapGetters({
       currentUser: 'user/me'
     })
+  },
+  mounted () {
+    this.search(this.searchModel, 'mounted')
   },
   methods: {
     ...mapMutations({

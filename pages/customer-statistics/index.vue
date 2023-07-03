@@ -137,6 +137,9 @@ export default {
       }
     }
   },
+  mounted () {
+    this.search(this.requestObject, 'mounted')
+  },
   methods: {
     ...mapMutations({
       alert: 'snacks/showMessage'

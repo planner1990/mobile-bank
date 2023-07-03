@@ -410,8 +410,14 @@ export default {
       },
       totalNumberOfItems: 0,
       searchModel: {
-        page: 1,
-        length: 50
+        paginate: {
+          page: 1,
+          length: 50,
+          sort: {
+            property: 'id',
+            direction: 'desc'
+          }
+        }
       },
       loading: false,
       loadingBtnInsert: false,
@@ -496,6 +502,9 @@ export default {
         return this.currentUser.cityCode
       }
     }
+  },
+  mounted () {
+    this.search(this.searchModel, 'mounted')
   },
   methods: {
     ...mapMutations({

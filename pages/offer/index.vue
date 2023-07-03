@@ -42,7 +42,7 @@
             <div v-if="item.uri">
               {{ item.uri }}
             </div>
-            <div v-else style="color: #f1b0b0">
+            <div v-else style="color: #f1b0b094">
               {{ 'تعیین نشده' }}
             </div>
           </template>
@@ -50,7 +50,7 @@
             <div v-if="item.recommendationType">
               {{ $t('offer.offerTypeFilter.' + item.recommendationType) }}
             </div>
-            <div v-else style="color: #f1b0b0">
+            <div v-else style="color: #f1b0b094">
               {{ 'تعیین نشده' }}
             </div>
           </template>
@@ -58,7 +58,7 @@
             <div v-if="item.alternativeUrl">
               {{ item.alternativeUrl }}
             </div>
-            <div v-else style="color: #f1b0b0">
+            <div v-else style="color: #f1b0b094">
               {{ 'تعیین نشده' }}
             </div>
           </template>
@@ -66,7 +66,7 @@
             <div v-if="item.url">
               {{ item.url }}
             </div>
-            <div v-else style="color: #f1b0b0">
+            <div v-else style="color: #f1b0b094">
               {{ 'تعیین نشده' }}
             </div>
           </template>
@@ -1027,10 +1027,6 @@ export default {
       createUserErrors: []
     }
   },
-  mounted: function () {
-    this.offerForm.offerObj.dateFrom = this.convertJalaliDateToTimestamp(this.from)
-    this.offerForm.offerObj.dateTo = this.convertJalaliDateToTimestamp(this.to)
-  },
   computed: {
     ...mapGetters({
       loggedInUser: 'user/me'
@@ -1046,13 +1042,16 @@ export default {
       }
     }
   },
+  mounted: function () {
+    this.offerForm.offerObj.dateFrom = this.convertJalaliDateToTimestamp(this.from)
+    this.offerForm.offerObj.dateTo = this.convertJalaliDateToTimestamp(this.to)
+
+    this.search(this.requestObject, 'mounted')
+  },
   methods: {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
-    // async pagination () {
-    //   await this.search(this.requestObject)
-    // },
     clearAllDataInForm () {
       delete this.userForm.userObj.locationAccess
       delete this.userForm.userObj.userAccessList

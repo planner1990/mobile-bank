@@ -107,14 +107,13 @@ export default {
     defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
     defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
     this.filter = Object.assign(this.value, defaultFilter)
-    this.search()
   },
   methods: {
     search () {
       this.$emit('search', this.filter)
 
       this.loadingBtn = true
-      setTimeout(() => (this.loadingBtn = false), 2000)
+      setTimeout(() => (this.loadingBtn = false), 1500)
     },
     confirm () {
       this.$emit('confirm', this.filter)

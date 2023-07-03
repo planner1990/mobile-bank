@@ -181,14 +181,13 @@ export default {
     this.filter = Object.assign(this.value, defaultFilter)
     // console.log('mounted operation' + this.operation())
     // this.operation()
-    this.search()
   },
   methods: {
     search () {
       this.$emit('search', this.filter)
 
       this.loadingBtn = true
-      setTimeout(() => (this.loadingBtn = false), 2000)
+      setTimeout(() => (this.loadingBtn = false), 1500)
     },
     checkIsNull () {
       if (this.fromDate != null) {
