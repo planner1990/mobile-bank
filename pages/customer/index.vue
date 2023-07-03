@@ -49,7 +49,7 @@
             </div>
           </template>
           <template #[`item.cardOrDeposit`]="{ item }">
-            <div v-if="item.cardOrDeposit">
+            <div v-if="item.cardOrDeposit && item.cardOrDeposit.length !== 0">
               {{ item.cardOrDeposit }}
             </div>
             <div v-else style="color: #f1b0b094">
