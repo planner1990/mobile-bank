@@ -96,8 +96,12 @@ sw.*
 .gitignore
 .gitlab-ci.yml
 Dockerfile
+Dockerfile_PreProduct
+Dockerfile_Product
+Dockerfile_Banket
 PreProduct.yml
 Product.yml
 docker-compose.yml
 docker-compose-master.yml
 karafarin.yml
+deploy.yaml

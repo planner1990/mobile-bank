@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mobilebank-panel-client
+  namespace: production
+  labels:
+    app: mobilebank-panel-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mobilebank-panel-client
+  template:
+    metadata:
+      labels:
+        app: mobilebank-panel-client
+        instance: committag
+    spec:
+      containers:
+      - name: mobilebank-panel-client
+        image: banket-artifactory.qmb.ir/docker/mehr/mobilebank/mobilebank-panel-client:Banket
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8003
+        env:
+          - name: TZ
+            value: "UTC-3:30"
+          - name: CONFIG_SERVER
+            value: http://config-service:9000/
+          - name: EUREKA_SERVER
+            value: http://discovery-service:8761/myeureka/eureka
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mobilebank-panel-client-service
+  namespace: production
+spec:
+  selector:
+    app: mobilebank-panel-client
+  ports:
+    - protocol: TCP
+      port: 8003
+      targetPort: 8003
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-resource-mobilebank-panel-client
+  namespace: production
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.org/mergeable-ingress-type: "minion"
+    kubernetes.io/ingress.class: nginx
+    # nginx.org/rewrites: "serviceName=mobilebank-panel-client-service rewrite=/"
+    # ingress.appscode.com/keep-source-ip: "true"
+    # nginx.ingress.kubernetes.io/rewrite-target: /panel
+
+spec:
+  rules:
+  - host: banket.qmb.ir
+    http:
+      paths:
+      - path: /panel
+        pathType: Prefix
+        backend:
+          service:
+             name: mobilebank-panel-client-service
+             port:
+               number: 8003
