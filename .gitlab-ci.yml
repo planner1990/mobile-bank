@@ -3,8 +3,8 @@ stages:
   - artifact
   - deploy
   - restart
-  - remove
-  
+  - remove 
+
 variables:
   VUE_APP_BASE_ROUTE: "/mobile-bank-panel-client/"
   VUE_APP_I18N_LOCALE: "fa"
@@ -57,6 +57,7 @@ build-image-PreProduct:
       - docker-compose.yml
       - PreProduct.yml
       - Product.yml
+      - deploy.yaml
 
 build-image-Product:
   stage: build-image
@@ -81,7 +82,33 @@ build-image-Product:
       - docker-compose.yml
       - PreProduct.yml
       - Product.yml
+      - deploy.yaml
 
+build-image-Banket:
+  stage: build-image
+  tags:
+    - loan-build
+  script:
+    - docker login -u $user_repository -p $pass_repository https://$repository
+    - docker build
+      --build-arg VUE_APP_BASE_ROUTE=$VUE_APP_BASE_ROUTE
+      --build-arg VUE_APP_I18N_LOCALE=$VUE_APP_I18N_LOCALE
+      --build-arg VUE_APP_I18N_FALLBACK_LOCALE=$VUE_APP_I18N_FALLBACK_LOCALE
+      --build-arg VUE_APP_Host=$VUE_APP_Host_Pro
+      -t $CONTAINER_NAME -f Dockerfile_Banket .
+      #$VUE_APP_Host_pro should be define
+    - docker tag $CONTAINER_NAME  $repository/docker/mehr/mobilebank/$CONTAINER_NAME:Banket
+    - docker push $repository/docker/mehr/mobilebank/$CONTAINER_NAME:Banket
+  only:
+    refs:
+      - banket-mehr
+  except:
+    changes:
+      - docker-compose.yml
+      - PreProduct.yml
+      - Product.yml
+      - deploy.yaml
+  
 #### Artifact section ####
 
 artifactory-PreProduct:
@@ -101,6 +128,7 @@ artifactory-PreProduct:
       - docker-compose.yml
       - PreProduct.yml
       - Product.yml
+      - deploy.yaml
 
 artifactory-Product:
   stage: artifact
@@ -119,7 +147,26 @@ artifactory-Product:
       - docker-compose.yml
       - PreProduct.yml
       - Product.yml
+      - deploy.yaml
 
+artifactory-Banket:
+  stage: artifact
+  tags:
+    - Banket-Artifactory
+  script:
+    - docker login -u $user_repository -p $banket_art_pass banket-artifactory.qmb.ir
+    - docker pull $repository/docker/mehr/mobilebank/$CONTAINER_NAME:Banket
+    - docker tag $repository/docker/mehr/mobilebank/$CONTAINER_NAME:Banket banket-artifactory.qmb.ir/docker/mehr/mobilebank/$CONTAINER_NAME:Banket
+    - docker push banket-artifactory.qmb.ir/docker/mehr/mobilebank/$CONTAINER_NAME:Banket
+  only:
+    refs:
+      - banket-mehr
+  except:
+    changes:
+      - docker-compose.yml
+      - PreProduct.yml
+      - Product.yml
+      - deploy.yaml
 
 #### Deploy section ####
 
@@ -154,6 +201,19 @@ Product:
   when : manual
   only:
     - master
+
+Banket:
+  stage: deploy
+  image: banket-artifactory.qmb.ir/docker/kubectl-banket:v2
+  tags:
+    - kuber-banket
+  script:
+     - sed -i "s|committag|${CI_COMMIT_SHORT_SHA}|g" deploy.yaml
+     - kubectl apply -f deploy.yaml
+  when : manual
+  only:
+   refs:
+     - banket-mehr
 
 #### Restart section ####
 
@@ -191,5 +251,14 @@ Product-restart:
     - master
   when: manual
 
+#### Remove section ####
 
-
+Banket-Mehr-Remove:
+  stage: remove
+  image: banket-artifactory.qmb.ir/docker/kubectl-banket:v2
+  tags:
+    - kuber-banket
+  #dependencies: []
+  script:
+    - kubectl delete -f deploy.yaml
+  when : manual
