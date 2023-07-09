@@ -310,17 +310,17 @@
             </template>
 
             <v-list>
-              <v-list-item v-if="checkUserAccessForMenu('/transaction-status', 'menu')" :to="'/offer'">
+              <v-list-item v-if="checkUserAccessForMenu('/offer', 'menu')" :to="'/offer'">
                 <v-list-item-title key="1" style="font-size: 15px;">
                   پیشنهاد روز
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item v-if="checkUserAccessForMenu('/transaction-status', 'menu')" :to="'/customer'">
+              <v-list-item v-if="checkUserAccessForMenu('/customer', 'menu')" :to="'/customer'">
                 <v-list-item-title key="1" style="font-size: 15px;">
                   لیست کاربران
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item v-if="checkUserAccessForMenu('/transaction-status', 'menu')" :to="'/customer-statistics'">
+              <v-list-item v-if="checkUserAccessForMenu('/customer-statistics', 'menu')" :to="'/customer-statistics'">
                 <v-list-item-title key="2" style="font-size: 15px;">
                   آمار کاربران
                 </v-list-item-title>

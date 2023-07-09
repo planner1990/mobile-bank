@@ -224,6 +224,11 @@ export default {
       branchCode: null
     }
   },
+  computed: {
+    ...mapGetters({
+      currentUser: 'user/me'
+    })
+  },
   mounted () {
     if (this.currentUser.provinceCode) {
       this.provinceCode = parseInt(this.currentUser.provinceCode)
@@ -234,11 +239,6 @@ export default {
     if (this.currentUser.branchCode) {
       this.branchCode = parseInt(this.currentUser.branchCode)
     }
-  },
-  computed: {
-    ...mapGetters({
-      currentUser: 'user/me'
-    })
   },
   methods: {
     ...mapMutations({

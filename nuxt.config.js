@@ -43,8 +43,12 @@ export default {
     { src: '~/plugins/select2' },
 
     // filters
-    { src: '~/filters/filterMomentJalali' },
-    { src: '~/filters/filterNumberSeparator' }
+    { src: '@/filters/filterMomentJalali' },
+    { src: '@/filters/filterNumberSeparator' },
+    { src: '@/filters/filterConvertMomentJalaliToTimestamp' },
+    { src: '@/filters/filterIbanReplace' },
+    { src: '@/filters/filterMobile98Replace' },
+    { src: '@/filters/filterConvertNumberPersianToEnglish' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

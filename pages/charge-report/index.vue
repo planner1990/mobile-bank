@@ -42,7 +42,7 @@
             <div v-if="item.requestId">
               {{ item.requestId }}
             </div>
-            <div v-else style="color: #aaa">
+            <div v-else style="color: #f1b0b094">
               {{ 'تعیین نشده' }}
             </div>
           </template>
