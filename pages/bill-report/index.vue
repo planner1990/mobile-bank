@@ -137,6 +137,11 @@ export default {
       items: []
     }
   },
+  head () {
+    return {
+      title: 'استعلام قبض' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
+  },
   mounted () {
     this.search(this.searchModel, 'mounted')
   },

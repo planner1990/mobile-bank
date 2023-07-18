@@ -86,6 +86,11 @@ export default {
       otherList: []
     }
   },
+  head () {
+    return {
+      title: 'گزارش درآمد' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
+  },
   mounted () {
     this.search(this.searchModel, 'mounted')
   },

@@ -20,6 +20,11 @@ export default {
   name: 'ProfilePage',
   components: {
     profileCard
+  },
+  head () {
+    return {
+      title: 'پروفایل کاربری' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
   }
 }
 </script>

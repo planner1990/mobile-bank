@@ -85,6 +85,11 @@ export default {
       otherList: []
     }
   },
+  head () {
+    return {
+      title: 'آمار تراکنش ها' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
+  },
   mounted () {
     this.search(this.searchModel, 'mounted')
   },

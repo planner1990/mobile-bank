@@ -561,6 +561,11 @@ export default {
       searchOperation: ''
     }
   },
+  head () {
+    return {
+      title: 'لیست تراکنش ها' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
+  },
   computed: {
     ...mapGetters({
       // get from list

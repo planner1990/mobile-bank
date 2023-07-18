@@ -526,6 +526,11 @@ export default {
       searchOperation: ''
     }
   },
+  head () {
+    return {
+      title: 'درخواست ها' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
+  },
   computed: {
     ...mapGetters({
       cardOperationList: 'onlineDepositStore/cardOperationList',

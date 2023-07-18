@@ -628,6 +628,11 @@ export default {
       sumAmount: 0
     }
   },
+  head () {
+    return {
+      title: 'لیست استرداد وجه' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
+  },
   computed: {
     ...mapGetters({
       currentUser: 'user/me'

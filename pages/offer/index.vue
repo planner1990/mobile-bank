@@ -1027,6 +1027,11 @@ export default {
       createUserErrors: []
     }
   },
+  head () {
+    return {
+      title: 'پیشنهاد روز' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
+  },
   computed: {
     ...mapGetters({
       loggedInUser: 'user/me'

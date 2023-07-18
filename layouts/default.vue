@@ -259,7 +259,7 @@
               </v-list-item>
               <v-list-item v-if="checkUserAccessForMenu('/transaction-status', 'menuReport')" :to="'/transaction-status'">
                 <v-list-item-title key="3" style="font-size: 15px;">
-                  آمار تراکنش ها
+                  نمودار تراکنش ها
                 </v-list-item-title>
               </v-list-item>
             </v-list>
