@@ -15,7 +15,7 @@
       <div style="min-width: 165px;">
         <v-img
           contain
-          style="width: 150px;"
+          style="width: 140px;cursor: pointer"
           :src="require('@/static/img/logo/logo_mehr.png')"
           @click="$router.push('/profile')"
         />
