@@ -5,7 +5,7 @@
     <!-- version -->
     <v-card
       class="d-flex
-        mb-10
+        mb-6
         justify-center
         align-content-center
         rounded-lg
