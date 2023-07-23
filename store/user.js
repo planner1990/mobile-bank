@@ -16,7 +16,7 @@ export const mutations = {
     if (token) {
       const user = jwtDecode(token)
       state.user = JSON.parse(user.usr)
-      sessionStorage.setItem(tokenKey, token)
+      localStorage.setItem(tokenKey, token)
       state.token = token
     }
   },
@@ -48,10 +48,12 @@ export const actions = {
       const refresh = localStorage.getItem(RefreshKey)
       if (refresh) {
         context.commit('setRefresh', refresh)
-        const jwt = sessionStorage.getItem(tokenKey)
+        const jwt = localStorage.getItem(tokenKey)
+        console.log('init 1::', JSON.stringify(jwt))
         if (jwt) {
           context.commit('setToken', jwt)
         } else {
+          console.log('init 2::', JSON.stringify(jwt))
           await context.dispatch('refreshToken')
         }
       } else {
