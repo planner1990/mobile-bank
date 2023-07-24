@@ -1,4 +1,5 @@
 export default function ({ route, redirect }) {
+  // mob-jwtRefreshKey
   const token = localStorage.getItem('mob-jwtRefreshKey')
 
   if (route.fullPath !== '/login' && !token) {
