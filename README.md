@@ -44,4 +44,8 @@ $ nuxt --dotenv .env_development
 $ nuxt --dotenv .env_preproduct
 $ nuxt --dotenv .env_product
 
+$ ./node_modules/nuxt/bin/nuxt.js --dotenv .env_development 
+$ ./node_modules/nuxt/bin/nuxt.js --dotenv .env_preproduct 
+$ ./node_modules/nuxt/bin/nuxt.js --dotenv .env_product 
+
 ```
