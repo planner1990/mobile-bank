@@ -125,6 +125,11 @@ export default {
       users: []
     }
   },
+  head () {
+    return {
+      title: 'آمار کاربران' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
+  },
   computed: {
     computedErrorsInCreateDialog: function () {
       if (this.createUserErrors.length !== 0) {

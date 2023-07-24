@@ -117,6 +117,11 @@ export default {
       }
     }
   },
+  head () {
+    return {
+      title: 'گزارش خطا' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
+  },
   mounted () {
     this.search(this.searchModel, 'mounted')
   },

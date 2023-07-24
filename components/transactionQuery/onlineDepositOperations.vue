@@ -144,7 +144,7 @@ export default {
       console.log(this.category.selected)
 
       // close modal operations after click and select
-      sessionStorage.setItem('lastSelectTitleOperation', input.title)
+      localStorage.setItem('lastSelectTitleOperation', input.title)
       this.$emit('okOperationDialog')
     },
     clearAllCheckBox: function () {

@@ -441,6 +441,11 @@ export default {
       users: []
     }
   },
+  head () {
+    return {
+      title: 'مدیران سیستم' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
+  },
   computed: {
     ...mapGetters({
       currentUser: 'user/me'

@@ -16,7 +16,7 @@ export const mutations = {
     if (token) {
       const user = jwtDecode(token)
       state.user = JSON.parse(user.usr)
-      sessionStorage.setItem(tokenKey, token)
+      localStorage.setItem(tokenKey, token)
       state.token = token
     }
   },
@@ -28,7 +28,7 @@ export const mutations = {
   },
   setUser (state, data) {
     const user = jwtDecode(data)
-    // sessionStorage.setItem(userKey, user.usr)
+    // localStorage.setItem(userKey, user.usr)
     state.user = JSON.parse(user.usr)
   },
   logout (state) {
@@ -44,14 +44,16 @@ export const mutations = {
 
 export const actions = {
   async init (context) {
-    if (typeof sessionStorage !== typeof undefined) {
+    if (typeof localStorage !== typeof undefined) {
       const refresh = localStorage.getItem(RefreshKey)
       if (refresh) {
         context.commit('setRefresh', refresh)
-        const jwt = sessionStorage.getItem(tokenKey)
+        const jwt = localStorage.getItem(tokenKey)
+        console.log('init 1::', JSON.stringify(jwt))
         if (jwt) {
           context.commit('setToken', jwt)
         } else {
+          console.log('init 2::', JSON.stringify(jwt))
           await context.dispatch('refreshToken')
         }
       } else {
@@ -89,12 +91,12 @@ export const actions = {
           context.commit('setToken', 'bearer ' + data.token)
           context.commit('setRefresh', data.refresh)
         } else if (status >= 400) {
-          sessionStorage.removeItem('mob-login')
+          localStorage.removeItem('mob-login')
           context.commit('logout')
         }
         return status
       } catch (err) {
-        sessionStorage.removeItem('mob-login')
+        localStorage.removeItem('mob-login')
         context.commit('logout')
       }
     }
@@ -112,7 +114,7 @@ export const getters = {
     }
   },
   // me: () => {
-  //   return JSON.parse(sessionStorage.getItem(userKey))
+  //   return JSON.parse(localStorage.getItem(userKey))
   // },
   isLogin: (state) => {
     return state && state.user

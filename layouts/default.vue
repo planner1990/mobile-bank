@@ -15,7 +15,7 @@
       <div style="min-width: 165px;">
         <v-img
           contain
-          style="width: 150px;"
+          style="width: 140px;cursor: pointer"
           :src="require('@/static/img/logo/logo_mehr.png')"
           @click="$router.push('/profile')"
         />
@@ -259,7 +259,7 @@
               </v-list-item>
               <v-list-item v-if="checkUserAccessForMenu('/transaction-status', 'menuReport')" :to="'/transaction-status'">
                 <v-list-item-title key="3" style="font-size: 15px;">
-                  آمار تراکنش ها
+                  نمودار تراکنش ها
                 </v-list-item-title>
               </v-list-item>
             </v-list>
@@ -416,7 +416,7 @@ export default {
       logout: 'user/logout'
     }),
     checkUserAccessForMenu: function (actionCall, type) {
-      console.log('===== checkUserAccessForMenu =====', 'role -> ', JSON.stringify(this.loggedInUser), ' permissions -> ', JSON.stringify(this.loggedInUser.permissions))
+      console.log('===== checkUserAccessForMenu =====', 'role -> ', JSON.stringify(this.loggedInUser), ' permissions -> ', (this.loggedInUser && this.loggedInUser.permissions) ? JSON.stringify(this.loggedInUser.permissions) : null)
       let outcome = true
       // -----------------------
       // roles and permission -> priarity with permissions -> FULL_ACCESS
@@ -425,21 +425,21 @@ export default {
       // high priarity
       // permissions -> FULL_ACCESS
       if (type === 'menu') {
-        if (this.loggedInUser.permissions.find(e => e.name === 'FULL_ACCESS')) {
+        if (this.loggedInUser && this.loggedInUser.permissions && this.loggedInUser.permissions.find(e => e.name === 'FULL_ACCESS')) {
           outcome = true
           console.log('===== checkUserAccessForMenu ===== 1', 'outcome -> ', outcome)
         }
 
         // roles
-        if (this.loggedInUser.role.role === 'ROLE_PANEL_ADMIN') {
+        if (this.loggedInUser && this.loggedInUser.role && this.loggedInUser.role.role && this.loggedInUser.role.role === 'ROLE_PANEL_ADMIN') {
           // All Menu
           outcome = true
           console.log('===== checkUserAccessForMenu ===== 2', 'outcome -> ', outcome)
-        } else if (this.loggedInUser.role.role === 'ROLE_PANEL_USER' && actionCall === '/users') {
+        } else if (this.loggedInUser && this.loggedInUser.role && this.loggedInUser.role.role && this.loggedInUser.role.role === 'ROLE_PANEL_USER' && actionCall === '/users') {
           // don't see / user
           outcome = false
           console.log('===== checkUserAccessForMenu ===== 3', 'outcome -> ', outcome)
-        } else if (this.currentUser.permissions.find(e => e.name === 'CREATE_USER')) {
+        } else if (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'CREATE_USER')) {
           // don't see root patch
           if ([
             '/',
@@ -457,8 +457,8 @@ export default {
 
           console.log('===== checkUserAccessForMenu ===== 4', 'outcome -> ', outcome)
         } else if (
-          this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') ||
-          this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS')
+          (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS')) ||
+          (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS'))
         ) {
           // don't see root patch
           if (![
@@ -477,7 +477,7 @@ export default {
           }
 
           console.log('===== checkUserAccessForMenu ===== 5', 'outcome -> ', outcome)
-        } else if (this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS')) {
+        } else if (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS')) {
           // don't see root patch
           if (![
             '/',
@@ -499,28 +499,28 @@ export default {
       }
 
       if (type === 'menuReport') {
-        if (this.loggedInUser.permissions.find(e => e.name === 'FULL_ACCESS')) {
+        if (this.loggedInUser && this.loggedInUser.permissions && this.loggedInUser.permissions.find(e => e.name === 'FULL_ACCESS')) {
           outcome = true
           console.log('===== checkUserAccessForMenu ===== 111', 'outcome -> ', outcome)
         }
 
         // roles
-        if (this.loggedInUser.role.role === 'ROLE_PANEL_ADMIN') {
+        if (this.loggedInUser && this.loggedInUser.role && this.loggedInUser.role.role && this.loggedInUser.role.role === 'ROLE_PANEL_ADMIN') {
           // All Menu
           outcome = true
           console.log('===== checkUserAccessForMenu ===== 211', 'outcome -> ', outcome)
-        } else if (this.loggedInUser.role.role === 'ROLE_PANEL_USER') {
+        } else if (this.loggedInUser && this.loggedInUser.role && this.loggedInUser.role.role && this.loggedInUser.role.role === 'ROLE_PANEL_USER') {
           // don't see / user
           outcome = true
           console.log('===== checkUserAccessForMenu ===== 311', 'outcome -> ', outcome)
-        } else if (this.currentUser.permissions.find(e => e.name === 'CREATE_USER')) {
+        } else if (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'CREATE_USER')) {
           // don't see all report
           outcome = false
           console.log('===== checkUserAccessForMenu ===== 411', 'outcome -> ', outcome)
         } else if (
-          this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS') &&
-          this.currentUser.permissions.find(e => e.name === 'CREATE_USER') &&
-          this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS')
+          (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS')) &&
+          (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'CREATE_USER')) &&
+          (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS'))
         ) {
           // don't see this patch
           if ([

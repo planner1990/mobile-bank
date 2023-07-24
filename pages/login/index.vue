@@ -40,6 +40,11 @@ export default {
       heightPage: '3600px'
     }
   },
+  head () {
+    return {
+      title: process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
+  },
   mounted () {
     this.heightPage = (window.innerHeight - 40) + 'px'
   }

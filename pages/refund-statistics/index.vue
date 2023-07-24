@@ -91,6 +91,11 @@ export default {
       items: []
     }
   },
+  head () {
+    return {
+      title: 'آمار استرداد وجه' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
+  },
   mounted () {
     this.search(this.searchModel, 'mounted')
   },
