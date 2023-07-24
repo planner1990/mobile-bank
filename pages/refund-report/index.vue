@@ -670,7 +670,7 @@ export default {
     handleDbClick (event, { item }) {
       if (this.checkUserPermissionForShowBtn() === true) {
         defaultFilterdetails.refundRequest.transactionId = item.id
-        if (item.state === 4) {
+        if (item.state === 4 || item.state === 0 || item.state === 3) {
           this.refundDialog = true
         }
         if (item.state === 2) {
