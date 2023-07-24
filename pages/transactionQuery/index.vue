@@ -645,7 +645,7 @@ export default {
       this.buttonCloseModal = false
     },
     okOperationDialog () {
-      this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(sessionStorage.getItem('lastSelectTitleOperation'))
+      this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(localStorage.getItem('lastSelectTitleOperation'))
 
       // add (merge)
       this.cardList = this.cardOperationList
@@ -789,8 +789,8 @@ export default {
       })
       console.log('debug +++', this.search_selectedOperationModel_title)
 
-      sessionStorage.setItem('lastSelectTitleOperation', this.search_selectedOperationModel_title[0].title)
-      this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(sessionStorage.getItem('lastSelectTitleOperation'))
+      localStorage.setItem('lastSelectTitleOperation', this.search_selectedOperationModel_title[0].title)
+      this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(localStorage.getItem('lastSelectTitleOperation'))
       this.search_selectedOperationModel_title = ''
 
       this.search_listOperation = this.search_listOperationCopy

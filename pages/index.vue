@@ -42,7 +42,7 @@ export default {
       setTimeout(function (scope) { scope.showLabelForwardToBaseRoute = true }, 4000, this)
     },
     forwardToBaseRoute: function () {
-      sessionStorage.setItem('mob-login', 'backIsFalse')
+      localStorage.setItem('mob-login', 'backIsFalse')
       if (this.loggedInUser.role.role === 'REPORTER') {
         return this.$router.push('/bill-report')
       } else {
@@ -52,13 +52,13 @@ export default {
     redirect () {
       console.log('pages/index.vue redirect ***', window.history.state)
       setTimeout(() => {
-        if (window.history.state !== null && window.history.length > 2 && sessionStorage.getItem('mob-login') === 'backIsTrue') {
+        if (window.history.state !== null && window.history.length > 2 && localStorage.getItem('mob-login') === 'backIsTrue') {
           // important :: 2 action for back
           this.$router.back()
           this.$router.back()
           return false
         } else {
-          sessionStorage.setItem('mob-login', 'backIsTrue')
+          localStorage.setItem('mob-login', 'backIsTrue')
           if (this.loggedInUser.role.role === 'REPORTER') {
             return this.$router.push('/bill-report')
           } else {
