@@ -68,6 +68,10 @@ export const actions = {
         payload.password,
         this.$axios
       )
+      if (localStorage.getItem('mobileBank_loginFirstAfterChangeKeyJWT') !== 'mobileBank') {
+        context.commit('logout')
+      }
+      localStorage.setItem('mobileBank_loginFirstAfterChangeKeyJWT', 'mobileBank')
       context.commit('setUser', data.token)
       context.commit('setToken', 'bearer ' + data.token)
       context.commit('setRefresh', data.refresh)
