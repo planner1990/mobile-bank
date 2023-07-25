@@ -95,13 +95,12 @@
           <!-- details -->
           <!-- details -->
           <!-- details -->
-          <template #[`item.detail`]="{ item }">
+          <template #[`item.detail`]="{ }">
             <v-btn
               small
               elevation="0"
               style="color: #84BD00;border-radius: 8px;height: 36px;font-weight: bold;width: 80px;"
               color="rgba(132, 189, 0, 0.1)"
-              @click="editItem(item)"
             >
               {{ $t('global.review') }}
             </v-btn>
@@ -179,7 +178,13 @@
                     :headers="headersTransaction"
                     class="fullScreen"
                     :hide-default-footer="true"
-                  />
+                  >
+                    <template #[`item.requestId`]="{ item }">
+                      <div v-if="item.requestId" @click="createDialog_For_RefundReport = true">
+                        {{ item.requestId }}
+                      </div>
+                    </template>
+                  </v-data-table>
                 </v-row>
                 <!-- request original details -->
                 <v-row>
@@ -219,7 +224,6 @@
                       <v-card
                         color="#fff"
                         height="100%"
-
                         class="justify-center"
                       >
                         <v-toolbar
@@ -496,6 +500,7 @@ export default {
       buttonCloseModal: false,
       downloadLoading: false,
       createDialog: false,
+      createDialog_For_RefundReport: false,
       operationDialog: false,
       searchModel: {
         paginate: {
