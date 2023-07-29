@@ -21,7 +21,7 @@
           sort-by="cardOwnerId"
           :items="items"
           :headers="headers"
-          class=""
+          class="fullScreen mb-16"
           :loading="loading"
           :footer-props="{
             'items-per-page-options': [20, 50, 100, 500, 1000]
@@ -95,12 +95,13 @@
           <!-- details -->
           <!-- details -->
           <!-- details -->
-          <template #[`item.detail`]="{ }">
+          <template #[`item.detail`]="{ item }">
             <v-btn
               small
               elevation="0"
               style="color: #84BD00;border-radius: 8px;height: 36px;font-weight: bold;width: 80px;"
               color="rgba(132, 189, 0, 0.1)"
+              @click="editItem(item)"
             >
               {{ $t('global.review') }}
             </v-btn>
