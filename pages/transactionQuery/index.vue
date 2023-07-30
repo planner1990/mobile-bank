@@ -855,4 +855,10 @@ export default {
   /deep/ .vjs-value__boolean, .vjs-value__number {
     color: #0268b5 !important;
   }
+
+  .center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+  }
 </style>

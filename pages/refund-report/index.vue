@@ -133,7 +133,7 @@
             <v-btn
               :loading="downloadLoading_refundList"
               :disabled="downloadLoading_refundList"
-              style="position: fixed !important;bottom: 10px !important;z-index: 10 !important;right:160px;width: 196px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              style="position: fixed !important;bottom: 4px !important;z-index: 10 !important;right:160px;width: 196px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
               @click="createRefundAcceptDialog()"
             >
               <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
@@ -146,7 +146,7 @@
             <v-btn
               :loading="downloadLoading_refundConfirmList"
               :disabled="downloadLoading_refundConfirmList"
-              style="position: fixed !important;bottom: 10px !important;z-index: 10 !important;right:363px;width: 156px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              style="position: fixed !important;bottom: 4px !important;z-index: 10 !important;right:363px;width: 156px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
               @click="createRefundConfirmDialog()"
             >
               <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
