@@ -213,6 +213,7 @@
                             <br>
                             <card-reissue-operations :list-type="listType" />
                           </v-tab-item>
+
                           <v-tab href="#loanRequestOperation" class="font-weight-black">
                             {{ $t('report.transactionReport.headers.loanRequestOperation') }}
                           </v-tab>
@@ -220,6 +221,7 @@
                             <br>
                             <loan-operations :list-type="listType" />
                           </v-tab-item>
+
                           <v-tab href="#onlineDepositOperation" class="font-weight-black">
                             {{ $t('report.transactionReport.headers.onlineDepositOperation') }}
                           </v-tab>
@@ -227,12 +229,21 @@
                             <br>
                             <online-deposit-operations :list-type="listType" />
                           </v-tab-item>
+
                           <v-tab href="#pichackOperations" class="font-weight-black">
                             {{ $t('report.transactionReport.headers.pichackOperation') }}
                           </v-tab>
                           <v-tab-item value="pichackOperations">
                             <br>
                             <pichack-operations :list-type="listType" />
+                          </v-tab-item>
+
+                          <v-tab href="#bankLoanOperationList" class="font-weight-black">
+                            {{ $t('report.transactionReport.headers.bankLoanOperationList') }}
+                          </v-tab>
+                          <v-tab-item value="bankLoanOperationList">
+                            <br>
+                            <bankLoanOperationList :list-type="listType" />
                           </v-tab-item>
                         </v-tabs>
                       </v-row>
@@ -296,6 +307,7 @@ import cardReissueOperations from '~/components/transactionQuery/cardReissueOper
 import publicOperations from '~/components/transactionQuery/publicOperations'
 import userOperations from '~/components/transactionQuery/userOperations'
 import pichackOperations from '~/components/transactionQuery/pichackOperations'
+import bankLoanOperationList from '~/components/transactionQuery/bankLoanOperationList'
 
 const defaultFilterdetails = {
   transactionListFilter: {
@@ -312,6 +324,7 @@ export default {
     cardReissueOperations,
     onlineDepositOperations,
     pichackOperations,
+    bankLoanOperationList,
     userOperations,
     publicOperations,
     VueJsonPretty
