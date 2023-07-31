@@ -463,6 +463,7 @@ export default {
       downloadLoading: false,
       createDialog: false,
       operationDialog: false,
+      createDialog_For_RefundReport: false,
       tabsModel: false,
       searchModel: {
         paginate: {
@@ -513,6 +514,8 @@ export default {
       itemsTransactionData: [],
       requestJson: null,
       responseJson: null,
+      refundDetail: null,
+      refundDetailsJson: null,
       cardList: [],
       depositList: [],
       cardReissueList: [],

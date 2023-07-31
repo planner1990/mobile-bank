@@ -84,7 +84,7 @@
             </div>
           </template>
           <template #[`item.responseCode`]="{ item }">
-            <div v-if="item.responseCode || item.responseCode === 0" class="chip" :style="'color: ' + getColor(item.responseCode)">
+            <div v-if="item.responseCode || item.responseCode === 0" class="chip" :style="'color: ' + getColor(item.responseCode)" style="font-size: 17px;">
               {{ item.responseCode }}
             </div>
             <div v-else class="chip" :style="'color: ' + getColor(null)">
@@ -181,9 +181,6 @@
                     class="fullScreen"
                     :hide-default-footer="true"
                   >
-                    <template #[`item.refundDetail`]="{ item }">
-                      {{ item.refundDetail }}
-                    </template>
                     <template #[`item.requestId`]="{ item }">
                       <div v-if="item.requestId" @click="createDialog_For_RefundReport = true">
                         {{ item.requestId }}
@@ -442,9 +439,9 @@
           </v-card>
         </v-dialog>
 
-        <!-- Dialog show refundDetail -->
-        <!-- Dialog show refundDetail -->
-        <!-- Dialog show refundDetail -->
+        <!-- Dialog show refundDetail جزییات استرداد وجه -->
+        <!-- Dialog show refundDetail جزییات استرداد وجه -->
+        <!-- Dialog show refundDetail جزییات استرداد وجه -->
         <v-dialog
           v-model="refundDetailsDialog"
           persistent
@@ -528,8 +525,8 @@
 
               <v-row v-if="refundDetailsJson" class="mt-16">
                 <v-col class="col-6 col-sm-6 col-md-6 col-lg-6 center">
-                  <v-btn :loading="loading" :disabled="loading" color="#84BD00" class="btnSend" @click="editUser">
-                    {{ 'تایید بازگشت وجه' }}
+                  <v-btn color="#84BD00" class="btnSend" @click="refund()">
+                    {{ 'بازگشت وجه به صورت سیستمی' }}
                   </v-btn>
                 </v-col>
               </v-row>
@@ -624,6 +621,7 @@ export default {
       createDialog: false,
       createDialog_For_RefundReport: false,
       operationDialog: false,
+      refundAcceptDialog: false,
       searchModel: {
         paginate: {
           page: 1,
@@ -740,7 +738,7 @@ export default {
       } if (status === null) {
         return '#f1b0b0'
       } else {
-        return '#444444'
+        return '#ff0000'
       }
     },
     priceFormat (amount) {
@@ -914,6 +912,32 @@ export default {
     },
     moment (date) {
       return moment(date).format('HH:mm:ss jYYYY/jM/jD')
+    },
+    // تلاش مجدد برای بازگشت وجه به صورت سیستمی
+    refund () {
+      const payload = {
+        refundStateEnum: 'PENDING',
+        transactionId: this.refundDetailsJson.id
+      }
+      reportManager.refund(payload, this.$axios).then((response) => {
+        this.refundAcceptDialog = false
+        this.search(this.searchModel)
+      }).catch((error) => {
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+        this.loading = false
+      }).finally(() => {
+        this.refundAcceptDialog = false
+      })
     },
     // دریافت لیست عملیات ها
     // دریافت لیست عملیات ها
