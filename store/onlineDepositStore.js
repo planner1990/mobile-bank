@@ -17,6 +17,8 @@ export const state = () => ({
   inquiryOperationList: [],
   publicOperationList: [],
   userOperationList: [],
+  pichakOperationList: [],
+  bankLoanOperationList: [],
   documentConfirm: false
 })
 
@@ -93,6 +95,18 @@ export const mutations = {
     console.log(list)
     state.userOperationList = list
     console.log(state)
+  },
+  setPichakOperationList (state, list) {
+    console.log('pichakOperationList')
+    console.log(list)
+    state.pichakOperationList = list
+    console.log(state)
+  },
+  setBankLoanOperationList (state, list) {
+    console.log('bankLoanOperationList')
+    console.log(list)
+    state.bankLoanOperationList = list
+    console.log(state)
   }
 }
 
@@ -127,6 +141,12 @@ export const actions = {
   },
   initialUserOperations (context, list) {
     context.commit('setUserList', list)
+  },
+  initialPichakOperation (context, list) {
+    context.commit('setPichakOperationList', list)
+  },
+  initialBankLoanOperation (context, list) {
+    context.commit('setBankLoanOperationList', list)
   },
   async updateStatusToInProcess (context, onlineDepositId) {
     const { data } = await openDepositProcessManager.updateStatusToInProcess(onlineDepositId, this.$axios)
@@ -178,5 +198,13 @@ export const getters = {
   publicOperationList: (state) => {
     console.log('getPublicOperationList')
     return state.publicOperationList
+  },
+  pichakOperationList: (state) => {
+    console.log('getPichakOperationList')
+    return state.pichakOperationList
+  },
+  bankLoanOperationList: (state) => {
+    console.log('getBankLoanOperationList')
+    return state.bankLoanOperationList
   }
 }

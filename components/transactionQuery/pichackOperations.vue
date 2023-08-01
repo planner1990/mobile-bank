@@ -64,7 +64,9 @@ export default {
       initialPublicOperations: 'onlineDepositStore/initialPublicOperations',
       initialCardReissueOperations: 'onlineDepositStore/initialCardReissueOperations',
       initialLoanRequestOperations: 'onlineDepositStore/initialLoanRequestOperations',
-      initialOnlineDepositOperations: 'onlineDepositStore/initialOnlineDepositOperations'
+      initialOnlineDepositOperations: 'onlineDepositStore/initialOnlineDepositOperations',
+      initialPichakOperation: 'onlineDepositStore/initialPichakOperation',
+      initialBankLoanOperation: 'onlineDepositStore/initialBankLoanOperation'
     }),
     ...mapMutations({
       alert: 'snacks/showMessage'
@@ -123,6 +125,8 @@ export default {
       this.initialCardReissueOperations([])
       this.initialLoanRequestOperations([])
       this.initialOnlineDepositOperations([])
+      this.initialPichakOperation([])
+      this.initialBankLoanOperation([])
     },
     checked (input) {
       this.clearAllBeforeSelected()
@@ -132,7 +136,7 @@ export default {
       this.category.selected = [input.url]
 
       console.log(this.listType)
-      this.initialOnlineDepositOperations(this.category.selected)
+      this.initialPichakOperation(this.category.selected)
       console.log('checked')
       console.log('++++++++++', input)
       console.log(this.category.selected)
@@ -143,7 +147,7 @@ export default {
     },
     clearAllCheckBox: function () {
       this.category.selected = []
-      this.initialOnlineDepositOperations(this.category.selected)
+      this.initialPichakOperation(this.category.selected)
     }
   }
 }
