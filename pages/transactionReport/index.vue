@@ -431,6 +431,14 @@
                         <br>
                         <pichack-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
+
+                      <v-tab href="#bankLoanOperationList" class="font-weight-black" @click="keyTab++">
+                        {{ $t('report.transactionReport.headers.bankLoanOperationList') }}
+                      </v-tab>
+                      <v-tab-item value="bankLoanOperationList">
+                        <br>
+                        <bankLoanOperationList :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
+                      </v-tab-item>
                     </v-tabs>
                   </v-row>
                 </v-card>
@@ -553,6 +561,7 @@ import pichackOperations from '~/components/transactionQuery/pichackOperations'
 import cardReissueOperations from '~/components/transactionQuery/cardReissueOperations'
 import publicOperations from '~/components/transactionQuery/publicOperations'
 import userOperations from '~/components/transactionQuery/userOperations'
+import bankLoanOperationList from '~/components/transactionQuery/bankLoanOperationList'
 
 const defaultFilterdetails = {
   transactionListFilter: {
@@ -599,6 +608,7 @@ export default {
     cardReissueOperations,
     onlineDepositOperations,
     pichackOperations,
+    bankLoanOperationList,
     userOperations,
     publicOperations,
     VueJsonPretty

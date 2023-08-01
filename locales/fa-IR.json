@@ -1,6 +1,6 @@
 {
   "projectName": "پنل موبایل بانک",
-  "version": "نسخه 06-14020509",
+  "version": "نسخه 03-14020510",
   "company": "عصر دانش‌ افزار",
   "clearText": "پاک کن",
   "error": {
@@ -101,6 +101,7 @@
         "loanRequestOperation": "درخواست وام",
         "loanPanelOperation": "پنل وام",
         "onlineDepositOperation": "افتتاح حساب",
+        "bankLoanOperationList": "بانک loan",
         "pichackOperation": "پیچک"
       },
       "status": {
