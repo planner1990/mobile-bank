@@ -43,9 +43,10 @@ export default {
       setTimeout(() => {
         if (window.history.state !== null && window.history.length > 2 && sessionStorage.getItem('mob-login') === 'backIsTrue') {
           // important :: 2 action for back
-          this.$router.back()
-          this.$router.back()
-          return false
+          // this.$router.back()
+          // this.$router.back()
+          // return false
+          return this.$router.push('/transactionReport')
         } else {
           sessionStorage.setItem('mob-login', 'backIsTrue')
           return this.$router.push('/transactionReport')
