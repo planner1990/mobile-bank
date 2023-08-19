@@ -84,7 +84,7 @@
             </div>
           </template>
           <template #[`item.responseCode`]="{ item }">
-            <div v-if="item.responseCode || item.responseCode === 0" class="chip" :style="'color: ' + getColor(item.responseCode)">
+            <div v-if="item.responseCode || item.responseCode === 0" class="chip" :style="'color: ' + getColor(item.responseCode)" style="font-size: 17px;">
               {{ item.responseCode }}
             </div>
             <div v-else class="chip" :style="'color: ' + getColor(null)">
@@ -114,6 +114,7 @@
             <v-btn
               :loading="downloadLoading"
               :disabled="downloadLoading"
+              small
               class="btnOnFooterFixUnderGrid"
               @click="downloadReports()"
             >
@@ -183,6 +184,27 @@
                     <template #[`item.requestId`]="{ item }">
                       <div v-if="item.requestId" @click="createDialog_For_RefundReport = true">
                         {{ item.requestId }}
+                        <v-tooltip v-if="refundDetail" top>
+                          <template #activator="{ on, attrs }">
+                            <v-btn
+                              text
+                              small
+                              style="border-radius: 8px;font-size: 12px;color: #2173E0;position: relative; top: -2px;"
+                              icon
+                              v-bind="attrs"
+                              :loading="loadingBtnRefundDetail"
+                              :disabled="loadingBtnRefundDetail"
+                              v-on="on"
+                              @click="showRefundDetails(refundDetail)"
+                            >
+                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.5799 12C15.5799 13.98 13.9799 15.58 11.9999 15.58C10.0199 15.58 8.41992 13.98 8.41992 12C8.41992 10.02 10.0199 8.41998 11.9999 8.41998C13.9799 8.41998 15.5799 10.02 15.5799 12Z" stroke="#2173E0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M11.9998 20.27C15.5298 20.27 18.8198 18.19 21.1098 14.59C22.0098 13.18 22.0098 10.81 21.1098 9.39997C18.8198 5.79997 15.5298 3.71997 11.9998 3.71997C8.46984 3.71997 5.17984 5.79997 2.88984 9.39997C1.98984 10.81 1.98984 13.18 2.88984 14.59C5.17984 18.19 8.46984 20.27 11.9998 20.27Z" stroke="#2173E0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                              </svg>
+                            </v-btn>
+                          </template>
+                          <span>نمایش  جزییات استرداد وجه</span>
+                        </v-tooltip>
                       </div>
                     </template>
                   </v-data-table>
@@ -409,10 +431,113 @@
                         <br>
                         <pichack-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
                       </v-tab-item>
+
+                      <v-tab href="#bankLoanOperationList" class="font-weight-black" @click="keyTab++">
+                        {{ $t('report.transactionReport.headers.bankLoanOperationList') }}
+                      </v-tab>
+                      <v-tab-item value="bankLoanOperationList">
+                        <br>
+                        <bankLoanOperationList :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
+                      </v-tab-item>
                     </v-tabs>
                   </v-row>
                 </v-card>
               </v-form>
+            </v-container>
+          </v-card>
+        </v-dialog>
+
+        <!-- Dialog show refundDetail جزییات استرداد وجه -->
+        <!-- Dialog show refundDetail جزییات استرداد وجه -->
+        <!-- Dialog show refundDetail جزییات استرداد وجه -->
+        <v-dialog
+          v-model="refundDetailsDialog"
+          persistent
+          width="800"
+          transition="dialog-bottom-transition"
+        >
+          <v-card
+            :loading="loading"
+          >
+            <!-- title -->
+            <!-- title -->
+            <!-- title -->
+            <svg
+              ref="buttonCloseModal"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style="position: absolute;left: 20px; top: 18px;cursor: pointer"
+              @click="refundDetailsDialog = false"
+            >
+              <g clip-path="url(#clip0_401_143)">
+                <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+              </g>
+              <defs>
+                <clipPath id="clip0_401_143">
+                  <rect width="24" height="24" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            <v-card-title class=" black--text font-weight-bold headline" style="border-bottom: 1px solid #D8D8D8;">
+              {{ 'نمایش جزییات استرداد وجه' }}
+            </v-card-title>
+
+            <v-container>
+              <v-row v-if="refundDetailsJson">
+                <v-col class="col-12 col-sm-6 col-md-3 col-lg-4">
+                  <span class="font-weight-bold">شناسه</span> : <br> {{ refundDetailsJson.id || 'تعیین نشده' }}
+                </v-col>
+                <v-col class="col-12 col-sm-6 col-md-3 col-lg-4">
+                  <span class="font-weight-bold">وضعیت</span> : <br> {{ $t('report.refundReport.refundTypeNum.' + refundDetailsJson.state) }}
+                </v-col>
+                <v-col class="col-12 col-sm-6 col-md-3 col-lg-4">
+                  <span class="font-weight-bold">زمان ایجاد</span> : <br> {{ refundDetailsJson.createdTime || 'تعیین نشده' }}
+                </v-col>
+              </v-row>
+
+              <v-row v-if="refundDetailsJson">
+                <v-col class="col-12 col-sm-6 col-md-3 col-lg-4">
+                  <span class="font-weight-bold">کد پاسخ تراکنش شارژ</span> : <br> {{ refundDetailsJson.transactionErrorCode || 'تعیین نشده' }}
+                </v-col>
+                <v-col class="col-12 col-sm-6 col-md-3 col-lg-4">
+                  <span class="font-weight-bold">مبلغ</span> : <br> {{ refundDetailsJson.amount || 'تعیین نشده' }}
+                </v-col>
+                <v-col class="col-12 col-sm-6 col-md-3 col-lg-4">
+                  <span class="font-weight-bold">زمان تراکنش شارژ</span> : <br> {{ refundDetailsJson.transactionTime || 'تعیین نشده' }}
+                </v-col>
+              </v-row>
+
+              <v-row v-if="refundDetailsJson">
+                <v-col class="col-12 col-sm-6 col-md-3 col-lg-4">
+                  <span class="font-weight-bold">کد پیگیری عملیات</span> : <br> {{ refundDetailsJson.requestId || 'تعیین نشده' }}
+                </v-col>
+                <v-col class="col-12 col-sm-6 col-md-3 col-lg-4">
+                  <span class="font-weight-bold">موبایل(مشتری)</span> : <br> {{ refundDetailsJson.phoneNumber || 'تعیین نشده' }}
+                </v-col>
+                <v-col class="col-12 col-sm-6 col-md-3 col-lg-4">
+                  <span class="font-weight-bold">شماره مبدا</span> : <br> {{ refundDetailsJson.source || 'تعیین نشده' }}
+                </v-col>
+              </v-row>
+
+              <v-row v-if="refundDetailsJson">
+                <v-col class="col-12 col-sm-6 col-md-3 col-lg-4">
+                  <span class="font-weight-bold">زمان استرداد وجه</span> : <br> {{ refundDetailsJson.refundOrFailTime || 'تعیین نشده' }}
+                </v-col>
+                <v-col class="col-12 col-sm-6 col-md-3 col-lg-4">
+                  <span class="font-weight-bold">کد پاسخ بازگشت وجه</span> : <br> {{ refundDetailsJson.errorCode || 'تعیین نشده' }}
+                </v-col>
+              </v-row>
+
+              <v-row v-if="refundDetailsJson" class="mt-16">
+                <v-col class="col-6 col-sm-6 col-md-6 col-lg-6 center">
+                  <v-btn color="#84BD00" class="btnSend" @click="refund()">
+                    {{ 'بازگشت وجه به صورت سیستمی' }}
+                  </v-btn>
+                </v-col>
+              </v-row>
             </v-container>
           </v-card>
         </v-dialog>
@@ -436,6 +561,7 @@ import pichackOperations from '~/components/transactionQuery/pichackOperations'
 import cardReissueOperations from '~/components/transactionQuery/cardReissueOperations'
 import publicOperations from '~/components/transactionQuery/publicOperations'
 import userOperations from '~/components/transactionQuery/userOperations'
+import bankLoanOperationList from '~/components/transactionQuery/bankLoanOperationList'
 
 const defaultFilterdetails = {
   transactionListFilter: {
@@ -482,6 +608,7 @@ export default {
     cardReissueOperations,
     onlineDepositOperations,
     pichackOperations,
+    bankLoanOperationList,
     userOperations,
     publicOperations,
     VueJsonPretty
@@ -498,11 +625,13 @@ export default {
       default_searchOperation_select: null,
       allSearchOperation: [],
       tabsModel: [],
+      loadingBtnRefundDetail: false,
       buttonCloseModal: false,
       downloadLoading: false,
       createDialog: false,
       createDialog_For_RefundReport: false,
       operationDialog: false,
+      refundAcceptDialog: false,
       searchModel: {
         paginate: {
           page: 1,
@@ -520,6 +649,7 @@ export default {
       filterDetails: defaultFilterdetails,
       totalNumberOfItems: 0,
       loading: false,
+      refundDetailsDialog: false,
       headers: [
         { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false, align: 'right' },
         { text: this.$t('report.transactionReport.headers.sourceNumber'), value: 'sourceNumber', sortable: false, align: 'right' },
@@ -549,11 +679,27 @@ export default {
       headersTransactionLog: [
         { text: this.$t('report.transactionReport.headers.source'), value: 'sourceType', sortable: false, align: 'center' }
       ],
+      headersRefundDetailsJson: [
+        { text: this.$t('report.refundReport.headers.id'), value: 'id', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.transactionTime'), value: 'transactionTime', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.phoneNumber'), value: 'phoneNumber', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.source'), value: 'source', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.transactionErrorCode'), value: 'transactionErrorCode', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.amount'), value: 'amount', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.createdTime'), value: 'createdTime', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.state'), value: 'state', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.requestId'), value: 'requestId', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.refundOrFailTime'), value: 'refundOrFailTime', sortable: false, align: 'right' },
+        { text: this.$t('report.refundReport.headers.errorCode'), value: 'errorCode', sortable: false, align: 'right' },
+        { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false, align: 'center' }
+      ],
       items: [],
       itemsTransaction: [],
       itemsTransactionData: [],
       requestJson: null,
       responseJson: null,
+      refundDetail: null,
+      refundDetailsJson: null,
       cardList: [],
       depositList: [],
       cardReissueList: [],
@@ -602,7 +748,7 @@ export default {
       } if (status === null) {
         return '#f1b0b0'
       } else {
-        return '#444444'
+        return '#ff0000'
       }
     },
     priceFormat (amount) {
@@ -618,6 +764,9 @@ export default {
       } else {
         return url + '\n' + url
       }
+    },
+    showRefundDetails (refundDetails) {
+      this.refundDetailsDialog = true
     },
     editItem2 () {
       this.operationDialog = true
@@ -658,6 +807,14 @@ export default {
         } catch (e) {
           this.responseJson = response.data.responseJson
         }
+
+        this.refundDetail = response.data.refundDetail ? response.data.refundDetail : null
+        try {
+          this.refundDetailsJson = JSON.parse(response.data.refundDetail)
+        } catch (e) {
+          this.refundDetailsJson = response.data.refundDetail
+        }
+
         this.itemsTransaction.push({
           appVersion: response.data.appVersion,
           osVersion: response.data.osVersion,
@@ -765,6 +922,32 @@ export default {
     },
     moment (date) {
       return moment(date).format('HH:mm:ss jYYYY/jM/jD')
+    },
+    // تلاش مجدد برای بازگشت وجه به صورت سیستمی
+    refund () {
+      const payload = {
+        refundStateEnum: 'PENDING',
+        transactionId: this.refundDetailsJson.id
+      }
+      reportManager.refund(payload, this.$axios).then((response) => {
+        this.refundAcceptDialog = false
+        this.search(this.searchModel)
+      }).catch((error) => {
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+        this.loading = false
+      }).finally(() => {
+        this.refundAcceptDialog = false
+      })
     },
     // دریافت لیست عملیات ها
     // دریافت لیست عملیات ها
@@ -906,5 +1089,11 @@ export default {
   }
   /deep/ .vjs-value__boolean, .vjs-value__number {
     color: #0268b5 !important;
+  }
+
+  .center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
   }
 </style>

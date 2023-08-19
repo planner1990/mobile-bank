@@ -93,7 +93,7 @@ export default {
         const operationList = response.data
 
         // pichakOperation
-        this.items = operationList.pichakOperation
+        this.items = operationList.bankLoanOperationList
       }).catch((error) => {
         if (error.response) {
           console.log(error.response)
@@ -136,7 +136,7 @@ export default {
       this.category.selected = [input.url]
 
       console.log(this.listType)
-      this.initialPichakOperation(this.category.selected)
+      this.initialBankLoanOperation(this.category.selected)
       console.log('checked')
       console.log('++++++++++', input)
       console.log(this.category.selected)
@@ -147,7 +147,7 @@ export default {
     },
     clearAllCheckBox: function () {
       this.category.selected = []
-      this.initialPichakOperation(this.category.selected)
+      this.initialBankLoanOperation(this.category.selected)
     }
   }
 }

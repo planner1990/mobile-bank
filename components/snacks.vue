@@ -1,6 +1,6 @@
 <template>
-  <v-snackbar v-model="show" :top="true" color="#fff" :timeout="timeout">
-    <span style="font-weight: normal;color: #444; margin-right: 5px;">
+  <v-snackbar v-model="show" :top="true" color="rgb(231 216 216)" :timeout="timeout">
+    <span style="font-weight: bold;color: #444; margin-right: 5px;font-size: 13px;">
       {{ $t(message) }}
     </span>
 
@@ -28,7 +28,7 @@ export default {
     message: '',
     color: '',
     textColor: '',
-    timeout: 10000
+    timeout: 9000
   }),
   computed: {
     titleStyle () {

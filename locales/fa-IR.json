@@ -1,6 +1,6 @@
 {
   "projectName": "پنل موبایل بانک",
-  "version": "نسخه 07-14020503",
+  "version": "نسخه 03-14020528",
   "company": "عصر دانش‌ افزار",
   "clearText": "پاک کن",
   "error": {
@@ -101,6 +101,7 @@
         "loanRequestOperation": "درخواست وام",
         "loanPanelOperation": "پنل وام",
         "onlineDepositOperation": "افتتاح حساب",
+        "bankLoanOperationList": "بانک loan",
         "pichackOperation": "پیچک"
       },
       "status": {
@@ -735,6 +736,20 @@
   "global": {
     "review": "جزئیات",
     "ok": "بله"
+  },
+  "transfer": {
+    "filters": {
+      "transferType": "نوع انتقال"
+    },
+    "headers": {
+      "customer": "شماره موبایل",
+      "source": "مبدا",
+      "destination": "مقصد",
+      "requestTime": "زمان انتقال",
+      "amount": "مبلغ",
+      "userTransferFee": "کارمزد مشتری",
+      "serviceTransferShare": "کارمزد عصردانش"
+    }
   }
 }
 

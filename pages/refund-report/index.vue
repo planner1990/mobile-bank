@@ -133,7 +133,7 @@
             <v-btn
               :loading="downloadLoading_refundList"
               :disabled="downloadLoading_refundList"
-              style="position: fixed !important;bottom: 10px !important;z-index: 10 !important;right:160px;width: 196px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              style="position: fixed !important;bottom: 4px !important;z-index: 10 !important;right:160px;width: 196px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
               @click="createRefundAcceptDialog()"
             >
               <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
@@ -146,7 +146,7 @@
             <v-btn
               :loading="downloadLoading_refundConfirmList"
               :disabled="downloadLoading_refundConfirmList"
-              style="position: fixed !important;bottom: 10px !important;z-index: 10 !important;right:363px;width: 156px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
+              style="position: fixed !important;bottom: 4px !important;z-index: 10 !important;right:363px;width: 156px;height: 36px;background: #84BD00;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 8px;"
               @click="createRefundConfirmDialog()"
             >
               <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
@@ -372,7 +372,7 @@
                   </defs>
                 </svg>
                 <v-card-title class=" black--text font-weight-bold headline mb-2" style="border-bottom: 1px solid #D8D8D8;">
-                  {{ $t('report.refundReport.refundStateTitle') }}
+                  {{ $t('report.refundReport.refundStateTitle') + '*' }}
                 </v-card-title>
 
                 <v-container>
@@ -668,15 +668,25 @@ export default {
       }
     },
     handleDbClick (event, { item }) {
+      console.log('handleDbClick ***', item, item.state)
       if (this.checkUserPermissionForShowBtn() === true) {
         defaultFilterdetails.refundRequest.transactionId = item.id
-        if (item.state === 4 || item.state === 0 || item.state === 3) {
+        /*
+          4 -> نیازمند بررسی
+          0 -> در انتظار
+          3 -> در حال پردازش
+          2 -> ناموفق
+        */
+        if (item.state === 4) {
           this.refundDialog = true
-        }
-        if (item.state === 2) {
+        } else if (item.state === 2 || item.state === 0 || item.state === 3) {
           this.refundErrorDialog = true
+        } else {
+          this.refundDialog = false
+          this.refundErrorDialog = false
         }
       } else {
+        this.refundDialog = false
         this.refundErrorDialog = false
       }
     },
@@ -785,6 +795,19 @@ export default {
         } catch (e) {
         }
         this.loading = false
+      }).catch((error) => {
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+        this.loading = false
       })
         .finally(() => {
           this.loading = false
@@ -798,6 +821,19 @@ export default {
         try {
           this.search(this.searchModel)
         } catch (e) {
+        }
+        this.loading = false
+      }).catch((error) => {
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
         }
         this.loading = false
       })
@@ -814,6 +850,19 @@ export default {
         try {
           this.search(this.searchModel)
         } catch (e) {
+        }
+        this.loading = false
+      }).catch((error) => {
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
         }
         this.loading = false
       })

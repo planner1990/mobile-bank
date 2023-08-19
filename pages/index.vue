@@ -54,9 +54,14 @@ export default {
       setTimeout(() => {
         if (window.history.state !== null && window.history.length > 2 && localStorage.getItem('mob-login') === 'backIsTrue') {
           // important :: 2 action for back
-          this.$router.back()
-          this.$router.back()
-          return false
+          // this.$router.back()
+          // this.$router.back()
+          // return false
+          if (this.loggedInUser.role.role === 'REPORTER') {
+            return this.$router.push('/bill-report')
+          } else {
+            return this.$router.push('/transactionReport')
+          }
         } else {
           localStorage.setItem('mob-login', 'backIsTrue')
           if (this.loggedInUser.role.role === 'REPORTER') {
