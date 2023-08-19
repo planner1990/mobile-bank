@@ -52,8 +52,8 @@
               </v-col>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-select
-                  v-model="filter.billListFilter.transferTypeId"
-                  :items="transferTypeList"
+                  v-model="filter.transferFilter.transferTypeId"
+                  :items="transferType"
                   item-value="id"
                   :item-text="(item)=>$t(item.title)"
                   :return-object="false"
@@ -102,7 +102,7 @@ import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import transferManager from '~/repository/transfer_manager'
 
 const defaultFilter = {
-  billListFilter: {
+  transferFilter: {
     transferTypeId: null
   },
   dateFilter: {
@@ -134,7 +134,8 @@ export default {
       toDate: this.currentDayTo(),
       downloadLoading: false,
       filter: defaultFilter,
-      transferType: []
+      transferType: [],
+      items: []
     }
   },
   mounted: function () {
@@ -152,18 +153,7 @@ export default {
       this.loading = true
       transferManager.transferType(this.operationType, this.$axios).then((response) => {
         this.transferType = response.data
-      }).catch((error) => {
-        if (error.response) {
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
+      }).catch(() => {
         this.loading = false
       })
     },

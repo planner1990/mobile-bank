@@ -1,9 +1,9 @@
 async function transferType (searchModel, axios) {
-  return await axios.post('transfer/type', searchModel)
+  return await axios.get('transfer-types')
 }
 
-async function transferList (axios) {
-  return await axios.get('transfer/list')
+async function transferList (searchModel, axios) {
+  return await axios.post('transfer-fees', searchModel)
 }
 
 export default {

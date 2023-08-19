@@ -77,7 +77,7 @@
 import moment from 'moment-jalaali'
 import { mapMutations } from 'vuex'
 import transferFilter from '~/components/transfer/transferFilter'
-import reportManager from '~/repository/report_manager'
+import transferManager from '~/repository/transfer_manager'
 
 export default {
   name: 'BillReportPage',
@@ -147,9 +147,9 @@ export default {
     },
     search (searchModel) {
       this.loading = true
-      reportManager.billList(searchModel, this.$axios).then((response) => {
-        this.items = response.data.data.data
-        this.totalNumberOfItems = response.data.data.total
+      transferManager.transferList(searchModel, this.$axios).then((response) => {
+        this.items = response.data
+        this.totalNumberOfItems = response.data.totalItem
       }).catch((error) => {
         if (error.response) {
           this.alert({
@@ -192,7 +192,7 @@ export default {
     },
     downloadReports () {
       this.downloadLoading = true
-      reportManager.downloadBillList(this.searchModel, this.$axios).then((res) => {
+      transferManager.downloadBillList(this.searchModel, this.$axios).then((res) => {
         const fileURL = window.URL.createObjectURL(new Blob([res.data]))
         const fileLink = document.createElement('a')
         fileLink.href = fileURL
