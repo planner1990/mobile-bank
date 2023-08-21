@@ -1,95 +1,77 @@
 <template>
-  <v-card
-    elevation="5"
-    class="fullScreen"
-  >
-    <v-toolbar
-      class="black--text"
-      color="lightGreen"
-      flat
-      dark
-      dense
-      elevation="1"
-    >
-      آمار استرداد وجه (فیلترها)
-      <v-spacer />
-    </v-toolbar>
+  <v-card flat>
     <v-container fluid>
-      <v-row>
-        <v-col cols="2">
-          <v-text-field
-            id="createFromDate"
-            v-model="fromDate"
-            prepend-icon="mdi-calendar"
-            outlined
-            dense
-            :placeholder="$t('filters.fromDate')"
-          />
-          <p-date-picker
-            v-model="fromDate"
-            type="datetime"
-            element="createFromDate"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullFromDate()"
-          />
-        </v-col>
-
-        <v-col cols="2">
-          <v-text-field
-            id="createToDate"
-            v-model="toDate"
-            prepend-icon="mdi-calendar"
-            outlined
-            dense
-            :placeholder="$t('filters.toDate')"
-          />
-          <p-date-picker
-            v-model="toDate"
-            type="datetime"
-            element="createToDate"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullToDate()"
-          />
-        </v-col>
-      </v-row>
-      <br>
-      <v-row no-gutters>
-        <v-col>
-          <v-btn
-            color="success"
-            small
-            class="mr-10"
-            @click="search"
-          >
-            {{ $t('buttons.search') }}
-          </v-btn>
-        </v-col>
-        <v-col cols="2">
-          <v-btn
-            class="mb-2"
-            small
-            color="warning"
-            :loading="loading"
-            @click="confirm"
-          >
-            {{ $t('buttons.confirmRefundStatistics') }}
-          </v-btn>
-        </v-col>
-        <v-col cols="8" />
-      </v-row>
+      <!-- main part -->
+      <!-- main part -->
+      <!-- main part -->
+      <div class="main">
+        <v-row style="margin-top: -5px;">
+          <div class="row mt-2 mr-4 ml-7">
+            <v-row>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  id="createFromDate"
+                  v-model="fromDate"
+                  outlined
+                  dense
+                  :placeholder="$t('filters.fromDate')"
+                />
+                <p-date-picker
+                  v-model="fromDate"
+                  type="datetime"
+                  element="createFromDate"
+                  color="dimgray"
+                  dense
+                  outlined
+                  popove
+                  auto-submit
+                  format="HH:mm jYYYY/jMM/jDD"
+                  @close="checkIsNullFromDate()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  id="createToDate"
+                  v-model="toDate"
+                  outlined
+                  dense
+                  :placeholder="$t('filters.toDate')"
+                />
+                <p-date-picker
+                  v-model="toDate"
+                  type="datetime"
+                  element="createToDate"
+                  color="dimgray"
+                  dense
+                  outlined
+                  popove
+                  auto-submit
+                  format="HH:mm jYYYY/jMM/jDD"
+                  @close="checkIsNullToDate()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="direction:ltr">
+                <v-btn :loading="loadingBtn" :disabled="loadingBtn" color="#84BD00" class="btnSearch" @click="search">
+                  {{ $t('buttons.search') }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+        </v-row>
+      </div>
     </v-container>
   </v-card>
 </template>
+
+<!--<v-btn-->
+<!--  class="mb-2"-->
+<!--  small-->
+<!--  color="warning"-->
+<!--  :loading="loading"-->
+<!--  @click="confirm"-->
+<!--&gt;-->
+<!--{{ $t('buttons.confirmRefundStatistics') }}-->
+<!--</v-btn>-->
 
 <script>
 import moment from 'moment-jalaali'
@@ -102,7 +84,7 @@ const defaultFilter = {
   }
 }
 export default {
-  name: 'RefundStatisticsFilter',
+  name: 'RefundStatisticsFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },
@@ -111,8 +93,11 @@ export default {
   },
   data () {
     return {
+      loadingBtn: false,
       fromDate: this.currentDayFrom(),
       toDate: this.currentDayTo(),
+      downloadLoading: false,
+      loading: false,
       time: null,
       filter: defaultFilter,
       items: []
@@ -126,6 +111,9 @@ export default {
   methods: {
     search () {
       this.$emit('search', this.filter)
+
+      this.loadingBtn = true
+      setTimeout(() => (this.loadingBtn = false), 1500)
     },
     confirm () {
       this.$emit('confirm', this.filter)

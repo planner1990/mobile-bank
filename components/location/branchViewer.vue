@@ -3,14 +3,12 @@
     <v-input
       v-if="condition === 'table'"
       hide-details="auto"
-      :prepend-icon="icon"
       :messages="$t(message)"
     >
       {{ value }}
     </v-input>
     <v-combobox
       v-else
-      :prepend-icon="icon"
       :label="$t('common.branch')"
       :value="branch"
       :items="branch"
@@ -35,7 +33,7 @@ import { defineComponent, useContext, ref, watch } from '@nuxtjs/composition-api
 import locationManager from '@/repository/location_manager'
 
 export default defineComponent({
-  name: 'BranchViewer',
+  name: 'BranchViewerComponent',
   props: {
     icon: {
       type: String,
@@ -56,7 +54,7 @@ export default defineComponent({
   },
   setup (props) {
     const { $axios } = useContext()
-    const branch = ref('')
+    const branch = ref('تعیین نشده')
     if (props.value) {
       locationManager.getBranch(props.value, $axios).then((res) => {
         if (res.length > 0) {
@@ -79,3 +77,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+/deep/ .v-input {
+  font-size: 14px;
+}
+</style>

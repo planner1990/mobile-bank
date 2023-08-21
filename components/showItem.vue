@@ -1,19 +1,14 @@
 <template>
   <v-layout row wrap align-center>
-    <v-flex style="max-width: 50px; flex-grow: 1">
-      <v-icon>
-        {{ icon }}
-      </v-icon>
-    </v-flex>
     <v-flex style="flex-grow: 1">
       <v-layout column>
         <v-flex class="py-1">
-          <p style="color: #757575; margin: 0">
+          <p style="margin: 0; font-style: normal;font-weight: 400;font-size: 16px;line-height: 31px;color: #757575;">
             {{ title }}
           </p>
         </v-flex>
         <v-flex class="py-1">
-          <p class="font-weight-bold" style="color: #1C1C1E; margin: 0">
+          <p style="margin: 0;font-style: normal;font-weight: 500;font-size: 18px;line-height: 35px;color: #1C1C1C;">
             {{ content }}
           </p>
         </v-flex>
@@ -24,7 +19,7 @@
 
 <script>
 export default {
-  name: 'ShowItem',
+  name: 'ShowItemComponent',
   props: {
     icon: {
       type: String,

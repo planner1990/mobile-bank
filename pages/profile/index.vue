@@ -15,10 +15,16 @@
 
 <script>
 import profileCard from '~/components/profile/profileCard'
+
 export default {
-  name: 'Profile',
+  name: 'ProfilePage',
   components: {
     profileCard
+  },
+  head () {
+    return {
+      title: 'پروفایل کاربری' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
   }
 }
 </script>

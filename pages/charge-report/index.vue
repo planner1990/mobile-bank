@@ -1,34 +1,27 @@
 <template>
-  <v-container
-    tag="section"
-    fluid
-  >
-    <v-col>
-      <v-row
-        justify="center"
-      >
+  <v-container tag="section" fluid>
+    <v-row>
+      <!-- filter -->
+      <v-col cols="12" style="padding: 8px !important;">
         <chargeReportFilter v-model="searchModel" @search="search" />
-      </v-row>
-      <br>
-      <br>
-      <v-row
-        justify="center"
-      >
+      </v-col>
+
+      <!-- grid -->
+      <v-col cols="12" style="padding: 8px !important;">
         <v-data-table
           dense
           :footer-props="{
-            'items-per-page-options': [50, 100, 300, 500, 1000]
+            'items-per-page-options': [20, 50, 100, 500, 1000]
           }"
           item-key="cardOwnerId"
           sort-by="cardOwnerId"
           :items="items"
           :headers="headers"
-          class="elevation-5 fullScreen"
+          class="fullScreen mb-16"
           :loading="loading"
           :items-per-page.sync="searchModel.paginate.length"
           :server-items-length="totalNumberOfItems"
         >
-          <template #top />
           <template #[`item.requestTime`]="{ item }">
             {{ convertToJalali(item.requestTime) }}
           </template>
@@ -44,17 +37,25 @@
           <template #[`item.operator`]="{ item }">
             {{ $t('report.chargeReport.operatorType.' + item.operator) }}
           </template>
-          <template #item.errorCode="{ item }">
-            <template v-if="item.errorCode !== null">
-              <v-chip
-                :color="getColor(item.errorCode)"
-                class="v-chip.v-size--default justify-center"
-                label
-              >
-                {{ item.errorCode }}
-              </v-chip>
-            </template>
+
+          <template #[`item.requestId`]="{ item }">
+            <div v-if="item.requestId">
+              {{ item.requestId }}
+            </div>
+            <div v-else style="color: #f1b0b094">
+              {{ 'تعیین نشده' }}
+            </div>
           </template>
+
+          <template #[`item.errorCode`]="{ item }">
+            <div v-if="item.errorCode || item.errorCode === 0" class="chip" :style="'color: ' + getColor(item.errorCode)">
+              {{ item.errorCode }}
+            </div>
+            <div v-else class="chip" :style="'color: ' + getColor(null)">
+              {{ 'تعیین نشده' }}
+            </div>
+          </template>
+
           <template #[`item.detail`]="{ item }">
             <v-icon
               small
@@ -67,9 +68,31 @@
           <template #[`item.amount`]="{ item }">
             {{ priceFormat(item.amount) }}
           </template>
+
+          <!-- Add btn to Footer page -->
+          <!-- Add btn to Footer page -->
+          <!-- Add btn to Footer page -->
+          <template #footer>
+            <v-btn
+              :loading="downloadLoading"
+              :disabled="downloadLoading"
+              class="btnOnFooterFixUnderGrid"
+              @click="downloadReports()"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.0013 7.33334V11.3333M6.0013 11.3333L7.33464 10M6.0013 11.3333L4.66797 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M14.6654 6.66668V10C14.6654 13.3333 13.332 14.6667 9.9987 14.6667H5.9987C2.66536 14.6667 1.33203 13.3333 1.33203 10V6.00001C1.33203 2.66668 2.66536 1.33334 5.9987 1.33334H9.33203" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M14.6654 6.66668H11.9987C9.9987 6.66668 9.33203 6.00001 9.33203 4.00001V1.33334L14.6654 6.66668Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+
+              <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
+                {{ $t('report.download') }}
+              </span>
+            </v-btn>
+          </template>
         </v-data-table>
-      </v-row>
-    </v-col>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -80,7 +103,7 @@ import chargeReportFilter from '~/components/charge-report/chargeReportFilter'
 import reportManager from '~/repository/report_manager'
 
 export default {
-  name: 'OperatorReport',
+  name: 'ChargeReportPage',
   components: {
     chargeReportFilter
   },
@@ -120,18 +143,25 @@ export default {
       items: []
     }
   },
-  // mounted () {
-  //   this.search(this.searchModel)
-  // },
+  head () {
+    return {
+      title: 'شارژ ها' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+    }
+  },
+  mounted () {
+    this.search(this.searchModel, 'mounted')
+  },
   methods: {
     ...mapMutations({
       alert: 'snacks/showMessage'
     }),
     getColor (status) {
       if (status >= 200 && status <= 299) {
-        return 'success'
-      } else if (status !== null) {
-        return 'red'
+        return '#84BD00'
+      } if (status === null) {
+        return '#f1b0b0'
+      } else {
+        return '#444444'
       }
     },
     priceFormat (amount) {
@@ -187,14 +217,39 @@ export default {
     },
     moment (date) {
       return moment(date).format('HH:mm:ss jYYYY/jM/jD')
+    },
+    downloadReports () {
+      this.downloadLoading = true
+      reportManager.downloadChargeList(this.searchModel, this.$axios).then((res) => {
+        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
+        const fileLink = document.createElement('a')
+        fileLink.href = fileURL
+        fileLink.setAttribute('download', 'charge-reports.xlsx')
+        document.body.appendChild(fileLink)
+        fileLink.click()
+        // ------------
+      }).catch((error) => {
+        console.log(error)
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+      }).finally(() => {
+        this.downloadLoading = false
+      })
     }
   }
 }
 </script>
-<style>
-  .fullScreen {
-    width: 100%;
-  }
+
+<style scoped>
   .v-chip.v-size--default {
     border-radius: 16px;
     font-size: 10px;

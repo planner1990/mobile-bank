@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   // this page only redirect to custom root page
   name: 'RedirectPage',
@@ -25,6 +27,11 @@ export default {
     return {
       showLabelForwardToBaseRoute: false
     }
+  },
+  computed: {
+    ...mapGetters({
+      loggedInUser: 'user/me'
+    })
   },
   mounted () {
     this.redirect()
@@ -35,21 +42,33 @@ export default {
       setTimeout(function (scope) { scope.showLabelForwardToBaseRoute = true }, 4000, this)
     },
     forwardToBaseRoute: function () {
-      sessionStorage.setItem('mob-login', 'backIsFalse')
-      return this.$router.push('/transactionReport')
+      localStorage.setItem('mob-login', 'backIsFalse')
+      if (this.loggedInUser.role.role === 'REPORTER') {
+        return this.$router.push('/bill-report')
+      } else {
+        return this.$router.push('/transactionReport')
+      }
     },
     redirect () {
       console.log('pages/index.vue redirect ***', window.history.state)
       setTimeout(() => {
-        if (window.history.state !== null && window.history.length > 2 && sessionStorage.getItem('mob-login') === 'backIsTrue') {
+        if (window.history.state !== null && window.history.length > 2 && localStorage.getItem('mob-login') === 'backIsTrue') {
           // important :: 2 action for back
           // this.$router.back()
           // this.$router.back()
           // return false
-          return this.$router.push('/transactionReport')
+          if (this.loggedInUser.role.role === 'REPORTER') {
+            return this.$router.push('/bill-report')
+          } else {
+            return this.$router.push('/transactionReport')
+          }
         } else {
-          sessionStorage.setItem('mob-login', 'backIsTrue')
-          return this.$router.push('/transactionReport')
+          localStorage.setItem('mob-login', 'backIsTrue')
+          if (this.loggedInUser.role.role === 'REPORTER') {
+            return this.$router.push('/bill-report')
+          } else {
+            return this.$router.push('/transactionReport')
+          }
         }
       }, 1000)
     }

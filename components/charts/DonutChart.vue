@@ -5,7 +5,7 @@
 import VueApexCharts from 'vue-apexcharts'
 
 export default {
-  name: 'DonutChart',
+  name: 'DonutChartComponent',
   components: {
     apexcharts: VueApexCharts
   },

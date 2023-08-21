@@ -1,132 +1,160 @@
 <template>
-  <v-card
-    elevation="10"
-    class="fullScreen"
-  >
-    <v-toolbar
-      class="black--text"
-      color="lightGreen"
-      flat
-      dark
-      dense
-      elevation="1"
-    >
-      گزارش خطا (فیلترها)
-      <v-spacer />
-    </v-toolbar>
+  <v-card flat>
     <v-container fluid>
-      <v-row>
-        <v-col cols="2">
-          <v-text-field
-            id="my-custom-input"
-            v-model="fromDate"
-            prepend-icon="mdi-calendar"
-            outlined
-            dense
-            :placeholder="$t('filters.fromDate')"
-            format="jYYYY/jMM/jDD"
-            input-format="jYYYY/jMM/jDD"
-          />
-          <p-date-picker
-            v-model="fromDate"
-            element="my-custom-input"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            @close="checkIsNull()"
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-text-field
-            id="custom-input"
-            v-model="toDate"
-            prepend-icon="mdi-calendar"
-            outlined
-            dense
-            :placeholder="$t('filters.toDate')"
-            format="jYYYY/jMM/jDD"
-            input-format="jYYYY/jMM/jDD"
-          />
-          <p-date-picker
-            v-model="toDate"
-            element="custom-input"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            @close="checkIsNull()"
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-select
-            v-model="filter.errorReportListFilter.operation"
-            :items="items"
-            item-text="title"
-            item-value="url"
-            :return-object="false"
-            :label="$t('filters.operation')"
-            prepend-icon="mdi-server-security"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-select
-            v-model="filter.errorReportListFilter.responseCode"
-            :items="errorItems"
-            item-text="title"
-            item-value=""
-            :return-object="false"
-            :label="$t('filters.errorCode')"
-            prepend-icon="mdi-shape-plus"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-select
-            v-model="filter.errorReportListFilter.errorType"
-            :items="errorTypeItems"
-            :item-value="(item) => item.value"
-            :item-text="(item) => $t(item.title)"
-            :return-object="false"
-            :label="$t('filters.errorType')"
-            prepend-icon="mdi-launch"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-        <v-col>
-          <v-btn
-            color="success"
-            small
-            class="mr-10"
-            @click="search"
-          >
-            {{ $t('buttons.search') }}
-          </v-btn>
-        </v-col>
-        <v-col cols="10" />
-        <v-col>
-          <v-btn
-            color="warning"
-            :loading="downloadLoading"
-            dark
-            small
-            @click="downloadReports(defaultFilter)"
-          >
-            {{ $t('report.download') }}
-          </v-btn>
-        </v-col>
-      </v-row>
+      <!-- main part -->
+      <!-- main part -->
+      <!-- main part -->
+      <div class="main">
+        <v-row style="margin-top: -5px;">
+          <div class="row mt-2 mr-4 ml-7">
+            <v-row>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  id="my-custom-input"
+                  v-model="fromDate"
+                  outlined
+                  dense
+                  :placeholder="$t('filters.fromDate')"
+                  format="jYYYY/jMM/jDD"
+                  input-format="jYYYY/jMM/jDD"
+                />
+                <p-date-picker
+                  v-model="fromDate"
+                  element="my-custom-input"
+                  color="dimgray"
+                  dense
+                  outlined
+                  popove
+                  auto-submit
+                  @close="checkIsNull()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  id="custom-input"
+                  v-model="toDate"
+                  outlined
+                  dense
+                  :placeholder="$t('filters.toDate')"
+                  format="jYYYY/jMM/jDD"
+                  input-format="jYYYY/jMM/jDD"
+                />
+                <p-date-picker
+                  v-model="toDate"
+                  element="custom-input"
+                  color="dimgray"
+                  dense
+                  outlined
+                  popove
+                  auto-submit
+                  @close="checkIsNull()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-select
+                  v-model="filter.errorReportListFilter.operation"
+                  :items="items"
+                  item-text="title"
+                  item-value="url"
+                  :return-object="false"
+                  :label="$t('filters.operation')"
+                  dense
+                  clearable
+                  outlined
+                >
+                  <template #append>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19.9201 8.95L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.95"
+                        stroke="#84BD00"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </template>
+                </v-select>
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-select
+                  v-model="filter.errorReportListFilter.responseCode"
+                  :items="errorItems"
+                  item-text="title"
+                  item-value=""
+                  :return-object="false"
+                  :label="$t('filters.errorCode')"
+                  dense
+                  clearable
+                  outlined
+                >
+                  <template #append>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19.9201 8.95L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.95"
+                        stroke="#84BD00"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </template>
+                </v-select>
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-select
+                  v-model="filter.errorReportListFilter.errorType"
+                  :items="errorTypeItems"
+                  :item-value="(item) => item.value"
+                  :item-text="(item) => $t(item.title)"
+                  :return-object="false"
+                  :label="$t('filters.errorType')"
+                  dense
+                  clearable
+                  outlined
+                >
+                  <template #append>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19.9201 8.95L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.95"
+                        stroke="#84BD00"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </template>
+                </v-select>
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="direction:ltr">
+                <v-btn :loading="loadingBtn" :disabled="loadingBtn" color="#84BD00" class="btnSearch" @click="search">
+                  {{ $t('buttons.search') }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+        </v-row>
+      </div>
     </v-container>
   </v-card>
 </template>
@@ -148,7 +176,7 @@ const defaultFilter = {
   },
   paginate: {
     page: 1,
-    length: 75,
+    length: 50,
     sort: {
       property: 'errorCode',
       direction: 'desc'
@@ -156,7 +184,7 @@ const defaultFilter = {
   }
 }
 export default {
-  name: 'ErrorReportFilter',
+  name: 'ErrorReportFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },
@@ -165,7 +193,9 @@ export default {
   },
   data () {
     return {
-      fromDate: this.currentDayFrom(),
+      loadingBtn: false,
+      seen: false,
+      fromDate: this.yesterdayDayFrom(),
       toDate: this.currentDayTo(),
       filter: defaultFilter,
       status: reportManager.status,
@@ -189,6 +219,9 @@ export default {
   methods: {
     search () {
       this.$emit('search', this.filter)
+
+      this.loadingBtn = true
+      setTimeout(() => (this.loadingBtn = false), 1500)
     },
     operation: function () {
       this.loading = true
@@ -251,33 +284,6 @@ export default {
         this.loading = false
       })
     },
-    downloadReports (searchModel) {
-      this.downloadLoading = true
-      delete searchModel.paginate
-      reportManager.downloadErrorReport(searchModel, this.$axios).then((res) => {
-        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
-        const fileLink = document.createElement('a')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', 'operator-reports.xlsx')
-        document.body.appendChild(fileLink)
-        fileLink.click()
-        // ------------
-      }).catch((error) => {
-        if (error.response) {
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-      }).finally(() => {
-        this.downloadLoading = false
-      })
-    },
     checkIsNull () {
       if (this.fromDate != null) {
         this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
@@ -304,6 +310,15 @@ export default {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
+      return year + '/' + month + '/' + day
+    },
+    yesterdayDayFrom: function () {
+      const today = new Date()
+      const yesterday = new Date(); yesterday.setDate(today.getDate() - 14)
+
+      const year = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
+      const month = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
+      const day = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
       return year + '/' + month + '/' + day
     }
   }

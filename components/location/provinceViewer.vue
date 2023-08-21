@@ -3,14 +3,12 @@
     <v-input
       v-if="condition === 'table'"
       hide-details="auto"
-      :prepend-icon="icon"
       :messages="$t(message)"
     >
       {{ province }}
     </v-input>
     <v-select
       v-else
-      :prepend-icon="icon"
       :label="$t('common.province')"
       :value="province"
       item-text="title"
@@ -20,7 +18,26 @@
       outlined
       dense
       @input="$emit('input', $event)"
-    />
+    >
+      <template #append>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M19.9201 8.95L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.95"
+            stroke="#84BD00"
+            stroke-width="1.5"
+            stroke-miterlimit="10"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </template>
+    </v-select>
   </div>
 </template>
 
@@ -30,7 +47,7 @@ import locationManager from '@/repository/location_manager'
 import showItem from '~/components/showItem'
 
 export default defineComponent({
-  name: 'ProvinceViewer',
+  name: 'ProvinceViewerComponent',
   props: {
     icon: {
       type: String,
@@ -51,7 +68,7 @@ export default defineComponent({
   },
   setup (props) {
     const { $axios } = useContext()
-    const province = ref('')
+    const province = ref('تعیین نشده')
     if (props.value) {
       locationManager.getProvince(props.value, $axios).then((res) => {
         province.value = res.title
@@ -75,4 +92,8 @@ export default defineComponent({
 .v-input__slot {
   justify-content: center !important;
 }
+
+ /deep/ .v-input {
+   font-size: 14px;
+ }
 </style>

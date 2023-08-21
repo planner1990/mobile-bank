@@ -2,29 +2,16 @@
   <v-container fluid>
     <v-layout row wrap>
       <v-container>
-        <v-flex xs12 md12 class="greyBorder blue-grey lighten-5">
-          <div class="mr-6 ml-6 whiteback userGroupHeight">
+        <v-flex xs12 md12 class="" style="height: 400px;overflow-y: auto;">
+          <div class="mr-6 ml-6">
             <v-layout row wrap>
-              <v-btn
-                class="mt-4 pa-3"
-                color="blue-grey lighten-3"
-                elevation="1"
-                rounded
-                small
-                @click="clearAllCheckBox()"
-              >
-                <v-icon left>
-                  mdi-delete
-                </v-icon>
-                {{ $t('clearText') }}
-              </v-btn>
-              <v-divider />
-              <v-flex v-for="(item,index) in items" :key="items[index].title" xs3>
+              <v-flex v-for="(item,index) in items" :key="items[index].title" xs4>
                 <v-checkbox
                   v-model="category.selected"
                   light
                   :label="checkValueBeforeShow(item.title, item)"
                   multiple
+                  style="margin: 7px 2px -1px -4px !important; padding: 1px !important;"
                   :value="item.url"
                   @change="checked(item)"
                 />
@@ -42,7 +29,7 @@ import { mapActions, mapMutations, mapGetters } from 'vuex'
 import reportManager from '~/repository/report_manager'
 
 export default {
-  name: 'CardOperations',
+  name: 'CardOperationsComponent',
   props: {
     cards: Object([]),
     listType: {
@@ -65,24 +52,31 @@ export default {
       }
     }
   },
-  mounted: function () {
-    this.operation()
-  },
   computed: {
     ...mapGetters({
       cardOperationList: 'onlineDepositStore/cardOperationList'
     })
   },
+  mounted: function () {
+    this.operation()
+    this.clearAllCheckBox()
+  },
   methods: {
     ...mapActions({
-      initialCardOperations: 'onlineDepositStore/initialCardOperations'
+      // set to list
+      initialDepositOperations: 'onlineDepositStore/initialDepositOperations',
+      initialCardOperations: 'onlineDepositStore/initialCardOperations',
+      initialUserOperations: 'onlineDepositStore/initialUserOperations',
+      initialPublicOperations: 'onlineDepositStore/initialPublicOperations',
+      initialCardReissueOperations: 'onlineDepositStore/initialCardReissueOperations',
+      initialLoanRequestOperations: 'onlineDepositStore/initialLoanRequestOperations',
+      initialOnlineDepositOperations: 'onlineDepositStore/initialOnlineDepositOperations'
     }),
     ...mapMutations({
       alert: 'snacks/showMessage'
 
     }),
     checkValueBeforeShow: function (value, itemObject) {
-      console.log(value)
       if (value === '' || value === ' ' || value === undefined || value === null) {
         return itemObject.url
       }
@@ -96,18 +90,15 @@ export default {
         return 0
       }
     },
+    // دریافت لیست عملیات ها
+    // دریافت لیست عملیات ها
+    // دریافت لیست عملیات ها
     operation () {
-      console.log('response')
-      console.log(this.listType)
-      console.log(this.operationType)
       reportManager.operationList(this.operationType, this.$axios).then((response) => {
-        console.log(this.listType)
-        console.log(response)
         const operationList = response.data
-        const operationCardList = operationList.cardOperation
-        const operationLastList = operationCardList
 
-        this.items = operationLastList
+        // cardOperation
+        this.items = operationList.cardOperation
       }).catch((error) => {
         if (error.response) {
           console.log(error.response)
@@ -130,7 +121,19 @@ export default {
         return index
       }
     },
+    clearAllBeforeSelected () {
+      // clear because we wanna one operation
+      this.initialDepositOperations([])
+      this.initialCardOperations([])
+      this.initialUserOperations([])
+      this.initialPublicOperations([])
+      this.initialCardReissueOperations([])
+      this.initialLoanRequestOperations([])
+      this.initialOnlineDepositOperations([])
+    },
     checked (input) {
+      this.clearAllBeforeSelected()
+
       /* clear ALL OLD checked And set only -> input.url */
       this.category.selected = []
       this.category.selected = [input.url]
@@ -138,8 +141,12 @@ export default {
       console.log(this.listType)
       this.initialCardOperations(this.category.selected)
       console.log('checked')
-      console.log(input)
+      console.log('++++++++++', input)
       console.log(this.category.selected)
+
+      // close modal operations after click and select
+      localStorage.setItem('lastSelectTitleOperation', input.title)
+      this.$emit('okOperationDialog')
     },
     clearAllCheckBox: function () {
       this.category.selected = []
@@ -150,8 +157,4 @@ export default {
 </script>
 
 <style scoped>
-  .fullScreen {
-    width: 100%;
-  }
-
 </style>

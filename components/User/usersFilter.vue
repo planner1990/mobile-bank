@@ -31,7 +31,6 @@
       <v-text-field
         id="my-custom-input"
         v-model="fromDate"
-        prepend-icon="mdi-calendar"
         outlined
         dense
         :placeholder="$t('filters.fromDate')"
@@ -51,7 +50,6 @@
       <v-text-field
         id="custom-input"
         v-model="toDate"
-        prepend-icon="mdi-calendar"
         outlined
         dense
         :placeholder="$t('filters.toDate')"
@@ -73,21 +71,18 @@
         :label="$t('user.username')"
         dense
         outlined
-        prepend-icon="mdi-account"
       />
       <v-text-field
         v-model="request.userFilter.username"
         :label="$t('user.customerNumber')"
         dense
         outlined
-        prepend-icon="mdi-account"
       />
       <v-text-field
         v-model="request.userFilter.customerName"
         :label="$t('user.customerName')"
         dense
         outlined
-        prepend-icon="mdi-account"
       />
       <v-select
         v-model="request.userFilter.role"
@@ -97,8 +92,26 @@
         :label="$t('user.role')"
         dense
         outlined
-        prepend-icon="mdi-account-lock"
-      />
+      >
+        <template #append>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19.9201 8.95L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.95"
+              stroke="#84BD00"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </template>
+      </v-select>
       <v-select
         v-model="request.userFilter.status"
         :items="status"
@@ -107,29 +120,31 @@
         :label="$t('user.status.title')"
         dense
         outlined
-        prepend-icon="mdi-account-lock"
-      />
-      <!--      <province-selector-->
-      <!--        v-model="request.locationFilter.provinceCode"-->
-      <!--      />-->
-      <!--      <city-selector-->
-      <!--        v-model="request.locationFilter.cityCode"-->
-      <!--        :province="computedProvince"-->
-      <!--      />-->
-      <!--      <branch-selector-->
-      <!--        v-model="request.locationFilter.branchCode"-->
-      <!--        :city="computedCity"-->
-      <!--        :province="computedProvince"-->
-      <!--      />-->
+      >
+        <template #append>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M19.9201 8.95L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.95"
+              stroke="#84BD00"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </template>
+      </v-select>
     </v-container>
   </v-card>
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
-// import ProvinceSelector from '../location/provinceSelector.vue'
-// import CitySelector from '../location/citySelector.vue'
-// import BranchSelector from '../location/branchSelector.vue'
 import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import userManager from '@/repository/user_manager'
@@ -155,7 +170,7 @@ const defaultSearchModel = {
 }
 
 export default {
-  name: 'UsersFilter',
+  name: 'UsersFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
     // ProvinceSelector,

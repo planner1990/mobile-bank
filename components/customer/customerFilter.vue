@@ -1,131 +1,188 @@
 <template>
-  <v-card
-    elevation="5"
-    class="fullScreen"
-  >
-    <v-toolbar
-      class="black--text"
-      color="lightGreen"
-      flat
-      dense
-      dark
-    >
-      کاربران (فیلترها)
-      <v-spacer />
-    </v-toolbar>
+  <v-card flat>
     <v-container fluid>
-      <v-row>
-        <v-col cols="2">
-          <v-text-field
-            id="createFromDate"
-            v-model="fromDate"
-            prepend-icon="mdi-calendar"
-            outlined
-            dense
-            :placeholder="$t('filters.fromDate')"
-          />
-          <p-date-picker
-            v-model="fromDate"
-            type="datetime"
-            element="createFromDate"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullFromDate()"
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-text-field
-            id="createToDate"
-            v-model="toDate"
-            prepend-icon="mdi-calendar"
-            outlined
-            dense
-            :placeholder="$t('filters.toDate')"
-          />
-          <p-date-picker
-            v-model="toDate"
-            type="datetime"
-            element="createToDate"
-            color="dimgray"
-            dense
-            outlined
-            popove
-            auto-submit
-            format="HH:mm jYYYY/jMM/jDD"
-            @close="checkIsNullToDate()"
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-select
-            v-model="request.customerListFilter.customerType"
-            :items="customerType"
-            item-value="value"
-            :item-text="(item)=>$t(item.text)"
-            :return-object="false"
-            :label="$t('customer.customerType')"
-            prepend-icon="mdi-nature-people"
-            dense
-            clearable
-            outlined
-          />
-        </v-col>
+      <!-- main part -->
+      <!-- main part -->
+      <!-- main part -->
+      <div class="main">
+        <v-row style="margin-top: -5px;">
+          <div class="row mt-2 mr-4 ml-7">
+            <v-row>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  id="createFromDate"
+                  v-model="fromDate"
+                  outlined
+                  dense
+                  :placeholder="$t('filters.fromDate')"
+                />
+                <p-date-picker
+                  v-model="fromDate"
+                  type="datetime"
+                  element="createFromDate"
+                  color="dimgray"
+                  dense
+                  outlined
+                  popove
+                  auto-submit
+                  format="HH:mm jYYYY/jMM/jDD"
+                  @close="checkIsNullFromDate()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  id="createToDate"
+                  v-model="toDate"
+                  outlined
+                  dense
+                  :placeholder="$t('filters.toDate')"
+                />
+                <p-date-picker
+                  v-model="toDate"
+                  type="datetime"
+                  element="createToDate"
+                  color="dimgray"
+                  dense
+                  outlined
+                  popove
+                  auto-submit
+                  format="HH:mm jYYYY/jMM/jDD"
+                  @close="checkIsNullToDate()"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  v-model="request.customerListFilter.nationalCode"
+                  :label="$t('customer.nationalCode')"
+                  dense
+                  outlined
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  v-model="request.customerListFilter.phoneNumber"
+                  :label="$t('customer.phoneNumber')"
+                  dense
+                  outlined
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  v-model="request.customerListFilter.cif"
+                  :label="$t('customer.cif')"
+                  dense
+                  outlined
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="direction:ltr">
+                <div class="row" style="margin-top: -1px">
+                  <div ref="arrowShowExtraFilterTop" style="width: 20%;margin-right: 10px;margin-top: -3px;cursor: pointer;" @click="seen = !seen">
+                    <svg
+                      v-if="!seen"
+                      width="53"
+                      height="53"
+                      viewBox="0 0 53 53"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect width="53" height="53" rx="12" fill="#F6F6F6" />
+                      <g clip-path="url(#clip0_559_883)">
+                        <path d="M35.2675 22.6008L28 29.8525L20.7325 22.6008L18.5 24.8333L28 34.3333L37.5 24.8333L35.2675 22.6008Z" fill="#757575" />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_559_883">
+                          <rect width="38" height="38" fill="white" transform="translate(9 9)" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                    <svg
+                      v-else
+                      width="53"
+                      height="53"
+                      viewBox="0 0 53 53"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect width="53" height="53" rx="12" fill="#e2dfdf" />
+                      <g clip-path="url(#clip0_559_892)">
+                        <path d="M20.7325 33.3992L28 26.1475L35.2675 33.3992L37.5 31.1667L28 21.6667L18.5 31.1667L20.7325 33.3992Z" fill="#757575" />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_559_892">
+                          <rect width="38" height="38" fill="white" transform="matrix(-1 0 0 -1 47 47)" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </div>
+                  <div style="width: 75%">
+                    <v-btn
+                      :loading="loadingBtn"
+                      :disabled="loadingBtn"
+                      color="#84BD00"
+                      class="btnSearch"
+                      @click="search"
+                    >
+                      {{ $t('buttons.search') }}
+                    </v-btn>
+                  </div>
+                </div>
+              </v-col>
+            </v-row>
+          </div>
+        </v-row>
+      </div>
 
-        <v-col cols="2">
-          <v-text-field
-            v-model="request.customerListFilter.phoneNumber"
-            :label="$t('customer.phoneNumber')"
-            dense
-            outlined
-            prepend-icon="mdi-phone-in-talk"
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-text-field
-            v-model="request.customerListFilter.cif"
-            :label="$t('customer.cif')"
-            dense
-            outlined
-            prepend-icon="mdi-account"
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-text-field
-            v-model="request.customerListFilter.fullName"
-            :label="$t('customer.name')"
-            dense
-            outlined
-            prepend-icon="mdi-library"
-          />
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-        <v-col>
-          <v-btn
-            color="success"
-            small
-            class="mr-10"
-            @click="search"
-          >
-            {{ $t('buttons.search') }}
-          </v-btn>
-        </v-col>
-        <v-col cols="10" />
-        <v-col>
-          <v-btn
-            color="warning"
-            :loading="downloadLoading"
-            dark
-            small
-            @click="downloadReports(defaultFilter)"
-          >
-            {{ $t('report.download') }}
-          </v-btn>
-        </v-col>
-      </v-row>
+      <!-- hide part -->
+      <!-- hide part -->
+      <!-- hide part -->
+      <div v-if="seen" id="hide">
+        <v-row>
+          <div class="row mt-2 mr-4 ml-7">
+            <v-row>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-select
+                  v-model="request.customerListFilter.customerType"
+                  :items="customerType"
+                  item-value="value"
+                  :item-text="(item)=>$t(item.text)"
+                  :return-object="false"
+                  :label="$t('customer.customerType')"
+                  dense
+                  clearable
+                  outlined
+                >
+                  <template #append>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19.9201 8.95L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.95"
+                        stroke="#84BD00"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </template>
+                </v-select>
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  v-model="request.customerListFilter.fullName"
+                  :label="$t('customer.name')"
+                  dense
+                  outlined
+                />
+              </v-col>
+            </v-row>
+          </div>
+        </v-row>
+      </div>
     </v-container>
   </v-card>
 </template>
@@ -134,11 +191,11 @@
 import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import userManager from '~/repository/user_manager'
-import reportManager from '~/repository/report_manager'
 
 const defaultSearchModel = {
   customerListFilter: {
     cif: null,
+    nationalCode: null,
     phoneNumber: null,
     customerType: null,
     fullName: null
@@ -155,11 +212,10 @@ const defaultSearchModel = {
       direction: 'desc'
     }
   }
-
 }
 
 export default {
-  name: 'LoanFilter',
+  name: 'LoanFilterComponent',
   components: {
     PDatePicker: VuePersianDatetimePicker
   },
@@ -168,6 +224,9 @@ export default {
   },
   data () {
     return {
+      loadingBtn: false,
+      seen: false,
+      downloadLoading: false,
       fromDate: this.currentDayFrom(),
       toDate: this.currentDayTo(),
       roles: userManager.userRoles,
@@ -188,33 +247,9 @@ export default {
       this.request = Object.assign(this.value, defaultSearchModel)
       this.$emit('search', this.request)
       this.loading = false
-    },
 
-    downloadReports (searchModel) {
-      this.downloadLoading = true
-      reportManager.downloadCustomer(defaultSearchModel, this.$axios).then((res) => {
-        const fileURL = window.URL.createObjectURL(new Blob([res.data]))
-        const fileLink = document.createElement('a')
-        fileLink.href = fileURL
-        fileLink.setAttribute('download', 'customer-reports.xlsx')
-        document.body.appendChild(fileLink)
-        fileLink.click()
-        // ------------
-      }).catch((error) => {
-        if (error.response) {
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-      }).finally(() => {
-        this.downloadLoading = false
-      })
+      this.loadingBtn = true
+      setTimeout(() => (this.loadingBtn = false), 1500)
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {

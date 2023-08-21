@@ -32,6 +32,17 @@ async function deleteUser (form, axios) {
   return await axios.get('user/delete/' + form)
 }
 
+const customerType = [
+  {
+    value: 'REGISTERED',
+    text: 'customer.customerStatistics.customerTypeTitle.REGISTERED'
+  },
+  {
+    value: 'GUEST',
+    text: 'customer.customerStatistics.customerTypeTitle.GUEST'
+  }
+]
+
 const userRoles = [
   {
     value: 'ROLE_PANEL_ADMIN',
@@ -44,17 +55,6 @@ const userRoles = [
   {
     value: 'ROLE_PANEL_REPORT',
     text: 'user.roles.ROLE_PANEL_REPORT'
-  }
-]
-
-const customerType = [
-  {
-    value: 'REGISTERED',
-    text: 'customer.customerStatistics.customerTypeTitle.REGISTERED'
-  },
-  {
-    value: 'GUEST',
-    text: 'customer.customerStatistics.customerTypeTitle.GUEST'
   }
 ]
 
@@ -86,6 +86,10 @@ const userPermissions = [
   {
     value: 'CONFIRM_REFUND',
     text: 'user.permissions.CONFIRM_REFUND'
+  },
+  {
+    value: 'REPORTER',
+    text: 'user.roles.REPORTER'
   }
 ]
 

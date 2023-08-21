@@ -1,55 +1,57 @@
 <template>
-  <v-row
-    justify="center"
+  <v-data-table
+    dense
+    :footer-props="{
+      'items-per-page-options': [20, 50, 100, 500, 1000]
+    }"
+    item-key="operationUrl"
+    sort-by="operationUrl"
+    :items="others"
+    :headers="headers"
+    class="fullScreen mb-16"
+    :loading="loading"
   >
-    <v-data-table
-      dense
-      :footer-props="{
-        'items-per-page-options': [50, 100, 300, 500, 1000]
-      }"
-      item-key="operationUrl"
-      sort-by="operationUrl"
-      :items="others"
-      :headers="headers"
-      class="elevation-5 fullScreen"
-      :loading="loading"
-    >
-      <template #[`item.successfulAmount`]="{ item }">
-        {{ priceFormat(item.successfulAmount) }}
-      </template>
-      <template #[`item.successfulNumber`]="{ item }">
-        {{ priceFormat(item.successfulNumber) }}
-      </template>
-      <template #[`item.unsuccessfulNumber`]="{ item }">
-        {{ priceFormat(item.unsuccessfulNumber) }}
-      </template>
-    </v-data-table>
-  </v-row>
+    <template #[`item.operationTitle`]="{ item }">
+      <div v-if="item.operationTitle">
+        {{ item.operationTitle }}
+      </div>
+      <div v-else style="color: #f1b0b094">
+        {{ 'تعیین نشده' }}
+      </div>
+    </template>
+    <template #[`item.successfulAmount`]="{ item }">
+      {{ priceFormat(item.successfulAmount) }}
+    </template>
+    <template #[`item.successfulNumber`]="{ item }">
+      {{ priceFormat(item.successfulNumber) }}
+    </template>
+    <template #[`item.unsuccessfulNumber`]="{ item }">
+      {{ priceFormat(item.unsuccessfulNumber) }}
+    </template>
+  </v-data-table>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
 
 export default {
-  name: 'OtherStatistics',
+  name: 'OtherStatisticsComponent',
   props: {
     others: Object([]),
     loading: {
       type: Boolean,
       default: false
     }
-
   },
   data () {
     return {
       downloadLoading: false,
       totalNumberOfItems: 0,
       headers: [
-        { text: 'تراکنشها', value: 'operationTitle', sortable: false },
-        { text: 'تعداد موفق', value: 'successfulNumber', sortable: false },
-        { text: 'مبلغ موفق', value: 'successfulAmount', sortable: false },
-        { text: 'تعداد ناموفق', value: 'unsuccessfulNumber', sortable: false }
-
+        { text: 'تراکنشها', value: 'operationTitle', sortable: false, width: '25%' },
+        { text: 'تعداد موفق', value: 'successfulNumber', sortable: false, width: '25%' },
+        { text: 'مبلغ موفق', value: 'successfulAmount', sortable: false, width: '25%' },
+        { text: 'تعداد ناموفق', value: 'unsuccessfulNumber', sortable: false, width: '25%' }
       ]
     }
   },
@@ -69,5 +71,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
