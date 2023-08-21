@@ -204,12 +204,11 @@
                       <v-data-table
                         id="detailsTableShowDialog"
                         dense
-                        height="20px"
                         item-key="cardOwnerId"
                         sort-by="cardOwnerId"
                         :items="itemsTransaction"
                         :headers="headersTransaction"
-                        class="fullScreen mb-16"
+                        class="fullScreen"
                         :hide-default-footer="true"
                       />
                     </v-row>
@@ -232,8 +231,16 @@
                             <v-spacer />
                           </v-toolbar>
                           <v-card-text dir="ltr" class="text-center">
-                            <div style="width:450px;overflow:auto">
-                              <vue-json-pretty :data="requestJson" show-line-number="true" show-double-quotes="true" />
+                            <div style="line-height: 3;">
+                              <vue-json-pretty
+                                :data="requestJson"
+                                show-key-value-space="true"
+                                render-node-value="true"
+                                render-node-key="true"
+                                show-line-number="true"
+                                show-double-quotes="true"
+                                show-length="true"
+                              />
                             </div>
                           </v-card-text>
                         </v-card>
@@ -258,8 +265,16 @@
                               <v-spacer />
                             </v-toolbar>
                             <v-card-text dir="ltr" class="text-center">
-                              <div style="width:450px;overflow:auto">
-                                <vue-json-pretty :data="responseJson" show-line-number="true" show-double-quotes="true" />
+                              <div style="line-height: 3;">
+                                <vue-json-pretty
+                                  :data="responseJson"
+                                  show-key-value-space="true"
+                                  render-node-value="true"
+                                  render-node-key="true"
+                                  show-line-number="true"
+                                  show-double-quotes="true"
+                                  show-length="true"
+                                />
                               </div>
                             </v-card-text>
                           </v-card>
@@ -939,5 +954,24 @@ export default {
 <style scoped>
   /deep/ #detailsTableShowDialog > .v-data-table__wrapper {
     min-height: 110px !important;
+  }
+
+  /* ***   JSON beautifully   *** */
+  /* ***   JSON beautifully   *** */
+  /* ***   JSON beautifully   *** */
+
+  /deep/ .vjs-tree__node .vjs-tree__indent.has-line {
+    border-left: 2px dashed #bfcbd9 !important;
+  }
+  /deep/ .vjs-tree__node .vjs-tree__indent {
+    -ms-flex: 0 0 2em !important;
+    flex: 0 0 2em !important;
+  }
+  /deep/ .vjs-value__string {
+    color: #6fb78f !important;
+    line-break: anywhere !important;
+  }
+  /deep/ .vjs-value__boolean, .vjs-value__number {
+    color: #0268b5 !important;
   }
 </style>

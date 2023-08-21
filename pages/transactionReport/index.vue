@@ -131,9 +131,9 @@
           </template>
         </v-data-table>
 
-        <!-- Dialog show details request -->
-        <!-- Dialog show details request -->
-        <!-- Dialog show details request -->
+        <!-- Dialog show details request گزارش جزییات -->
+        <!-- Dialog show details request گزارش جزییات -->
+        <!-- Dialog show details request گزارش جزییات -->
         <v-dialog
           v-model="createDialog"
           max-width="1200"
