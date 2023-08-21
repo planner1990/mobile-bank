@@ -148,8 +148,9 @@ export default {
     search (searchModel) {
       this.loading = true
       transferManager.transferList(searchModel, this.$axios).then((response) => {
-        this.items = response.data
-        this.totalNumberOfItems = response.data.totalItem
+        this.items = response.data.transferFeesDtos
+        this.totalNumberOfItems = response.data.total
+        this.loading = false
       }).catch((error) => {
         if (error.response) {
           this.alert({
