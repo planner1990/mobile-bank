@@ -94,44 +94,20 @@
               </v-col>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-text-field
+                  v-model="filter.transactionListFilter.phoneNumber"
+                  dense
+                  outlined
+                  :label="$t('customer.phoneNumber')"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
                   dense
                   outlined
                   :value="lableSelectOperatorRef"
                   style="cursor: pointer !important;"
                   @click="editItem()"
                 />
-              </v-col>
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
-                <v-select
-                  v-model="filter.transactionListFilter.responseCode"
-                  :items="errorItems"
-                  item-text="title"
-                  item-value=""
-                  :return-object="false"
-                  :label="$t('filters.errorCode')"
-                  dense
-                  clearable
-                  outlined
-                >
-                  <template #append>
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M19.9201 8.95L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.95"
-                        stroke="#84BD00"
-                        stroke-width="1.5"
-                        stroke-miterlimit="10"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </template>
-                </v-select>
               </v-col>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-select
@@ -232,6 +208,38 @@
             <v-row>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-select
+                  v-model="filter.transactionListFilter.responseCode"
+                  :items="errorItems"
+                  item-text="title"
+                  item-value=""
+                  :return-object="false"
+                  :label="$t('filters.errorCode')"
+                  dense
+                  clearable
+                  outlined
+                >
+                  <template #append>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19.9201 8.95L13.4001 15.47C12.6301 16.24 11.3701 16.24 10.6001 15.47L4.08008 8.95"
+                        stroke="#84BD00"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </template>
+                </v-select>
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-select
                   v-model="filter.transactionListFilter.sourceType"
                   :items="source"
                   item-value="value"
@@ -261,14 +269,6 @@
                     </svg>
                   </template>
                 </v-select>
-              </v-col>
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
-                <v-text-field
-                  v-model="filter.transactionListFilter.phoneNumber"
-                  dense
-                  outlined
-                  :label="$t('customer.phoneNumber')"
-                />
               </v-col>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-text-field

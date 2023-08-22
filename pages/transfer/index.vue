@@ -67,6 +67,18 @@
           <template #[`item.amount`]="{ item }">
             {{ priceFormat(item.amount) }}
           </template>
+          <template #[`item.userTransferFee`]="{ item }">
+            {{ priceFormat(item.userTransferFee) }}
+          </template>
+          <template #[`item.serviceTransferShare`]="{ item }">
+            {{ priceFormat(item.serviceTransferShare) }}
+          </template>
+          <template #[`item.source`]="{ item }">
+            {{ item.source | filterCardReplace }}
+          </template>
+          <template #[`item.destination`]="{ item }">
+            {{ item.destination | filterCardReplace }}
+          </template>
         </v-data-table>
       </v-col>
     </v-row>

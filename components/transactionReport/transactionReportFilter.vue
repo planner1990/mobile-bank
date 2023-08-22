@@ -112,12 +112,12 @@
               </v-col>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-select
-                  v-model="filter.transactionListFilter.responseCode"
-                  :items="errorItems"
-                  item-text="title"
-                  item-value=""
+                  v-model="filter.transactionListFilter.result"
+                  :items="status"
+                  item-value="value"
+                  :item-text="(item)=>$t(item.text)"
                   :return-object="false"
-                  :label="$t('filters.errorCode')"
+                  :label="$t('filters.result')"
                   dense
                   clearable
                   outlined
@@ -209,12 +209,12 @@
             <v-row>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-select
-                  v-model="filter.transactionListFilter.result"
-                  :items="status"
-                  item-value="value"
-                  :item-text="(item)=>$t(item.text)"
+                  v-model="filter.transactionListFilter.responseCode"
+                  :items="errorItems"
+                  item-text="title"
+                  item-value=""
                   :return-object="false"
-                  :label="$t('filters.result')"
+                  :label="$t('filters.errorCode')"
                   dense
                   clearable
                   outlined
