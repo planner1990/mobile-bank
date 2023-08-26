@@ -207,6 +207,11 @@
                         </v-tooltip>
                       </div>
                     </template>
+                    <template #[`item.responseTime`]="{ item }">
+                      <span>
+                        {{ convertToJalali(item.responseTime) }}
+                      </span>
+                    </template>
                   </v-data-table>
                 </v-row>
                 <!-- request original details -->
@@ -663,7 +668,7 @@ export default {
         { text: '', value: 'detail', sortable: false, align: 'center' }
       ],
       headersTransaction: [
-        { text: this.$t('report.transactionReport.headers.responseTime'), value: 'responseLongTime', sortable: false, align: 'center' },
+        { text: this.$t('report.transactionReport.headers.responseTime'), value: 'responseTime', sortable: false, align: 'center' },
         { text: this.$t('report.transactionReport.headers.appVersion'), value: 'appVersion', sortable: false, align: 'center' },
         { text: this.$t('report.transactionReport.headers.osVersion'), value: 'osVersion', sortable: false, align: 'center' },
         { text: this.$t('report.transactionReport.headers.osName'), value: 'osName', sortable: false, align: 'center' },
@@ -789,6 +794,8 @@ export default {
         osName: item.osName,
         responseTimeLong: item.responseTimeLong,
         requestId: item.requestId,
+        responseLongTime: item.responseLongTime,
+        responseTime: item.responseTime,
         traceId: item.traceId,
         ip: item.ip
       })
@@ -822,6 +829,7 @@ export default {
           responseLongTime: response.data.responseLongTime,
           trackerId: response.data.trackerId,
           requestId: response.data.requestId,
+          responseTime: response.data.responseTime,
           ip: response.data.ipAddress,
           traceId: response.data.traceId
         })
