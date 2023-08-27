@@ -268,7 +268,6 @@
         <!-- Dialog show selector for operation select عملیات -->
         <v-dialog
           v-model="operationDialog"
-          persistent
           width="1000"
           transition="dialog-bottom-transition"
         >
@@ -320,6 +319,7 @@
                     :item-text="(item)=>item.title"
                     label="جستجو"
                     outlined
+                    clearable
                     dense
                     :disabled="!buttonCloseModal"
                     class="mb-4 text-field"
@@ -330,6 +330,7 @@
                       <v-list-item dark>
                         <v-list-item-content dark>
                           <v-text-field
+                            :key="keyTab"
                             ref="focus_SearchOperationList"
                             v-model="search_selectedOperationModel_title"
                             placeholder="نام یک عملیات را وارد کنید"
@@ -590,7 +591,7 @@ export default {
       this.clearOperationDialog()
     }, 500, this)
 
-    this.search(this.searchModel, 'mounted')
+    // this.search(this.searchModel, 'mounted')
 
     // search operation in textbox
     this.operation()
@@ -607,7 +608,7 @@ export default {
       // this.keyTab++
     },
     listItemPreviewSelectedFun () {
-      return localStorage.getItem('listItemPreviewSelected').split('*')
+      return this.uniqByKeepFirst(localStorage.getItem('listItemPreviewSelected').split('*'), JSON.stringify)
     },
     focusAfterDelay () {
       setTimeout(() => {
@@ -852,27 +853,34 @@ export default {
     // select item in text search
     // select item in text search
     changeSelectedSearchOperation () {
-      console.log(
-        'changeSelectedSearchOperation',
-        'change',
-        this.search_selectedOperationModel,
-        this.search_selectedOperationModel_title
-      )
+      if (this.search_selectedOperationModel_title[0]) {
+        this.clearOperationDialog()
 
-      // get title from operation.url
-      this.search_selectedOperationModel_title = this.search_listOperation.filter((operation) => {
-        return operation.url === this.search_selectedOperationModel
-      })
-      console.log('debug +++', this.search_selectedOperationModel_title)
+        console.log(
+          'changeSelectedSearchOperation',
+          'change',
+          this.search_selectedOperationModel,
+          this.search_selectedOperationModel_title
+        )
 
-      localStorage.setItem('lastSelectTitleOperation', this.search_selectedOperationModel_title[0].title)
-      this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(localStorage.getItem('lastSelectTitleOperation'))
-      this.search_selectedOperationModel_title = ''
+        // this.search_listOperation = []
 
-      this.search_listOperation = this.search_listOperationCopy
-      this.filterOperation.transactionListFilter.operation = [this.search_selectedOperationModel]
-      console.log('this.filterOperation.transactionListFilter.operation', this.filterOperation.transactionListFilter.operation)
-      this.okOperationDialog()
+        // get title from operation.url
+        this.search_selectedOperationModel_title = this.search_listOperation.filter((operation) => {
+          return operation.url === this.search_selectedOperationModel
+        })
+        console.log('debug +++', this.search_selectedOperationModel_title)
+
+        localStorage.setItem('lastSelectTitleOperation', this.search_selectedOperationModel_title[0].title)
+        localStorage.setItem('listItemPreviewSelected', localStorage.getItem('listItemPreviewSelected') + 'جستجو' + ' -> ' + this.search_selectedOperationModel_title[0].title + '*')
+        this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(localStorage.getItem('lastSelectTitleOperation').split('*').length - 1 + ' ' + 'مورد انتخاب شد')
+        this.search_selectedOperationModel_title = ''
+
+        this.search_listOperation = this.search_listOperationCopy
+        this.filterOperation.transactionListFilter.operation = [this.search_selectedOperationModel]
+        console.log('this.filterOperation.transactionListFilter.operation', this.filterOperation.transactionListFilter.operation)
+        this.okOperationDialog()
+      }
     }
   }
 }

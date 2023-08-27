@@ -143,7 +143,7 @@ export default {
     }
   },
   mounted () {
-    this.search(this.requestObject, 'mounted')
+    // this.search(this.requestObject, 'mounted')
   },
   methods: {
     ...mapMutations({

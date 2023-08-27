@@ -149,7 +149,7 @@ export default {
     }
   },
   mounted () {
-    this.search(this.searchModel, 'mounted')
+    // this.search(this.searchModel, 'mounted')
   },
   methods: {
     ...mapMutations({

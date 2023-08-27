@@ -149,6 +149,16 @@ export default {
       /* clear ALL OLD checked And set only -> input.url */
       // this.category.selected = []
       this.category.selected.push(input.url)
+
+      /* if(exist) do remove array */
+      // const index = this.category.selected.indexOf(input.url)
+      // if (index > -1) {
+      //   // alert(index + '======' + JSON.stringify(this.category.selected) + '=======' + input.url + '============]' + this.category.selected.length)
+      //   // console.log(JSON.stringify(this.category.selected), input.url, 'index ->' + index)
+      //   this.category.selected.splice(index, 1)
+      //   return false
+      // }
+
       // Remove duplicate values array
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
 
