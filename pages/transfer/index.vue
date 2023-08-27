@@ -41,7 +41,7 @@
           </template>
 
           <template #[`item.mobile`]="{ item }">
-            {{ item.mobile || 'تعیین نشده' }}
+            {{ item.mobile || '-' }}
           </template>
 
           <template #item.errorCode="{ item }">

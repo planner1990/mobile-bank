@@ -54,7 +54,7 @@ export default defineComponent({
   },
   setup (props) {
     const { $axios } = useContext()
-    const branch = ref('تعیین نشده')
+    const branch = ref('-')
     if (props.value) {
       locationManager.getBranch(props.value, $axios).then((res) => {
         if (res.length > 0) {

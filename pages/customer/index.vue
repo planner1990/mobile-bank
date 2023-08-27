@@ -45,7 +45,7 @@
               {{ item.cif }}
             </div>
             <div v-else style="color: #f1b0b094">
-              {{ 'تعیین نشده' }}
+              {{ '-' }}
             </div>
           </template>
           <template #[`item.cardOrDeposit`]="{ item }">
@@ -53,7 +53,7 @@
               {{ item.cardOrDeposit }}
             </div>
             <div v-else style="color: #f1b0b094">
-              {{ 'تعیین نشده' }}
+              {{ '-' }}
             </div>
           </template>
 

@@ -68,7 +68,7 @@ export default defineComponent({
   },
   setup (props) {
     const { $axios } = useContext()
-    const province = ref('تعیین نشده')
+    const province = ref('-')
     if (props.value) {
       locationManager.getProvince(props.value, $axios).then((res) => {
         province.value = res.title

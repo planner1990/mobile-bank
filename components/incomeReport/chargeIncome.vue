@@ -32,7 +32,7 @@
         {{ item.operator }}
       </div>
       <div v-else style="color: #f1b0b094">
-        {{ 'تعیین نشده' }}
+        {{ '-' }}
       </div>
     </template>
     <template #[`item.amount`]="{ item }">
@@ -40,7 +40,7 @@
         {{ item.amount }}
       </div>
       <div v-else style="color: #f1b0b094">
-        {{ 'تعیین نشده' }}
+        {{ '-' }}
       </div>
     </template>
     <template #[`item.incomePercent`]="{ item }">
@@ -48,7 +48,7 @@
         {{ item.incomePercent }}
       </div>
       <div v-else style="color: #f1b0b094">
-        {{ 'تعیین نشده' }}
+        {{ '-' }}
       </div>
     </template>
     <template #[`item.coSharePercent`]="{ item }">
@@ -56,7 +56,7 @@
         {{ item.coSharePercent }}
       </div>
       <div v-else style="color: #f1b0b094">
-        {{ 'تعیین نشده' }}
+        {{ '-' }}
       </div>
     </template>
   </v-data-table>

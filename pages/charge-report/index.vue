@@ -43,7 +43,7 @@
               {{ item.requestId }}
             </div>
             <div v-else style="color: #f1b0b094">
-              {{ 'تعیین نشده' }}
+              {{ '-' }}
             </div>
           </template>
 
@@ -52,7 +52,7 @@
               {{ item.errorCode }}
             </div>
             <div v-else class="chip" :style="'color: ' + getColor(null)">
-              {{ 'تعیین نشده' }}
+              {{ '-' }}
             </div>
           </template>
 

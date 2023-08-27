@@ -16,7 +16,7 @@
         {{ item.operationTitle }}
       </div>
       <div v-else style="color: #f1b0b094">
-        {{ 'تعیین نشده' }}
+        {{ '-' }}
       </div>
     </template>
     <template #[`item.successfulAmount`]="{ item }">

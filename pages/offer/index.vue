@@ -43,7 +43,7 @@
               {{ item.uri }}
             </div>
             <div v-else style="color: #f1b0b094">
-              {{ 'تعیین نشده' }}
+              {{ '-' }}
             </div>
           </template>
           <template #[`item.recommendationType`]="{ item }">
@@ -51,7 +51,7 @@
               {{ $t('offer.offerTypeFilter.' + item.recommendationType) }}
             </div>
             <div v-else style="color: #f1b0b094">
-              {{ 'تعیین نشده' }}
+              {{ '-' }}
             </div>
           </template>
           <template #[`item.alternativeUrl`]="{ item }">
@@ -59,7 +59,7 @@
               {{ item.alternativeUrl }}
             </div>
             <div v-else style="color: #f1b0b094">
-              {{ 'تعیین نشده' }}
+              {{ '-' }}
             </div>
           </template>
           <template #[`item.url`]="{ item }">
@@ -67,7 +67,7 @@
               {{ item.url }}
             </div>
             <div v-else style="color: #f1b0b094">
-              {{ 'تعیین نشده' }}
+              {{ '-' }}
             </div>
           </template>
 

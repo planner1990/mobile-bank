@@ -80,7 +80,7 @@
               {{ item.refundOrFailTime }}
             </div>
             <div v-else style="color: #f1b0b094">
-              {{ 'تعیین نشده' }}
+              {{ '-' }}
             </div>
           </template>
           <template #[`item.errorCode`]="{ item }">
@@ -88,7 +88,7 @@
               {{ item.errorCode }}
             </div>
             <div v-else style="color: #f1b0b094">
-              {{ 'تعیین نشده' }}
+              {{ '-' }}
             </div>
           </template>
 

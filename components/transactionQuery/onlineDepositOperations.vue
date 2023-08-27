@@ -3,6 +3,11 @@
     <v-layout row wrap>
       <v-container>
         <v-flex xs12 md12 class="" style="height: 400px;overflow-y: auto;">
+          <v-progress-linear
+            v-if="loadingTopBar"
+            indeterminate
+            color="teal"
+          />
           <div class="mr-6 ml-6">
             <v-layout row wrap>
               <v-flex v-for="(item,index) in items" :key="items[index].title" xs4>
@@ -40,6 +45,7 @@ export default {
   },
   data () {
     return {
+      loadingTopBar: false,
       downloadLoading: false,
       totalNumberOfItems: 0,
       items: [],
@@ -52,8 +58,11 @@ export default {
     }
   },
   mounted: function () {
-    this.operation()
-    this.clearAllCheckBox()
+    if (this.items.length <= 0) {
+      this.operation()
+    }
+
+    // this.clearAllCheckBox()
   },
   methods: {
     ...mapActions({
@@ -87,6 +96,7 @@ export default {
     // دریافت لیست عملیات ها
     // دریافت لیست عملیات ها
     operation () {
+      this.loadingTopBar = true
       reportManager.operationList(this.operationType, this.$axios).then((response) => {
         const operationList = response.data
 
@@ -98,7 +108,9 @@ export default {
 
         // onlineDepositOperation + depositPanelOperation
         this.items = operationLastList
+        this.loadingTopBar = false
       }).catch((error) => {
+        this.loadingTopBar = false
         if (error.response) {
           console.log(error.response)
           this.alert({
@@ -130,12 +142,22 @@ export default {
       this.initialLoanRequestOperations([])
       this.initialOnlineDepositOperations([])
     },
+    // Remove duplicate values array
+    uniqByKeepFirst (a, key) {
+      const seen = new Set()
+      return a.filter((item) => {
+        const k = key(item)
+        return seen.has(k) ? false : seen.add(k)
+      })
+    },
     checked (input) {
-      this.clearAllBeforeSelected()
+      // this.clearAllBeforeSelected()
 
       /* clear ALL OLD checked And set only -> input.url */
-      this.category.selected = []
-      this.category.selected = [input.url]
+      // this.category.selected = []
+      this.category.selected.push(input.url)
+      // Remove duplicate values array
+      this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
 
       console.log(this.listType)
       this.initialOnlineDepositOperations(this.category.selected)
@@ -145,7 +167,8 @@ export default {
 
       // close modal operations after click and select
       localStorage.setItem('lastSelectTitleOperation', input.title)
-      this.$emit('okOperationDialog')
+      localStorage.setItem('listItemPreviewSelected', localStorage.getItem('listItemPreviewSelected') + 'افتتاح حساب' + ' -> ' + input.title + '*')
+      // this.$emit('okOperationDialog')
     },
     clearAllCheckBox: function () {
       this.category.selected = []

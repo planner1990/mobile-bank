@@ -105,8 +105,11 @@
                   dense
                   outlined
                   :value="lableSelectOperatorRef"
+                  label="انتخاب از بین عملیات ها"
+                  clearable
                   style="cursor: pointer !important;"
                   @click="editItem()"
+                  @click:clear="clearOperationDialog()"
                 />
               </v-col>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
@@ -392,7 +395,7 @@ export default {
   },
   data () {
     return {
-      lableSelectOperatorRef: 'انتخاب یک عملیات',
+      lableSelectOperatorRef: '',
       loadingBtn: false,
       seen: false,
       createDialog: false,
@@ -410,7 +413,6 @@ export default {
       platform: reportManager.platform,
       source: reportManager.source,
       operationName: reportManager.operationName,
-      items1: ['amin', 'majid'],
       items: [],
       errorItems: [],
       operationType: {
@@ -442,6 +444,22 @@ export default {
       this.$emit('edit', this.filter)
 
       this.createDialog = true
+    },
+    // Remove duplicate values array
+    uniqByKeepFirst (a, key) {
+      const seen = new Set()
+      return a.filter((item) => {
+        const k = key(item)
+        return seen.has(k) ? false : seen.add(k)
+      })
+    },
+    clearOperationDialog () {
+      this.$emit('re_render')
+      this.$emit('clearOperationDialog')
+
+      this.lableSelectOperatorRef = ''
+
+      this.createDialog = false
     },
     // دریافت لیست عملیات ها
     operation () {

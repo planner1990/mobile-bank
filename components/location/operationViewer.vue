@@ -68,7 +68,7 @@ export default defineComponent({
   },
   setup (props) {
     const { $axios } = useContext()
-    const operation = ref('تعیین نشده')
+    const operation = ref('-')
 
     locationManager.getOperation($axios).then((res) => {
       operation.value = res.title
