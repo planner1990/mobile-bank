@@ -210,6 +210,14 @@
           <div class="row mt-2 mr-4 ml-7">
             <v-row>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
+                <v-text-field
+                  v-model="filter.transactionListFilter.sourceNumber"
+                  dense
+                  outlined
+                  :label="$t('report.transactionReport.transaction.sourceNumber')"
+                />
+              </v-col>
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-select
                   v-model="filter.transactionListFilter.responseCode"
                   :items="errorItems"
@@ -272,14 +280,6 @@
                     </svg>
                   </template>
                 </v-select>
-              </v-col>
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
-                <v-text-field
-                  v-model="filter.transactionListFilter.sourceNumber"
-                  dense
-                  outlined
-                  :label="$t('report.transactionReport.transaction.sourceNumber')"
-                />
               </v-col>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-text-field
@@ -542,6 +542,7 @@ export default {
       this.loading = true
       reportManager.errorCodeList(this.$axios).then((response) => {
         const errorList = response.data
+        errorList.push(200)
         this.errorItems = errorList
       }).catch((error) => {
         if (error.response) {

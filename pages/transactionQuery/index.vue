@@ -348,7 +348,7 @@
                   </v-select>
                 </v-col>
                 <v-col cols="1" />
-                <v-col cols="7" style="color: #aaa;">
+                <v-col cols="7" style="color: #aaa;font-size: 12px;line-height: 16px;">
                   <div v-for="(x, key) in listItemPreviewSelectedFun()" :key="key">
                     {{ x }}
                   </div>
