@@ -149,8 +149,6 @@ export default {
       })
     },
     checked (input) {
-      // this.clearAllBeforeSelected()
-
       /* clear ALL OLD checked And set only -> input.url */
       // this.category.selected = []
       this.category.selected.push(input.url)
@@ -159,18 +157,19 @@ export default {
 
       console.log(this.listType)
       this.initialBankLoanOperation(this.category.selected)
-      console.log('checked')
-      console.log('++++++++++', input)
-      console.log(this.category.selected)
 
       // close modal operations after click and select
       localStorage.setItem('lastSelectTitleOperation', input.title)
-      localStorage.setItem('listItemPreviewSelected', localStorage.getItem('listItemPreviewSelected') + 'بانک loan' + ' -> ' + input.title + '*')
+      sessionStorage.setItem('listItemPreviewSelected_bankLoanOperationList', sessionStorage.getItem('listItemPreviewSelected_bankLoanOperationList') + 'بانک loan' + ' -> ' + input.title + '*')
       // this.$emit('okOperationDialog')
+
+      this.$emit('listItemPreviewSelectedFun')
     },
     clearAllCheckBox: function () {
       this.category.selected = []
       this.initialBankLoanOperation(this.category.selected)
+
+      sessionStorage.setItem('listItemPreviewSelected_bankLoanOperationList', '')
     }
   }
 }

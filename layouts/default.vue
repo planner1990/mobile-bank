@@ -262,6 +262,11 @@
                   نمودار تراکنش ها
                 </v-list-item-title>
               </v-list-item>
+              <v-list-item v-if="checkUserAccessForMenu('/transfer', 'menu')" :to="'/transfer'">
+                <v-list-item-title key="3" style="font-size: 15px;">
+                  انتقال وجه
+                </v-list-item-title>
+              </v-list-item>
             </v-list>
           </v-menu>
         </v-btn>
@@ -328,11 +333,6 @@
               <v-list-item v-if="checkUserAccessForMenu('/users', 'menu')" :to="'/users'">
                 <v-list-item-title key="3" style="font-size: 15px;">
                   مدیران سیستم
-                </v-list-item-title>
-              </v-list-item>
-              <v-list-item v-if="checkUserAccessForMenu('/transfer', 'menu')" :to="'/transfer'">
-                <v-list-item-title key="3" style="font-size: 15px;">
-                  انتقال وجه
                 </v-list-item-title>
               </v-list-item>
             </v-list>

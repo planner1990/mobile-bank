@@ -397,7 +397,7 @@ export default {
     return {
       lableSelectOperatorRef: '',
       loadingBtn: false,
-      seen: false,
+      seen: true,
       createDialog: false,
       downloadLoading: false,
       fromDate: this.currentDayFrom(),
@@ -437,7 +437,7 @@ export default {
       this.$emit('search', this.filter)
 
       this.loadingBtn = true
-      setTimeout(() => (this.loadingBtn = false), 4000)
+      setTimeout(() => (this.loadingBtn = false), 7000)
     },
     editItem () {
       this.$emit('re_render')

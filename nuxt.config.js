@@ -49,7 +49,8 @@ export default {
     { src: '@/filters/filterIbanReplace' },
     { src: '@/filters/filterMobile98Replace' },
     { src: '@/filters/filterConvertNumberPersianToEnglish' },
-    { src: '@/filters/filterCardReplace' }
+    { src: '@/filters/filterCardReplace' },
+    { src: '@/filters/filterTimeStampToMomentJalali' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

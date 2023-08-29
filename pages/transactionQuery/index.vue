@@ -11,6 +11,7 @@
           @search="search"
           @edit="editItem2()"
           @re_render="re_render()"
+          @listItemPreviewSelectedFun="keyTopBar++"
         />
       </v-col>
 
@@ -282,11 +283,14 @@
               viewBox="0 0 22 22"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              style="position: absolute;left: 60px; top: 18px;cursor: pointer"
+              style="position: absolute;left: 135px; top: 18px;cursor: pointer"
               @click="okOperationDialog()"
             >
               <path d="M20.1654 20.1667L18.332 18.3334M10.5404 19.25C11.684 19.25 12.8164 19.0248 13.8729 18.5872C14.9294 18.1495 15.8894 17.5081 16.6981 16.6994C17.5067 15.8908 18.1482 14.9308 18.5858 13.8742C19.0235 12.8177 19.2487 11.6853 19.2487 10.5417C19.2487 9.39811 19.0235 8.26572 18.5858 7.20917C18.1482 6.15263 17.5067 5.19263 16.6981 4.38399C15.8894 3.57534 14.9294 2.93389 13.8729 2.49626C12.8164 2.05862 11.684 1.83337 10.5404 1.83337C8.23077 1.83337 6.01577 2.75086 4.38264 4.38399C2.74951 6.01712 1.83203 8.23211 1.83203 10.5417C1.83203 12.8513 2.74951 15.0663 4.38264 16.6994C6.01577 18.3326 8.23077 19.25 10.5404 19.25Z" stroke="#979797" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
+            <span style="position: absolute;left: 90px; top: 18px;cursor: pointer" @click="okOperationDialog()">
+              جستجو
+            </span>
             <!-- title -->
             <svg
               width="24"
@@ -348,7 +352,7 @@
                   </v-select>
                 </v-col>
                 <v-col cols="1" />
-                <v-col cols="7" style="color: #aaa;font-size: 12px;line-height: 16px;">
+                <v-col :key="keyTopBar" cols="7" style="color: #aaa;font-size: 12px;line-height: 16px;">
                   <div v-for="(x, key) in listItemPreviewSelectedFun()" :key="key">
                     {{ x }}
                   </div>
@@ -497,6 +501,7 @@ export default {
       search_listOperation: [],
       search_listOperationCopy: [],
 
+      keyTopBar: 1,
       keyTab: 1,
       buttonCloseModal: false,
       downloadLoading: false,
@@ -608,7 +613,23 @@ export default {
       // this.keyTab++
     },
     listItemPreviewSelectedFun () {
-      return this.uniqByKeepFirst(localStorage.getItem('listItemPreviewSelected').split('*'), JSON.stringify)
+      const concatListItemPreviewSelected = sessionStorage.getItem('listItemPreviewSelected_depositOperations') +
+        sessionStorage.getItem('listItemPreviewSelected_bankLoanOperationList') +
+        sessionStorage.getItem('listItemPreviewSelected_cardOperations') +
+        sessionStorage.getItem('listItemPreviewSelected_cardReissueOperations') +
+        sessionStorage.getItem('listItemPreviewSelected_loanRequestOperations') +
+        sessionStorage.getItem('listItemPreviewSelected_onlineDepositOperations') +
+        sessionStorage.getItem('listItemPreviewSelected_pichackOperations') +
+        sessionStorage.getItem('listItemPreviewSelected_publicOperations') +
+        sessionStorage.getItem('listItemPreviewSelected_userOperations')
+
+      sessionStorage.setItem('concatListItemPreviewSelected', concatListItemPreviewSelected)
+      const resultFinal = this.uniqByKeepFirst(sessionStorage.getItem('concatListItemPreviewSelected').split('*'), JSON.stringify)
+
+      console.log('concatListItemPreviewSelected', JSON.stringify(concatListItemPreviewSelected))
+      console.log('resultFinal', JSON.stringify(resultFinal))
+
+      return resultFinal
     },
     focusAfterDelay () {
       setTimeout(() => {
@@ -703,15 +724,23 @@ export default {
     },
     clearOperationDialog () {
       this.operationList = []
-      this.filterOperation.transactionListFilter.operation = []
+      if (this.filterOperation) { this.filterOperation.transactionListFilter.operation = [] }
       localStorage.setItem('lastSelectTitleOperation', '')
-      localStorage.setItem('listItemPreviewSelected', '')
+
+      sessionStorage.setItem('listItemPreviewSelected_depositOperations', '')
+      sessionStorage.setItem('listItemPreviewSelected_bankLoanOperationList', '')
+      sessionStorage.setItem('listItemPreviewSelected_cardOperations', '')
+      sessionStorage.setItem('listItemPreviewSelected_cardReissueOperations', '')
+      sessionStorage.setItem('listItemPreviewSelected_loanRequestOperations', '')
+      sessionStorage.setItem('listItemPreviewSelected_onlineDepositOperations', '')
+      sessionStorage.setItem('listItemPreviewSelected_pichackOperations', '')
+      sessionStorage.setItem('listItemPreviewSelected_publicOperations', '')
+      sessionStorage.setItem('listItemPreviewSelected_userOperations', '')
       this.keyTab++
     },
     okOperationDialog () {
-      // this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(localStorage.getItem('lastSelectTitleOperation'))
-      this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(localStorage.getItem('listItemPreviewSelected').split('*').length - 1 + ' ' + 'مورد انتخاب شد')
-      console.log('this.filterOperation.transactionListFilter.operation', this.filterOperation.transactionListFilter.operation)
+      const listItemPreviewSelectedFun = this.listItemPreviewSelectedFun()
+      this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(listItemPreviewSelectedFun.length - 1 + ' ' + 'مورد انتخاب شد')
 
       // add (merge)
       this.cardList = this.cardOperationList
@@ -872,8 +901,9 @@ export default {
         console.log('debug +++', this.search_selectedOperationModel_title)
 
         localStorage.setItem('lastSelectTitleOperation', this.search_selectedOperationModel_title[0].title)
-        localStorage.setItem('listItemPreviewSelected', localStorage.getItem('listItemPreviewSelected') + 'جستجو' + ' -> ' + this.search_selectedOperationModel_title[0].title + '*')
-        this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(localStorage.getItem('lastSelectTitleOperation').split('*').length - 1 + ' ' + 'مورد انتخاب شد')
+
+        const listItemPreviewSelectedFun = this.listItemPreviewSelectedFun()
+        this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(listItemPreviewSelectedFun.length - 1 + ' ' + 'مورد انتخاب شد')
         this.search_selectedOperationModel_title = ''
 
         this.search_listOperation = this.search_listOperationCopy

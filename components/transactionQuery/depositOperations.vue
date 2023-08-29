@@ -8,6 +8,15 @@
             indeterminate
             color="teal"
           />
+          <!--          <div class="mr-6 ml-6">-->
+          <!--            <v-icon left @click="AllCheckBox()">-->
+          <!--              mdi-checkbox-marked-->
+          <!--            </v-icon>-->
+
+          <!--            <v-icon left @click="clearAllCheckBox()">-->
+          <!--              mdi-checkbox-blank-outline-->
+          <!--            </v-icon>-->
+          <!--          </div>-->
           <div class="mr-6 ml-6">
             <v-layout row wrap>
               <v-flex v-for="(item,index) in items" :key="items[index].title" xs4>
@@ -144,37 +153,42 @@ export default {
       })
     },
     checked (input) {
-      // this.clearAllBeforeSelected()
-
       /* clear ALL OLD checked And set only -> input.url */
       // this.category.selected = []
       this.category.selected.push(input.url)
-
-      /* if(exist) do remove array */
-      // const index = this.category.selected.indexOf(input.url)
-      // if (index > -1) {
-      //   // alert(index + '======' + JSON.stringify(this.category.selected) + '=======' + input.url + '============]' + this.category.selected.length)
-      //   // console.log(JSON.stringify(this.category.selected), input.url, 'index ->' + index)
-      //   this.category.selected.splice(index, 1)
-      //   return false
-      // }
-
       // Remove duplicate values array
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
 
       console.log(this.listType)
       this.initialDepositOperations(this.category.selected)
-      console.log('checked')
-      console.log('++++++++++', input)
-      console.log(this.category.selected)
 
       // close modal operations after click and select
       localStorage.setItem('lastSelectTitleOperation', input.title)
-      localStorage.setItem('listItemPreviewSelected', localStorage.getItem('listItemPreviewSelected') + 'حساب' + ' -> ' + input.title + '*')
+      sessionStorage.setItem('listItemPreviewSelected_depositOperations', sessionStorage.getItem('listItemPreviewSelected_depositOperations') + 'حساب' + ' -> ' + input.title + '*')
       // this.$emit('okOperationDialog')
+
+      this.$emit('listItemPreviewSelectedFun')
     },
     clearAllCheckBox: function () {
       this.category.selected = []
+      this.initialDepositOperations(this.category.selected)
+
+      sessionStorage.setItem('listItemPreviewSelected_depositOperations', '')
+    },
+    AllCheckBox: function () {
+      this.clearAllCheckBox()
+
+      for (let i = 0; i < this.items.length - 1; i++) {
+        console.log(i)
+        if (this.items[i].url) {
+          this.category.selected.push(this.items[i].url)
+        }
+        console.log(i, JSON.stringify(this.category.selected))
+        sessionStorage.setItem('listItemPreviewSelected_depositOperations', sessionStorage.getItem('listItemPreviewSelected_depositOperations') + 'حساب' + ' -> ' + this.items[i].title + '*')
+      }
+      console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+
+      this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
       this.initialDepositOperations(this.category.selected)
     }
   }

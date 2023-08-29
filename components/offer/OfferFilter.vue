@@ -132,7 +132,7 @@ export default {
     return {
       loadingBtn: false,
       loadingBtnNewSuggest: false,
-      seen: false,
+      seen: true,
       from: this.yesterdayDayFrom(),
       to: this.currentDayTo(),
       time: null,
@@ -162,7 +162,7 @@ export default {
       this.$emit('search', this.filter)
 
       this.loadingBtn = true
-      setTimeout(() => (this.loadingBtn = false), 1500)
+      setTimeout(() => (this.loadingBtn = false), 3000)
     },
     checkIsNullFromDate () {
       if (this.from != null) {

@@ -146,29 +146,27 @@ export default {
       })
     },
     checked (input) {
-      // this.clearAllBeforeSelected()
-
       /* clear ALL OLD checked And set only -> input.url */
       // this.category.selected = []
-
       this.category.selected.push(input.url)
       // Remove duplicate values array
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
 
       console.log(this.listType)
       this.initialUserOperations(this.category.selected)
-      console.log('checked')
-      console.log('++++++++++', input)
-      console.log(this.category.selected)
 
       // close modal operations after click and select
       localStorage.setItem('lastSelectTitleOperation', input.title)
-      localStorage.setItem('listItemPreviewSelected', localStorage.getItem('listItemPreviewSelected') + 'کاربری' + ' -> ' + input.title + '*')
+      sessionStorage.setItem('listItemPreviewSelected_userOperations', sessionStorage.getItem('listItemPreviewSelected_userOperations') + 'کاربری' + ' -> ' + input.title + '*')
       // this.$emit('okOperationDialog')
+
+      this.$emit('listItemPreviewSelectedFun')
     },
     clearAllCheckBox: function () {
       this.category.selected = []
       this.initialUserOperations(this.category.selected)
+
+      sessionStorage.setItem('listItemPreviewSelected_userOperations', '')
     }
   }
 }

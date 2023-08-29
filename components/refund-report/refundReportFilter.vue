@@ -445,7 +445,7 @@ export default {
   data () {
     return {
       loadingBtn: false,
-      seen: false,
+      seen: true,
       downloadLoading: false,
       fromDate: this.currentDayFrom(),
       toDate: this.currentDayTo(),
@@ -508,7 +508,7 @@ export default {
       this.$emit('search', this.filter)
 
       this.loadingBtn = true
-      setTimeout(() => (this.loadingBtn = false), 1500)
+      setTimeout(() => (this.loadingBtn = false), 3000)
     },
     refundList (searchModel) {
       this.$emit('refund', this.filter)

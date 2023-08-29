@@ -11,7 +11,8 @@
         <v-data-table
           dense
           :footer-props="{
-            'items-per-page-options': [20, 50, 100, 500, 1000]
+            'items-per-page-options': [20, 50, 100, 500, 1000],
+            'items-per-page-text': showSumAllPayLoan
           }"
           item-key="cardOwnerId"
           sort-by="cardOwnerId"
@@ -67,6 +68,9 @@
           <template #[`item.amount`]="{ item }">
             {{ priceFormat(item.amount) }}
           </template>
+          <template #[`item.requestTime`]="{ item }">
+            {{ item.requestTime | filterTimeStampToMomentJalali }}
+          </template>
           <template #[`item.userTransferFee`]="{ item }">
             {{ priceFormat(item.userTransferFee) }}
           </template>
@@ -98,6 +102,7 @@ export default {
   },
   data () {
     return {
+      totalAmount: 0,
       downloadLoading: false,
       userForm: {
         showPassword: false,
@@ -118,13 +123,49 @@ export default {
       totalNumberOfItems: 0,
       loading: false,
       headers: [
-        { text: this.$t('transfer.headers.customer'), value: 'customer', sortable: false, align: 'center' },
-        { text: this.$t('transfer.headers.source'), value: 'source', sortable: false, align: 'center', width: '20%' },
-        { text: this.$t('transfer.headers.destination'), value: 'destination', sortable: false, align: 'center' },
-        { text: this.$t('transfer.headers.requestTime'), value: 'requestTime', sortable: false, align: 'center' },
-        { text: this.$t('transfer.headers.amount'), value: 'amount', sortable: false, align: 'center' },
-        { text: this.$t('transfer.headers.userTransferFee'), value: 'userTransferFee', sortable: false, align: 'center' },
-        { text: this.$t('transfer.headers.serviceTransferShare'), value: 'serviceTransferShare', sortable: false, align: 'center' }
+        {
+          text: this.$t('transfer.headers.customer'),
+          value: 'customer',
+          sortable: false,
+          align: 'center'
+        },
+        {
+          text: this.$t('transfer.headers.source'),
+          value: 'source',
+          sortable: false,
+          align: 'center',
+          width: '20%'
+        },
+        {
+          text: this.$t('transfer.headers.destination'),
+          value: 'destination',
+          sortable: false,
+          align: 'center'
+        },
+        {
+          text: this.$t('transfer.headers.requestTime'),
+          value: 'requestTime',
+          sortable: false,
+          align: 'center'
+        },
+        {
+          text: this.$t('transfer.headers.amount'),
+          value: 'amount',
+          sortable: false,
+          align: 'center'
+        },
+        {
+          text: this.$t('transfer.headers.userTransferFee'),
+          value: 'userTransferFee',
+          sortable: false,
+          align: 'center'
+        },
+        {
+          text: this.$t('transfer.headers.serviceTransferShare'),
+          value: 'serviceTransferShare',
+          sortable: false,
+          align: 'center'
+        }
       ],
       items: []
     }
@@ -134,8 +175,15 @@ export default {
       title: 'انتقال وجه' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
     }
   },
-  mounted () {
+  computed: {
     // this.search(this.searchModel, 'mounted')
+
+    // eslint-disable-next-line vue/return-in-computed-property
+    showSumAllPayLoan () {
+      if (this.totalAmount) {
+        return ' مجموع مبلغ کارمزد عصردانش : ' + this.$options.filters.filterNumberSeparator(this.totalAmount) + ' ریال'
+      }
+    }
   },
   methods: {
     ...mapMutations({
@@ -144,7 +192,8 @@ export default {
     getColor (status) {
       if (status >= 200 && status <= 299) {
         return '#84BD00'
-      } if (status === null) {
+      }
+      if (status === null) {
         return '#f1b0b0'
       } else {
         return '#444444'
@@ -162,6 +211,7 @@ export default {
       transferManager.transferList(searchModel, this.$axios).then((response) => {
         this.items = response.data.transferFeesDtos
         this.totalNumberOfItems = response.data.total
+        this.totalAmount = response.data.sumOfServiceTransferShare
         this.loading = false
       }).catch((error) => {
         if (error.response) {
@@ -171,6 +221,7 @@ export default {
           })
         } else {
           this.alert({
+
             color: 'orange',
             content: 'messages.failed'
           })
@@ -234,12 +285,12 @@ export default {
 }
 </script>
 <style scoped>
-  .v-chip.v-size--default {
-    border-radius: 16px;
-    font-size: 10px;
-    height: 20px;
-    width: 60px;
-    color: white;
-    padding: 0 5px;
-  }
+.v-chip.v-size--default {
+  border-radius: 16px;
+  font-size: 10px;
+  height: 20px;
+  width: 60px;
+  color: white;
+  padding: 0 5px;
+}
 </style>

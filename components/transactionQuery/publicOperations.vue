@@ -145,8 +145,6 @@ export default {
       })
     },
     checked (input) {
-      // this.clearAllBeforeSelected()
-
       /* clear ALL OLD checked And set only -> input.url */
       // this.category.selected = []
       this.category.selected.push(input.url)
@@ -155,18 +153,19 @@ export default {
 
       console.log(this.listType)
       this.initialPublicOperations(this.category.selected)
-      console.log('checked')
-      console.log('++++++++++', input)
-      console.log(this.category.selected)
 
       // close modal operations after click and select
       localStorage.setItem('lastSelectTitleOperation', input.title)
-      localStorage.setItem('listItemPreviewSelected', localStorage.getItem('listItemPreviewSelected') + 'عمومی' + ' -> ' + input.title + '*')
+      sessionStorage.setItem('listItemPreviewSelected_publicOperations', sessionStorage.getItem('listItemPreviewSelected_publicOperations') + 'عمومی' + ' -> ' + input.title + '*')
       // this.$emit('okOperationDialog')
+
+      this.$emit('listItemPreviewSelectedFun')
     },
     clearAllCheckBox: function () {
       this.category.selected = []
       this.initialPublicOperations(this.category.selected)
+
+      sessionStorage.setItem('listItemPreviewSelected_publicOperations', '')
     }
   }
 }
