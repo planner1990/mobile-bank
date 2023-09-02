@@ -338,7 +338,7 @@
                   </v-select>
                 </v-col>
                 <v-col cols="1" />
-                <v-col :key="keyTopBar" cols="7" style="color: #aaa;font-size: 12px;line-height: 16px;max-height: 90px;overflow-y: scroll;direction: ltr;text-align: right;">
+                <v-col v-if="showTopBar" :key="keyTopBar" cols="7" style="color: #aaa;font-size: 12px;line-height: 16px;max-height: 60px;overflow-y: scroll;direction: ltr;text-align: right;">
                   <div v-for="(x, key) in listItemPreviewSelectedFun()" :key="key">
                     {{ x }}
                   </div>
@@ -567,7 +567,8 @@ export default {
       otherList: [],
       operationList: [],
       listType: 'query',
-      searchOperation: ''
+      searchOperation: '',
+      showTopBar: false
     }
   },
   head () {
@@ -626,6 +627,9 @@ export default {
 
       console.log('concatListItemPreviewSelected', JSON.stringify(concatListItemPreviewSelected))
       console.log('resultFinal', JSON.stringify(resultFinal))
+
+      if (resultFinal.length > 1) { this.showTopBar = true } else { this.showTopBar = false }
+      console.log('listItemPreviewSelectedFun 2299+++', JSON.stringify(resultFinal), resultFinal.length)
 
       return resultFinal
     },
