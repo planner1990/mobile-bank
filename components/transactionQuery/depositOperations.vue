@@ -164,11 +164,9 @@ export default {
       // Remove duplicate values array
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
 
-      console.log(this.listType)
       this.initialDepositOperations(this.category.selected)
 
       // close modal operations after click and select
-      localStorage.setItem('lastSelectTitleOperation', input.title)
       sessionStorage.setItem('listItemPreviewSelected_depositOperations', sessionStorage.getItem('listItemPreviewSelected_depositOperations') + 'حساب' + ' -> ' + input.title + '*')
 
       this.$emit('refreshLabelTopBar')

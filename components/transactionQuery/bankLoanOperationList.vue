@@ -169,11 +169,9 @@ export default {
       // Remove duplicate values array
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
 
-      console.log(this.listType)
       this.initialBankLoanOperation(this.category.selected)
 
       // close modal operations after click and select
-      localStorage.setItem('lastSelectTitleOperation', input.title)
       sessionStorage.setItem('listItemPreviewSelected_bankLoanOperationList', sessionStorage.getItem('listItemPreviewSelected_bankLoanOperationList') + 'بانک loan' + ' -> ' + input.title + '*')
 
       this.$emit('refreshLabelTopBar')

@@ -165,11 +165,9 @@ export default {
       // Remove duplicate values array
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
 
-      console.log(this.listType)
       this.initialPublicOperations(this.category.selected)
 
       // close modal operations after click and select
-      localStorage.setItem('lastSelectTitleOperation', input.title)
       sessionStorage.setItem('listItemPreviewSelected_publicOperations', sessionStorage.getItem('listItemPreviewSelected_publicOperations') + 'عمومی' + ' -> ' + input.title + '*')
 
       this.$emit('refreshLabelTopBar')

@@ -166,11 +166,9 @@ export default {
       // Remove duplicate values array
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
 
-      console.log(this.listType)
       this.initialUserOperations(this.category.selected)
 
       // close modal operations after click and select
-      localStorage.setItem('lastSelectTitleOperation', input.title)
       sessionStorage.setItem('listItemPreviewSelected_userOperations', sessionStorage.getItem('listItemPreviewSelected_userOperations') + 'کاربری' + ' -> ' + input.title + '*')
 
       this.$emit('refreshLabelTopBar')

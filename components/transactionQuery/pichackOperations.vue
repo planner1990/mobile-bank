@@ -169,11 +169,9 @@ export default {
       // Remove duplicate values array
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
 
-      console.log(this.listType)
       this.initialPichakOperation(this.category.selected)
 
       // close modal operations after click and select
-      localStorage.setItem('lastSelectTitleOperation', input.title)
       sessionStorage.setItem('listItemPreviewSelected_pichackOperations', sessionStorage.getItem('listItemPreviewSelected_pichackOperations') + 'پیچک' + ' -> ' + input.title + '*')
 
       this.$emit('refreshLabelTopBar')

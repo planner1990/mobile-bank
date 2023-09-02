@@ -618,7 +618,8 @@ export default {
         sessionStorage.getItem('listItemPreviewSelected_onlineDepositOperations') +
         sessionStorage.getItem('listItemPreviewSelected_pichackOperations') +
         sessionStorage.getItem('listItemPreviewSelected_publicOperations') +
-        sessionStorage.getItem('listItemPreviewSelected_userOperations')
+        sessionStorage.getItem('listItemPreviewSelected_userOperations') +
+        sessionStorage.getItem('lastSelectTitleOperation')
 
       sessionStorage.setItem('concatListItemPreviewSelected', concatListItemPreviewSelected)
       const resultFinal = this.uniqByKeepFirst(sessionStorage.getItem('concatListItemPreviewSelected').split('*'), JSON.stringify)
@@ -722,7 +723,7 @@ export default {
     clearOperationDialog () {
       this.operationList = []
       if (this.filterOperation) { this.filterOperation.transactionListFilter.operation = [] }
-      localStorage.setItem('lastSelectTitleOperation', '')
+      sessionStorage.setItem('lastSelectTitleOperation', '')
 
       sessionStorage.setItem('listItemPreviewSelected_depositOperations', '')
       sessionStorage.setItem('listItemPreviewSelected_bankLoanOperationList', '')
@@ -883,34 +884,25 @@ export default {
     // select item in text search
     // select item in text search
     changeSelectedSearchOperation () {
-      if (this.search_selectedOperationModel_title[0]) {
+      if (this.search_selectedOperationModel) {
         this.clearOperationDialog()
-
-        console.log(
-          'changeSelectedSearchOperation',
-          'change',
-          this.search_selectedOperationModel,
-          this.search_selectedOperationModel_title
-        )
-
-        // this.search_listOperation = []
 
         // get title from operation.url
         this.search_selectedOperationModel_title = this.search_listOperation.filter((operation) => {
           return operation.url === this.search_selectedOperationModel
         })
-        console.log('debug +++', this.search_selectedOperationModel_title)
 
-        localStorage.setItem('lastSelectTitleOperation', this.search_selectedOperationModel_title[0].title)
+        sessionStorage.setItem('lastSelectTitleOperation', sessionStorage.getItem('lastSelectTitleOperation') + 'جستجو' + ' -> ' + this.search_selectedOperationModel_title[0].title + '*')
 
         const listItemPreviewSelectedFun = this.listItemPreviewSelectedFun()
         this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(listItemPreviewSelectedFun.length - 1 + ' ' + 'مورد انتخاب شد')
-        this.search_selectedOperationModel_title = ''
 
         this.search_listOperation = this.search_listOperationCopy
-        this.filterOperation.transactionListFilter.operation = [this.search_selectedOperationModel]
-        console.log('this.filterOperation.transactionListFilter.operation', this.filterOperation.transactionListFilter.operation)
-        this.okOperationDialog()
+        this.operationList = [this.search_selectedOperationModel]
+        this.search_selectedOperationModel_title = ''
+
+        this.buttonCloseModal = false
+        this.operationDialog = false
       }
     }
   }
