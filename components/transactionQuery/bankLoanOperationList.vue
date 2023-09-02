@@ -8,6 +8,23 @@
             indeterminate
             color="teal"
           />
+
+          <div v-if="items.length > 0" class="mr-6 ml-6">
+            <div style="right: 19px;position: absolute;top: 10px;width: 175px;cursor: pointer" @click="AllCheckBox()">
+              <v-icon left>
+                mdi-checkbox-marked
+              </v-icon>
+              همه
+            </div>
+            <div style="right: 79px;position: absolute;top: 10px;cursor: pointer" @click="clearAllCheckBox()">
+              <v-icon left>
+                mdi-checkbox-blank-outline
+              </v-icon>
+              هیچ
+            </div>
+          </div>
+          <p style="margin-bottom: 40px;" />
+
           <div class="mr-6 ml-6">
             <v-layout row wrap>
               <v-flex v-for="(item,index) in items" :key="items[index].title" xs4>
@@ -149,9 +166,6 @@ export default {
       })
     },
     checked (input) {
-      /* clear ALL OLD checked And set only -> input.url */
-      // this.category.selected = []
-      this.category.selected.push(input.url)
       // Remove duplicate values array
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
 
@@ -161,15 +175,29 @@ export default {
       // close modal operations after click and select
       localStorage.setItem('lastSelectTitleOperation', input.title)
       sessionStorage.setItem('listItemPreviewSelected_bankLoanOperationList', sessionStorage.getItem('listItemPreviewSelected_bankLoanOperationList') + 'بانک loan' + ' -> ' + input.title + '*')
-      // this.$emit('okOperationDialog')
 
-      this.$emit('listItemPreviewSelectedFun')
+      this.$emit('refreshLabelTopBar')
     },
     clearAllCheckBox: function () {
       this.category.selected = []
       this.initialBankLoanOperation(this.category.selected)
 
       sessionStorage.setItem('listItemPreviewSelected_bankLoanOperationList', '')
+      this.$emit('refreshLabelTopBar')
+    },
+    AllCheckBox: function () {
+      this.clearAllCheckBox()
+
+      const checked = []
+      this.items.forEach((i) => {
+        checked.push(i.url)
+        sessionStorage.setItem('listItemPreviewSelected_bankLoanOperationList', sessionStorage.getItem('listItemPreviewSelected_bankLoanOperationList') + 'بانک loan' + ' -> ' + i.title + '*')
+      })
+      this.category.selected = checked
+
+      this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
+      this.initialDepositOperations(this.category.selected)
+      this.$emit('refreshLabelTopBar')
     }
   }
 }

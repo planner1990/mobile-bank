@@ -302,20 +302,6 @@
           >
             <!-- title -->
             <!-- title -->
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 22 22"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style="position: absolute;left: 135px; top: 18px;cursor: pointer"
-              @click="okOperationDialog()"
-            >
-              <path d="M20.1654 20.1667L18.332 18.3334M10.5404 19.25C11.684 19.25 12.8164 19.0248 13.8729 18.5872C14.9294 18.1495 15.8894 17.5081 16.6981 16.6994C17.5067 15.8908 18.1482 14.9308 18.5858 13.8742C19.0235 12.8177 19.2487 11.6853 19.2487 10.5417C19.2487 9.39811 19.0235 8.26572 18.5858 7.20917C18.1482 6.15263 17.5067 5.19263 16.6981 4.38399C15.8894 3.57534 14.9294 2.93389 13.8729 2.49626C12.8164 2.05862 11.684 1.83337 10.5404 1.83337C8.23077 1.83337 6.01577 2.75086 4.38264 4.38399C2.74951 6.01712 1.83203 8.23211 1.83203 10.5417C1.83203 12.8513 2.74951 15.0663 4.38264 16.6994C6.01577 18.3326 8.23077 19.25 10.5404 19.25Z" stroke="#979797" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            <span style="position: absolute;left: 90px; top: 18px;cursor: pointer" @click="okOperationDialog()">
-              جستجو
-            </span>
             <!-- title -->
             <svg
               ref="buttonCloseModal"
@@ -378,7 +364,7 @@
                   </v-select>
                 </v-col>
                 <v-col cols="1" />
-                <v-col :key="keyTopBar" cols="7" style="color: #aaa;font-size: 12px;line-height: 16px;">
+                <v-col :key="keyTopBar" cols="7" style="color: #aaa;font-size: 12px;line-height: 16px;max-height: 90px;overflow-y: scroll;direction: ltr;text-align: right;">
                   <div v-for="(x, key) in listItemPreviewSelectedFun()" :key="key">
                     {{ x }}
                   </div>
@@ -402,56 +388,56 @@
                         {{ $t('report.transactionReport.headers.depositOperation') }}
                       </v-tab>
                       <v-tab-item value="depositOperation">
-                        <deposit-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
+                        <deposit-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <v-tab href="#cardOperation" class="font-weight-black" @click="re_render()">
                         {{ $t('report.transactionReport.headers.cardOperation') }}
                       </v-tab>
                       <v-tab-item value="cardOperation">
-                        <card-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
+                        <card-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <v-tab href="#userOperation" class="font-weight-black" @click="re_render()">
                         {{ $t('report.transactionReport.headers.userOperation') }}
                       </v-tab>
                       <v-tab-item value="userOperation">
-                        <user-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
+                        <user-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <v-tab href="#publicOperation" class="font-weight-black" @click="re_render()">
                         {{ $t('report.transactionReport.headers.publicOperation') }}
                       </v-tab>
                       <v-tab-item value="publicOperation">
-                        <public-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
+                        <public-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <v-tab href="#cardReissueOperation" class="font-weight-black" @click="re_render()">
                         {{ $t('report.transactionReport.headers.cardReissueOperation') }}
                       </v-tab>
                       <v-tab-item value="cardReissueOperation">
-                        <card-reissue-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
+                        <card-reissue-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <v-tab href="#loanRequestOperation" class="font-weight-black" @click="re_render()">
                         {{ $t('report.transactionReport.headers.loanRequestOperation') }}
                       </v-tab>
                       <v-tab-item value="loanRequestOperation">
-                        <loan-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
+                        <loan-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <v-tab href="#onlineDepositOperation" class="font-weight-black" @click="re_render()">
                         {{ $t('report.transactionReport.headers.onlineDepositOperation') }}
                       </v-tab>
                       <v-tab-item value="onlineDepositOperation">
-                        <online-deposit-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
+                        <online-deposit-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <v-tab href="#pichackOperations" class="font-weight-black" @click="re_render()">
                         {{ $t('report.transactionReport.headers.pichackOperation') }}
                       </v-tab>
                       <v-tab-item value="pichackOperations">
-                        <pichack-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />
+                        <pichack-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <!--                      <v-tab href="#bankLoanOperationList" class="font-weight-black" @click="re_render()">-->
@@ -459,13 +445,32 @@
                       <!--                      </v-tab>-->
                       <!--                      <v-tab-item value="bankLoanOperationList">-->
                       <!--                        <br>-->
-                      <!--                        <bankLoanOperationList :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" />-->
+                      <!--                        <bankLoanOperationList :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />-->
                       <!--                      </v-tab-item>-->
                     </v-tabs>
                   </v-row>
                 </v-card>
               </v-form>
             </v-container>
+
+            <v-btn
+              small
+              elevation="0"
+              color="rgb(26 31 52 / 10%)"
+              style="position: absolute;left: 30px; bottom: 18px;cursor: pointer;color: rgb(62 31 151);border-radius: 8px;height: 46px;font-weight: bold;width: 136px;font-size: 16px;"
+              @click="okOperationDialog()"
+            >
+              {{ "انتخاب عملیات" }}
+            </v-btn>
+            <v-btn
+              small
+              elevation="0"
+              color="rgb(26 31 52 / 10%)"
+              style="background-color: rgba(26, 31, 52, 0.1);border-color: rgba(26, 31, 52, 0.1);position: absolute;left: 62px;cursor: pointer;color: rgb(62, 31, 151);border-radius: 8px;height: 16px;font-weight: bold;width: 62px;font-size: 10px;top: 22px;"
+              @click="clearOperationDialog()"
+            >
+              {{ "پاک کن" }}
+            </v-btn>
           </v-card>
         </v-dialog>
 
@@ -902,6 +907,7 @@ export default {
     clearOperationDialog () {
       this.operationList = []
       this.filterOperation.transactionListFilter.operation = []
+
       localStorage.setItem('lastSelectTitleOperation', '')
       sessionStorage.setItem('listItemPreviewSelected_depositOperations', '')
       sessionStorage.setItem('listItemPreviewSelected_bankLoanOperationList', '')
@@ -912,6 +918,10 @@ export default {
       sessionStorage.setItem('listItemPreviewSelected_pichackOperations', '')
       sessionStorage.setItem('listItemPreviewSelected_publicOperations', '')
       sessionStorage.setItem('listItemPreviewSelected_userOperations', '')
+
+      const listItemPreviewSelectedFun = this.listItemPreviewSelectedFun()
+      this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(listItemPreviewSelectedFun.length - 1 + ' ' + 'مورد انتخاب شد')
+
       this.keyTab++
     },
     okOperationDialog () {
