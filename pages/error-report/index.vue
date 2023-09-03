@@ -4,6 +4,7 @@
       <!-- filter -->
       <v-col cols="12" style="padding: 8px !important;">
         <errorReportFilter v-model="searchModel" @search="search" />
+        <br>
       </v-col>
 
       <!-- grid + chart -->
