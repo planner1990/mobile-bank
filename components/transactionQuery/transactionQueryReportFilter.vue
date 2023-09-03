@@ -427,6 +427,9 @@ export default {
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
     this.errorList()
+    setTimeout(() => {
+      // this.clearOperationDialog()
+    }, 1000, this)
   },
   methods: {
     changeLableSelectOperatorRef (input) {

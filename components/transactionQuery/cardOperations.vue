@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-layout row wrap>
       <v-container>
-        <v-flex xs12 md12 class="" style="height: 400px;overflow-y: auto;">
+        <v-flex xs12 md12 class="" style="height: 500px;overflow-y: auto;">
           <v-progress-linear
             v-if="loadingTopBar"
             indeterminate

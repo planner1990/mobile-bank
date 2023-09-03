@@ -930,7 +930,11 @@ export default {
       sessionStorage.setItem('listItemPreviewSelected_userOperations', '')
 
       const listItemPreviewSelectedFun = this.listItemPreviewSelectedFun()
-      this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(listItemPreviewSelectedFun.length - 1 + ' ' + 'مورد انتخاب شد')
+      if (listItemPreviewSelectedFun.length - 1 === 0) {
+        this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef('')
+      } else {
+        this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(listItemPreviewSelectedFun.length - 1 + ' ' + 'مورد انتخاب شد')
+      }
 
       this.keyTab++
     },
