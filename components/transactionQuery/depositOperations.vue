@@ -27,13 +27,14 @@
             <v-layout row wrap>
               <v-flex v-for="(item,index) in items" :key="items[index].title" xs4>
                 <v-checkbox
+                  v-if="item.title"
                   v-model="category.selected"
                   light
                   :label="checkValueBeforeShow(item.title, item)"
                   multiple
                   style="margin: 7px 2px -1px -4px !important; padding: 1px !important;"
                   :value="item.url"
-                  @change="checked(item)"
+                  @change="checked(item, $event)"
                 />
               </v-flex>
             </v-layout>
@@ -159,16 +160,28 @@ export default {
         return seen.has(k) ? false : seen.add(k)
       })
     },
-    checked (input) {
+    checked (input, event) {
       // Remove duplicate values array
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
 
       this.initialDepositOperations(this.category.selected)
 
-      // close modal operations after click and select
-      sessionStorage.setItem('listItemPreviewSelected_depositOperations', sessionStorage.getItem('listItemPreviewSelected_depositOperations') + 'حساب' + ' -> ' + input.title + '*')
+      if (
+        event.toString().trim() !== null &&
+        event.toString().trim() !== '' &&
+        event.toString().trim() !== ' ' &&
+        event.toString().search(input.url) !== -1
+      ) {
+        // check
+        sessionStorage.setItem('listItemPreviewSelected_depositOperations', sessionStorage.getItem('listItemPreviewSelected_depositOperations') + 'حساب' + ' -> ' + input.title.trim() + '*')
+      } else {
+        // uncheck
+        const textAfterRemoveItem = sessionStorage.getItem('listItemPreviewSelected_depositOperations').replace('حساب' + ' -> ' + input.title.trim() + '*', '')
+        sessionStorage.setItem('listItemPreviewSelected_depositOperations', textAfterRemoveItem)
+      }
 
       this.$emit('refreshLabelTopBar')
+      this.$emit('changeLabelSelectOperation')
     },
     clearAllCheckBox: function () {
       this.showAllOrClear = true
@@ -177,6 +190,7 @@ export default {
 
       sessionStorage.setItem('listItemPreviewSelected_depositOperations', '')
       this.$emit('refreshLabelTopBar')
+      this.$emit('changeLabelSelectOperation')
     },
     AllCheckBox: function () {
       this.clearAllCheckBox()
@@ -192,6 +206,7 @@ export default {
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
       this.initialDepositOperations(this.category.selected)
       this.$emit('refreshLabelTopBar')
+      this.$emit('changeLabelSelectOperation')
     }
   }
 }

@@ -388,56 +388,56 @@
                         {{ $t('report.transactionReport.headers.depositOperation') }}
                       </v-tab>
                       <v-tab-item value="depositOperation">
-                        <deposit-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
+                        <deposit-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @changeLabelSelectOperation="changeLabelSelectOperation" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <v-tab href="#cardOperation" class="font-weight-black" @click="re_render()">
                         {{ $t('report.transactionReport.headers.cardOperation') }}
                       </v-tab>
                       <v-tab-item value="cardOperation">
-                        <card-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
+                        <card-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @changeLabelSelectOperation="changeLabelSelectOperation" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <v-tab href="#userOperation" class="font-weight-black" @click="re_render()">
                         {{ $t('report.transactionReport.headers.userOperation') }}
                       </v-tab>
                       <v-tab-item value="userOperation">
-                        <user-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
+                        <user-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @changeLabelSelectOperation="changeLabelSelectOperation" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <v-tab href="#publicOperation" class="font-weight-black" @click="re_render()">
                         {{ $t('report.transactionReport.headers.publicOperation') }}
                       </v-tab>
                       <v-tab-item value="publicOperation">
-                        <public-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
+                        <public-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @changeLabelSelectOperation="changeLabelSelectOperation" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <v-tab href="#cardReissueOperation" class="font-weight-black" @click="re_render()">
                         {{ $t('report.transactionReport.headers.cardReissueOperation') }}
                       </v-tab>
                       <v-tab-item value="cardReissueOperation">
-                        <card-reissue-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
+                        <card-reissue-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @changeLabelSelectOperation="changeLabelSelectOperation" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <v-tab href="#loanRequestOperation" class="font-weight-black" @click="re_render()">
                         {{ $t('report.transactionReport.headers.loanRequestOperation') }}
                       </v-tab>
                       <v-tab-item value="loanRequestOperation">
-                        <loan-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
+                        <loan-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @changeLabelSelectOperation="changeLabelSelectOperation" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <v-tab href="#onlineDepositOperation" class="font-weight-black" @click="re_render()">
                         {{ $t('report.transactionReport.headers.onlineDepositOperation') }}
                       </v-tab>
                       <v-tab-item value="onlineDepositOperation">
-                        <online-deposit-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
+                        <online-deposit-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @changeLabelSelectOperation="changeLabelSelectOperation" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <v-tab href="#pichackOperations" class="font-weight-black" @click="re_render()">
                         {{ $t('report.transactionReport.headers.pichackOperation') }}
                       </v-tab>
                       <v-tab-item value="pichackOperations">
-                        <pichack-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />
+                        <pichack-operations :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @changeLabelSelectOperation="changeLabelSelectOperation" @refreshLabelTopBar="keyTopBar++" />
                       </v-tab-item>
 
                       <!--                      <v-tab href="#bankLoanOperationList" class="font-weight-black" @click="re_render()">-->
@@ -445,7 +445,7 @@
                       <!--                      </v-tab>-->
                       <!--                      <v-tab-item value="bankLoanOperationList">-->
                       <!--                        <br>-->
-                      <!--                        <bankLoanOperationList :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @refreshLabelTopBar="keyTopBar++" />-->
+                      <!--                        <bankLoanOperationList :key="keyTab" :list-type="listType" @okOperationDialog="okOperationDialog()" @changeLabelSelectOperation="changeLabelSelectOperation" @refreshLabelTopBar="keyTopBar++" />-->
                       <!--                      </v-tab-item>-->
                     </v-tabs>
                   </v-row>
@@ -937,6 +937,10 @@ export default {
       }
 
       this.keyTab++
+    },
+    changeLabelSelectOperation () {
+      const listItemPreviewSelectedFun = this.listItemPreviewSelectedFun()
+      this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(listItemPreviewSelectedFun.length - 1 + ' ' + 'مورد انتخاب شد')
     },
     okOperationDialog () {
       const listItemPreviewSelectedFun = this.listItemPreviewSelectedFun()
