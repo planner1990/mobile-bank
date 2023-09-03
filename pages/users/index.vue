@@ -16,14 +16,14 @@
           class="fullScreen mb-16"
           :loading="loading"
           dense
-          :items-per-page.sync="pagination.rowsPerPage"
-          :page.sync="pagination.page"
-          :server-items-length="totalNumberOfItems"
           :footer-props="{
             'items-per-page-options': [20, 50, 100, 500, 1000]
           }"
-          @update:page="paginate"
-          @update:items-per-page="paginate"
+          :items-per-page.sync="searchModel.paginate.length"
+          :page.sync="searchModel.paginate.page"
+          :server-items-length="totalNumberOfItems"
+          @update:page="search (searchModel)"
+          @update:items-per-page="search (searchModel)"
         >
           <template #[`item.role`]="{ item }">
             <v-chip>{{ $t('user.roles.'+ item.role.role) }}</v-chip>
@@ -403,11 +403,6 @@ export default {
     return {
       roles: userManager.userRoles,
       isShowTitleOfEditDialog: false,
-      pagination: {
-        rowsPerPage: 10,
-        page: 1,
-        totalItems: 0
-      },
       totalNumberOfItems: 0,
       searchModel: {
         paginate: {
@@ -535,8 +530,6 @@ export default {
       this.search(this.searchModel)
     },
     search (searchModel) {
-      searchModel.page = this.pagination.page
-      searchModel.length = this.pagination.rowsPerPage
       this.loading = true
       userManager.getUserList(searchModel, this.$axios).then((response) => {
         this.users = response.data.itemList

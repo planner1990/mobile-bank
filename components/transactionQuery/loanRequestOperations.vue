@@ -10,17 +10,15 @@
           />
 
           <div v-if="items.length > 0" class="mr-6 ml-6">
-            <div style="right: 19px;position: absolute;top: 10px;width: 175px;cursor: pointer" @click="AllCheckBox()">
-              <v-icon left>
-                mdi-checkbox-marked
-              </v-icon>
-              همه
-            </div>
-            <div style="right: 79px;position: absolute;top: 10px;cursor: pointer" @click="clearAllCheckBox()">
+            <div v-if="showAllOrClear === true" style="right: 20px;position: absolute;top: 10px;width: 175px;cursor: pointer" @click="AllCheckBox()">
               <v-icon left>
                 mdi-checkbox-blank-outline
               </v-icon>
-              هیچ
+            </div>
+            <div v-if="showAllOrClear === false" style="right: 20px;position: absolute;top: 10px;cursor: pointer" @click="clearAllCheckBox()">
+              <v-icon left>
+                mdi-checkbox-marked
+              </v-icon>
             </div>
           </div>
           <p style="margin-bottom: 40px;" />
@@ -62,6 +60,7 @@ export default {
   },
   data () {
     return {
+      showAllOrClear: true,
       loadingTopBar: false,
       downloadLoading: false,
       totalNumberOfItems: 0,
@@ -180,6 +179,7 @@ export default {
       this.$emit('refreshLabelTopBar')
     },
     clearAllCheckBox: function () {
+      this.showAllOrClear = true
       this.category.selected = []
       this.initialLoanRequestOperations(this.category.selected)
 
@@ -188,6 +188,7 @@ export default {
     },
     AllCheckBox: function () {
       this.clearAllCheckBox()
+      this.showAllOrClear = false
 
       const checked = []
       this.items.forEach((i) => {

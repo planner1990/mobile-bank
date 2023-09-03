@@ -775,13 +775,11 @@ export default {
       this.loading = true
 
       this.filterOperation = searchModel
-      if (this.operationList.length > 0) {
+      if (this.operationList && this.operationList.length > 0) {
         // Remove duplicate values array
         this.operationList = this.uniqByKeepFirst(this.operationList, JSON.stringify)
-
         this.filterOperation.transactionListFilter.operation = this.operationList
       }
-
       reportManager.transactionList(this.filterOperation, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.removeAction()

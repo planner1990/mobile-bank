@@ -453,24 +453,29 @@
               </v-form>
             </v-container>
 
-            <v-btn
-              small
-              elevation="0"
-              color="rgb(26 31 52 / 10%)"
-              style="position: absolute;left: 30px; bottom: 18px;cursor: pointer;color: rgb(62 31 151);border-radius: 8px;height: 46px;font-weight: bold;width: 136px;font-size: 16px;"
-              @click="okOperationDialog()"
-            >
-              {{ "انتخاب عملیات" }}
-            </v-btn>
-            <v-btn
-              small
-              elevation="0"
-              color="rgb(26 31 52 / 10%)"
-              style="background-color: rgba(26, 31, 52, 0.1);border-color: rgba(26, 31, 52, 0.1);position: absolute;left: 62px;cursor: pointer;color: rgb(62, 31, 151);border-radius: 8px;height: 16px;font-weight: bold;width: 62px;font-size: 10px;top: 22px;"
-              @click="clearOperationDialog()"
-            >
-              {{ "پاک کن" }}
-            </v-btn>
+            <v-divider />
+
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                small
+                elevation="0"
+                color="rgb(132, 189, 0)"
+                style="left: 5px;cursor: pointer;color: #fff;border-radius: 8px;height: 46px;font-weight: bold;width: 136px;font-size: 16px;"
+                @click="okOperationDialog()"
+              >
+                {{ "انتخاب عملیات" }}
+              </v-btn>
+              <v-btn
+                small
+                elevation="0"
+                color="rgb(26 31 52 / 10%)"
+                style="background-color: rgba(26, 31, 52, 0.1);border-color: rgba(26, 31, 52, 0.1);position: absolute;left: 62px;cursor: pointer;color: rgb(62, 31, 151);border-radius: 8px;height: 16px;font-weight: bold;width: 62px;font-size: 10px;top: 22px;"
+                @click="clearOperationDialog()"
+              >
+                {{ "پاک کن" }}
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-dialog>
 
@@ -961,15 +966,11 @@ export default {
       this.loading = true
 
       this.filterOperation = searchModel
-      console.log('this.filterOperation.transactionListFilter.operation before', this.filterOperation.transactionListFilter.operation)
-      if (this.operationList.length > 0) {
+      if (this.operationList && this.operationList.length > 0) {
         // Remove duplicate values array
         this.operationList = this.uniqByKeepFirst(this.operationList, JSON.stringify)
-
         this.filterOperation.transactionListFilter.operation = this.operationList
       }
-      console.log('this.filterOperation.transactionListFilter.operation final', this.filterOperation.transactionListFilter.operation)
-
       reportManager.transactionList(this.filterOperation, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.totalNumberOfItems = response.data.filteredItem
