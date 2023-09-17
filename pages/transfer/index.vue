@@ -143,6 +143,12 @@ export default {
           align: 'center'
         },
         {
+          text: this.$t('transfer.headers.transferTypeTitle'),
+          value: 'transferTypeTitle',
+          sortable: false,
+          align: 'center'
+        },
+        {
           text: this.$t('transfer.headers.requestTime'),
           value: 'requestTime',
           sortable: false,

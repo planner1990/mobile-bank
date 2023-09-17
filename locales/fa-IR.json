@@ -1,6 +1,6 @@
 {
   "projectName": "پنل موبایل بانک",
-  "version": "نسخه 05-14020612",
+  "version": "نسخه 04-14020626",
   "company": "عصر دانش‌ افزار",
   "clearText": "پاک کن",
   "error": {
@@ -748,7 +748,8 @@
       "requestTime": "زمان انتقال",
       "amount": "مبلغ",
       "userTransferFee": "کارمزد مشتری",
-      "serviceTransferShare": "کارمزد عصردانش"
+      "serviceTransferShare": "کارمزد عصردانش",
+      "transferTypeTitle": "نوع انتقال"
     }
   }
 }
