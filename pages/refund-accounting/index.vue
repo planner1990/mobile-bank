@@ -3,7 +3,11 @@
     <v-row>
       <!-- filter -->
       <v-col cols="12" style="padding: 8px !important;">
-        <refundReportFilter v-model="searchModel" @search="search" @refund="createRefundAcceptDialog()" @confirmRefund="createRefundConfirmDialog()" />
+        <refund-accounting-filter-component
+          v-model="searchModel"
+          @search="search"
+          @search2="search2"
+        />
       </v-col>
 
       <!-- grid -->
@@ -20,9 +24,7 @@
             'items-per-page-options': [20, 50, 100, 500, 1000],
             'items-per-page-text': ' جمع مبالغ بازگشتی : '+ priceFormat(sumAmount)
           }"
-          :items-per-page.sync="searchModel.paginate.length"
           :server-items-length="totalNumberOfItems"
-          :page.sync="searchModel.paginate.page"
           @update:page="search(searchModel)"
           @update:items-per-page="search(searchModel)"
           @dblclick:row="handleDbClick"
@@ -118,9 +120,27 @@
               @click="downloadReports()"
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.0013 7.33334V11.3333M6.0013 11.3333L7.33464 10M6.0013 11.3333L4.66797 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M14.6654 6.66668V10C14.6654 13.3333 13.332 14.6667 9.9987 14.6667H5.9987C2.66536 14.6667 1.33203 13.3333 1.33203 10V6.00001C1.33203 2.66668 2.66536 1.33334 5.9987 1.33334H9.33203" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M14.6654 6.66668H11.9987C9.9987 6.66668 9.33203 6.00001 9.33203 4.00001V1.33334L14.6654 6.66668Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M6.0013 7.33334V11.3333M6.0013 11.3333L7.33464 10M6.0013 11.3333L4.66797 10"
+                  stroke="white"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.6654 6.66668V10C14.6654 13.3333 13.332 14.6667 9.9987 14.6667H5.9987C2.66536 14.6667 1.33203 13.3333 1.33203 10V6.00001C1.33203 2.66668 2.66536 1.33334 5.9987 1.33334H9.33203"
+                  stroke="white"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.6654 6.66668H11.9987C9.9987 6.66668 9.33203 6.00001 9.33203 4.00001V1.33334L14.6654 6.66668Z"
+                  stroke="white"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
 
               <span style="margin-right:5px; font-size: 16px;line-height: 16px;text-align: center;color: #FFFFFF;">
@@ -183,7 +203,10 @@
                   @click="createDialog = false"
                 >
                   <g clip-path="url(#clip0_401_143)">
-                    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+                    <path
+                      d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                      fill="black"
+                    />
                   </g>
                   <defs>
                     <clipPath id="clip0_401_143">
@@ -191,7 +214,10 @@
                     </clipPath>
                   </defs>
                 </svg>
-                <v-card-title class=" black--text font-weight-bold headline mb-2" style="border-bottom: 1px solid #D8D8D8;">
+                <v-card-title
+                  class=" black--text font-weight-bold headline mb-2"
+                  style="border-bottom: 1px solid #D8D8D8;"
+                >
                   {{ $t('user.createDialog') }}
                 </v-card-title>
 
@@ -310,7 +336,10 @@
                   @click="refundErrorDialog = false"
                 >
                   <g clip-path="url(#clip0_401_143)">
-                    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+                    <path
+                      d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                      fill="black"
+                    />
                   </g>
                   <defs>
                     <clipPath id="clip0_401_143">
@@ -318,7 +347,10 @@
                     </clipPath>
                   </defs>
                 </svg>
-                <v-card-title class=" black--text font-weight-bold headline mb-2" style="border-bottom: 1px solid #D8D8D8;">
+                <v-card-title
+                  class=" black--text font-weight-bold headline mb-2"
+                  style="border-bottom: 1px solid #D8D8D8;"
+                >
                   {{ $t('report.refundReport.refundStateTitle') }}
                 </v-card-title>
 
@@ -378,7 +410,10 @@
                   @click="refundDialog = false"
                 >
                   <g clip-path="url(#clip0_401_143)">
-                    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+                    <path
+                      d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                      fill="black"
+                    />
                   </g>
                   <defs>
                     <clipPath id="clip0_401_143">
@@ -386,7 +421,10 @@
                     </clipPath>
                   </defs>
                 </svg>
-                <v-card-title class=" black--text font-weight-bold headline mb-2" style="border-bottom: 1px solid #D8D8D8;">
+                <v-card-title
+                  class=" black--text font-weight-bold headline mb-2"
+                  style="border-bottom: 1px solid #D8D8D8;"
+                >
                   {{ $t('report.refundReport.refundStateTitle') + '*' }}
                 </v-card-title>
 
@@ -457,7 +495,10 @@
                   @click="closeTransactionDetailsDialog()"
                 >
                   <g clip-path="url(#clip0_401_143)">
-                    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+                    <path
+                      d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                      fill="black"
+                    />
                   </g>
                   <defs>
                     <clipPath id="clip0_401_143">
@@ -465,7 +506,10 @@
                     </clipPath>
                   </defs>
                 </svg>
-                <v-card-title class=" black--text font-weight-bold headline mb-2" style="border-bottom: 1px solid #D8D8D8;">
+                <v-card-title
+                  class=" black--text font-weight-bold headline mb-2"
+                  style="border-bottom: 1px solid #D8D8D8;"
+                >
                   {{ 'تایید بازگشت وجه گروهی' }}
                 </v-card-title>
 
@@ -520,7 +564,10 @@
                   @click="closeTransactionDetailsDialog()"
                 >
                   <g clip-path="url(#clip0_401_143)">
-                    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+                    <path
+                      d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                      fill="black"
+                    />
                   </g>
                   <defs>
                     <clipPath id="clip0_401_143">
@@ -528,7 +575,10 @@
                     </clipPath>
                   </defs>
                 </svg>
-                <v-card-title class=" black--text font-weight-bold headline mb-2" style="border-bottom: 1px solid #D8D8D8;">
+                <v-card-title
+                  class=" black--text font-weight-bold headline mb-2"
+                  style="border-bottom: 1px solid #D8D8D8;"
+                >
                   {{ 'بازگشت وجه گروهی' }}
                 </v-card-title>
 
@@ -570,22 +620,23 @@ import 'vue-json-pretty/lib/styles.css'
 import moment from 'moment-jalaali'
 import { mapGetters, mapMutations } from 'vuex'
 import VueJsonPretty from 'vue-json-pretty'
-import refundReportFilter from '~/components/refund-report/refundReportFilter'
 import reportManager from '~/repository/report_manager'
+import RefundAccountingFilterComponent from '~/components/refund-accountnig/refundAccountingFilter.vue'
 
 const defaultFilterdetails = {
-  refundRequest: {
-    refundStateEnum: null,
-    transactionId: null
+  dateFilter: {
+    from: null,
+    to: null
   },
-  transactionListFilter: {
-    transactionId: null
+  detailFilter: {
+    paymentServiceId: '67',
+    status: 1
   }
 }
 export default {
   name: 'RefundAccountingPage',
   components: {
-    refundReportFilter,
+    RefundAccountingFilterComponent,
     VueJsonPretty
   },
   data () {
@@ -603,38 +654,64 @@ export default {
         userObj: {}
       },
       deleteUserDialog: false,
-      searchModel: {
-        paginate: {
-          page: 1,
-          length: 50,
-          sort: {
-            property: 'id',
-            direction: 'desc'
-          }
-        }
-      },
+      searchModel: {},
       totalNumberOfItems: 0,
       filterDetails: defaultFilterdetails,
       loading: false,
       headers: [
         { text: this.$t('report.refundReport.headers.id'), value: 'id', sortable: false, align: 'right' },
-        { text: this.$t('report.refundReport.headers.transactionTime'), value: 'transactionTime', sortable: false, align: 'right' },
-        { text: this.$t('report.refundReport.headers.phoneNumber'), value: 'phoneNumber', sortable: false, align: 'right' },
+        {
+          text: this.$t('report.refundReport.headers.transactionTime'),
+          value: 'transactionTime',
+          sortable: false,
+          align: 'right'
+        },
+        {
+          text: this.$t('report.refundReport.headers.phoneNumber'),
+          value: 'phoneNumber',
+          sortable: false,
+          align: 'right'
+        },
         { text: this.$t('report.refundReport.headers.source'), value: 'source', sortable: false, align: 'right' },
-        { text: this.$t('report.refundReport.headers.transactionErrorCode'), value: 'transactionErrorCode', sortable: false, align: 'right' },
+        {
+          text: this.$t('report.refundReport.headers.transactionErrorCode'),
+          value: 'transactionErrorCode',
+          sortable: false,
+          align: 'right'
+        },
         { text: this.$t('report.refundReport.headers.amount'), value: 'amount', sortable: false, align: 'right' },
-        { text: this.$t('report.refundReport.headers.createdTime'), value: 'createdTime', sortable: false, align: 'right' },
+        {
+          text: this.$t('report.refundReport.headers.createdTime'),
+          value: 'createdTime',
+          sortable: false,
+          align: 'right'
+        },
         { text: this.$t('report.refundReport.headers.state'), value: 'state', sortable: false, align: 'right' },
         { text: this.$t('report.refundReport.headers.requestId'), value: 'requestId', sortable: false, align: 'right' },
-        { text: this.$t('report.refundReport.headers.refundOrFailTime'), value: 'refundOrFailTime', sortable: false, align: 'right' },
+        {
+          text: this.$t('report.refundReport.headers.refundOrFailTime'),
+          value: 'refundOrFailTime',
+          sortable: false,
+          align: 'right'
+        },
         { text: this.$t('report.refundReport.headers.errorCode'), value: 'errorCode', sortable: false, align: 'right' },
         { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false, align: 'center' }
       ],
       headersTransaction: [
-        { text: this.$t('report.refundReport.headers.transactionId'), value: 'transactionId', sortable: false, align: 'right' },
+        {
+          text: this.$t('report.refundReport.headers.transactionId'),
+          value: 'transactionId',
+          sortable: false,
+          align: 'right'
+        },
         { text: this.$t('report.refundReport.headers.url'), value: 'url', sortable: false, align: 'right' },
         { text: this.$t('report.refundReport.headers.ip'), value: 'ip', sortable: false, align: 'right' },
-        { text: this.$t('report.refundReport.headers.switchResponseRrn'), value: 'switchResponseRrn', sortable: false, align: 'center' }
+        {
+          text: this.$t('report.refundReport.headers.switchResponseRrn'),
+          value: 'switchResponseRrn',
+          sortable: false,
+          align: 'center'
+        }
       ],
       items: [],
       itemsTransaction: [],
@@ -645,7 +722,7 @@ export default {
   },
   head () {
     return {
-      title: 'لیست استرداد وجه' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
+      title: 'حسابداری استرداد وجه' + ' :: ' + process.env.VUE_APP_NAME + ' :: ' + this.$t('version')
     }
   },
   computed: {
@@ -733,10 +810,10 @@ export default {
       this.refundAcceptDialog = false
       this.refundConfirmationDialog = false
     },
-    createRefundAcceptDialog  (searchModel) {
+    createRefundAcceptDialog (searchModel) {
       this.refundAcceptDialog = true
     },
-    createRefundConfirmDialog  (searchModel) {
+    createRefundConfirmDialog (searchModel) {
       this.refundConfirmationDialog = true
     },
     refundList (type) {
@@ -765,10 +842,32 @@ export default {
     },
     search (searchModel) {
       this.loading = true
-      searchModel.paginate.sort.property = searchModel.refundListFilter.orderField
-      searchModel.paginate.sort.direction = searchModel.refundListFilter.orderType
-
-      reportManager.refundList(searchModel, this.$axios).then((response) => {
+      reportManager.refundAccounting(searchModel, this.$axios).then((response) => {
+        this.items = response.data.pageRefundList.itemList
+        this.sumAmount = response.data.sumAmount
+        this.totalNumberOfItems = response.data.pageRefundList.filteredItem
+        this.loading = false
+      }).catch((error) => {
+        if (error.response) {
+          this.alert({
+            color: 'orange',
+            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
+          })
+        } else {
+          this.alert({
+            color: 'orange',
+            content: 'messages.failed'
+          })
+        }
+        this.loading = false
+      })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+    search2 (searchModel) {
+      this.loading = true
+      reportManager.updateRefundAccounting(searchModel, this.$axios).then((response) => {
         this.items = response.data.pageRefundList.itemList
         this.sumAmount = response.data.sumAmount
         this.totalNumberOfItems = response.data.pageRefundList.filteredItem
@@ -952,14 +1051,17 @@ export default {
 /deep/ .vjs-tree__node .vjs-tree__indent.has-line {
   border-left: 2px dashed #bfcbd9 !important;
 }
+
 /deep/ .vjs-tree__node .vjs-tree__indent {
   -ms-flex: 0 0 2em !important;
   flex: 0 0 2em !important;
 }
+
 /deep/ .vjs-value__string {
   color: #6fb78f !important;
   line-break: anywhere !important;
 }
+
 /deep/ .vjs-value__boolean, .vjs-value__number {
   color: #0268b5 !important;
 }

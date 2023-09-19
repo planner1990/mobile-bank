@@ -13,6 +13,7 @@ async function transactionList (request, axios) {
 async function chargeList (request, axios) {
   return await axios.post('charge-report/list', request)
 }
+
 async function billList (request, axios) {
   return await axios.post('bill-report/list', request)
 }
@@ -29,6 +30,14 @@ async function refundList (request, axios) {
   return await axios.post('refund/list', request)
 }
 
+async function refundAccounting (request, axios) {
+  return await axios.post('refund/accounting/details', request)
+}
+
+async function updateRefundAccounting (request, axios) {
+  return await axios.post('refund/accounting/update', request)
+}
+
 async function transactionStatistics (request, axios) {
   return await axios.post('transaction-statistics/report', request)
 }
@@ -40,12 +49,15 @@ async function incomeList (request, axios) {
 async function transactionDetails (request, axios) {
   return await axios.post('transaction-data/info', request)
 }
+
 async function transactionDetailsQuery (request, axios) {
   return await axios.post('transaction-data/info-query', request)
 }
+
 async function transactionStatus (request, axios) {
   return await axios.post('transaction/chart-transaction-count', request)
 }
+
 async function operationList (request, axios) {
   return await axios.post('operation/groupList', request)
 }
@@ -53,6 +65,7 @@ async function operationList (request, axios) {
 async function errorCodeList (axios) {
   return await axios.get('error-report/error-list')
 }
+
 async function errorList (request, axios) {
   return await axios.post('error-report/list', request)
 }
@@ -80,12 +93,15 @@ async function downloadSmsReport (request, axios) {
 async function uploadOffer (request, axios) {
   return await axios.post('offer/upload-offer', request)
 }
+
 async function updateUploadOffer (request, axios) {
   return await axios.post('offer/update-offer', request)
 }
+
 async function deleteOffer (request, axios) {
   return await axios.post('offer/delete-offer', request)
 }
+
 async function addParams (request, axios) {
   return await axios.post('offer/add-param', request)
 }
@@ -93,9 +109,11 @@ async function addParams (request, axios) {
 async function listOffer (request, axios) {
   return await axios.post('offer/list', request)
 }
+
 async function listParam (request, axios) {
   return await axios.post('offer/parameter-list', request)
 }
+
 async function downloadRefundList (request, axios) {
   return await axios.post('export/refund-report', request, { responseType: 'blob' })
 }
@@ -119,9 +137,11 @@ async function downloadTransactionStatistics (request, axios) {
 async function downloadCustomerStatistics (request, axios) {
   return await axios.post('export/customer-statistics-report', request, { responseType: 'blob' })
 }
+
 async function downloadCustomer (request, axios) {
   return await axios.post('export/customer', request, { responseType: 'blob' })
 }
+
 async function downloadErrorReport (request, axios) {
   return await axios.post('export/error-report-list', request, { responseType: 'blob' })
 }
@@ -381,6 +401,38 @@ const refundType = [
     text: 'report.refundReport.refundType.confirmation_required'
   }
 ]
+
+const paymentServiceId = [
+  {
+    value: 35,
+    text: '35'
+  },
+  {
+    value: 66,
+    text: '66'
+  },
+  {
+    value: 67,
+    text: '67'
+  },
+  {
+    value: 68,
+    text: '68'
+  },
+  {
+    value: 69,
+    text: '69'
+  },
+  {
+    value: 70,
+    text: '70'
+  },
+  {
+    value: 71,
+    text: '71'
+  }
+]
+
 const transactionTimeType = [
   {
     value: 'requestTime',
@@ -531,6 +583,9 @@ export default {
   chargeList,
   billList,
   refundList,
+  refundAccounting,
+  updateRefundAccounting,
+  paymentServiceId,
   refund,
   refundStatusList,
   transactionStatistics,
