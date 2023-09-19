@@ -3,105 +3,62 @@ async function onlineDepositReport (request, axios) {
 }
 
 async function transactionList (request, axios) {
-  console.log('transactionLisu us call')
-  const rest = await axios.post('transaction/list', request, {
+  return await axios.post('transaction/list', request, {
     headers: {
       'Content-Type': 'application/json'
     }
   })
-  console.log(rest)
-  return rest
 }
 
 async function chargeList (request, axios) {
-  console.log('chargeList us call')
-  const rest = await axios.post('charge-report/list', request)
-  console.log(rest)
-  return rest
+  return await axios.post('charge-report/list', request)
 }
 async function billList (request, axios) {
-  console.log('billList us call')
-  const rest = await axios.post('bill-report/list', request)
-  console.log(rest)
-  return rest
+  return await axios.post('bill-report/list', request)
 }
 
 async function refund (request, axios) {
-  console.log('refund us call')
-  const rest = await axios.post('refund/refund', request)
-  console.log(rest)
-  return rest
+  return await axios.post('refund/refund', request)
 }
 
 async function refundStatusList (request, axios) {
-  console.log('refundStatus us call')
-  const rest = await axios.post('refund/refundList', request)
-  console.log(rest)
-  return rest
+  return await axios.post('refund/refundList', request)
 }
 
 async function refundList (request, axios) {
-  console.log('chargeList us call')
-  const rest = await axios.post('refund/list', request)
-  console.log(rest)
-  return rest
+  return await axios.post('refund/list', request)
 }
 
 async function transactionStatistics (request, axios) {
-  console.log('transactionLisu us call')
-  const rest = await axios.post('transaction-statistics/report', request)
-  console.log(rest)
-  return rest
+  return await axios.post('transaction-statistics/report', request)
 }
 
 async function incomeList (request, axios) {
-  console.log('income us call')
-  const rest = await axios.post('income-report/list', request)
-  console.log(rest)
-  return rest
+  return await axios.post('income-report/list', request)
 }
 
 async function transactionDetails (request, axios) {
-  console.log('transactionDetails us call')
-  const rest = await axios.post('transaction-data/info', request)
-  console.log(rest)
-  return rest
+  return await axios.post('transaction-data/info', request)
 }
 async function transactionDetailsQuery (request, axios) {
-  console.log('transactionDetails us call')
-  const rest = await axios.post('transaction-data/info-query', request)
-  console.log(rest)
-  return rest
+  return await axios.post('transaction-data/info-query', request)
 }
 async function transactionStatus (request, axios) {
-  console.log('transactionStatus us call')
-  const rest = await axios.post('transaction/chart-transaction-count', request)
-  console.log(rest)
-  return rest
+  return await axios.post('transaction/chart-transaction-count', request)
 }
 async function operationList (request, axios) {
-  console.log('transactionLisu us call')
-  const rest = await axios.post('operation/groupList', request)
-  console.log(rest)
-  return rest
+  return await axios.post('operation/groupList', request)
 }
 
 async function errorCodeList (axios) {
-  console.log('errorList us call')
-  const rest = await axios.get('error-report/error-list')
-  console.log(rest)
-  return rest
+  return await axios.get('error-report/error-list')
 }
 async function errorList (request, axios) {
-  const rest = await axios.post('error-report/list', request)
-  console.log('async function errorList', rest)
-  return rest
+  return await axios.post('error-report/list', request)
 }
 
 async function chartErrorCount (request, axios) {
-  const rest = await axios.post('error-report/chart-error-count', request)
-  console.log(rest)
-  return rest
+  return await axios.post('error-report/chart-error-count', request)
 }
 
 async function operatorActivity (request, axios) {
@@ -121,8 +78,7 @@ async function downloadSmsReport (request, axios) {
 }
 
 async function uploadOffer (request, axios) {
-  const res = await axios.post('offer/upload-offer', request)
-  return res
+  return await axios.post('offer/upload-offer', request)
 }
 async function updateUploadOffer (request, axios) {
   return await axios.post('offer/update-offer', request)
@@ -135,12 +91,10 @@ async function addParams (request, axios) {
 }
 
 async function listOffer (request, axios) {
-  const res = await axios.post('offer/list', request)
-  return res
+  return await axios.post('offer/list', request)
 }
 async function listParam (request, axios) {
-  const res = await axios.post('offer/parameter-list', request)
-  return res
+  return await axios.post('offer/parameter-list', request)
 }
 async function downloadRefundList (request, axios) {
   return await axios.post('export/refund-report', request, { responseType: 'blob' })
@@ -163,7 +117,6 @@ async function downloadTransactionStatistics (request, axios) {
 }
 
 async function downloadCustomerStatistics (request, axios) {
-  console.log('majid')
   return await axios.post('export/customer-statistics-report', request, { responseType: 'blob' })
 }
 async function downloadCustomer (request, axios) {

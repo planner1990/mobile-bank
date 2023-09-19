@@ -163,6 +163,11 @@
                   آمار استرداد وجه
                 </v-list-item-title>
               </v-list-item>
+              <v-list-item v-if="checkUserAccessForMenu('/refund-accounting', 'menu')" :to="'/refund-accounting'">
+                <v-list-item-title key="3" style="font-size: 15px;">
+                  حسابداری استرداد وجه
+                </v-list-item-title>
+              </v-list-item>
             </v-list>
           </v-menu>
         </v-btn>
@@ -421,7 +426,6 @@ export default {
       logout: 'user/logout'
     }),
     checkUserAccessForMenu: function (actionCall, type) {
-      console.log('===== checkUserAccessForMenu =====', 'role -> ', JSON.stringify(this.loggedInUser), ' permissions -> ', (this.loggedInUser && this.loggedInUser.permissions) ? JSON.stringify(this.loggedInUser.permissions) : null)
       let outcome = true
       // -----------------------
       // roles and permission -> priarity with permissions -> FULL_ACCESS
@@ -432,18 +436,15 @@ export default {
       if (type === 'menu') {
         if (this.loggedInUser && this.loggedInUser.permissions && this.loggedInUser.permissions.find(e => e.name === 'FULL_ACCESS')) {
           outcome = true
-          console.log('===== checkUserAccessForMenu ===== 1', 'outcome -> ', outcome)
         }
 
         // roles
         if (this.loggedInUser && this.loggedInUser.role && this.loggedInUser.role.role && this.loggedInUser.role.role === 'ROLE_PANEL_ADMIN') {
           // All Menu
           outcome = true
-          console.log('===== checkUserAccessForMenu ===== 2', 'outcome -> ', outcome)
         } else if (this.loggedInUser && this.loggedInUser.role && this.loggedInUser.role.role && this.loggedInUser.role.role === 'ROLE_PANEL_USER' && actionCall === '/users') {
           // don't see / user
           outcome = false
-          console.log('===== checkUserAccessForMenu ===== 3', 'outcome -> ', outcome)
         } else if (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'CREATE_USER')) {
           // don't see root patch
           if ([
@@ -459,8 +460,6 @@ export default {
           } else {
             outcome = true
           }
-
-          console.log('===== checkUserAccessForMenu ===== 4', 'outcome -> ', outcome)
         } else if (
           (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS')) ||
           (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'REPORTER_ACCESS'))
@@ -474,14 +473,13 @@ export default {
             '/customer-statistics',
             '/customer',
             '/offer',
-            '/refund-statistics'
+            '/refund-statistics',
+            '/refund-accounting'
           ].includes(actionCall)) {
             outcome = false
           } else {
             outcome = true
           }
-
-          console.log('===== checkUserAccessForMenu ===== 5', 'outcome -> ', outcome)
         } else if (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'OFFER_ACCESS')) {
           // don't see root patch
           if (![
@@ -498,30 +496,24 @@ export default {
           } else {
             outcome = true
           }
-
-          console.log('===== checkUserAccessForMenu ===== 6', 'outcome -> ', outcome)
         }
       }
 
       if (type === 'menuReport') {
         if (this.loggedInUser && this.loggedInUser.permissions && this.loggedInUser.permissions.find(e => e.name === 'FULL_ACCESS')) {
           outcome = true
-          console.log('===== checkUserAccessForMenu ===== 111', 'outcome -> ', outcome)
         }
 
         // roles
         if (this.loggedInUser && this.loggedInUser.role && this.loggedInUser.role.role && this.loggedInUser.role.role === 'ROLE_PANEL_ADMIN') {
           // All Menu
           outcome = true
-          console.log('===== checkUserAccessForMenu ===== 211', 'outcome -> ', outcome)
         } else if (this.loggedInUser && this.loggedInUser.role && this.loggedInUser.role.role && this.loggedInUser.role.role === 'ROLE_PANEL_USER') {
           // don't see / user
           outcome = true
-          console.log('===== checkUserAccessForMenu ===== 311', 'outcome -> ', outcome)
         } else if (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'CREATE_USER')) {
           // don't see all report
           outcome = false
-          console.log('===== checkUserAccessForMenu ===== 411', 'outcome -> ', outcome)
         } else if (
           (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'ACCOUNTING_ACCESS')) &&
           (this.loggedInUser && this.loggedInUser.permissions && this.currentUser.permissions.find(e => e.name === 'CREATE_USER')) &&
@@ -538,12 +530,8 @@ export default {
           } else {
             outcome = true
           }
-
-          console.log('===== checkUserAccessForMenu ===== 511', 'outcome -> ', outcome)
         }
       }
-
-      console.log('===== checkUserAccessForMenu ===== final', 'outcome -> ', outcome)
       return outcome
     },
     doLogout () {
