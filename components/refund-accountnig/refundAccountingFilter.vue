@@ -135,72 +135,72 @@
       <!-- hide part -->
       <!-- hide part -->
       <!-- hide part -->
-      <div v-if="seen" id="hide">
-        <hr>
-        <div class="main">
-          <v-row no-gutters>
-            <div class="row mt-5 mr-4 ml-7">
-              <v-row>
-                <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
-                  <v-text-field
-                    id="createFromDate"
-                    v-model="fromDate2"
-                    outlined
-                    dense
-                    :placeholder="$t('filters.fromDate')"
-                    :label="$t('filters.createTime')"
-                  />
-                  <p-date-picker
-                    v-model="fromDate2"
-                    type="datetime"
-                    element="createFromDate"
-                    color="dimgray"
-                    dense
-                    outlined
-                    popove
-                    auto-submit
-                    format="HH:mm jYYYY/jMM/jDD"
-                    @close="checkIsNullFromDate2()"
-                  />
-                </v-col>
-                <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
-                  <v-text-field
-                    id="createToDate"
-                    v-model="toDate2"
-                    outlined
-                    dense
-                    :placeholder="$t('filters.toDate')"
-                    :label="$t('filters.to')"
-                  />
-                  <p-date-picker
-                    v-model="toDate2"
-                    type="datetime"
-                    element="createToDate"
-                    color="dimgray"
-                    dense
-                    outlined
-                    popove
-                    auto-submit
-                    format="HH:mm jYYYY/jMM/jDD"
-                    @close="checkIsNullToDate2()"
-                  />
-                </v-col>
-                <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
-                  <v-btn
-                    :loading="loadingBtn"
-                    :disabled="loadingBtn"
-                    color="#84BD00"
-                    class="btnSearch"
-                    @click="search2"
-                  >
-                    {{ $t('buttons.search') }}
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </div>
-          </v-row>
-        </div>
-      </div>
+      <!--      <div v-if="seen" id="hide">-->
+      <!--        <hr>-->
+      <!--        <div class="main">-->
+      <!--          <v-row no-gutters>-->
+      <!--            <div class="row mt-5 mr-4 ml-7">-->
+      <!--              <v-row>-->
+      <!--                <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">-->
+      <!--                  <v-text-field-->
+      <!--                    id="createFromDate"-->
+      <!--                    v-model="fromDate2"-->
+      <!--                    outlined-->
+      <!--                    dense-->
+      <!--                    :placeholder="$t('filters.fromDate')"-->
+      <!--                    :label="$t('filters.createTime')"-->
+      <!--                  />-->
+      <!--                  <p-date-picker-->
+      <!--                    v-model="fromDate2"-->
+      <!--                    type="datetime"-->
+      <!--                    element="createFromDate"-->
+      <!--                    color="dimgray"-->
+      <!--                    dense-->
+      <!--                    outlined-->
+      <!--                    popove-->
+      <!--                    auto-submit-->
+      <!--                    format="HH:mm jYYYY/jMM/jDD"-->
+      <!--                    @close="checkIsNullFromDate2()"-->
+      <!--                  />-->
+      <!--                </v-col>-->
+      <!--                <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">-->
+      <!--                  <v-text-field-->
+      <!--                    id="createToDate"-->
+      <!--                    v-model="toDate2"-->
+      <!--                    outlined-->
+      <!--                    dense-->
+      <!--                    :placeholder="$t('filters.toDate')"-->
+      <!--                    :label="$t('filters.to')"-->
+      <!--                  />-->
+      <!--                  <p-date-picker-->
+      <!--                    v-model="toDate2"-->
+      <!--                    type="datetime"-->
+      <!--                    element="createToDate"-->
+      <!--                    color="dimgray"-->
+      <!--                    dense-->
+      <!--                    outlined-->
+      <!--                    popove-->
+      <!--                    auto-submit-->
+      <!--                    format="HH:mm jYYYY/jMM/jDD"-->
+      <!--                    @close="checkIsNullToDate2()"-->
+      <!--                  />-->
+      <!--                </v-col>-->
+      <!--                <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">-->
+      <!--                  <v-btn-->
+      <!--                    :loading="loadingBtn"-->
+      <!--                    :disabled="loadingBtn"-->
+      <!--                    color="#84BD00"-->
+      <!--                    class="btnSearch"-->
+      <!--                    @click="search2"-->
+      <!--                  >-->
+      <!--                    {{ $t('buttons.search') }}-->
+      <!--                  </v-btn>-->
+      <!--                </v-col>-->
+      <!--              </v-row>-->
+      <!--            </div>-->
+      <!--          </v-row>-->
+      <!--        </div>-->
+      <!--      </div>-->
     </v-container>
   </v-card>
 </template>
@@ -222,12 +222,6 @@ const defaultFilter = {
   }
 }
 
-const defaultFilterSecond = {
-  dateFilter: {
-    from: null,
-    to: null
-  }
-}
 export default {
   name: 'RefundAccountingFilterComponent',
   components: {
@@ -243,12 +237,9 @@ export default {
       downloadLoading: false,
       fromDate: this.currentDayFrom(),
       toDate: this.currentDayTo(),
-      fromDate2: this.currentDayFrom(),
-      toDate2: this.currentDayTo(),
       menu2: false,
       modal2: false,
       filter: defaultFilter,
-      filter2: defaultFilterSecond,
       status: reportManager.status,
       refundType: reportManager.refundType,
       paymentServiceId: reportManager.paymentServiceId,
@@ -261,12 +252,9 @@ export default {
     })
   },
   mounted: function () {
-    // defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-    // defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
-    // this.filter = Object.assign(this.value, defaultFilter)
-    // defaultFilterSecond.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate2)
-    // defaultFilterSecond.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate2)
-    // this.filter2 = Object.assign(this.value, defaultFilterSecond)
+    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    this.filter = Object.assign(this.value, defaultFilter)
   },
   methods: {
     ...mapMutations({
@@ -285,20 +273,10 @@ export default {
       }
     },
     search () {
-      this.$props.value = Object({})
       defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
       defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
       this.filter = Object.assign(this.value, defaultFilter)
       this.$emit('search', this.filter)
-      this.loadingBtn = true
-      setTimeout(() => (this.loadingBtn = false), 3000)
-    },
-    search2 () {
-      this.$props.value = Object({})
-      defaultFilterSecond.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate2)
-      defaultFilterSecond.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate2)
-      this.filter2 = Object.assign(this.value, defaultFilterSecond)
-      this.$emit('search2', this.filter2)
       this.loadingBtn = true
       setTimeout(() => (this.loadingBtn = false), 3000)
     },

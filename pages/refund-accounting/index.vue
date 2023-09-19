@@ -6,7 +6,6 @@
         <refund-accounting-filter-component
           v-model="searchModel"
           @search="search"
-          @search2="search2"
         />
       </v-col>
 
@@ -14,8 +13,6 @@
       <v-col cols="12" style="padding: 8px !important;">
         <v-data-table
           dense
-          item-key="cardOwnerId"
-          sort-by="cardOwnerId"
           :items="items"
           :headers="headers"
           class="fullScreen mb-16"
@@ -24,89 +21,24 @@
             'items-per-page-options': [20, 50, 100, 500, 1000],
             'items-per-page-text': ' جمع مبالغ بازگشتی : '+ priceFormat(sumAmount)
           }"
-          :server-items-length="totalNumberOfItems"
           @update:page="search(searchModel)"
           @update:items-per-page="search(searchModel)"
           @dblclick:row="handleDbClick"
         >
-          <template #[`item.transactionTime`]="{ item }">
-            {{ convertToJalali(item.transactionTime) }}
-          </template>
-
-          <template #[`item.createdTime`]="{ item }">
-            {{ convertToJalali(item.createdTime) }}
-          </template>
-
-          <template #[`item.refundOrFailTime`]="{ item }">
-            {{ convertToJalali(item.refundOrFailTime) }}
-          </template>
-
-          <template #[`item.state`]="{ item }">
-            {{ $t('report.refundReport.refundTypeNum.' + item.state) }}
-          </template>
-
-          <template #[`item.url`]="{ item }">
-            {{ $t('report.refundReport.refundUrlType.' + item.url) }}
+          <template #[`item.date`]="{ item }">
+            {{ convertToJalali(item.date) }}
           </template>
 
           <template #[`item.amount`]="{ item }">
             {{ priceFormat(item.amount) }}
           </template>
 
-          <template #item.errorCode="{ item }">
-            <template v-if="item.errorCode !== null">
-              <v-chip
-                :color="getColor(item.errorCode)"
-                label
-                class="v-chip.v-size--default justify-center"
-              >
-                {{ item.errorCode }}
-              </v-chip>
-            </template>
+          <template #[`item.number`]="{ item }">
+            {{ item.number }}
           </template>
 
-          <!-- state -->
-          <template #item.state="{ item }" class="justify-center">
-            <template v-if="item.state !== null" class="justify-center">
-              <v-chip
-                :color="getColorState(item.state)"
-                class="justify-center"
-              >
-                {{ $t('report.refundReport.refundTypeNum.' + item.state) }}
-              </v-chip>
-            </template>
-          </template>
-
-          <template #[`item.refundOrFailTime`]="{ item }">
-            <div v-if="item.refundOrFailTime">
-              {{ item.refundOrFailTime }}
-            </div>
-            <div v-else style="color: #f1b0b094">
-              {{ '-' }}
-            </div>
-          </template>
-          <template #[`item.errorCode`]="{ item }">
-            <div v-if="item.errorCode">
-              {{ item.errorCode }}
-            </div>
-            <div v-else style="color: #f1b0b094">
-              {{ '-' }}
-            </div>
-          </template>
-
-          <!-- details -->
-          <!-- details -->
-          <!-- details -->
-          <template #[`item.detail`]="{ item }">
-            <v-btn
-              small
-              elevation="0"
-              style="color: #84BD00;border-radius: 8px;height: 36px;font-weight: bold;width: 80px;"
-              color="rgba(132, 189, 0, 0.1)"
-              @click="editItem(item)"
-            >
-              {{ $t('global.review') }}
-            </v-btn>
+          <template #[`item.paymentServiceId`]="{ item }">
+            {{ item.paymentServiceId }}
           </template>
 
           <!-- Add btn to Footer page -->
@@ -659,43 +591,10 @@ export default {
       filterDetails: defaultFilterdetails,
       loading: false,
       headers: [
-        { text: this.$t('report.refundReport.headers.id'), value: 'id', sortable: false, align: 'right' },
-        {
-          text: this.$t('report.refundReport.headers.transactionTime'),
-          value: 'transactionTime',
-          sortable: false,
-          align: 'right'
-        },
-        {
-          text: this.$t('report.refundReport.headers.phoneNumber'),
-          value: 'phoneNumber',
-          sortable: false,
-          align: 'right'
-        },
-        { text: this.$t('report.refundReport.headers.source'), value: 'source', sortable: false, align: 'right' },
-        {
-          text: this.$t('report.refundReport.headers.transactionErrorCode'),
-          value: 'transactionErrorCode',
-          sortable: false,
-          align: 'right'
-        },
-        { text: this.$t('report.refundReport.headers.amount'), value: 'amount', sortable: false, align: 'right' },
-        {
-          text: this.$t('report.refundReport.headers.createdTime'),
-          value: 'createdTime',
-          sortable: false,
-          align: 'right'
-        },
-        { text: this.$t('report.refundReport.headers.state'), value: 'state', sortable: false, align: 'right' },
-        { text: this.$t('report.refundReport.headers.requestId'), value: 'requestId', sortable: false, align: 'right' },
-        {
-          text: this.$t('report.refundReport.headers.refundOrFailTime'),
-          value: 'refundOrFailTime',
-          sortable: false,
-          align: 'right'
-        },
-        { text: this.$t('report.refundReport.headers.errorCode'), value: 'errorCode', sortable: false, align: 'right' },
-        { text: this.$t('report.transactionReport.headers.detail'), value: 'detail', sortable: false, align: 'center' }
+        { text: this.$t('report.transactionReport.headers.amount'), value: 'amount', sortable: false, align: 'center' },
+        { text: this.$t('report.transactionReport.headers.date'), value: 'date', sortable: false, align: 'center' },
+        { text: this.$t('report.transactionReport.headers.number'), value: 'number', sortable: false, align: 'center' },
+        { text: this.$t('report.transactionReport.headers.paymentServiceId'), value: 'paymentServiceId', sortable: false, align: 'center' }
       ],
       headersTransaction: [
         {
@@ -843,34 +742,9 @@ export default {
     search (searchModel) {
       this.loading = true
       reportManager.refundAccounting(searchModel, this.$axios).then((response) => {
-        this.items = response.data.pageRefundList.itemList
-        this.sumAmount = response.data.sumAmount
-        this.totalNumberOfItems = response.data.pageRefundList.filteredItem
-        this.loading = false
-      }).catch((error) => {
-        if (error.response) {
-          this.alert({
-            color: 'orange',
-            content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
-          })
-        } else {
-          this.alert({
-            color: 'orange',
-            content: 'messages.failed'
-          })
-        }
-        this.loading = false
-      })
-        .finally(() => {
-          this.loading = false
-        })
-    },
-    search2 (searchModel) {
-      this.loading = true
-      reportManager.updateRefundAccounting(searchModel, this.$axios).then((response) => {
-        this.items = response.data.pageRefundList.itemList
-        this.sumAmount = response.data.sumAmount
-        this.totalNumberOfItems = response.data.pageRefundList.filteredItem
+        this.items = response.data.refundAccountingDetails
+        // this.sumAmount = response.data.sumAmount
+        // this.totalNumberOfItems = response.data.pageRefundList.filteredItem
         this.loading = false
       }).catch((error) => {
         if (error.response) {

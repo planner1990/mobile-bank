@@ -102,7 +102,10 @@
         "loanPanelOperation": "پنل وام",
         "onlineDepositOperation": "افتتاح حساب",
         "bankLoanOperationList": "بانک loan",
-        "pichackOperation": "پیچک"
+        "pichackOperation": "پیچک",
+        "date": "تاریخ",
+        "number": "تعداد",
+        "paymentServiceId": "پذیرنده"
       },
       "status": {
         "successful": "موفق",
