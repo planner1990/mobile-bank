@@ -26,7 +26,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="HH:mm jYYYY/jMM/jDD"
+                  format="jYYYY-jMM-jDD HH:mm"
                   @close="checkIsNullFromDate()"
                 />
               </v-col>
@@ -48,7 +48,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="HH:mm jYYYY/jMM/jDD"
+                  format="jYYYY-jMM-jDD HH:mm"
                   @close="checkIsNullToDate()"
                 />
               </v-col>
@@ -161,7 +161,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="HH:mm jYYYY/jMM/jDD"
+                  format="jYYYY-jMM-jDD HH:mm"
                   @close="checkIsNullTransactionFromDate()"
                 />
               </v-col>
@@ -183,7 +183,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="HH:mm jYYYY/jMM/jDD"
+                  format="jYYYY-jMM-jDD HH:mm"
                   @close="checkIsNullTransactionToDate()"
                 />
               </v-col>
@@ -245,7 +245,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="HH:mm jYYYY/jMM/jDD"
+                  format="jYYYY-jMM-jDD HH:mm"
                   @close="checkIsNullRefundFromDate()"
                 />
               </v-col>
@@ -267,7 +267,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="HH:mm jYYYY/jMM/jDD"
+                  format="jYYYY-jMM-jDD HH:mm"
                   @close="checkIsNullRefundToDate()"
                 />
               </v-col>
@@ -297,7 +297,10 @@
               </v-col>
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="margin-top: -40px;" />
               <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="margin-top: -40px;" />
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px">
+              <v-col
+                class="col-12 col-sm-6 col-md-2 col-lg-2"
+                style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px"
+              >
                 <v-btn
                   :loading="loadingBtn"
                   :disabled="loadingBtn"
@@ -316,9 +319,9 @@
   </v-card>
 </template>
 
-          <!-- تایید بازگشت وجه گروهی btn -->
-          <!-- تایید بازگشت وجه گروهی btn -->
-          <!-- تایید بازگشت وجه گروهی btn -->
+<!-- تایید بازگشت وجه گروهی btn -->
+<!-- تایید بازگشت وجه گروهی btn -->
+<!-- تایید بازگشت وجه گروهی btn -->
 <!--          <v-btn-->
 <!--            v-if="checkUserPermissionForShowBtn()"-->
 <!--            style="float: left"-->
@@ -331,9 +334,9 @@
 <!--            {{ $t('report.refundReport.refundList') }}-->
 <!--          </v-btn>-->
 
-          <!-- btn بازگشت وجه گروهی -->
-          <!-- btn بازگشت وجه گروهی -->
-          <!-- btn بازگشت وجه گروهی -->
+<!-- btn بازگشت وجه گروهی -->
+<!-- btn بازگشت وجه گروهی -->
+<!-- btn بازگشت وجه گروهی -->
 <!--          <v-btn-->
 <!--            v-if="checkUserPermissionForShowBtn()"-->
 <!--            color="warning"-->
@@ -428,12 +431,12 @@ export default {
     })
   },
   mounted: function () {
-    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
-    defaultFilter.refundListFilter.transactionFromDate = this.convertJalaliDateToTimestamp(this.transactionFromDate)
-    defaultFilter.refundListFilter.transactionToDate = this.convertJalaliDateToTimestamp(this.transactionToDate)
-    defaultFilter.refundListFilter.refundFromDate = this.convertJalaliDateToTimestamp(this.refundFromDate)
-    defaultFilter.refundListFilter.refundToDate = this.convertJalaliDateToTimestamp(this.refundToDate)
+    defaultFilter.dateFilter.from = this.fromDate
+    defaultFilter.dateFilter.to = this.toDate
+    defaultFilter.refundListFilter.transactionFromDate = this.transactionFromDate
+    defaultFilter.refundListFilter.transactionToDate = this.transactionToDate
+    defaultFilter.refundListFilter.refundFromDate = this.refundFromDate
+    defaultFilter.refundListFilter.refundToDate = this.refundToDate
     this.filter = Object.assign(this.value, defaultFilter)
   },
   methods: {
@@ -442,23 +445,13 @@ export default {
     }),
     // permission
     checkUserPermissionForShowBtn () {
-      console.log('*** checkUserPermissionForShowBtn 1 ***',
-        this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS'),
-        this.currentUser.permissions.find(e => e.name === 'CONFIRM_REFUND'),
-        this.currentUser.permissions.length === 0,
-        this.currentUser.role.role === 'ROLE_PANEL_ADMIN',
-        (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')
-      )
-
       if (this.currentUser.permissions.find(e => e.name === 'FULL_ACCESS') !== undefined ||
         this.currentUser.permissions.find(e => e.name === 'CONFIRM_REFUND') !== undefined ||
         (this.currentUser.permissions.length === 0 && this.currentUser.role.role === 'ROLE_PANEL_ADMIN')
       ) {
         // نمایش داده شود
-        console.log('*** checkUserPermissionForShowBtn 2 ***', 'true')
         return true
       } else {
-        console.log('*** checkUserPermissionForShowBtn 3 ***', 'false')
         return false
       }
     },
@@ -481,32 +474,32 @@ export default {
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+        this.filter.dateFilter.from = this.fromDate
       }
     },
     checkIsNullToDate () {
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+        this.filter.dateFilter.to = this.toDate
       }
     },
     checkIsNullTransactionFromDate () {
-      if (this.fromDate != null) {
-        this.filter.refundListFilter.transactionFromDate = this.convertJalaliDateToTimestamp(this.fromDate)
+      if (this.transactionFromDate != null) {
+        this.filter.refundListFilter.transactionFromDate = this.transactionFromDate
       }
     },
     checkIsNullTransactionToDate () {
-      if (this.toDate != null) {
-        this.filter.refundListFilter.transactionToDate = this.convertJalaliDateToTimestamp(this.toDate)
+      if (this.transactionToDate != null) {
+        this.filter.refundListFilter.transactionToDate = this.transactionToDate
       }
     },
     checkIsNullRefundFromDate () {
-      if (this.fromDate != null) {
-        this.filter.refundListFilter.refundFromDate = this.convertJalaliDateToTimestamp(this.fromDate)
+      if (this.refundFromDate != null) {
+        this.filter.refundListFilter.refundFromDate = this.refundFromDate
       }
     },
     checkIsNullRefundToDate () {
-      if (this.toDate != null) {
-        this.filter.refundListFilter.refundToDate = this.convertJalaliDateToTimestamp(this.toDate)
+      if (this.refundToDate != null) {
+        this.filter.refundListFilter.refundToDate = this.refundToDate
       }
     },
 
@@ -514,32 +507,13 @@ export default {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-
-      // const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
-      // const d = new Date(gmtDate)
-      // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
-      return '00:00 ' + year + '/' + month + '/' + day
+      return year + '-' + month + '-' + day + ' ' + '00:00'
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-
-      // const gmtDate = Date.UTC(year, month - 1, day, 23, 59, 0)
-      // const d = new Date(gmtDate)
-      // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
-
-      return '23:59 ' + year + '/' + month + '/' + day
-    },
-    convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'HH:mm jYYYY/jMM/jDD').format('YYYY')
-      const month = moment(date, 'HH:mm jYYYY/jMM/jDD').format('MM')
-      const day = moment(date, 'HH:mm jYYYY/jMM/jDD').format('DD')
-      const hour = moment(date, 'HH:mm jYYYY/jMM/jDD').format('HH')
-      const minute = moment(date, 'HH:mm jYYYY/jMM/jDD').format('mm')
-      const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
-      const d = new Date(gmtDate)
-      return d.getTime() + (d.getTimezoneOffset() * 60000)
+      return year + '-' + month + '-' + day + ' ' + '23:59'
     }
   }
 }

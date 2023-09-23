@@ -25,7 +25,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="HH:mm jYYYY/jMM/jDD"
+                  format="jYYYY-jMM-jDD HH:mm"
                   @close="checkIsNullFromDate()"
                 />
               </v-col>
@@ -46,7 +46,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="HH:mm jYYYY/jMM/jDD"
+                  format="jYYYY-jMM-jDD HH:mm"
                   @close="checkIsNullToDate()"
                 />
               </v-col>
@@ -104,8 +104,8 @@ export default {
     }
   },
   mounted: function () {
-    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    defaultFilter.dateFilter.from = this.fromDate
+    defaultFilter.dateFilter.to = this.toDate
     this.filter = Object.assign(this.value, defaultFilter)
   },
   methods: {
@@ -120,36 +120,25 @@ export default {
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+        this.filter.dateFilter.from = this.fromDate
       }
     },
     checkIsNullToDate () {
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+        this.filter.dateFilter.to = this.toDate
       }
     },
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return '00:00 ' + year + '/' + month + '/' + day
+      return year + '-' + month + '-' + day + ' ' + '00:00'
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return '23:59 ' + year + '/' + month + '/' + day
-    },
-    convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'HH:mm jYYYY/jMM/jDD').format('YYYY')
-      const month = moment(date, 'HH:mm jYYYY/jMM/jDD').format('MM')
-      const day = moment(date, 'HH:mm jYYYY/jMM/jDD').format('DD')
-      const hour = moment(date, 'HH:mm jYYYY/jMM/jDD').format('HH')
-      const minute = moment(date, 'HH:mm jYYYY/jMM/jDD').format('mm')
-      const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
-      const d = new Date(gmtDate)
-      // console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
-      return d.getTime() + (d.getTimezoneOffset() * 60000)
+      return year + '-' + month + '-' + day + ' ' + '23:59'
     }
   }
 }

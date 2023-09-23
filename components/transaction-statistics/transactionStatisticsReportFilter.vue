@@ -15,8 +15,7 @@
                   outlined
                   dense
                   :placeholder="$t('filters.fromDate')"
-                  format="jYYYY/jMM/jDD"
-                  input-format="jYYYY/jMM/jDD"
+                  input-format="jYYYY-jMM-jDD"
                 />
                 <p-date-picker
                   v-model="fromDate"
@@ -26,6 +25,7 @@
                   outlined
                   popove
                   auto-submit
+                  format="jYYYY-jMM-jDD HH:mm"
                   @close="checkIsNull()"
                 />
               </v-col>
@@ -47,6 +47,7 @@
                   outlined
                   popove
                   auto-submit
+                  format="jYYYY-jMM-jDD HH:mm"
                   @close="checkIsNull()"
                 />
               </v-col>
@@ -139,8 +140,8 @@ export default {
     }
   },
   mounted: function () {
-    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    defaultFilter.dateFilter.from = this.fromDate
+    defaultFilter.dateFilter.to = this.toDate
     this.filter = Object.assign(this.value, defaultFilter)
   },
   methods: {
@@ -152,10 +153,10 @@ export default {
     },
     checkIsNull () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+        this.filter.dateFilter.from = this.fromDate
       }
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, 23, 59, 59)
+        this.filter.dateFilter.to = this.toDate
       }
     },
     downloadReports () {
@@ -194,14 +195,13 @@ export default {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '/' + month + '/' + day
+      return year + '-' + month + '-' + day + ' ' + '00:00'
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-
-      return year + '/' + month + '/' + day
+      return year + '-' + month + '-' + day + ' ' + '23:59'
     }
   }
 }

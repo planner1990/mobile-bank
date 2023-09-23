@@ -8,28 +8,7 @@
         <v-row style="margin-top: -5px;">
           <div class="row mt-2 mr-4 ml-7">
             <v-row>
-              <v-col class="col-12 col-sm-6 col-md-1 col-lg-1">
-                <v-text-field
-                  id="createFromTime"
-                  v-model="fromTime"
-                  outlined
-                  dense
-                  :placeholder="$t('filters.fromTime')"
-                />
-                <p-date-picker
-                  v-model="fromTime"
-                  type="time"
-                  element="createFromTime"
-                  color="dimgray"
-                  dense
-                  outlined
-                  popove
-                  auto-submit
-                  format="HH:mm"
-                  @close="checkIsNullFromTime()"
-                />
-              </v-col>
-              <v-col class="col-12 col-sm-6 col-md-1 col-lg-1" style="padding-right: 0;">
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-text-field
                   id="createFromDate"
                   v-model="fromDate"
@@ -39,39 +18,18 @@
                 />
                 <p-date-picker
                   v-model="fromDate"
-                  type="date"
+                  type="datetime"
                   element="createFromDate"
                   color="dimgray"
                   dense
                   outlined
                   popove
                   auto-submit
-                  format="jYYYY/jMM/jDD"
+                  format="jYYYY-jMM-jDD HH:mm"
                   @close="checkIsNullFromDate()"
                 />
               </v-col>
-              <v-col class="col-12 col-sm-6 col-md-1 col-lg-1">
-                <v-text-field
-                  id="createToTime"
-                  v-model="toTime"
-                  outlined
-                  dense
-                  :placeholder="$t('filters.toTime')"
-                />
-                <p-date-picker
-                  v-model="toTime"
-                  type="time"
-                  element="createToTime"
-                  color="dimgray"
-                  dense
-                  outlined
-                  popove
-                  auto-submit
-                  format="HH:mm"
-                  @close="checkIsNullToTime()"
-                />
-              </v-col>
-              <v-col class="col-12 col-sm-6 col-md-1 col-lg-1" style="padding-right: 0;">
+              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2">
                 <v-text-field
                   id="createToDate"
                   v-model="toDate"
@@ -81,14 +39,14 @@
                 />
                 <p-date-picker
                   v-model="toDate"
-                  type="date"
+                  type="datetime"
                   element="createToDate"
                   color="dimgray"
                   dense
                   outlined
                   popove
                   auto-submit
-                  format="jYYYY/jMM/jDD"
+                  format="jYYYY-jMM-jDD HH:mm"
                   @close="checkIsNullToDate()"
                 />
               </v-col>
@@ -285,12 +243,30 @@
                   </template>
                 </v-select>
               </v-col>
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px" />
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px" />
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px" />
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px" />
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px" />
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px">
+              <v-col
+                class="col-12 col-sm-6 col-md-2 col-lg-2"
+                style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px"
+              />
+              <v-col
+                class="col-12 col-sm-6 col-md-2 col-lg-2"
+                style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px"
+              />
+              <v-col
+                class="col-12 col-sm-6 col-md-2 col-lg-2"
+                style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px"
+              />
+              <v-col
+                class="col-12 col-sm-6 col-md-2 col-lg-2"
+                style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px"
+              />
+              <v-col
+                class="col-12 col-sm-6 col-md-2 col-lg-2"
+                style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px"
+              />
+              <v-col
+                class="col-12 col-sm-6 col-md-2 col-lg-2"
+                style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px"
+              >
                 <v-btn
                   :loading="loadingBtn"
                   :disabled="loadingBtn"
@@ -333,9 +309,9 @@ const defaultFilter = {
   },
   dateFilter: {
     from: null,
-    to: null,
-    fromTime: null,
-    toTime: null
+    to: null
+    // fromTime: null,
+    // toTime: null
   },
   paginate: {
     page: 1,
@@ -384,8 +360,8 @@ export default {
     }
   },
   mounted: function () {
-    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate, this.fromTime)
-    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, this.toTime)
+    defaultFilter.dateFilter.from = this.fromDate
+    defaultFilter.dateFilter.to = this.toDate
     defaultFilter.transactionListFilter.typeList = 'LIST'
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
@@ -396,7 +372,6 @@ export default {
   },
   methods: {
     changeLableSelectOperatorRef (input) {
-      console.log('*** components/transactionReport/transactionReportFilter.vue changeLableSelectOperatorRef', input)
       this.lableSelectOperatorRef = input
     },
     search () {
@@ -465,13 +440,11 @@ export default {
         this.items = operationLastList.concat(operationCardList, operationUserList, operationSettingList, operationPublicList)
       }).catch((error) => {
         if (error.response) {
-          console.log(error.response)
           this.alert({
             color: 'orange',
             content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
           })
         } else {
-          console.log('error.response is null')
           this.alert({
             color: 'orange',
             content: 'messages.failed'
@@ -483,20 +456,16 @@ export default {
     errorList () {
       this.loading = true
       reportManager.errorCodeList(this.$axios).then((response) => {
-        console.log(response)
         const errorList = response.data
         errorList.push(200)
         this.errorItems = errorList
-        console.log(errorList)
       }).catch((error) => {
         if (error.response) {
-          console.log(error.response)
           this.alert({
             color: 'orange',
             content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
           })
         } else {
-          console.log('error.response is null')
           this.alert({
             color: 'orange',
             content: 'messages.failed'
@@ -507,26 +476,12 @@ export default {
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
-        console.log('this.fromTime')
-        console.log(this.fromTime)
-        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate, this.fromTime)
-      }
-    },
-    checkIsNullFromTime () {
-      if (this.fromDate != null) {
-        console.log('this.fromTime')
-        console.log(this.fromTime)
-        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate, this.fromTime)
+        this.filter.dateFilter.from = this.fromDate
       }
     },
     checkIsNullToDate () {
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, this.toTime)
-      }
-    },
-    checkIsNullToTime () {
-      if (this.toDate != null) {
-        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, this.toTime)
+        this.filter.dateFilter.to = this.toDate
       }
     },
     currentTimeFrom: function () {
@@ -536,11 +491,7 @@ export default {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-
-      // const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
-      // const d = new Date(gmtDate)
-      // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
-      return year + '/' + month + '/' + day
+      return year + '-' + month + '-' + day + ' ' + this.currentTimeFrom()
     },
     currentTimeTo: function () {
       return '23:59'
@@ -549,23 +500,7 @@ export default {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-
-      // const gmtDate = Date.UTC(year, month - 1, day, 23, 59, 0)
-      // const d = new Date(gmtDate)
-      // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
-
-      return year + '/' + month + '/' + day
-    },
-    convertJalaliDateToTimestamp (date, time) {
-      const year = moment(date, 'jYYYY/jMM/jDD').format('YYYY')
-      const month = moment(date, 'jYYYY/jMM/jDD').format('MM')
-      const day = moment(date, 'jYYYY/jMM/jDD').format('DD')
-      const hour = moment(time, 'HH:mm').format('HH')
-      const minute = moment(time, 'HH:mm').format('mm')
-      const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
-      const d = new Date(gmtDate)
-      console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
-      return d.getTime() + (d.getTimezoneOffset() * 60000)
+      return year + '-' + month + '-' + day + ' ' + this.currentTimeTo()
     }
   }
 }

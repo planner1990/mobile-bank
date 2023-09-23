@@ -15,8 +15,6 @@
                   outlined
                   dense
                   :placeholder="$t('filters.fromDate')"
-                  format="jYYYY/jMM/jDD"
-                  input-format="jYYYY/jMM/jDD"
                 />
                 <p-date-picker
                   v-model="fromDate"
@@ -26,6 +24,7 @@
                   outlined
                   popove
                   auto-submit
+                  format="jYYYY-jMM-jDD"
                   @close="checkIsNull()"
                 />
               </v-col>
@@ -36,8 +35,6 @@
                   outlined
                   dense
                   :placeholder="$t('filters.toDate')"
-                  format="jYYYY/jMM/jDD"
-                  input-format="jYYYY/jMM/jDD"
                 />
                 <p-date-picker
                   v-model="toDate"
@@ -47,6 +44,7 @@
                   outlined
                   popove
                   auto-submit
+                  format="jYYYY-jMM-jDD"
                   @close="checkIsNull()"
                 />
               </v-col>
@@ -210,8 +208,8 @@ export default {
     }
   },
   mounted: function () {
-    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    defaultFilter.dateFilter.from = this.fromDate
+    defaultFilter.dateFilter.to = this.toDate
     this.filter = Object.assign(this.value, defaultFilter)
     this.operation()
     this.errorList()
@@ -286,40 +284,33 @@ export default {
     },
     checkIsNull () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+        this.filter.dateFilter.from = this.fromDate + ' ' + '00:00'
       }
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+        this.filter.dateFilter.to = this.toDate + ' ' + '23:59'
       }
-    },
-    convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'jYYYY/jM/jD').format('YYYY')
-      const month = moment(date, 'jYYYY/jM/jD').format('MM')
-      const day = moment(date, 'jYYYY/jM/jD').format('DD')
-      const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
-      const d = new Date(gmtDate)
-      return d.getTime() + (d.getTimezoneOffset() * 60000)
     },
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '/' + month + '/' + day
+      return year + '-' + month + '-' + day
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '/' + month + '/' + day
+      return year + '-' + month + '-' + day
     },
     yesterdayDayFrom: function () {
       const today = new Date()
-      const yesterday = new Date(); yesterday.setDate(today.getDate() - 14)
+      const yesterday = new Date()
+      yesterday.setDate(today.getDate() - 14)
 
       const year = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '/' + month + '/' + day
+      return year + '-' + month + '-' + day
     }
   }
 }

@@ -26,7 +26,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="HH:mm jYYYY/jMM/jDD"
+                  format="jYYYY-jMM-jDD HH:mm"
                   @close="checkIsNullFromDate()"
                 />
               </v-col>
@@ -48,7 +48,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="HH:mm jYYYY/jMM/jDD"
+                  format="jYYYY-jMM-jDD HH:mm"
                   @close="checkIsNullToDate()"
                 />
               </v-col>
@@ -252,8 +252,8 @@ export default {
     })
   },
   mounted: function () {
-    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    defaultFilter.dateFilter.from = this.fromDate
+    defaultFilter.dateFilter.to = this.toDate
     this.filter = Object.assign(this.value, defaultFilter)
   },
   methods: {
@@ -273,8 +273,8 @@ export default {
       }
     },
     search () {
-      defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-      defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+      defaultFilter.dateFilter.from = this.fromDate
+      defaultFilter.dateFilter.to = this.toDate
       this.filter = Object.assign(this.value, defaultFilter)
       this.$emit('search', this.filter)
       this.loadingBtn = true
@@ -293,56 +293,25 @@ export default {
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+        this.filter.dateFilter.from = this.fromDate
       }
     },
     checkIsNullToDate () {
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+        this.filter.dateFilter.to = this.toDate
       }
     },
-
-    checkIsNullFromDate2 () {
-      if (this.fromDate2 != null) {
-        this.filter2.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-      }
-    },
-    checkIsNullToDate2 () {
-      if (this.toDate2 != null) {
-        this.filter2.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
-      }
-    },
-
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-
-      // const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
-      // const d = new Date(gmtDate)
-      // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
-      return '00:00 ' + year + '/' + month + '/' + day
+      return year + '-' + month + '-' + day + ' ' + '00:00'
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-
-      // const gmtDate = Date.UTC(year, month - 1, day, 23, 59, 0)
-      // const d = new Date(gmtDate)
-      // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
-
-      return '23:59 ' + year + '/' + month + '/' + day
-    },
-    convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'HH:mm jYYYY/jMM/jDD').format('YYYY')
-      const month = moment(date, 'HH:mm jYYYY/jMM/jDD').format('MM')
-      const day = moment(date, 'HH:mm jYYYY/jMM/jDD').format('DD')
-      const hour = moment(date, 'HH:mm jYYYY/jMM/jDD').format('HH')
-      const minute = moment(date, 'HH:mm jYYYY/jMM/jDD').format('mm')
-      const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
-      const d = new Date(gmtDate)
-      return d.getTime() + (d.getTimezoneOffset() * 60000)
+      return year + '-' + month + '-' + day + ' ' + '23:59'
     }
   }
 }

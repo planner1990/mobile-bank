@@ -3,7 +3,12 @@
     <v-row>
       <!-- filter -->
       <v-col cols="12" style="padding: 8px !important;">
-        <offer-filter v-model="requestObject" @search="search" @showCreateDialog="showCreateDialog" @closeCreateDialog="closeCreateDialog" />
+        <offer-filter
+          v-model="requestObject"
+          @search="search"
+          @showCreateDialog="showCreateDialog"
+          @closeCreateDialog="closeCreateDialog"
+        />
       </v-col>
 
       <!-- grid -->
@@ -84,7 +89,13 @@
                   @click="addParams(item)"
                 >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 12H18M12 18V6" stroke="#84BD00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path
+                      d="M6 12H18M12 18V6"
+                      stroke="#84BD00"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
                   </svg>
                 </v-btn>
               </template>
@@ -135,7 +146,10 @@
               @click="closeCreateDialog"
             >
               <g clip-path="url(#clip0_401_143)">
-                <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+                <path
+                  d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                  fill="black"
+                />
               </g>
               <defs>
                 <clipPath id="clip0_401_143">
@@ -168,7 +182,7 @@
                       dense
                       outlined
                       popove
-                      format="HH:mm jYYYY/jMM/jDD"
+                      format="jYYYY-jMM-jDD HH:mm"
                       @close="checkIsNullFromDate()"
                     />
                   </v-col>
@@ -188,7 +202,7 @@
                       dense
                       outlined
                       popove
-                      format="HH:mm jYYYY/jMM/jDD"
+                      format="jYYYY-jMM-jDD HH:mm"
                       @close="checkIsNullToDate()"
                     />
                   </v-col>
@@ -345,7 +359,9 @@
                     />
                   </v-col>
                   <v-col cols="1">
-                    <div style="width: 77px;height: 49px;border: 1px solid rgb(224 224 224);border-radius: 12px;position: absolute;margin-right: -4px;" />
+                    <div
+                      style="width: 77px;height: 49px;border: 1px solid rgb(224 224 224);border-radius: 12px;position: absolute;margin-right: -4px;"
+                    />
                     <v-checkbox
                       v-model="checkbox1"
                       style="margin-top: -4px;"
@@ -470,7 +486,10 @@
               @click="closeCreateOfferDialog"
             >
               <g clip-path="url(#clip0_401_143)">
-                <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+                <path
+                  d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                  fill="black"
+                />
               </g>
               <defs>
                 <clipPath id="clip0_401_143">
@@ -503,7 +522,7 @@
                       dense
                       outlined
                       popove
-                      format="HH:mm jYYYY/jMM/jDD"
+                      format="jYYYY-jMM-jDD HH:mm"
                       @close="checkIsNullFromDate()"
                     />
                   </v-col>
@@ -523,7 +542,7 @@
                       dense
                       outlined
                       popove
-                      format="HH:mm jYYYY/jMM/jDD"
+                      format="jYYYY-jMM-jDD HH:mm"
                       @close="checkIsNullToDate()"
                     />
                   </v-col>
@@ -680,7 +699,9 @@
                     />
                   </v-col>
                   <v-col cols="1">
-                    <div style="width: 77px;height: 49px;border: 1px solid rgb(224 224 224);border-radius: 12px;position: absolute;margin-right: -4px;" />
+                    <div
+                      style="width: 77px;height: 49px;border: 1px solid rgb(224 224 224);border-radius: 12px;position: absolute;margin-right: -4px;"
+                    />
                     <v-checkbox
                       v-model="offerForm.offerObj.status"
                       style="margin-top: -4px;"
@@ -815,7 +836,10 @@
               @click="createParamDialog = false"
             >
               <g clip-path="url(#clip0_401_143)">
-                <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="black" />
+                <path
+                  d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                  fill="black"
+                />
               </g>
               <defs>
                 <clipPath id="clip0_401_143">
@@ -996,8 +1020,7 @@ export default {
         offerObj: {
           userAccessList: []
         },
-        paramObj: {
-        }
+        paramObj: {}
       },
       createDialog: false,
       createUpdateDialog: false,
@@ -1066,10 +1089,6 @@ export default {
       this.resetValidation()
     },
     async search (searchModel) {
-      // searchModel.page = this.pagination.page
-      // searchModel.length = this.pagination.rowsPerPage
-      console.log('searchModel')
-      console.log(searchModel)
       this.loading = true
       try {
         const response = await reportManager.listOffer(searchModel, this.$axios)
@@ -1105,15 +1124,12 @@ export default {
       }
     },
     addParams (item) {
-      console.log(item)
       this.offerForm.paramObj = {
         id: item.id
       }
       this.createParamDialog = true
     },
     editItem (item) {
-      console.log('item')
-      console.log(item)
       let status = true
       let recommendationType = '0'
       if (item.status === 'N') {
@@ -1142,27 +1158,18 @@ export default {
         explanation: item.content,
         status: status
       }
-
-      console.log(this.offerForm.offerObj)
       this.createUpdateDialog = true
       this.isShowTitleOfEditDialog = true
     },
     checkIsNullFromDate () {
-      console.log('checkIsNullFromDate')
       if (this.from != null) {
-        console.log('checkIsNullFromDate')
         this.offerForm.offerObj.dateFrom = this.convertJalaliDateToTimestamp(this.from)
-        console.log('checkIsNullFromDate')
       }
-      console.log('checkIsNullFromDate')
     },
     checkIsNullToDate () {
-      console.log('checkIsNullToDate')
       if (this.to != null) {
-        console.log('checkIsNullToDate is')
         this.offerForm.offerObj.dateTo = this.convertJalaliDateToTimestamp(this.to)
       }
-      console.log('checkIsNullToDate is 2')
     },
     showErrorsInCreateUserDialog (errors) {
       this.loading = false
@@ -1178,8 +1185,6 @@ export default {
         this.closeCreateUserDialog()
         this.search(this.requestObject)
       }).catch((e) => {
-        console.log(e)
-        console.log('error')
         this.loading = false
         this.showErrorsInCreateUserDialog(e.response.data.detailList)
       }).finally(() => {
@@ -1188,9 +1193,6 @@ export default {
     },
     save () {
       const formData = new FormData()
-
-      console.log('formData')
-      console.log(this.offerForm.offerObj)
       formData.append('file', this.offerForm.offerObj.file)
       formData.append('title', this.offerForm.offerObj.title)
       formData.append('description', this.offerForm.offerObj.description)
@@ -1206,8 +1208,6 @@ export default {
       formData.append('status', this.checkbox1)
       formData.append('os', this.offerForm.offerObj.os)
       formData.append('explanation', this.offerForm.offerObj.explanation)
-      console.log('this.offerForm.offerObj')
-      console.log(this.offerForm.offerObj)
       this.checkIsNullToDate()
       this.checkIsNullFromDate()
 
@@ -1218,9 +1218,7 @@ export default {
         this.loading = true
         this.loadingBtnSave = true
         try {
-          console.log(this.offerForm)
           if (this.offerForm.offerObj.id) {
-            console.log('update')
             reportManager.updateUploadOffer(this.offerForm.offerObj, this.$axios).then(() => {
               this.alert({
                 color: 'success',
@@ -1231,8 +1229,6 @@ export default {
               this.closeCreateUserDialog()
               this.search(this.requestObject)
             }).catch((e) => {
-              console.log(e)
-              console.log('error')
               this.loading = false
               this.loadingBtnSave = false
               this.alert({
@@ -1280,9 +1276,6 @@ export default {
         this.paramObject.id = this.offerForm.paramObj.id
         this.searchParams(this.paramObject)
         try {
-          // if (this.offerForm.paramObj.id) {
-          console.log('update')
-          console.log(this.offerForm.paramObj)
           reportManager.addParams(this.offerForm.paramObj, this.$axios).then(() => {
             this.alert({
               color: 'success',
@@ -1292,14 +1285,13 @@ export default {
             this.paramObject.id = this.offerForm.paramObj.id
             this.searchParams(this.paramObject)
           }).catch((e) => {
-            console.log('error')
             this.alert({
               color: 'orange',
               content: e.response.data.error_message
             })
             this.showErrorsInCreateUserDialog(e.response.data.detailList)
           })
-        //  }
+          //  }
         } catch (e) {
           this.alert({
             color: 'orange',
@@ -1309,10 +1301,10 @@ export default {
       }
     },
     closeCreateUserDialog () {
-    /*  this.loading = false
-      this.offerForm.offerObj = {}
-      this.reset()
-      this.resetValidation() */
+      /*  this.loading = false
+        this.offerForm.offerObj = {}
+        this.reset()
+        this.resetValidation() */
 
       this.offerForm.offerObj = {}
       this.resetValidation()
@@ -1357,9 +1349,9 @@ export default {
       this.createDialog = false
       this.createUserErrors = null
       this.createUpdateDialog = false
-    /*  if (this.isShowTitleOfEditDialog) {
-        this.isShowTitleOfEditDialog = false
-      } */
+      /*  if (this.isShowTitleOfEditDialog) {
+          this.isShowTitleOfEditDialog = false
+        } */
     },
     closeCreateParamDialog () {
       this.loading = false
@@ -1378,7 +1370,6 @@ export default {
       this.createDialog = false
     },
     validate () {
-      console.log('validate')
       return this.$refs.form.validate()
     },
     reset () {
@@ -1395,7 +1386,7 @@ export default {
       // const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
       // const d = new Date(gmtDate)
       // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
-      return '00:00 ' + year + '/' + month + '/' + day
+      return '00:00 ' + year + '-' + month + '-' + day
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
@@ -1406,10 +1397,9 @@ export default {
       // const d = new Date(gmtDate)
       // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
 
-      return '23:59 ' + year + '/' + month + '/' + day
+      return '23:59 ' + year + '-' + month + '-' + day
     },
     convertJalaliDateToTimestamp (date) {
-      console.log(date)
       const year = moment(date, 'HH:mm jYYYY/jMM/jDD').format('YYYY')
       const month = moment(date, 'HH:mm jYYYY/jMM/jDD').format('MM')
       const day = moment(date, 'HH:mm jYYYY/jMM/jDD').format('DD')

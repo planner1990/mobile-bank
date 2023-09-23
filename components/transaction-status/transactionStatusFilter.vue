@@ -15,8 +15,8 @@
                   outlined
                   dense
                   :placeholder="$t('filters.fromDate')"
-                  format="jYYYY/jMM/jDD"
-                  input-format="jYYYY/jMM/jDD"
+                  format="jYYYY-jMM-jDD"
+                  input-format="jYYYY-jMM-jDD"
                 />
                 <p-date-picker
                   v-model="fromDate"
@@ -26,6 +26,7 @@
                   outlined
                   popove
                   auto-submit
+                  format="jYYYY-jMM-jDD"
                   @close="checkIsNull()"
                 />
               </v-col>
@@ -36,8 +37,8 @@
                   outlined
                   dense
                   :placeholder="$t('filters.toDate')"
-                  format="jYYYY/jMM/jDD"
-                  input-format="jYYYY/jMM/jDD"
+                  format="jYYYY-jMM-jDD"
+                  input-format="jYYYY-jMM-jDD"
                 />
                 <p-date-picker
                   v-model="toDate"
@@ -47,6 +48,7 @@
                   outlined
                   popove
                   auto-submit
+                  format="jYYYY-jMM-jDD"
                   @close="checkIsNull()"
                 />
               </v-col>
@@ -173,9 +175,8 @@ export default {
     }
   },
   mounted: function () {
-    console.log('mounted function' + this.selected)
-    defaultFilter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
-    defaultFilter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    defaultFilter.dateFilter.from = this.fromDate
+    defaultFilter.dateFilter.to = this.toDate
     // defaultFilter.transactionChartDto.duration = this.duration
 
     this.filter = Object.assign(this.value, defaultFilter)
@@ -191,10 +192,10 @@ export default {
     },
     checkIsNull () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+        this.filter.dateFilter.from = this.fromDate + ' ' + '00:00'
       }
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate, 23, 59, 59)
+        this.filter.dateFilter.to = this.toDate + ' ' + '23:59'
       }
       if (this.duration != null) {
         this.filter.transactionChartDto.duration = this.duration
@@ -203,33 +204,27 @@ export default {
         this.filter.transactionChartDto.operation = this.operation
       }
     },
-    convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'jYYYY/jM/jD').format('YYYY')
-      const month = moment(date, 'jYYYY/jM/jD').format('MM')
-      const day = moment(date, 'jYYYY/jM/jD').format('DD')
-      return new Date(Date.UTC(year, month - 1, day)).getTime()
-    },
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '/' + month + '/' + day
+      return year + '-' + month + '-' + day
     },
     yesterdayDayFrom: function () {
       const today = new Date()
-      const yesterday = new Date(); yesterday.setDate(today.getDate() - 14)
+      const yesterday = new Date()
+      yesterday.setDate(today.getDate() - 14)
 
       const year = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '/' + month + '/' + day
+      return year + '-' + month + '-' + day
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-
-      return year + '/' + month + '/' + day
+      return year + '-' + month + '-' + day
     }
   }
 }
