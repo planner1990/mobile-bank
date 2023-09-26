@@ -84,7 +84,7 @@
             <div v-if="item.refundOrFailTime">
               {{ item.refundOrFailTime }}
             </div>
-            <div v-else style="color: #f1b0b094">
+            <div v-else style="color: #444">
               {{ '-' }}
             </div>
           </template>
@@ -92,7 +92,7 @@
             <div v-if="item.errorCode">
               {{ item.errorCode }}
             </div>
-            <div v-else style="color: #f1b0b094">
+            <div v-else style="color: #444">
               {{ '-' }}
             </div>
           </template>

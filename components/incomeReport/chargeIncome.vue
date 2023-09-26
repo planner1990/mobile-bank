@@ -31,7 +31,7 @@
       <div v-if="item.operator">
         {{ item.operator }}
       </div>
-      <div v-else style="color: #f1b0b094">
+      <div v-else style="color: #444">
         {{ '-' }}
       </div>
     </template>
@@ -39,7 +39,7 @@
       <div v-if="item.amount">
         {{ item.amount }}
       </div>
-      <div v-else style="color: #f1b0b094">
+      <div v-else style="color: #444">
         {{ '-' }}
       </div>
     </template>
@@ -47,7 +47,7 @@
       <div v-if="item.incomePercent">
         {{ item.incomePercent }}
       </div>
-      <div v-else style="color: #f1b0b094">
+      <div v-else style="color: #444">
         {{ '-' }}
       </div>
     </template>
@@ -55,7 +55,7 @@
       <div v-if="item.coSharePercent">
         {{ item.coSharePercent }}
       </div>
-      <div v-else style="color: #f1b0b094">
+      <div v-else style="color: #444">
         {{ '-' }}
       </div>
     </template>

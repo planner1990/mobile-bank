@@ -47,7 +47,7 @@
             <div v-if="item.uri">
               {{ item.uri }}
             </div>
-            <div v-else style="color: #f1b0b094">
+            <div v-else style="color: #444">
               {{ '-' }}
             </div>
           </template>
@@ -55,7 +55,7 @@
             <div v-if="item.recommendationType">
               {{ $t('offer.offerTypeFilter.' + item.recommendationType) }}
             </div>
-            <div v-else style="color: #f1b0b094">
+            <div v-else style="color: #444">
               {{ '-' }}
             </div>
           </template>
@@ -63,7 +63,7 @@
             <div v-if="item.alternativeUrl">
               {{ item.alternativeUrl }}
             </div>
-            <div v-else style="color: #f1b0b094">
+            <div v-else style="color: #444">
               {{ '-' }}
             </div>
           </template>
@@ -71,7 +71,7 @@
             <div v-if="item.url">
               {{ item.url }}
             </div>
-            <div v-else style="color: #f1b0b094">
+            <div v-else style="color: #444">
               {{ '-' }}
             </div>
           </template>

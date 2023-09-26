@@ -38,7 +38,7 @@
             <div v-if="item.sourceNumber">
               {{ item.sourceNumber }}
             </div>
-            <div v-else style="color: #f1b0b094">
+            <div v-else style="color: #444">
               {{ '-' }}
             </div>
           </template>
@@ -55,7 +55,7 @@
             <div v-if="item.cif">
               {{ item.cif }}
             </div>
-            <div v-else style="color: #f1b0b094">
+            <div v-else style="color: #444">
               {{ '-' }}
             </div>
           </template>
@@ -64,7 +64,7 @@
             <div v-if="item.operation">
               {{ item.operation }}
             </div>
-            <div v-else style="color: #f1b0b094">
+            <div v-else style="color: #444">
               {{ '-' }}
             </div>
           </template>
@@ -73,7 +73,7 @@
             <div v-if="item.mobileNumber">
               {{ item.mobileNumber }}
             </div>
-            <div v-else style="color: #f1b0b094">
+            <div v-else style="color: #444">
               {{ '-' }}
             </div>
           </template>
@@ -81,7 +81,7 @@
             <div v-if="item.amount">
               {{ priceFormat(item.amount) }}
             </div>
-            <div v-else style="color: #f1b0b094">
+            <div v-else style="color: #444">
               {{ '-' }}
             </div>
           </template>

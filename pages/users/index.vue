@@ -35,7 +35,7 @@
                 {{ $t('user.permissions.' + data.name) }}
               </li>
             </ul>
-            <span v-else style="color: #f1b0b094">{{ "-" }}</span>
+            <span v-else style="color: #444">{{ "-" }}</span>
           </template>
 
           <template #[`item.provinceCode`]="{ item }">
