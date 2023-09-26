@@ -122,7 +122,6 @@ export default {
         const bankLoanOperationList = operationList.bankLoanOperationList
 
         const operationLastList = operationLoanList.concat(operationLoanPanelList + bankLoanOperationList)
-        console.log('operationLoanList concat operationLoanPanelList', operationLastList)
 
         // loanOperation + loanPanelOperation
         this.items = operationLastList
@@ -130,13 +129,11 @@ export default {
       }).catch((error) => {
         this.loadingTopBar = false
         if (error.response) {
-          console.log(error.response)
           this.alert({
             color: 'orange',
             content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
           })
         } else {
-          console.log('error.response is null')
           this.alert({
             color: 'orange',
             content: 'messages.failed'

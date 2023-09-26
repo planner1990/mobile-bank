@@ -807,11 +807,7 @@ export default {
       sessionStorage.setItem('concatListItemPreviewSelected', concatListItemPreviewSelected)
       const resultFinal = this.uniqByKeepFirst(sessionStorage.getItem('concatListItemPreviewSelected').split('*'), JSON.stringify)
 
-      console.log('concatListItemPreviewSelected', JSON.stringify(concatListItemPreviewSelected))
-      console.log('resultFinal', JSON.stringify(resultFinal))
-
       if (resultFinal.length > 1) { this.showTopBar = true } else { this.showTopBar = false }
-      console.log('listItemPreviewSelectedFun 2299+++', JSON.stringify(resultFinal), resultFinal.length)
 
       return resultFinal
     },
@@ -945,7 +941,6 @@ export default {
     okOperationDialog () {
       const listItemPreviewSelectedFun = this.listItemPreviewSelectedFun()
       this.$refs.refTransactionReportFilter.changeLableSelectOperatorRef(listItemPreviewSelectedFun.length - 1 + ' ' + 'مورد انتخاب شد')
-      console.log('this.filterOperation..operation', this.filterOperation.transactionListFilter.operation)
 
       // add (merge)
       this.cardList = this.cardOperationList
@@ -960,7 +955,6 @@ export default {
 
       this.buttonCloseModal = false
       this.operationDialog = false
-      console.log('*************** pages/transactionReport/index.vue okOperationDialog', JSON.stringify(this.operationList))
     },
     // Remove duplicate values array
     uniqByKeepFirst (a, key) {
@@ -1078,13 +1072,11 @@ export default {
         this.search_listOperationCopy = [...this.search_listOperation]
       }).catch((error) => {
         if (error.response) {
-          console.log(error.response)
           this.alert({
             color: 'orange',
             content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
           })
         } else {
-          console.log('error.response is null')
           this.alert({
             color: 'orange',
             content: 'messages.failed'
@@ -1096,13 +1088,11 @@ export default {
     // search operation in textbox
     // search operation in textbox
     call_SearchOperationList () {
-      console.log('(((( call_SearchOperationList ))))', this.search_selectedOperationModel_title)
       if (!this.search_selectedOperationModel_title) {
         this.search_listOperation = this.search_listOperationCopy
       }
 
       this.search_listOperation = this.search_listOperationCopy.filter((operation) => {
-        console.log('operation', JSON.stringify(operation))
         return operation.title.includes(this.search_selectedOperationModel_title)
       })
     },

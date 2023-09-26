@@ -204,9 +204,6 @@ export default {
         return moment(date).format('HH:mm:ss jYYYY/jM/jD')
       }
     },
-    test (platform) {
-      console.log(platform)
-    },
     moment (date) {
       return moment(date).format('HH:mm:ss jYYYY/jM/jD')
     },
@@ -221,7 +218,6 @@ export default {
         fileLink.click()
         // ------------
       }).catch((error) => {
-        console.log(error)
         if (error.response) {
           this.alert({
             color: 'orange',

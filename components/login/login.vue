@@ -137,7 +137,6 @@ export default {
     }
   },
   mounted () {
-    console.log('computed authLogin', window.innerWidth)
     this.authLogin = !(window.innerWidth <= 1150)
   },
   methods: {

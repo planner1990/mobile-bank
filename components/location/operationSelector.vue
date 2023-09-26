@@ -73,7 +73,6 @@ export default defineComponent({
   setup (props, { emit }) {
     const { $axios } = useContext()
     const operations = ref([])
-    console.log('majid')
     locationManager.getOperation($axios).then((res) => {
       operations.value = res
     })

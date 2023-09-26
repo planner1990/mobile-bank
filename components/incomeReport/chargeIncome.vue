@@ -75,19 +75,6 @@ export default {
       default: false
     }
   },
-  methods: {
-    ...mapMutations({
-      alert: 'snacks/showMessage'
-    }),
-    priceFormat (amount) {
-      if (amount) {
-        return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-      } else {
-        return 0
-      }
-    }
-  },
-
   data () {
     return {
       downloadLoading: false,
@@ -103,6 +90,18 @@ export default {
         { text: this.$t('income.headers.coShareAmount'), value: 'coIncomeShareAmount', sortable: false, align: 'center' }
 
       ]
+    }
+  },
+  methods: {
+    ...mapMutations({
+      alert: 'snacks/showMessage'
+    }),
+    priceFormat (amount) {
+      if (amount) {
+        return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      } else {
+        return 0
+      }
     }
   }
 }

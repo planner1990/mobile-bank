@@ -106,13 +106,9 @@ export default {
       this.loadingStatus = true
       reportManager.incomeList(searchModel, this.$axios).then((response) => {
         // this.items = response.data.itemList
-        console.log(response.data)
         this.transferList = response.data.transferIncomeDtoList
-        console.log(this.transferList)
         this.chargeList = response.data.incomeChargeDtoList
-        console.log(this.chargeList)
         this.refundList = response.data.chargeRefundDtoList
-        console.log(this.refundList)
         this.totalNumberOfItems = response.data.filteredItem
         this.enableLoading(false)
         this.loadingStatus = false
@@ -135,26 +131,19 @@ export default {
     /* فرصت نداشتن برای ریفکتور وگرنه این گندی که تو این کد زدن رو در حدی هست که باید از اول نشوته بشه */
     /* قشنگ گورستانی از کد مرده هست */
     getDeposit: function () {
-      console.log('inja omad')
       if (this.items.length > 0) {
-        console.log('inja  1')
-        console.log(this.items.filter(object => object.operationType === 'DEPOSIT'))
         return this.items.filter(object => object.operationType === 'DEPOSIT')
       }
       return null
     },
     getCard: function () {
-      console.log('inja omad')
       if (this.items.length > 0) {
         return this.items.filter(object => object.operationType === 'CARD')
       }
       return null
     },
     getOther: function () {
-      console.log('inja omad')
       if (this.items.length > 0) {
-        console.log('majid inja omad')
-        console.log(this.items.filter(object => object.operationType === 'PUBLIC'))
         return this.items.filter(object => object.operationType === 'PUBLIC')
       }
       return null
@@ -174,7 +163,6 @@ export default {
         fileLink.click()
         // ------------
       }).catch((error) => {
-        console.log(error)
         if (error.response) {
           this.alert({
             color: 'orange',

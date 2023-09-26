@@ -50,7 +50,6 @@ export default {
       }
     },
     redirect () {
-      console.log('pages/index.vue redirect ***', window.history.state)
       setTimeout(() => {
         if (window.history.state !== null && window.history.length > 2 && localStorage.getItem('mob-login') === 'backIsTrue') {
           // important :: 2 action for back

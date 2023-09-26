@@ -197,7 +197,6 @@ export default {
         fileLink.click()
         // ------------
       }).catch((error) => {
-        console.log(error)
         if (error.response) {
           this.alert({
             color: 'orange',

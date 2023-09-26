@@ -175,7 +175,6 @@ export default {
       this.loading = true
       reportManager.chargeList(searchModel, this.$axios).then((response) => {
         this.items = response.data.itemList
-        console.log(this.items)
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
       }).catch((error) => {
@@ -212,9 +211,6 @@ export default {
         return moment(date).format('HH:mm:ss jYYYY/jM/jD')
       }
     },
-    test (platform) {
-      console.log(platform)
-    },
     moment (date) {
       return moment(date).format('HH:mm:ss jYYYY/jM/jD')
     },
@@ -229,7 +225,6 @@ export default {
         fileLink.click()
         // ------------
       }).catch((error) => {
-        console.log(error)
         if (error.response) {
           this.alert({
             color: 'orange',

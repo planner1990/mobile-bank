@@ -461,8 +461,6 @@ export default {
             operationAccess.push(e)
           }
         })
-        console.log('[[[ computedUserAccessList ]]]', 'ROLE_PANEL_USER', JSON.stringify(operationAccess))
-        console.log('[[[ computedUserAccessList ]]]', 'ROLE_PANEL_USER userAccessList', JSON.stringify(this.userForm.userObj.userAccessList))
       } else if (this.userForm.userObj.role === 'ROLE_PANEL_REPORT') {
         // گزارش گیر
         this.userForm.permissions.forEach((e) => {
@@ -472,8 +470,6 @@ export default {
             operationAccess.push(e)
           }
         })
-        console.log('[[[ computedUserAccessList ]]]', 'ROLE_PANEL_REPORT', JSON.stringify(operationAccess))
-        console.log('[[[ computedUserAccessList ]]]', 'ROLE_PANEL_REPORT userAccessList', JSON.stringify(this.userForm.userObj.userAccessList))
       } else {
         // کاربر ادمین - مدیر
         this.userForm.permissions.forEach((e) => {
@@ -481,8 +477,6 @@ export default {
             operationAccess.push(e)
           }
         })
-        console.log('[[[ computedUserAccessList ]]]', 'ADMIN', JSON.stringify(operationAccess))
-        console.log('[[[ computedUserAccessList ]]]', 'ADMIN userAccessList', JSON.stringify(this.userForm.userObj.userAccessList))
       }
 
       return operationAccess
@@ -516,7 +510,6 @@ export default {
       if (this.currentUser.permissions.find(e => e.name !== 'FULL_ACCESS') && this.currentUser.role.role !== 'ROLE_PANEL_ADMIN') {
         if (this.currentUser.permissions.find(e => e.name !== 'CREATE_USER')) {
           outcome = false
-          console.log('===== checkUserAccessForMenu ===== 6', 'outcome -> ', outcome)
         }
       }
 
@@ -606,7 +599,6 @@ export default {
       this.createUserErrors = errors
     },
     editItem (item) {
-      console.log('editItem -> ', JSON.stringify(item))
       const userAccessList = []
       item.permissions.forEach((item) => {
         userAccessList.push(item.name)

@@ -132,7 +132,6 @@ export default {
     }),
     search (searchModel, callGateway = 'searchButtonFilter') {
       this.loading = true
-      console.log('search', JSON.stringify(this.searchModel))
       this.showChart = true
 
       // condition 1
@@ -166,7 +165,6 @@ export default {
         this.totalNumberOfItems = response.data.filteredItem
         this.loading = false
       }).catch((error) => {
-        console.warn(error)
         if (error.response) {
           this.alert({
             color: 'orange',
@@ -202,7 +200,6 @@ export default {
         this.loading = false
         this.chartMake(response.data, self)
       }).catch((error) => {
-        console.warn(error)
         if (error.response) {
           this.alert({
             color: 'orange',

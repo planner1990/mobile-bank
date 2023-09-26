@@ -103,7 +103,6 @@ export default {
   },
   mounted: function () {
     // defaultSearchModel.persianDate = this.convertJalaliDateToTimestamp(this.fromMonth, this.fromYear)
-    console.log(this.currentYear() + this.currentMonth())
     defaultSearchModel.persianDate = this.currentYear() + '/' + this.currentMonth()
     this.filter = Object.assign(this.value, defaultSearchModel)
   },
@@ -119,12 +118,7 @@ export default {
     },
     checkIsNull () {
       if (this.fromYear != null) {
-        console.log('sddsdsd')
-        console.log(this.convertJalaliDateToTimestamp(this.fromYear))
-        console.log(this.convertJalaliDateToTimestamp(this.fromMonth))
-
         defaultSearchModel.persianDate = this.convertJalaliDateToTimestamp(this.fromMonth, this.fromYear)
-        console.log(defaultSearchModel.persianDate)
       }
     },
     convertJalaliDateToTimestamp (month, year) {

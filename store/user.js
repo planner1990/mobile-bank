@@ -49,11 +49,9 @@ export const actions = {
       if (refresh) {
         context.commit('setRefresh', refresh)
         const jwt = localStorage.getItem(tokenKey)
-        console.log('init 1::', JSON.stringify(jwt))
         if (jwt) {
           context.commit('setToken', jwt)
         } else {
-          console.log('init 2::', JSON.stringify(jwt))
           await context.dispatch('refreshToken')
         }
       } else {

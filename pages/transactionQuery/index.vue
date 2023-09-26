@@ -628,11 +628,7 @@ export default {
       sessionStorage.setItem('concatListItemPreviewSelected', concatListItemPreviewSelected)
       const resultFinal = this.uniqByKeepFirst(sessionStorage.getItem('concatListItemPreviewSelected').split('*'), JSON.stringify)
 
-      console.log('concatListItemPreviewSelected', JSON.stringify(concatListItemPreviewSelected))
-      console.log('resultFinal', JSON.stringify(resultFinal))
-
       if (resultFinal.length > 1) { this.showTopBar = true } else { this.showTopBar = false }
-      console.log('listItemPreviewSelectedFun 2299+++', JSON.stringify(resultFinal), resultFinal.length)
 
       return resultFinal
     },
@@ -700,7 +696,6 @@ export default {
         try {
           this.responseJson = JSON.parse(response.data.responseJson)
         } catch (e) {
-          console.log('catch json Exception')
           this.responseJson = response.data.responseJson
         }
         this.itemsTransaction.push({
@@ -772,7 +767,6 @@ export default {
 
       this.buttonCloseModal = false
       this.operationDialog = false
-      console.log('pages/transactionQuery/index.vue okOperationDialog', JSON.stringify(this.operationList))
     },
     // Remove duplicate values array
     uniqByKeepFirst (a, key) {
@@ -828,7 +822,6 @@ export default {
         fileLink.click()
         // ------------
       }).catch((error) => {
-        console.log(error)
         if (error.response) {
           this.alert({
             color: 'orange',
@@ -866,13 +859,11 @@ export default {
         this.search_listOperationCopy = [...this.search_listOperation]
       }).catch((error) => {
         if (error.response) {
-          console.log(error.response)
           this.alert({
             color: 'orange',
             content: error.response.data.detailList.length !== 0 ? error.response.data.detailList[0].type : error.response.data.error_message
           })
         } else {
-          console.log('error.response is null')
           this.alert({
             color: 'orange',
             content: 'messages.failed'
@@ -889,7 +880,6 @@ export default {
       }
 
       this.search_listOperation = this.search_listOperationCopy.filter((operation) => {
-        console.log('operation', JSON.stringify(operation))
         return operation.title.includes(this.search_selectedOperationModel_title)
       })
     },
