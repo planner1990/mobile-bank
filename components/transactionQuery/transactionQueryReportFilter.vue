@@ -462,7 +462,8 @@ export default {
       reportManager.errorCodeList(this.$axios).then((response) => {
         const errorList = response.data
         errorList.push(200)
-        this.errorItems = errorList.sort()
+        errorList.sort(function (a, b) { return a - b })
+        this.errorItems = errorList
       }).catch((error) => {
         if (error.response) {
           this.alert({
