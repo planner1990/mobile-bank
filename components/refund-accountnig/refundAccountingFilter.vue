@@ -49,6 +49,7 @@
                   popove
                   auto-submit
                   format="jYYYY-jMM-jDD HH:mm"
+                  :min="moment(fromDate, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
                   @close="checkIsNullToDate()"
                 />
               </v-col>
@@ -273,8 +274,8 @@ export default {
       }
     },
     search () {
-      defaultFilter.dateFilter.from = this.fromDate
-      defaultFilter.dateFilter.to = this.toDate
+      defaultFilter.dateFilter.from = this.fromDate + ':00'
+      defaultFilter.dateFilter.to = this.toDate + ':00'
       this.filter = Object.assign(this.value, defaultFilter)
       this.$emit('search', this.filter)
       this.loadingBtn = true
@@ -286,11 +287,7 @@ export default {
     refundConfirmList (searchModel) {
       this.$emit('confirmRefund', this.filter)
     },
-    convertToJalali (date) {
-      if (date !== null) {
-        return moment(date).format('HH:mm:ss jYYYY/jM/jD')
-      }
-    },
+    moment,
     checkIsNullFromDate () {
       if (this.fromDate != null) {
         this.filter.dateFilter.from = this.fromDate + ':00'

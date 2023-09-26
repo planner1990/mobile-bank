@@ -47,6 +47,7 @@
                   popove
                   auto-submit
                   format="jYYYY-jMM-jDD HH:mm"
+                  :min="moment(from, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
                   @close="checkIsNullToDate()"
                 />
               </v-col>
@@ -170,6 +171,7 @@ export default {
       this.loadingBtn = true
       setTimeout(() => (this.loadingBtn = false), 3000)
     },
+    moment,
     checkIsNullFromDate () {
       if (this.from != null) {
         this.filter.dateFrom = this.from + ':00'

@@ -203,6 +203,7 @@
                       outlined
                       popove
                       format="jYYYY-jMM-jDD HH:mm"
+                      :min="moment(from, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
                       @close="checkIsNullToDate()"
                     />
                   </v-col>
@@ -543,6 +544,7 @@
                       outlined
                       popove
                       format="jYYYY-jMM-jDD HH:mm"
+                      :min="moment(from, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
                       @close="checkIsNullToDate()"
                     />
                   </v-col>
@@ -1071,8 +1073,8 @@ export default {
     }
   },
   mounted: function () {
-    this.offerForm.offerObj.dateFrom = this.convertJalaliDateToTimestamp(this.from)
-    this.offerForm.offerObj.dateTo = this.convertJalaliDateToTimestamp(this.to)
+    this.offerForm.offerObj.dateFrom = this.from
+    this.offerForm.offerObj.dateTo = this.to
 
     this.search(this.requestObject, 'mounted')
   },
@@ -1161,14 +1163,15 @@ export default {
       this.createUpdateDialog = true
       this.isShowTitleOfEditDialog = true
     },
+    moment,
     checkIsNullFromDate () {
       if (this.from != null) {
-        this.offerForm.offerObj.dateFrom = this.convertJalaliDateToTimestamp(this.from)
+        this.offerForm.offerObj.dateFrom = this.from + ':00'
       }
     },
     checkIsNullToDate () {
       if (this.to != null) {
-        this.offerForm.offerObj.dateTo = this.convertJalaliDateToTimestamp(this.to)
+        this.offerForm.offerObj.dateTo = this.to + ':00'
       }
     },
     showErrorsInCreateUserDialog (errors) {
@@ -1386,7 +1389,7 @@ export default {
       // const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
       // const d = new Date(gmtDate)
       // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
-      return '00:00:00' + year + '-' + month + '-' + day
+      return year + '-' + month + '-' + day + ' ' + '00:00:00'
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
@@ -1397,18 +1400,7 @@ export default {
       // const d = new Date(gmtDate)
       // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
 
-      return '00:00:00' + year + '-' + month + '-' + day
-    },
-    convertJalaliDateToTimestamp (date) {
-      const year = moment(date, 'HH:mm jYYYY/jMM/jDD').format('YYYY')
-      const month = moment(date, 'HH:mm jYYYY/jMM/jDD').format('MM')
-      const day = moment(date, 'HH:mm jYYYY/jMM/jDD').format('DD')
-      const hour = moment(date, 'HH:mm jYYYY/jMM/jDD').format('HH')
-      const minute = moment(date, 'HH:mm jYYYY/jMM/jDD').format('mm')
-      const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
-      const d = new Date(gmtDate)
-      //  console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
-      return d.getTime() + (d.getTimezoneOffset() * 60000)
+      return year + '-' + month + '-' + day + ' ' + '00:00:00'
     }
   }
 }

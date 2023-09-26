@@ -49,6 +49,7 @@
                   popove
                   auto-submit
                   format="jYYYY-jMM-jDD HH:mm"
+                  :min="moment(fromDate, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
                   @close="checkIsNullToDate()"
                 />
               </v-col>
@@ -184,6 +185,7 @@
                   popove
                   auto-submit
                   format="jYYYY-jMM-jDD HH:mm"
+                  :min="moment(transactionFromDate, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
                   @close="checkIsNullTransactionToDate()"
                 />
               </v-col>
@@ -268,6 +270,7 @@
                   popove
                   auto-submit
                   format="jYYYY-jMM-jDD HH:mm"
+                  :min="moment(refundFromDate, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
                   @close="checkIsNullRefundToDate()"
                 />
               </v-col>
@@ -472,6 +475,7 @@ export default {
         return moment(date).format('HH:mm:ss jYYYY/jM/jD')
       }
     },
+    moment,
     checkIsNullFromDate () {
       if (this.fromDate != null) {
         this.filter.dateFilter.from = this.fromDate + ':00'
@@ -484,22 +488,22 @@ export default {
     },
     checkIsNullTransactionFromDate () {
       if (this.transactionFromDate != null) {
-        this.filter.refundListFilter.transactionFromDate = this.transactionFromDate
+        this.filter.refundListFilter.transactionFromDate = this.transactionFromDate + ':00'
       }
     },
     checkIsNullTransactionToDate () {
       if (this.transactionToDate != null) {
-        this.filter.refundListFilter.transactionToDate = this.transactionToDate
+        this.filter.refundListFilter.transactionToDate = this.transactionToDate + ':00'
       }
     },
     checkIsNullRefundFromDate () {
       if (this.refundFromDate != null) {
-        this.filter.refundListFilter.refundFromDate = this.refundFromDate
+        this.filter.refundListFilter.refundFromDate = this.refundFromDate + ':00'
       }
     },
     checkIsNullRefundToDate () {
       if (this.refundToDate != null) {
-        this.filter.refundListFilter.refundToDate = this.refundToDate
+        this.filter.refundListFilter.refundToDate = this.refundToDate + ':00'
       }
     },
 

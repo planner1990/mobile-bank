@@ -49,6 +49,7 @@
                   popove
                   auto-submit
                   format="jYYYY-jMM-jDD"
+                  :min="moment(fromDate, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
                   @close="checkIsNull()"
                 />
               </v-col>
@@ -190,6 +191,7 @@ export default {
       this.loadingBtn = true
       setTimeout(() => (this.loadingBtn = false), 3000)
     },
+    moment,
     checkIsNull () {
       if (this.fromDate != null) {
         this.filter.dateFilter.from = this.fromDate + ' ' + '00:00:00'
@@ -208,7 +210,7 @@ export default {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '-' + month + '-' + day
+      return year + '-' + month + '-' + day + ' ' + '00:00:00'
     },
     yesterdayDayFrom: function () {
       const today = new Date()
@@ -218,13 +220,13 @@ export default {
       const year = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '-' + month + '-' + day
+      return year + '-' + month + '-' + day + ' ' + '00:00:00'
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '-' + month + '-' + day
+      return year + '-' + month + '-' + day + ' ' + '00:00:00'
     }
   }
 }

@@ -47,6 +47,7 @@
                   popove
                   auto-submit
                   format="jYYYY-jMM-jDD HH:mm"
+                  :min="moment(fromDate, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
                   @close="checkIsNullToDate()"
                 />
               </v-col>
@@ -104,8 +105,8 @@ export default {
     }
   },
   mounted: function () {
-    defaultFilter.dateFilter.from = this.fromDate
-    defaultFilter.dateFilter.to = this.toDate
+    defaultFilter.dateFilter.from = this.fromDate + ':00'
+    defaultFilter.dateFilter.to = this.toDate + ':00'
     this.filter = Object.assign(this.value, defaultFilter)
   },
   methods: {
@@ -118,14 +119,15 @@ export default {
     confirm () {
       this.$emit('confirm', this.filter)
     },
+    moment,
     checkIsNullFromDate () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.fromDate
+        this.filter.dateFilter.from = this.fromDate + ':00'
       }
     },
     checkIsNullToDate () {
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.toDate
+        this.filter.dateFilter.to = this.toDate + ':00'
       }
     },
     currentDayFrom: function () {
