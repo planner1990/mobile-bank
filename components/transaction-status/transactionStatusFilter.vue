@@ -135,6 +135,7 @@
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
 import reportManager from '~/repository/report_manager'
+import tommorowDayTo from '~/plugins/tommorowDayTo'
 
 const defaultFilter = {
   transactionChartDto: {
@@ -163,7 +164,7 @@ export default {
       duration: null,
       operation: null,
       fromDate: this.yesterdayDayFrom(),
-      toDate: this.currentDayTo(),
+      toDate: tommorowDayTo.methods.tomorrowDayTo(),
       filter: defaultFilter,
       operationName: reportManager.operationName2,
       options: [

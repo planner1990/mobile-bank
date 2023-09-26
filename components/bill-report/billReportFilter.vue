@@ -203,6 +203,7 @@ import { mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import reportManager from '~/repository/report_manager'
+import tommorowDayTo from '~/plugins/tommorowDayTo'
 
 const defaultFilter = {
   billListFilter: {
@@ -237,7 +238,7 @@ export default {
       loadingBtn: false,
       seen: true,
       fromDate: this.currentDayFrom(),
-      toDate: this.currentDayTo(),
+      toDate: tommorowDayTo.methods.tomorrowDayTo(),
       time: null,
       menu2: false,
       modal2: false,

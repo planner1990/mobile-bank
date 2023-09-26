@@ -101,6 +101,7 @@
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
 import reportManager from '~/repository/report_manager'
+import tommorowDayTo from '~/plugins/tommorowDayTo'
 
 const defaultFilter = {
   operatingSystem: null,
@@ -131,7 +132,7 @@ export default {
       loadingBtn: false,
       seen: true,
       fromDate: this.currentDayFrom(),
-      toDate: this.currentDayTo(),
+      toDate: tommorowDayTo.methods.tomorrowDayTo(),
       filter: defaultFilter,
       downloadLoading: false,
       status: reportManager.status,

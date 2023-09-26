@@ -77,6 +77,7 @@
 <script>
 import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
+import tommorowDayTo from '~/plugins/tommorowDayTo'
 
 const defaultFilter = {
   dateFilter: {
@@ -96,7 +97,7 @@ export default {
     return {
       loadingBtn: false,
       fromDate: this.currentDayFrom(),
-      toDate: this.currentDayTo(),
+      toDate: tommorowDayTo.methods.tomorrowDayTo(),
       downloadLoading: false,
       loading: false,
       time: null,

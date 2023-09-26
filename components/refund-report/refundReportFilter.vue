@@ -366,6 +366,7 @@ import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import moment from 'moment-jalaali'
 import { mapGetters, mapMutations } from 'vuex'
 import reportManager from '~/repository/report_manager'
+import tommorowDayTo from '~/plugins/tommorowDayTo'
 
 const defaultFilter = {
   refundListFilter: {
@@ -412,7 +413,7 @@ export default {
       seen: true,
       downloadLoading: false,
       fromDate: this.currentDayFrom(),
-      toDate: this.currentDayTo(),
+      toDate: tommorowDayTo.methods.tomorrowDayTo(),
       transactionFromDate: null,
       transactionToDate: null,
       refundFromDate: null,

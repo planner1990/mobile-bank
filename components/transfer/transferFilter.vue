@@ -101,6 +101,7 @@ import { mapMutations } from 'vuex'
 import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import transferManager from '~/repository/transfer_manager'
+import tommorowDayTo from '~/plugins/tommorowDayTo'
 
 const defaultFilter = {
   transferFilter: {
@@ -132,7 +133,7 @@ export default {
       loadingBtn: false,
       seen: true,
       fromDate: this.currentDayFrom(),
-      toDate: this.currentDayTo(),
+      toDate: tommorowDayTo.methods.tomorrowDayTo(),
       downloadLoading: false,
       filter: defaultFilter,
       transferType: [],
