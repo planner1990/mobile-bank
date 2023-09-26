@@ -192,10 +192,10 @@ export default {
     },
     checkIsNull () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.fromDate + ' ' + '00:00'
+        this.filter.dateFilter.from = this.fromDate + ' ' + '00:00:00'
       }
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.toDate + ' ' + '23:59'
+        this.filter.dateFilter.to = this.toDate + ' ' + '00:00:00'
       }
       if (this.duration != null) {
         this.filter.transactionChartDto.duration = this.duration

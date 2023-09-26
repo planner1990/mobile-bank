@@ -1386,7 +1386,7 @@ export default {
       // const gmtDate = Date.UTC(year, month - 1, day, 0, 0, 0)
       // const d = new Date(gmtDate)
       // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
-      return '00:00 ' + year + '-' + month + '-' + day
+      return '00:00:00' + year + '-' + month + '-' + day
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
@@ -1397,7 +1397,7 @@ export default {
       // const d = new Date(gmtDate)
       // return moment(new Date(d.getTime() + (d.getTimezoneOffset() * 60000)).toLocaleString('en-US', { hour12: false }), 'MM/DD/YYYY, h24:mm:ss').format('HH:mm jYYYY/jMM/jDD')
 
-      return '23:59 ' + year + '-' + month + '-' + day
+      return '00:00:00' + year + '-' + month + '-' + day
     },
     convertJalaliDateToTimestamp (date) {
       const year = moment(date, 'HH:mm jYYYY/jMM/jDD').format('YYYY')

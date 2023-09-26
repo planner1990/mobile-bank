@@ -47,6 +47,7 @@
                   popove
                   auto-submit
                   format="jYYYY-jMM-jDD HH:mm"
+                  :min="moment(fromDate, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
                   @close="checkIsNullToDate()"
                 />
               </v-col>
@@ -242,12 +243,30 @@
                   </template>
                 </v-select>
               </v-col>
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px" />
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px" />
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px" />
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px" />
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px" />
-              <v-col class="col-12 col-sm-6 col-md-2 col-lg-2" style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px">
+              <v-col
+                class="col-12 col-sm-6 col-md-2 col-lg-2"
+                style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px"
+              />
+              <v-col
+                class="col-12 col-sm-6 col-md-2 col-lg-2"
+                style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px"
+              />
+              <v-col
+                class="col-12 col-sm-6 col-md-2 col-lg-2"
+                style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px"
+              />
+              <v-col
+                class="col-12 col-sm-6 col-md-2 col-lg-2"
+                style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px"
+              />
+              <v-col
+                class="col-12 col-sm-6 col-md-2 col-lg-2"
+                style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px"
+              />
+              <v-col
+                class="col-12 col-sm-6 col-md-2 col-lg-2"
+                style="float:right;direction:ltr;margin-top: -40px;margin-bottom: 25px"
+              >
                 <v-btn
                   :loading="loadingBtn"
                   :disabled="loadingBtn"
@@ -481,16 +500,17 @@ export default {
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.fromDate
+        this.filter.dateFilter.from = this.fromDate + ':00'
       }
     },
+    moment,
     checkIsNullToDate () {
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.toDate
+        this.filter.dateFilter.to = this.toDate + ':00'
       }
     },
     currentTimeFrom: function () {
-      return '00:00'
+      return '00:00:00'
     },
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
@@ -499,7 +519,7 @@ export default {
       return year + '-' + month + '-' + day + ' ' + this.currentTimeFrom()
     },
     currentTimeTo: function () {
-      return '23:59'
+      return '00:00:00'
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')

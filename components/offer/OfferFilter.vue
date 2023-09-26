@@ -172,25 +172,25 @@ export default {
     },
     checkIsNullFromDate () {
       if (this.from != null) {
-        this.filter.dateFrom = this.from
+        this.filter.dateFrom = this.from + ':00'
       }
     },
     checkIsNullToDate () {
       if (this.to != null) {
-        this.filter.dateTo = this.to
+        this.filter.dateTo = this.to + ':00'
       }
     },
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '-' + month + '-' + day + ' ' + '00:00'
+      return year + '-' + month + '-' + day + ' ' + '00:00:00'
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '-' + month + '-' + day + ' ' + '23:59'
+      return year + '-' + month + '-' + day + ' ' + '00:00:00'
     },
     yesterdayDayFrom: function () {
       const today = new Date()
@@ -200,7 +200,7 @@ export default {
       const year = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '-' + month + '-' + day + ' ' + '00:00'
+      return year + '-' + month + '-' + day + ' ' + '00:00:00'
     }
   }
 }

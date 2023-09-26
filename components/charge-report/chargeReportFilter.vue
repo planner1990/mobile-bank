@@ -321,25 +321,25 @@ export default {
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.fromDate
+        this.filter.dateFilter.from = this.fromDate + ':00'
       }
     },
     checkIsNullToDate () {
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.toDate
+        this.filter.dateFilter.to = this.toDate + ':00'
       }
     },
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '-' + month + '-' + day + ' ' + '00:00'
+      return year + '-' + month + '-' + day + ' ' + '00:00:00'
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '-' + month + '-' + day + ' ' + '23:59'
+      return year + '-' + month + '-' + day + ' ' + '00:00:00'
     }
   }
 }

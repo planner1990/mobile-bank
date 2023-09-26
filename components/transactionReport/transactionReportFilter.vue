@@ -47,6 +47,7 @@
                   popove
                   auto-submit
                   format="jYYYY-jMM-jDD HH:mm"
+                  :min="moment(fromDate, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
                   @close="checkIsNullToDate()"
                 />
               </v-col>
@@ -371,6 +372,7 @@ export default {
     }, 1000, this)
   },
   methods: {
+    moment,
     changeLableSelectOperatorRef (input) {
       this.lableSelectOperatorRef = input
     },
@@ -477,16 +479,16 @@ export default {
     },
     checkIsNullFromDate () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.fromDate
+        this.filter.dateFilter.from = this.fromDate + ':00'
       }
     },
     checkIsNullToDate () {
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.toDate
+        this.filter.dateFilter.to = this.toDate + ':00'
       }
     },
     currentTimeFrom: function () {
-      return '00:00'
+      return '00:00:00'
     },
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
@@ -495,7 +497,7 @@ export default {
       return year + '-' + month + '-' + day + ' ' + this.currentTimeFrom()
     },
     currentTimeTo: function () {
-      return '23:59'
+      return '00:00:00'
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
