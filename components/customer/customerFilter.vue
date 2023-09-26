@@ -154,6 +154,7 @@
 import moment from 'moment-jalaali'
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker'
 import userManager from '~/repository/user_manager'
+import tommorowDayTo from '~/plugins/tommorowDayTo'
 
 const defaultSearchModel = {
   customerListFilter: {
@@ -191,7 +192,7 @@ export default {
       seen: true,
       downloadLoading: false,
       fromDate: this.currentDayFrom(),
-      toDate: this.currentDayTo(),
+      toDate: tommorowDayTo.methods.tomorrowDayTo(),
       roles: userManager.userRoles,
       customerType: userManager.customerType,
       status: userManager.userStatus,
