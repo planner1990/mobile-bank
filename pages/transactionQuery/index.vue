@@ -89,7 +89,7 @@
             <div v-if="item.responseCode || item.responseCode === 0" class="chip" :style="'color: ' + getColor(item.responseCode)">
               {{ item.responseCode }}
             </div>
-            <div v-else class="chip" :style="'color: ' + getColor(null)">
+            <div v-else style="color: #444">
               {{ '-' }}
             </div>
           </template>

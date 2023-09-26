@@ -51,7 +51,7 @@
             <div v-if="item.errorCode || item.errorCode === 0" class="chip" :style="'color: ' + getColor(item.errorCode)">
               {{ item.errorCode }}
             </div>
-            <div v-else class="chip" :style="'color: ' + getColor(null)">
+            <div v-else style="color: #444">
               {{ '-' }}
             </div>
           </template>
