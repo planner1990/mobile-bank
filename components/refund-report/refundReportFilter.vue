@@ -26,7 +26,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="jYYYY-jMM-jDD HH:mm"
+                  format="jYYYY-jMM-jDD HH:mm:ss"
                   @close="checkIsNullFromDate()"
                 />
               </v-col>
@@ -48,8 +48,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="jYYYY-jMM-jDD HH:mm"
-                  :min="moment(fromDate, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
+                  format="jYYYY-jMM-jDD HH:mm:ss"
                   @close="checkIsNullToDate()"
                 />
               </v-col>
@@ -162,7 +161,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="jYYYY-jMM-jDD HH:mm"
+                  format="jYYYY-jMM-jDD HH:mm:ss"
                   @close="checkIsNullTransactionFromDate()"
                 />
               </v-col>
@@ -184,8 +183,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="jYYYY-jMM-jDD HH:mm"
-                  :min="moment(transactionFromDate, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
+                  format="jYYYY-jMM-jDD HH:mm:ss"
                   @close="checkIsNullTransactionToDate()"
                 />
               </v-col>
@@ -247,7 +245,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="jYYYY-jMM-jDD HH:mm"
+                  format="jYYYY-jMM-jDD HH:mm:ss"
                   @close="checkIsNullRefundFromDate()"
                 />
               </v-col>
@@ -269,8 +267,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="jYYYY-jMM-jDD HH:mm"
-                  :min="moment(refundFromDate, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
+                  format="jYYYY-jMM-jDD HH:mm:ss"
                   @close="checkIsNullRefundToDate()"
                 />
               </v-col>
@@ -479,32 +476,32 @@ export default {
     moment,
     checkIsNullFromDate () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.fromDate + ':00'
+        this.filter.dateFilter.from = this.fromDate
       }
     },
     checkIsNullToDate () {
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.toDate + ':00'
+        this.filter.dateFilter.to = this.toDate
       }
     },
     checkIsNullTransactionFromDate () {
       if (this.transactionFromDate != null) {
-        this.filter.refundListFilter.transactionFromDate = this.transactionFromDate + ':00'
+        this.filter.refundListFilter.transactionFromDate = this.transactionFromDate
       }
     },
     checkIsNullTransactionToDate () {
       if (this.transactionToDate != null) {
-        this.filter.refundListFilter.transactionToDate = this.transactionToDate + ':00'
+        this.filter.refundListFilter.transactionToDate = this.transactionToDate
       }
     },
     checkIsNullRefundFromDate () {
       if (this.refundFromDate != null) {
-        this.filter.refundListFilter.refundFromDate = this.refundFromDate + ':00'
+        this.filter.refundListFilter.refundFromDate = this.refundFromDate
       }
     },
     checkIsNullRefundToDate () {
       if (this.refundToDate != null) {
-        this.filter.refundListFilter.refundToDate = this.refundToDate + ':00'
+        this.filter.refundListFilter.refundToDate = this.refundToDate
       }
     },
 

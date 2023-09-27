@@ -25,7 +25,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="jYYYY-jMM-jDD HH:mm"
+                  format="jYYYY-jMM-jDD HH:mm:ss"
                   @close="checkIsNullFromDate()"
                 />
               </v-col>
@@ -46,8 +46,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="jYYYY-jMM-jDD HH:mm"
-                  :min="moment(fromDate, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
+                  format="jYYYY-jMM-jDD HH:mm:ss"
                   @close="checkIsNullToDate()"
                 />
               </v-col>

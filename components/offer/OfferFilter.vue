@@ -25,7 +25,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="jYYYY-jMM-jDD HH:mm"
+                  format="jYYYY-jMM-jDD HH:mm:ss"
                   @close="checkIsNullFromDate()"
                 />
               </v-col>
@@ -46,8 +46,7 @@
                   outlined
                   popove
                   auto-submit
-                  format="jYYYY-jMM-jDD HH:mm"
-                  :min="moment(from, 'YYYY-MM-DD').add(2, 'd').utc().format('YYYY-MM-DD')"
+                  format="jYYYY-jMM-jDD HH:mm:ss"
                   @close="checkIsNullToDate()"
                 />
               </v-col>
@@ -174,12 +173,12 @@ export default {
     moment,
     checkIsNullFromDate () {
       if (this.from != null) {
-        this.filter.dateFrom = this.from + ':00'
+        this.filter.dateFrom = this.from
       }
     },
     checkIsNullToDate () {
       if (this.to != null) {
-        this.filter.dateTo = this.to + ':00'
+        this.filter.dateTo = this.to
       }
     },
     currentDayFrom: function () {

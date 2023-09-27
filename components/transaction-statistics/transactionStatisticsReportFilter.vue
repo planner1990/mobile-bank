@@ -132,7 +132,7 @@ export default {
       loadingBtn: false,
       seen: true,
       fromDate: this.currentDayFrom(),
-      toDate: tommorowDayTo.methods.tomorrowDayTo(),
+      toDate: tommorowDayTo.methods.tomorrowDayTo('date'),
       filter: defaultFilter,
       downloadLoading: false,
       status: reportManager.status,
@@ -149,6 +149,7 @@ export default {
   methods: {
     moment,
     search () {
+      this.checkIsNull()
       this.$emit('search', this.filter)
 
       this.loadingBtn = true
@@ -156,10 +157,10 @@ export default {
     },
     checkIsNull () {
       if (this.fromDate != null) {
-        this.filter.dateFilter.from = this.fromDate + ' ' + '00:00:00'
+        this.filter.dateFilter.from = this.fromDate + ' 00:00:00'
       }
       if (this.toDate != null) {
-        this.filter.dateFilter.to = this.toDate + ' ' + '00:00:00'
+        this.filter.dateFilter.to = this.toDate + ' 00:00:00'
       }
     },
     downloadReports () {
@@ -192,7 +193,7 @@ export default {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '-' + month + '-' + day + ' ' + '00:00:00'
+      return year + '-' + month + '-' + day
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')

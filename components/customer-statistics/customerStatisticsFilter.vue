@@ -103,7 +103,7 @@ export default {
   },
   mounted: function () {
     // defaultSearchModel.persianDate = this.convertJalaliDateToTimestamp(this.fromMonth, this.fromYear)
-    defaultSearchModel.persianDate = this.currentYear() + '/' + this.currentMonth()
+    defaultSearchModel.persianDate = this.currentYear() + '-' + this.currentMonth()
     this.filter = Object.assign(this.value, defaultSearchModel)
   },
   methods: {
@@ -122,7 +122,7 @@ export default {
       }
     },
     convertJalaliDateToTimestamp (month, year) {
-      return year + '/' + month
+      return year + '-' + month
     },
     currentMonth: function () {
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')

@@ -164,7 +164,7 @@ export default {
       duration: null,
       operation: null,
       fromDate: this.yesterdayDayFrom(),
-      toDate: tommorowDayTo.methods.tomorrowDayTo(),
+      toDate: tommorowDayTo.methods.tomorrowDayTo('date'),
       filter: defaultFilter,
       operationName: reportManager.operationName2,
       options: [
@@ -177,6 +177,8 @@ export default {
     }
   },
   mounted: function () {
+    this.checkIsNull()
+
     defaultFilter.dateFilter.from = this.fromDate
     defaultFilter.dateFilter.to = this.toDate
     // defaultFilter.transactionChartDto.duration = this.duration
@@ -221,7 +223,7 @@ export default {
       const year = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
       const day = moment(yesterday.toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
-      return year + '-' + month + '-' + day + ' ' + '00:00:00'
+      return year + '-' + month + '-' + day
     },
     currentDayTo: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
