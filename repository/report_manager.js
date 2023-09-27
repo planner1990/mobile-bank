@@ -404,32 +404,28 @@ const refundType = [
 
 const paymentServiceId = [
   {
-    value: 35,
-    text: '35'
-  },
-  {
     value: 66,
-    text: '66'
+    text: 'report.refundReport.refundType.66'
   },
   {
     value: 67,
-    text: '67'
+    text: 'report.refundReport.refundType.67'
   },
   {
     value: 68,
-    text: '68'
+    text: 'report.refundReport.refundType.68'
   },
   {
     value: 69,
-    text: '69'
+    text: 'report.refundReport.refundType.69'
   },
   {
     value: 70,
-    text: '70'
+    text: 'report.refundReport.refundType.70'
   },
   {
     value: 71,
-    text: '71'
+    text: 'report.refundReport.refundType.71'
   }
 ]
 

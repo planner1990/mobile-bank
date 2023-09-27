@@ -50,7 +50,8 @@ export default {
     { src: '@/filters/filterMobile98Replace' },
     { src: '@/filters/filterConvertNumberPersianToEnglish' },
     { src: '@/filters/filterCardReplace' },
-    { src: '@/filters/filterTimeStampToMomentJalali' }
+    { src: '@/filters/filterTimeStampToMomentJalali' },
+    { src: '@/filters/convertMerchantId' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

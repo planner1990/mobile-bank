@@ -90,7 +90,7 @@
                   v-model="filter.detailFilter.paymentServiceId"
                   :items="paymentServiceId"
                   item-value="value"
-                  :item-text="(item)=>item.text"
+                  :item-text="(item)=>$t(item.text)"
                   :return-object="false"
                   :label="'کد پذیرنده'"
                   dense
@@ -215,7 +215,7 @@ import tommorowDayTo from '~/plugins/tommorowDayTo'
 
 const defaultFilter = {
   detailFilter: {
-    paymentServiceId: '66',
+    paymentServiceId: null,
     status: null
   },
   dateFilter: {

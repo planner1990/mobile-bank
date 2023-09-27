@@ -26,7 +26,7 @@
           @dblclick:row="handleDbClick"
         >
           <template #[`item.date`]="{ item }">
-            {{ convertToJalali(item.date) }}
+            {{ item.date }}
           </template>
 
           <template #[`item.amount`]="{ item }">
@@ -38,7 +38,9 @@
           </template>
 
           <template #[`item.paymentServiceId`]="{ item }">
-            {{ item.paymentServiceId }}
+            <span :class="item.paymentServiceId === null ? 'merchantId' : ''">
+              {{ item.paymentServiceId | convertMerchantId }}
+            </span>
           </template>
 
           <!-- Add btn to Footer page -->
@@ -938,5 +940,10 @@ export default {
 
 /deep/ .vjs-value__boolean, .vjs-value__number {
   color: #0268b5 !important;
+}
+
+.merchantId {
+  font-size: 11px;
+  color: palevioletred;
 }
 </style>
