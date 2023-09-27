@@ -130,6 +130,16 @@ export default {
         this.filter.dateFilter.to = this.toDate
       }
     },
+    // checkIsNullFromDate () {
+    //   if (this.fromDate != null) {
+    //     this.filter.dateFilter.from = this.convertJalaliDateToTimestamp(this.fromDate)
+    //   }
+    // },
+    // checkIsNullToDate () {
+    //   if (this.toDate != null) {
+    //     this.filter.dateFilter.to = this.convertJalaliDateToTimestamp(this.toDate)
+    //   }
+    // },
     currentDayFrom: function () {
       const year = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jYYYY')
       const month = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jMM')
@@ -142,6 +152,18 @@ export default {
       const day = moment(new Date().toLocaleDateString(), 'MM/DD/YYYY').format('jDD')
       return year + '-' + month + '-' + day + ' ' + '00:00:00'
     }
+    // convertJalaliDateToTimestamp (date) {
+    //   const year = moment(date, 'jYYYY-jMM-jDD HH:mm:ss').format('YYYY')
+    //   console.log(year)
+    //   const month = moment(date, 'jYYYY-jMM-jDD HH:mm:ss').format('MM')
+    //   const day = moment(date, 'jYYYY-jMM-jDD HH:mm:ss').format('DD')
+    //   const hour = moment(date, 'jYYYY-jMM-jDD HH:mm:ss').format('HH')
+    //   const minute = moment(date, 'jYYYY-jMM-jDD HH:mm:ss').format('mm')
+    //   const gmtDate = Date.UTC(year, month - 1, day, hour, minute, 0)
+    //   const d = new Date(gmtDate)
+    //   console.log(d.getTime() + (d.getTimezoneOffset() * 60000))
+    //   return d.getTime() + (d.getTimezoneOffset() * 60000)
+    // }
   }
 }
 </script>
