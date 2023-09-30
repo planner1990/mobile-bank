@@ -33,7 +33,7 @@
                   light
                   :label="checkValueBeforeShow(item.title, item)"
                   multiple
-                  style="margin: 7px 2px -1px -4px !important; padding: 1px !important;"
+                  style="margin: -5px 2px -5px -4px !important; padding: 1px !important;"
                   :value="item.url"
                   @change="checked(item, $event)"
                 />
