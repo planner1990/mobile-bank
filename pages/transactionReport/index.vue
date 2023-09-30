@@ -953,7 +953,6 @@ export default {
         this.userOperationList
       )
 
-      alert(JSON.stringify(this.operationList))
       this.buttonCloseModal = false
       this.operationDialog = false
     },
