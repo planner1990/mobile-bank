@@ -209,7 +209,7 @@ export default {
       this.category.selected = checked
 
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
-      this.initialDepositOperations(this.category.selected)
+      this.initialLoanRequestOperations(this.category.selected)
       this.$emit('refreshLabelTopBar')
       this.$emit('changeLabelSelectOperation')
     }

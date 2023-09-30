@@ -164,6 +164,7 @@ export default {
       })
     },
     checked (input, event) {
+      alert(JSON.stringify(input))
       // Remove duplicate values array
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
 
@@ -207,7 +208,7 @@ export default {
       this.category.selected = checked
 
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
-      this.initialDepositOperations(this.category.selected)
+      this.initialPichakOperation(this.category.selected)
       this.$emit('refreshLabelTopBar')
       this.$emit('changeLabelSelectOperation')
     }

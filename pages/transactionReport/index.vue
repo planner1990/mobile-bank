@@ -762,10 +762,10 @@ export default {
       depositOperationList: 'onlineDepositStore/depositOperationList',
       publicOperationList: 'onlineDepositStore/publicOperationList',
       userOperationList: 'onlineDepositStore/userOperationList',
-      inquiryOperationList: 'onlineDepositStore/inquiryOperationList',
       onlineDepositOperationList: 'onlineDepositStore/onlineDepositOperationList',
       loanRequestOperationList: 'onlineDepositStore/loanRequestOperationList',
-      cardReissueOperationList: 'onlineDepositStore/cardReissueOperationList'
+      cardReissueOperationList: 'onlineDepositStore/cardReissueOperationList',
+      pichakOperationList: 'onlineDepositStore/pichakOperationList'
     })
   },
   mounted () {
@@ -950,7 +950,8 @@ export default {
         this.loanRequestOperationList,
         this.onlineDepositOperationList,
         this.publicOperationList,
-        this.userOperationList
+        this.userOperationList,
+        this.pichakOperationList
       )
 
       this.buttonCloseModal = false
