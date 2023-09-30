@@ -164,7 +164,6 @@ export default {
       })
     },
     checked (input, event) {
-      alert(JSON.stringify(input))
       // Remove duplicate values array
       this.category.selected = this.uniqByKeepFirst(this.category.selected, JSON.stringify)
 
