@@ -46,6 +46,7 @@ export const mutations = {
   },
 
   setDepositList (state, list) {
+    alert(JSON.stringify(list))
     state.depositOperationList = list
   },
   setOnlineDepositList (state, list) {

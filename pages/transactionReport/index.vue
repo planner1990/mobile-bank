@@ -953,6 +953,7 @@ export default {
         this.userOperationList
       )
 
+      alert(JSON.stringify(this.operationList))
       this.buttonCloseModal = false
       this.operationDialog = false
     },
@@ -973,6 +974,10 @@ export default {
         this.operationList = this.uniqByKeepFirst(this.operationList, JSON.stringify)
         this.filterOperation.transactionListFilter.operation = this.operationList
       }
+      if (this.operationList.length === 0) {
+        this.filterOperation.transactionListFilter.operation = []
+      }
+
       reportManager.transactionList(this.filterOperation, this.$axios).then((response) => {
         this.items = response.data.itemList
         this.totalNumberOfItems = response.data.filteredItem
