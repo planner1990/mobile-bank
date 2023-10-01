@@ -42,7 +42,6 @@
               {{ item.paymentServiceId | convertMerchantId }}
             </span>
           </template>
-
           <!-- Add btn to Footer page -->
           <!-- Add btn to Footer page -->
           <!-- Add btn to Footer page -->
